@@ -11,10 +11,7 @@ Use the following command to install Superdev.Maui using NuGet package manager c
 You can use this library in any .NET MAUI project compatible to .NET 8 and higher.
 
 ### Setup
-#### App Startup
 `tbd`
-
-`UseFirebasePushNotifications` has optional configuration parameters which are documented in another section of this document.
 
 ### API Usage
 `tbd`
