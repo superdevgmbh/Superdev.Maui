@@ -7,6 +7,9 @@
             this.InitializeComponent();
 
             this.MainPage = new NavigationPage(new MainPage());
+
+            Application.Current.UserAppTheme = AppTheme.Light;
+            this.RequestedThemeChanged += (s, e) => { Application.Current.UserAppTheme = AppTheme.Light; };
         }
     }
 }

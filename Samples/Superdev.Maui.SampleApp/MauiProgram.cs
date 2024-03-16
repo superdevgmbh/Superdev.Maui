@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Superdev.Maui.Controls;
 
 namespace Superdev.Maui.SampleApp
 {
@@ -9,6 +10,7 @@ namespace Superdev.Maui.SampleApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseSuperdevMaui()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -16,7 +18,7 @@ namespace Superdev.Maui.SampleApp
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

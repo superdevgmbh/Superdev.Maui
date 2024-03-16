@@ -6,10 +6,8 @@ namespace Superdev.Maui.Tests
         public void ShouldDoSomething_WhenCondition_ExpectedResult()
         {
             // Arrange
-            var class1 = new Class1();
 
             // Act
-            class1.DoSomething();
 
             // Assert
 
