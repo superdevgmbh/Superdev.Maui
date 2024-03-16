@@ -26,6 +26,8 @@ namespace Superdev.Maui
 
 #if ANDROID || IOS
             builder.Services.AddSingleton<IToastService, ToastService>();
+            builder.Services.AddSingleton<IAppHandler, AppHandler>();
+            builder.Services.AddSingleton<IClipboardService, ClipboardService>();
 #endif
 
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
