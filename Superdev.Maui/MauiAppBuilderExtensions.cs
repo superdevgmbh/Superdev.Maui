@@ -1,11 +1,14 @@
 ﻿#if ANDROID
 using Superdev.Maui.Platforms.Android.Handlers;
+using Superdev.Maui.Platforms.Android.Services;
 #elif IOS
 using Superdev.Maui.Platforms.iOS.Handlers;
+using Superdev.Maui.Platforms.iOS.Services;
 #endif
 
 using Superdev.Maui.Controls;
 using Superdev.Maui.Localization;
+using Superdev.Maui.Services;
 
 namespace Superdev.Maui
 {
@@ -19,6 +22,10 @@ namespace Superdev.Maui
             {
                 handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
             });
+#endif
+
+#if ANDROID || IOS
+            builder.Services.AddSingleton<IToastService, ToastService>();
 #endif
 
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
