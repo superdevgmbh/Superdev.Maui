@@ -5,6 +5,7 @@ using Superdev.Maui.Platforms.iOS.Handlers;
 #endif
 
 using Superdev.Maui.Controls;
+using Superdev.Maui.Localization;
 
 namespace Superdev.Maui
 {
@@ -20,6 +21,8 @@ namespace Superdev.Maui
             });
 #endif
 
+            builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
+            builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
 
             return builder;
         }
