@@ -21,6 +21,11 @@ namespace Superdev.Maui
             builder.ConfigureMauiHandlers(handlers =>
             {
                 handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
+                handlers.AddHandler(typeof(CustomScrollView), typeof(CustomScrollViewHandler));
+            })
+            .ConfigureEffects(effects =>
+            {
+                //effects.Add<FocusRoutingEffect, FocusPlatformEffect>();
             });
 #endif
 

@@ -6,7 +6,10 @@
     xmlns:superdev="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     Title="MainPage">
 
-    <ScrollView>
+    <superdev:CustomScrollView
+        IsBounceEnabled="True"
+        IsScrollEnabled="False"
+        Orientation="Neither">
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
@@ -40,10 +43,11 @@
             <Button
                 x:Name="CounterBtn"
                 Clicked="OnCounterClicked"
+                HeightRequest="3000"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Text="Click me"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
-    </ScrollView>
+    </superdev:CustomScrollView>
 
 </ContentPage>
