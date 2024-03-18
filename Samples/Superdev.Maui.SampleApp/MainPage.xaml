@@ -40,13 +40,17 @@
                 Text="Hello world"
                 TextColor="Blue" />
 
-            <Button
+            <superdev:CustomButton
                 x:Name="CounterBtn"
                 Clicked="OnCounterClicked"
-                HeightRequest="3000"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Text="Click me"
                 HorizontalOptions="Fill" />
+
+            <Entry
+                BackgroundColor="Yellow"
+                Placeholder="Test" />
+
         </VerticalStackLayout>
     </superdev:CustomScrollView>
 
