@@ -33,5 +33,31 @@
             get => (bool)this.GetValue(IsBounceEnabledProperty);
             set => this.SetValue(IsBounceEnabledProperty, value);
         }
+
+        public static readonly BindableProperty IsHorizontalScollbarVisibleProperty =
+            BindableProperty.Create(
+                nameof(IsHorizontalScollbarVisible),
+                typeof(bool),
+                typeof(CustomScrollView),
+                default(bool));
+
+        public bool IsHorizontalScollbarVisible
+        {
+            get => (bool)this.GetValue(IsHorizontalScollbarVisibleProperty);
+            set => this.SetValue(IsHorizontalScollbarVisibleProperty, value);
+        }
+
+        public static readonly BindableProperty IsVerticalScollbarVisibleProperty =
+            BindableProperty.Create(
+                nameof(IsVerticalScollbarVisible),
+                typeof(bool),
+                typeof(CustomScrollView),
+                default(bool));
+
+        public bool IsVerticalScollbarVisible
+        {
+            get => (bool)this.GetValue(IsVerticalScollbarVisibleProperty);
+            set => this.SetValue(IsVerticalScollbarVisibleProperty, value);
+        }
     }
 }

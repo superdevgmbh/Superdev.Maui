@@ -14,6 +14,8 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         {
             [nameof(CustomScrollView.IsBounceEnabled)] = MapIsBounceEnabled,
             [nameof(CustomScrollView.IsScrollEnabled)] = MapIsScrollEnabled,
+            [nameof(CustomScrollView.IsHorizontalScollbarVisible)] = MapIsHorizontalScollbarVisible,
+            [nameof(CustomScrollView.IsVerticalScollbarVisible)] = MapIsVerticalScollbarVisible,
         };
 
         public CustomScrollViewHandler() : base(PropertyMapper)
@@ -43,6 +45,16 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         {
             var lockableMauiScrollView = (LockableMauiScrollView)handler.PlatformView;
             lockableMauiScrollView.ScrollEnabled = view.IsScrollEnabled;
+        }
+
+        private static void MapIsHorizontalScollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
+        {
+            handler.PlatformView.HorizontalScrollBarEnabled = view.IsHorizontalScollbarVisible;
+        }
+
+        private static void MapIsVerticalScollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
+        {
+            handler.PlatformView.VerticalScrollBarEnabled = view.IsVerticalScollbarVisible;
         }
     }
 }
