@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.ViewModelErrorControl"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
+    x:Name="Control">
+
+    <StackLayout
+        Orientation="Vertical"
+        Spacing="{DynamicResource Theme.Spacing.Medium}"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand">
+
+        <Image
+            Aspect="AspectFit"
+            HeightRequest="48"
+            Source="{Binding ImageSource, Source={x:Reference Control}}"
+            WidthRequest="48"
+            HorizontalOptions="Center"
+            VerticalOptions="End" />
+
+        <controls:CustomLabel
+            FontSize="{DynamicResource LargeSize}"
+            LineBreakMode="WordWrap"
+            Style="{Binding LabelStyle, Source={x:Reference Control}}"
+            Text="{Binding ViewModelError.Text, Source={x:Reference Control}}"
+            HorizontalOptions="StartAndExpand"
+            HorizontalTextAlignment="Center" />
+
+        <StackLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding ViewModelError.Command, Source={x:Reference Control}}" />
+        </StackLayout.GestureRecognizers>
+    </StackLayout>
+</ContentView>
