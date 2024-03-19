@@ -55,4 +55,6 @@
 	  <ProjectReference Include="..\..\Superdev.Maui\Superdev.Maui.csproj" />
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionSuperdevMauiSampleAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
