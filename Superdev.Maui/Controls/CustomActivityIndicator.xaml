@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.CustomActivityIndicator"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
+    x:Name="Control">
+
+    <Grid
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand">
+        <BoxView
+            BackgroundColor="{Binding Source={x:Reference Control}, Path=BackgroundColor}"
+            CornerRadius="{Binding Source={x:Reference Control}, Path=CornerRadius}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand" />
+
+        <StackLayout
+            Padding="{Binding Source={x:Reference Control}, Path=Padding}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <StackLayout.Orientation>
+                <OnPlatform x:TypeArguments="StackOrientation">
+                    <On
+                        Platform="Android"
+                        Value="Vertical" />
+                    <On
+                        Platform="iOS"
+                        Value="Horizontal" />
+                </OnPlatform>
+            </StackLayout.Orientation>
+
+            <!-- ActivityIndicator -->
+            <ActivityIndicator
+                x:Name="ActivityIndicator"
+                BackgroundColor="Transparent"
+                IsRunning="{Binding IsVisible, Source={x:Reference Control}}">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On
+                            Platform="Android"
+                            Value="100" />
+                        <On
+                            Platform="iOS"
+                            Value="24" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+
+            <!-- Caption -->
+            <Label
+                Style="{Binding LabelStyle, Source={x:Reference Control}}"
+                Text="{Binding Caption, Source={x:Reference Control}}" />
+
+        </StackLayout>
+    </Grid>
+
+</ContentView>

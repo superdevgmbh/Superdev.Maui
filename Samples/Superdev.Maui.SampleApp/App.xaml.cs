@@ -1,4 +1,6 @@
-﻿namespace Superdev.Maui.SampleApp
+﻿using Superdev.Maui.SampleApp.Views;
+
+namespace Superdev.Maui.SampleApp
 {
     public partial class App : Application
     {
@@ -6,7 +8,8 @@
         {
             this.InitializeComponent();
 
-            this.MainPage = new NavigationPage(new MainPage());
+            var mainPage = IPlatformApplication.Current.Services.GetService<MainPage>();
+            this.MainPage = new NavigationPage(mainPage);
 
             Application.Current.UserAppTheme = AppTheme.Light;
             this.RequestedThemeChanged += (s, e) => { Application.Current.UserAppTheme = AppTheme.Light; };

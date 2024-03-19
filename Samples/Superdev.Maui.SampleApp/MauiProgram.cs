@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Superdev.Maui.Controls;
+using Superdev.Maui.SampleApp.ViewModels;
+using Superdev.Maui.SampleApp.Views;
 
 namespace Superdev.Maui.SampleApp
 {
@@ -20,6 +22,8 @@ namespace Superdev.Maui.SampleApp
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<MainViewModel>();
 
             return builder.Build();
         }
