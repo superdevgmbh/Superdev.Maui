@@ -8,7 +8,7 @@ namespace Superdev.Maui.Localization
     [Preserve(AllMembers = true)]
     public class ResxSingleTranslationProvider : ITranslationProvider
     {
-        static readonly Lazy<ResxSingleTranslationProvider> Implementation = new Lazy<ResxSingleTranslationProvider>(CreateTranslationProvider, LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<ResxSingleTranslationProvider> Implementation = new Lazy<ResxSingleTranslationProvider>(CreateTranslationProvider, LazyThreadSafetyMode.PublicationOnly);
 
         public static ResxSingleTranslationProvider Current => Implementation.Value;
 
@@ -39,6 +39,11 @@ namespace Superdev.Maui.Localization
         /// </summary>
         public string Translate(string key, CultureInfo cultureInfo = null)
         {
+            if (this.resourceManager == null)
+            {
+                throw new InvalidOperationException($"Call ResxSingleTranslationProvider.Init(...)");
+            }
+
             var translatedValue = this.resourceManager.GetString(key, cultureInfo);
             if (translatedValue != null)
             {

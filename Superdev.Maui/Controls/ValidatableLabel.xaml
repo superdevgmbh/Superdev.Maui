@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="Superdev.Maui.Controls.ValidatableLabel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Name="Control"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Annotation Text -->
+    <controls:CustomLabel
+        x:Name="AnnotationLabel"
+        Grid.Row="0"
+        Margin="0"
+        x:FieldModifier="internal"
+        InputTransparent="True"
+        RemovePadding="True"
+        Style="{DynamicResource AnnotationEntryLabelStyle}"
+        Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
+
+    <!-- Label -->
+    <Grid
+        Grid.Row="1"
+        IsClippedToBounds="True">
+        <controls:CustomLabel
+            x:Name="ReadonlyLabel"
+            x:FieldModifier="internal"
+            RemovePadding="True"
+            Style="{Binding LabelStyle, Source={x:Reference Control}, Mode=OneWay}"
+            Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}">
+            <Label.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On
+                        Platform="Android"
+                        Value="0,2,0,0" />
+                    <On
+                        Platform="iOS"
+                        Value="0,0,0,0" />
+                </OnPlatform>
+            </Label.Margin>
+        </controls:CustomLabel>
+    </Grid>
+</Grid>

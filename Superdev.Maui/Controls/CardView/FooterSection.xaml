@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.FooterSection"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Name="Control">
+
+    <VerticalStackLayout>
+        <BoxView
+            BackgroundColor="{DynamicResource CardViewStyle.Footer.DividerColor}"
+            HorizontalOptions="FillAndExpand">
+            <BoxView.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On
+                        Platform="Android"
+                        Value="True" />
+                    <On
+                        Platform="iOS"
+                        Value="False" />
+                </OnPlatform>
+            </BoxView.IsVisible>
+            <BoxView.HeightRequest>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On
+                        Platform="Android"
+                        Value="1" />
+                    <On
+                        Platform="iOS"
+                        Value="0.5" />
+                </OnPlatform>
+            </BoxView.HeightRequest>
+        </BoxView>
+
+        <VerticalStackLayout Padding="{DynamicResource Theme.Padding.CardViewPadding}">
+            <controls:CustomLabel
+                Style="{DynamicResource FooterSectionLabelStyle}"
+                Text="{Binding Source={x:Reference Control}, Path=Text}" />
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentView>

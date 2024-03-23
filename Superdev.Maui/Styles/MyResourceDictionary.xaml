@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     xmlns:converters="clr-namespace:Superdev.Maui.Converters;assembly=Superdev.Maui"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects;assembly=Superdev.Maui">
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects;assembly=Superdev.Maui"
+    xmlns:s="http://superdev.ch">
 
     <!-- Colors -->
     <OnPlatform
@@ -291,75 +292,28 @@
         BasedOn="{StaticResource EntryStyle}"
         TargetType="controls:CustomEntry" />
 
-    <!-- Validatable Controls -->
-    <!--
-    <Style TargetType="controls:ValidatableLabel">
-        <Setter Property="LabelStyle" Value="{DynamicResource EntryLabelStyle}" />
-    </Style>
-
-    <Style TargetType="controls:ValidatableAutoCompleteView">
-        <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
-        <Setter Property="SuggestionListStyle">
-            <Style TargetType="controls:StackedList">
-                <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="Margin">
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On
-                            Platform="iOS"
-                            Value="0" />
-                        <On
-                            Platform="Android"
-                            Value="4,0,4,0" />
-                        <On
-                            Platform="UWP"
-                            Value="0" />
-                    </OnPlatform>
-                </Setter>
-            </Style>
-        </Setter>
-    </Style>
-
-    <Style TargetType="controls:ValidatableEntry">
-        <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
-    </Style>
-
-    <Style TargetType="controls:ValidatableEditor">
-        <Setter Property="EditorStyle" Value="{DynamicResource EditorStyle}" />
-    </Style>
-
-    <Style TargetType="controls:ValidatablePicker">
-        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
-    </Style>
-
-    <Style TargetType="controls:ValidatableDatePicker">
-        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
-    </Style>
-
-    <Style TargetType="controls:ValidatableDateTimePicker">
-        <Setter Property="DatePickerStyle" Value="{DynamicResource PickerStyle}" />
-        <Setter Property="TimePickerStyle" Value="{DynamicResource PickerStyle}" />
-    </Style>
-
-    -->
     <!-- HyperLinkLabelStyle -->
-    <!--
     <Style
         x:Key="HyperLinkLabelStyle"
-        TargetType="controls:HyperLinkLabel">
-        <Setter Property="TintColor" Value="Blue" />
+        TargetType="Label">
+        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextDecorations" Value="Underline" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+    </Style>
+    <Style
+        x:Key="HyperLinkSpanStyle"
+        TargetType="Span">
+        <Setter Property="TextColor" Value="Blue" />
         <Setter Property="TextDecorations" Value="Underline" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
     </Style>
 
-    <Style
-        BasedOn="{StaticResource HyperLinkLabelStyle}"
-        TargetType="controls:HyperLinkLabel" />
-
-    -->
     <!-- CustomActivityIndicator Default Style -->
-    <!--
+
     <Style
         x:Key="CustomActivityIndicatorLabelStyle"
         BasedOn="{StaticResource LabelStyle}"
@@ -387,9 +341,9 @@
         BasedOn="{StaticResource CustomActivityIndicatorStyle}"
         TargetType="controls:CustomActivityIndicator" />
 
-    -->
+
     <!-- ViewModelErrorControl Default Style -->
-    <!--
+
     <Style
         x:Key="ViewModelErrorControlLabelStyle"
         BasedOn="{StaticResource LabelStyle}"
@@ -427,7 +381,7 @@
     <Style
         x:Key="SwitchStyle"
         TargetType="Switch">
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger TargetType="Switch" Property="IsToggled" Value="True">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <Setter.Value>
@@ -472,14 +426,11 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
     <Style
         BasedOn="{StaticResource SwitchStyle}"
         TargetType="Switch" />
-    <Style
-        BasedOn="{StaticResource SwitchStyle}"
-        TargetType="controls:CustomSwitch" />
 
     <Style
         x:Key="EditorStyle"
@@ -516,7 +467,7 @@
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
     </Style>
 
-    <Style
+    <!--<Style
         BasedOn="{StaticResource PickerStyle}"
         TargetType="Picker" />
 
@@ -615,7 +566,7 @@
 
     <Style
         BasedOn="{StaticResource SearchBarStyle}"
-        TargetType="SearchBar" />
+        TargetType="SearchBar" />-->
 
     <Style
         x:Key="SectionLabelTextStyle"
@@ -674,5 +625,5 @@
         <Setter Property="VerticalTextAlignment" Value="Start" />
         <Setter Property="RemovePadding" Value="True" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
-    </Style>-->
+    </Style>
 </ResourceDictionary>

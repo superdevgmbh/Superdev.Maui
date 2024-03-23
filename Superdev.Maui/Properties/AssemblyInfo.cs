@@ -1,5 +1,8 @@
-﻿[assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui")]
+﻿[assembly: Superdev.Maui.Internals.Preserve(AllMembers = true)]
+
+[assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui")]
 [assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui.Controls")]
+[assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui.Controls.CardView")]
 [assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui.Converters")]
 [assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui.Effects")]
 [assembly: XmlnsDefinition("http://superdev.ch", "Superdev.Maui.Extensions")]

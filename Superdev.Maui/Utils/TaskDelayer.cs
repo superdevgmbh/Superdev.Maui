@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Superdev.Maui.Utils
+﻿namespace Superdev.Maui.Utils
 {
     public class TaskDelayer
     {

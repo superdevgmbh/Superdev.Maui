@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Frame
+    x:Class="Superdev.Maui.Controls.ErrorBox"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="Control"
+    Padding="{DynamicResource Theme.Padding.Medium}"
+    BackgroundColor="{DynamicResource Theme.Color.ErrorBackground}"
+    BorderColor="{DynamicResource Theme.Color.Error}"
+    CornerRadius="6"
+    HasShadow="False"
+    IsVisible="{Binding Source={x:Reference Control}, Path=Text, Converter={StaticResource IsNotEmptyConverter}}">
+    <StackLayout>
+        <Label
+            LineBreakMode="WordWrap"
+            Text="{Binding Source={x:Reference Control}, Path=Text}"
+            TextColor="{DynamicResource Theme.Color.Error}" />
+    </StackLayout>
+</Frame>

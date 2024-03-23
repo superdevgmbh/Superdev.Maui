@@ -3,14 +3,168 @@
     x:Class="Superdev.Maui.SampleApp.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:styles="clr-namespace:Superdev.Maui.Styles;assembly=Superdev.Maui">
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://superdev.ch">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-                <styles:MyResourceDictionary />
+                <s:MyResourceDictionary />
+                <s:ValidatableControlStyles />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters -->
+            <!--<converters:ColorToHexStringConverter x:Key="ColorToHexStringConverter" />
+            <converters:ColorInverter x:Key="ColorInverter" />
+            <converters:FontElementToStringConverter x:Key="FontElementToStringConverter" />
+            <converters:ThicknessToStringConverter x:Key="ThicknessToStringConverter" />
+            <converters:RandomValidationErrorsConverter x:Key="RandomValidationErrorsConverter" />
+            <valueConverters:BoolInverter x:Key="BoolInverter" />
+            <valueConverters:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
+            <valueConverters:DateTimeConverter x:Key="DateTimeConverter" Format="g" />
+            <valueConverters:DateTimeConverter x:Key="ShortDateConverter" Format="d" />
+            <valueConverters:BoolToColorConverter
+                x:Key="BoolToBlackAndWhiteConverter"
+                FalseValue="White"
+                TrueValue="Black" />-->
+
+            <!-- Colors -->
+            <Color x:Key="Primary">#ff70fc</Color>
+            <Color x:Key="Accent">#73e5c6</Color>
+            <Color x:Key="SemiMagenta">#7Fff3399</Color>
+
+            <OnPlatform
+                x:Key="WindowBackgroundTable"
+                x:TypeArguments="Color">
+                <On
+                    Platform="Android"
+                    Value="#F5F5F5" />
+                <On
+                    Platform="iOS"
+                    Value="#EFEFF4" />
+            </OnPlatform>
+
+            <OnPlatform
+                x:Key="WindowBackground"
+                x:TypeArguments="Color">
+                <On
+                    Platform="Android"
+                    Value="#F5F5F5" />
+                <On
+                    Platform="iOS"
+                    Value="White" />
+            </OnPlatform>
+
+            <OnPlatform
+                x:Key="LabelSectionBackground"
+                x:TypeArguments="Color">
+                <On
+                    Platform="Android"
+                    Value="White" />
+                <On
+                    Platform="iOS"
+                    Value="#EFEFF4" />
+            </OnPlatform>
+
+            <!-- Styles -->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="BarBackgroundColor" Value="DarkBlue" />
+                <Setter Property="BarTextColor" Value="LightBlue" />
+                <Setter Property="ios:NavigationPage.HideNavigationBarSeparator" Value="True" />
+            </Style>
+
+            <Style
+                x:Key="DemoLabelStyle"
+                TargetType="Label">
+                <Setter Property="TextColor" Value="Green" />
+                <Setter Property="BackgroundColor" Value="#e6ffe6" />
+                <Setter Property="FontAttributes" Value="Italic" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="LineBreakMode" Value="CharacterWrap" />
+            </Style>
+
+            <s:ColorConfiguration
+                x:Key="ColorConfiguration"
+                Background="{StaticResource WindowBackground}"
+                CardViewBackgroundColor="{StaticResource WindowBackgroundTable}"
+                CardViewHeaderBackgroundColor="{StaticResource LabelSectionBackground}"
+                CardViewHeaderTextColor="#6D6D72"
+                Error="#ff1744"
+                OnPrimary="#c7a4f4"
+                Primary="#5714AF"
+                PrimaryVariant="#c7a4f4"
+                Secondary="#17C2BC"
+                SecondaryVariant="#a4f4f2"
+                TextColor="DarkBlue"
+                TextColorBright="DarkGray" />
+
+            <s:SpacingConfiguration x:Key="SpacingConfiguration" />
+
+            <!-- Fonts -->
+            <OnPlatform
+                x:Key="SampleApp.FontFamily.OswaldLight"
+                x:TypeArguments="x:String">
+                <On
+                    Platform="Android"
+                    Value="Fonts/Oswald-Light.ttf#Oswald Light" />
+                <On
+                    Platform="iOS"
+                    Value="Oswald-Light" />
+            </OnPlatform>
+
+            <OnPlatform
+                x:Key="SampleApp.FontFamily.OswaldMedium"
+                x:TypeArguments="x:String">
+                <On
+                    Platform="Android"
+                    Value="Fonts/Oswald-Medium.ttf#Oswald Medium" />
+                <On
+                    Platform="iOS"
+                    Value="Oswald-Medium" />
+            </OnPlatform>
+
+            <!-- Sets the default font configuration which serves as fallback for all fonts -->
+            <s:FontElement
+                x:Key="DefaultFont"
+                FontFamily="{StaticResource SampleApp.FontFamily.OswaldMedium}" />
+
+            <!-- Overrides the all font-related properties -->
+            <s:FontElement
+                x:Key="DebugFont"
+                FontAttributes="Bold,Italic"
+                FontFamily="{StaticResource SampleApp.FontFamily.OswaldLight}"
+                FontSize="99" />
+
+            <!-- Overrides the FontAttributes property only -->
+            <s:FontElement
+                x:Key="CustomButtonFont"
+                FontAttributes="Bold" />
+
+            <!-- Create a custom FontSizeConfiguration to adjust the predefined named font sizes -->
+            <s:DefaultFontSizeConfiguration x:Key="FontSizeConfiguration">
+                <!--<themes:DefaultFontSizeConfiguration.Medium>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="28" />
+                        <On Platform="Android" Value="24" />
+                        <On Platform="UWP" Value="24" />
+                    </OnPlatform>
+                </themes:DefaultFontSizeConfiguration.Medium>-->
+            </s:DefaultFontSizeConfiguration>
+
+            <s:FontConfiguration
+                x:Key="FontConfiguration"
+                Button="{StaticResource CustomButtonFont}"
+                Default="{StaticResource DefaultFont}"
+                FontSizes="{StaticResource FontSizeConfiguration}" />
+
+            <s:Theme
+                x:Key="SampleApp.Theme"
+                ColorConfiguration="{StaticResource ColorConfiguration}"
+                SpacingConfiguration="{StaticResource SpacingConfiguration}" />
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

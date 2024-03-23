@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.SampleApp.Controls.NotesView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
+    xmlns:s="http://superdev.ch">
+
+    <Frame
+        BackgroundColor="LightYellow"
+        BorderColor="Yellow"
+        CornerRadius="10">
+
+        <Grid Padding="{DynamicResource Theme.Padding.Medium}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--<s:ValidatableEditor
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                IsEnabled="True"
+                Keyboard="Chat"
+                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                MaxLines="3"
+                Placeholder="Placeholder of ValidatableEditor (inside user control)"
+                Text="{Binding Notes, Mode=TwoWay}"
+                ValidationErrors="{Binding Errors[Notes]}"
+                HorizontalOptions="FillAndExpand" />-->
+            <Label
+                Grid.Row="1"
+                BackgroundColor="Transparent"
+                FontSize="{DynamicResource Theme.FontSize.Small}"
+                IsVisible="{Binding Notes, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
+                Text="{Binding NotesRemainingLength, Mode=OneWay}"
+                TextColor="{DynamicResource Theme.Color.TextColor}"
+                HorizontalOptions="EndAndExpand"
+                HorizontalTextAlignment="End" />
+        </Grid>
+    </Frame>
+</ContentView>

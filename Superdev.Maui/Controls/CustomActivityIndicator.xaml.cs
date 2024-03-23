@@ -48,7 +48,7 @@ namespace Superdev.Maui.Controls
                 nameof(BackgroundColor),
                 typeof(Color),
                 typeof(CustomActivityIndicator),
-                Colors.Black,
+                KnownColor.Default,
                 BindingMode.OneWay);
 
         public new Color BackgroundColor

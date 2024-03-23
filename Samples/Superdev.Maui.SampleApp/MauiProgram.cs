@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using Superdev.Maui.Controls;
+using SampleApp.Services;
+using Superdev.Maui.Localization;
+using Superdev.Maui.SampleApp.Services;
+using Superdev.Maui.SampleApp.Services.Validation;
+using Superdev.Maui.SampleApp.Translations;
 using Superdev.Maui.SampleApp.ViewModels;
 using Superdev.Maui.SampleApp.Views;
 
@@ -22,8 +26,20 @@ namespace Superdev.Maui.SampleApp
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddSingleton<MainViewModel>();
+
+            var translationProvider = ResxSingleTranslationProvider.Current;
+            translationProvider.Init(Strings.ResourceManager);
+
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<MainViewModel>();
+            builder.Services.AddTransient<LabelDemoPage>();
+            builder.Services.AddTransient<CardViewPage>();
+
+            builder.Services.AddSingleton<INavigationService, NavigationService>();
+            builder.Services.AddSingleton<IDisplayService, DisplayService>();
+            builder.Services.AddSingleton<ICountryService, CountryService>();
+            builder.Services.AddSingleton<IValidationService, ValidationService>();
+            builder.Services.AddSingleton<IEmailService, EmailService>();
 
             return builder.Build();
         }

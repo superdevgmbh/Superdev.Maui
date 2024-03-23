@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.SectionDivider"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White">
+    <ContentView.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On
+                Platform="Android"
+                Value="0" />
+            <On
+                Platform="iOS"
+                Value="16,0,0,0" />
+        </OnPlatform>
+    </ContentView.Padding>
+    <ContentView.Content>
+        <BoxView
+            BackgroundColor="{DynamicResource CardViewDividerColor}"
+            HorizontalOptions="FillAndExpand">
+            <BoxView.HeightRequest>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On
+                        Platform="Android"
+                        Value="1" />
+                    <On
+                        Platform="iOS"
+                        Value="0.5" />
+                </OnPlatform>
+            </BoxView.HeightRequest>
+        </BoxView>
+    </ContentView.Content>
+</ContentView>
