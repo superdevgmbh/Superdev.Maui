@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Superdev.Maui.Styles;
 using Superdev.Maui.Services;
-using Superdev.Maui.Styles;
 
 namespace Superdev.Maui
 {
