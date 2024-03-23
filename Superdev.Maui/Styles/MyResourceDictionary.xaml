@@ -467,18 +467,19 @@
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
     </Style>
 
-    <!--<Style
+    <Style
         BasedOn="{StaticResource PickerStyle}"
         TargetType="Picker" />
 
     <Style
-        x:Key="BindablePickerStyle"
+        x:Key="CustomPickerStyle"
         BasedOn="{StaticResource PickerStyle}"
-        TargetType="controls:BindablePicker" />
+        TargetType="controls:CustomPicker" />
     <Style
-        BasedOn="{StaticResource BindablePickerStyle}"
-        TargetType="controls:BindablePicker" />
+        BasedOn="{StaticResource CustomPickerStyle}"
+        TargetType="controls:CustomPicker" />
 
+    <!--
     <Style
         x:Key="DatePickerStyle"
         TargetType="DatePicker">
@@ -533,7 +534,7 @@
 
     <Style
         BasedOn="{StaticResource ExtendedTimePickerStyle}"
-        TargetType="controls:ExtendedTimePicker" />
+        TargetType="controls:ExtendedTimePicker" />-->
 
     <Style
         x:Key="SearchBarStyle"
@@ -566,7 +567,7 @@
 
     <Style
         BasedOn="{StaticResource SearchBarStyle}"
-        TargetType="SearchBar" />-->
+        TargetType="SearchBar" />
 
     <Style
         x:Key="SectionLabelTextStyle"
@@ -626,4 +627,54 @@
         <Setter Property="RemovePadding" Value="True" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
     </Style>
+
+    <!-- Validatable Controls -->
+
+    <Style TargetType="controls:ValidatableEditor">
+        <Setter Property="EditorStyle" Value="{DynamicResource EditorStyle}" />
+    </Style>
+
+    <Style TargetType="controls:ValidatableEntry">
+        <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
+    </Style>
+
+    <Style TargetType="controls:ValidatableLabel">
+        <Setter Property="LabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+    </Style>
+
+    <Style TargetType="controls:ValidatablePicker">
+        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
+    </Style>
+
+    <!--
+ <Style TargetType="controls:ValidatableAutoCompleteView">
+     <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
+     <Setter Property="SuggestionListStyle">
+         <Style TargetType="controls:StackedList">
+             <Setter Property="BackgroundColor" Value="Transparent" />
+             <Setter Property="Margin">
+                 <OnPlatform x:TypeArguments="Thickness">
+                     <On
+                         Platform="iOS"
+                         Value="0" />
+                     <On
+                         Platform="Android"
+                         Value="4,0,4,0" />
+                     <On
+                         Platform="UWP"
+                         Value="0" />
+                 </OnPlatform>
+             </Setter>
+         </Style>
+     </Setter>
+ </Style>
+
+ <Style TargetType="controls:ValidatableDatePicker">
+     <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
+ </Style>
+
+ <Style TargetType="controls:ValidatableDateTimePicker">
+     <Setter Property="DatePickerStyle" Value="{DynamicResource PickerStyle}" />
+     <Setter Property="TimePickerStyle" Value="{DynamicResource PickerStyle}" />
+ </Style>-->
 </ResourceDictionary>

@@ -3,9 +3,9 @@
     x:Class="Superdev.Maui.SampleApp.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:itemTemplates="clr-namespace:Superdev.Maui.SampleApp.Views.ItemTemplates"
     xmlns:s="http://superdev.ch"
     xmlns:views="clr-namespace:Superdev.Maui.SampleApp.Views"
-    xmlns:itemTemplates="clr-namespace:Superdev.Maui.SampleApp.Views.ItemTemplates"
     x:Name="Page"
     Title="Superdev.Maui Sample App"
     s:SafeAreaPadding.Layout="Top,Bottom"
@@ -199,12 +199,11 @@
                                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                                 Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
 
-                                <!--<s:ValidatablePicker
-                                    DisplayMemberPath="NativeName"
+                                <s:ValidatablePicker
+                                    ItemDisplayBinding="{Binding NativeName}"
                                     ItemsSource="{Binding Languages}"
                                     Placeholder="{s:Translate LanguageLabelText}"
-                                    SelectedItem="{Binding Path=Language, Mode=TwoWay}"
-                                    SelectedValuePath="DisplayName" />-->
+                                    SelectedItem="{Binding Path=Language, Mode=TwoWay}" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -362,7 +361,7 @@
                                     Text="&lt;!--Demo: CustomEditor--&gt;" />
                                 <Editor
                                     MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
-                                    Placeholder="Xamarin.Forms.Editor"
+                                    Placeholder="Editor"
                                     Text="{Binding Notes, Mode=TwoWay}" />
                                 <s:CustomEditor
                                     MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
@@ -372,7 +371,7 @@
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo: ValidatableEditor--&gt;" />
-                                <!--<s:ValidatableEditor
+                                <s:ValidatableEditor
                                     x:Name="ValidatableEditorTest1"
                                     Placeholder="ValidatableEditor"
                                     Text=""
@@ -398,7 +397,7 @@
                                             </x:Arguments>
                                         </Keyboard>
                                     </s:ValidatableEditor.Keyboard>
-                                </s:ValidatableEditor>-->
+                                </s:ValidatableEditor>
 
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -408,7 +407,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <!--<s:ValidatableEditor
+                                    <s:ValidatableEditor
                                         Grid.Column="0"
                                         BackgroundColor="Aquamarine"
                                         HidePlaceholder="False"
@@ -418,7 +417,7 @@
                                         Grid.Column="1"
                                         BackgroundColor="LightGoldenrodYellow"
                                         Placeholder="ValidatableEntry"
-                                        Text="" />-->
+                                        Text="" />
                                 </Grid>
                                 <Grid />
 
@@ -460,7 +459,10 @@
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo NoBarsScrollViewer--&gt;" />
-                                <s:CustomScrollView Orientation="Horizontal" IsHorizontalScollbarVisible="False" IsVerticalScollbarVisible="False">
+                                <s:CustomScrollView
+                                    IsHorizontalScollbarVisible="False"
+                                    IsVerticalScollbarVisible="False"
+                                    Orientation="Horizontal">
                                     <HorizontalStackLayout>
                                         <Label
                                             BackgroundColor="LightGreen"
@@ -778,7 +780,7 @@
                                     Text="&lt;!--Debug App Resources--&gt;" />
                                 <VerticalStackLayout
                                     BindableLayout.ItemTemplate="{StaticResource ResourceItemTemplateSelector}"
-                                    BindableLayout.ItemsSource="{Binding ThemeResources}"                                    />
+                                    BindableLayout.ItemsSource="{Binding ThemeResources}" />
 
                             </StackLayout>
 

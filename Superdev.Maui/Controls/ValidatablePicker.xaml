@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="Superdev.Maui.Controls.ValidatablePicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
+    x:Name="Control"
+    IsClippedToBounds="True"
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="StartAndExpand">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Annotation Text -->
+    <controls:CustomLabel
+        x:Name="AnnotationLabel"
+        Grid.Row="0"
+        x:FieldModifier="internal"
+        InputTransparent="True"
+        RemovePadding="True"
+        Style="{DynamicResource AnnotationEntryLabelStyle}"
+        Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
+
+    <Grid
+        Grid.Row="1"
+        IsClippedToBounds="True">
+        <Picker
+            x:Name="Picker"
+            Title="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
+            effects:LineColorEffect.ApplyLineColor="True"
+            effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
+            x:FieldModifier="internal"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+            ItemDisplayBinding="{Binding ItemDisplayBinding, Source={x:Reference Control}}"
+            ItemsSource="{Binding ItemsSource, Source={x:Reference Control}}"
+            SelectedIndex="{Binding SelectedIndex, Source={x:Reference Control}, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Source={x:Reference Control}, Mode=TwoWay}"
+            Style="{Binding PickerStyle, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="StartAndExpand">
+            <Picker.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On
+                        Platform="Android"
+                        Value="-4,-10,-4,-6" />
+                    <On
+                        Platform="iOS"
+                        Value="0,-10,0,-6" />
+                </OnPlatform>
+            </Picker.Margin>
+        </Picker>
+
+        <!-- Readonly Text -->
+        <controls:CustomLabel
+            x:Name="ReadonlyLabel"
+            Margin="0"
+            x:FieldModifier="internal"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
+            RemovePadding="True"
+            Style="{DynamicResource EntryLabelStyle}"
+            Text="{Binding ReadonlyText, Source={x:Reference Control}, Mode=OneWay}" />
+    </Grid>
+
+    <!-- Validation Error Text -->
+    <controls:CustomLabel
+        x:Name="ErrorLabel"
+        Grid.Row="2"
+        IsVisible="{Binding Text, Source={x:Reference ErrorLabel}, Mode=OneWay, Converter={StaticResource IsNotEmptyConverter}}"
+        Style="{DynamicResource ValidationLabelStyle}"
+        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource FirstErrorConverter}}" />
+</Grid>

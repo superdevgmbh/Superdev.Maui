@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     x:Name="Control"
     HorizontalOptions="Fill"
     VerticalOptions="Start">

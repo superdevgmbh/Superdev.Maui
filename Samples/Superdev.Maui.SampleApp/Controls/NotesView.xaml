@@ -20,7 +20,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!--<s:ValidatableEditor
+            <s:ValidatableEditor
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 IsEnabled="True"
@@ -30,7 +30,7 @@
                 Placeholder="Placeholder of ValidatableEditor (inside user control)"
                 Text="{Binding Notes, Mode=TwoWay}"
                 ValidationErrors="{Binding Errors[Notes]}"
-                HorizontalOptions="FillAndExpand" />-->
+                HorizontalOptions="FillAndExpand" />
             <Label
                 Grid.Row="1"
                 BackgroundColor="Transparent"

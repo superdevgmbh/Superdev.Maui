@@ -68,25 +68,25 @@
                     BackgroundColor="Aquamarine"
                     Placeholder="ValidatableLabel"
                     Text="ValidatableLabel" />
-                <!--<s:ValidatableEntry
+                <s:ValidatableEntry
                     Grid.Row="0"
                     Grid.Column="1"
                     BackgroundColor="LightGoldenrodYellow"
                     Placeholder="ValidatableEntry"
-                    Text="ValidatableEntry" />-->
+                    Text="ValidatableEntry" />
                 <s:ValidatableLabel
                     Grid.Row="1"
                     Grid.Column="0"
                     BackgroundColor="Aquamarine"
                     Placeholder="ValidatableLabel"
                     Text="ValidatableLabel" />
-                <!--<s:ValidatableEntry
+                <s:ValidatableEntry
                     Grid.Row="1"
                     Grid.Column="1"
                     BackgroundColor="LightGoldenrodYellow"
                     IsReadonly="True"
                     Placeholder="ValidatableEntry"
-                    Text="ValidatableEntry IsReadonly=&quot;True&quot;" />-->
+                    Text="ValidatableEntry IsReadonly=&quot;True&quot;" />
             </Grid>
 
             <s:ValidatableLabel
