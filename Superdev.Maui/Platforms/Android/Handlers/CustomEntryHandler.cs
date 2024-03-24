@@ -22,11 +22,6 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         private static readonly string[] AutofillHintPassword = { View.AutofillHintPassword };
         private static readonly string[] AutofillHintNewPassword = { "new-password" };
 
-        public CustomEntryHandler() : base(PropertyMapper)
-        {
-
-        }
-
         public static PropertyMapper<CustomEntry, CustomEntryHandler> PropertyMapper = new(ViewMapper)
         {
             [nameof(CustomEntry.Text)] = MapControl,
@@ -38,6 +33,10 @@ namespace Superdev.Maui.Platforms.Android.Handlers
             [nameof(CustomEntry.IsEnabled)] = MapControl,
             [nameof(CustomEntry.TextContentType)] = MapTextContentType,
         };
+
+        public CustomEntryHandler() : base(PropertyMapper)
+        {
+        }
 
         protected override AppCompatEditText CreatePlatformView()
         {

@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Superdev.Maui.SampleApp.Views.DrilldownButtonListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=netstandard"
+    xmlns:s="http://superdev.ch"
+    xmlns:vm="clr-namespace:Superdev.Maui.SampleApp.ViewModels"
+    Title="Drilldown Buttons"
+    x:DataType="vm:DrilldownButtonListViewModel"
+    BackgroundColor="{DynamicResource WindowBackgroundTable}">
+
+    <ScrollView>
+        <Grid>
+            <StackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+
+                <Label
+                    Style="{StaticResource DemoLabelStyle}"
+                    Text="Demo DrilldownButton" />
+                <s:DrilldownButton
+                    Command="{Binding DisplayAlertCommand}"
+                    ImageSource="{s:ImageResource Superdev.Maui.SampleApp.Resources.Images.chevron_right_grey_192x192.png}"
+                    Text="{s:Translate SingleButtonText}" />
+
+                <s:SpacerSection />
+
+                <s:DrilldownButton
+                    Command="{Binding DisplayAlertCommand}"
+                    ImageSource="{s:ImageResource Superdev.Maui.SampleApp.Resources.Images.chevron_right_grey_192x192.png}"
+                    Text="{s:Translate SingleButtonText}" />
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="Demo DrilldownButtonList with static ItemsSource" />
+                        <s:HeaderDivider />
+                        <s:DrilldownButtonList BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            <s:DrilldownButtonList.ItemsSource>
+                                <objectModel:ObservableCollection x:TypeArguments="BindableObject">
+                                    <s:DrilldownButtonView
+                                        Title="DrilldownButtonCell (Enabled)"
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource Superdev.Maui.SampleApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        IsEnabled="True" />
+                                    <s:DrilldownButtonView
+                                        Title="DrilldownButtonCell (Disabled)"
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource Superdev.Maui.SampleApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        IsEnabled="False" />
+                                    <s:DrilldownButtonView
+                                        Title="{Binding RefreshButtonText}"
+                                        Command="{Binding RefreshCommand}"
+                                        IsBusy="{Binding IsRefreshing, Mode=OneWay}"
+                                        IsEnabled="{Binding IsRefreshing, Converter={StaticResource BoolInverter}}" />
+                                    <s:DrilldownSwitchView
+                                        Title="{Binding ToggleSwitchButtonText}"
+                                        Command="{Binding ToggleSwitchCommand}"
+                                        IsEnabled="True"
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}" />
+                                    <s:DrilldownSwitchView
+                                        Title="Disabled DrilldownSwitchView: Lorem ipsum dolor sit a b c d e f g h i j k l m o"
+                                        Command="{Binding ToggleSwitchCommand}"
+                                        IsEnabled="False"
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}" />
+                                </objectModel:ObservableCollection>
+                            </s:DrilldownButtonList.ItemsSource>
+                        </s:DrilldownButtonList>
+                    </StackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="Demo DrilldownButtonList with dynamic ItemsSource" />
+                        <s:HeaderDivider />
+
+                        <Grid
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            RowSpacing="{DynamicResource Theme.Spacing.Small}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <StackLayout BackgroundColor="Green">
+                                <Label
+                                    Grid.Row="0"
+                                    BackgroundColor="Magenta"
+                                    LineBreakMode="WordWrap"
+                                    Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
+                            </StackLayout>
+
+                        </Grid>
+
+                        <s:DividerLine />
+
+                        <s:DrilldownButtonList
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            ItemsSource="{Binding DrilldownItems, Mode=OneWay}">
+                            <s:DrilldownButtonList.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout>
+                                            <Label
+                                                Text="Custom ItemTemplate"
+                                                TextColor="LightBlue" />
+                                            <Label
+                                                BackgroundColor="LightBlue"
+                                                Text="{Binding Title}" />
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </s:DrilldownButtonList.ItemTemplate>
+                        </s:DrilldownButtonList>
+                    </StackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="{s:Translate AboutSectionText}" />
+                        <s:HeaderDivider />
+
+                        <Grid
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            RowSpacing="{DynamicResource Theme.Spacing.Small}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <s:CustomLabel
+                                Grid.Row="0"
+                                JustifyText="True"
+                                LineBreakMode="WordWrap"
+                                Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
+                        </Grid>
+
+                        <s:DividerLine />
+
+                        <s:DrilldownButtonList BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            <s:DrilldownButtonList.ItemsSource>
+                                <objectModel:ObservableCollection x:TypeArguments="BindableObject">
+                                    <s:DrilldownButtonView
+                                        Title="{s:Translate TermsAndConditionsButtonText}"
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource Superdev.Maui.SampleApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        IsBusy="{Binding IsNavigatingToTermsAndConditions}"
+                                        IsEnabled="{Binding IsNavigatingToTermsAndConditions, Converter={StaticResource BoolInverter}}" />
+                                    <s:DrilldownButtonView
+                                        Title="{s:Translate PrivacyPolicyButtonText}"
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource Superdev.Maui.SampleApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        IsBusy="{Binding IsNavigatingToPrivacyPolicy}"
+                                        IsEnabled="{Binding IsNavigatingToPrivacyPolicy, Converter={StaticResource BoolInverter}}" />
+                                </objectModel:ObservableCollection>
+                            </s:DrilldownButtonList.ItemsSource>
+                        </s:DrilldownButtonList>
+                        <s:DividerLine />
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

@@ -22,6 +22,8 @@ namespace Superdev.Maui
             {
                 handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
                 handlers.AddHandler(typeof(CustomScrollView), typeof(CustomScrollViewHandler));
+                handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
+                //handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
             })
             .ConfigureEffects(effects =>
             {

@@ -1,8 +1,8 @@
 ﻿namespace Superdev.Maui.SampleApp.Views
 {
-    public partial class CardViewPage : ContentPage
+    public partial class PickersPage : ContentPage
     {
-        public CardViewPage()
+        public PickersPage()
         {
             this.InitializeComponent();
         }

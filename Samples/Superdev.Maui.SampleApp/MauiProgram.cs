@@ -35,6 +35,12 @@ namespace Superdev.Maui.SampleApp
             builder.Services.AddTransient<LabelDemoPage>();
             builder.Services.AddTransient<CardViewPage>();
             builder.Services.AddTransient<CardViewViewModel>();
+            builder.Services.AddTransient<DrilldownButtonListPage>();
+            builder.Services.AddTransient<DrilldownButtonListViewModel>();
+            builder.Services.AddTransient<EntryPage>();
+            builder.Services.AddTransient<EntryViewModel>();
+            builder.Services.AddTransient<PickersPage>();
+            builder.Services.AddTransient<PickersViewModel>();
 
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IDisplayService, DisplayService>();

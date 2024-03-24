@@ -1,8 +1,8 @@
 ﻿namespace Superdev.Maui.SampleApp.Views
 {
-    public partial class CardViewPage : ContentPage
+    public partial class DrilldownButtonListPage : ContentPage
     {
-        public CardViewPage()
+        public DrilldownButtonListPage()
         {
             this.InitializeComponent();
         }

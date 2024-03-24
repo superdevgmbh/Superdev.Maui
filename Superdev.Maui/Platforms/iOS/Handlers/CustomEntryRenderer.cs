@@ -9,10 +9,6 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
 {
     public class CustomEntryHandler : EntryHandler
     {
-        public CustomEntryHandler() : base(PropertyMapper)
-        {
-        }
-
         public static PropertyMapper<CustomEntry, CustomEntryHandler> PropertyMapper = new(ViewMapper)
         {
             [nameof(CustomEntry.Text)] = MapControl,
@@ -23,6 +19,10 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
             [nameof(CustomEntry.Padding)] = MapControl,
             [nameof(CustomEntry.TextContentType)] = MapTextContentType,
         };
+
+        public CustomEntryHandler() : base(PropertyMapper)
+        {
+        }
 
         protected override MauiTextField CreatePlatformView()
         {

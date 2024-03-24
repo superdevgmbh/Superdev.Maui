@@ -165,62 +165,14 @@ namespace Superdev.Maui.SampleApp.ViewModels
 
         private async Task OnNavigateToPage(string pageName)
         {
-            //Page page = null;
-            //switch (pageName)
-            //{
-            //    //case nameof(AutoCompletePage):
-            //    //    page = new AutoCompletePage { BindingContext = new AutoCompleteViewModel(this.displayService, this.Countries) };
-            //    //    break;
-
-            //    //case nameof(BehaviorDemoPage):
-            //    //    page = new BehaviorDemoPage { BindingContext = new BehaviorDemoViewModel(this.displayService, this.Countries) };
-            //    //    break;
-
-            //    //case nameof(SegmentedStatusIndicatorPage):
-            //    //    page = new SegmentedStatusIndicatorPage { BindingContext = new SegmentedStatusIndicatorViewModel() };
-            //    //    break;
-
-            //    //case nameof(CardViewPage):
-            //    //    page = new CardViewPage { BindingContext = new CardViewViewModel() };
-            //    //    break;
-
-            //    //case nameof(DrilldownButtonListPage):
-            //    //    page = new DrilldownButtonListPage { BindingContext = new DrilldownButtonListViewModel(this.displayService) };
-            //    //    break;
-
-            //    //case nameof(EntryPage):
-            //    //    page = new EntryPage { BindingContext = new EntryViewModel(this.displayService, this.Countries) };
-            //    //    break;
-
-            //    case nameof(LabelDemoPage):
-            //        page = new LabelDemoPage { BindingContext = null };
-            //        break;
-
-            //    //case nameof(ListViewDemoPage):
-            //    //    page = new ListViewDemoPage { BindingContext = new ListViewDemoViewModel(this.displayService, this.Countries) };
-            //    //    break;
-
-            //    //case nameof(PickersPage):
-            //    //    page = new PickersPage { BindingContext = new PickersViewModel(this.displayService, this.Countries) };
-            //    //    break;
-
-            //    //case nameof(SwitchesPage):
-            //    //    page = new SwitchesPage { BindingContext = null };
-            //    //    break;
-
-            //    //case nameof(ToggleViewDemoPage):
-            //    //    page = new ToggleViewDemoPage { BindingContext = new ToggleViewDemoViewModel() };
-            //    //    break;
-
-            //    //case nameof(MultiStateToggleButtonDemoPage):
-            //    //    page = new MultiStateToggleButtonDemoPage { BindingContext = new MultiStateToggleButtonDemoViewModel() };
-            //    //    break;
-
-            //    default:
-            //        throw new NotSupportedException($"Page is not known");
-            //}
-
-            await this.navigationService.PushAsync(pageName);
+            try
+            {
+                await this.navigationService.PushAsync(pageName);
+            }
+            catch (Exception ex)
+            {
+                await this.displayService.DisplayAlert("Exception", $"Could not navigate to page {pageName}: {ex.Message}");
+            }
         }
 
 

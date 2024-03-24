@@ -13,7 +13,7 @@
             <StackLayout>
                 <controls:LabelSection
                     IsTextUpperCase="False"
-                    Text="{localization:Translate PeriodicTaskCaptionText}" />
+                    Text="{s:Translate PeriodicTaskCaptionText}" />
                 <controls:HeaderDivider />
                 <Grid
                     Padding="{DynamicResource Theme.Padding.CardViewPadding}"
@@ -30,7 +30,7 @@
                     <controls:ValidatableLabel
                         Grid.Row="0"
                         Grid.Column="0"
-                        Placeholder="{localization:Translate TimerLabelText}"
+                        Placeholder="{s:Translate TimerLabelText}"
                         Text="{Binding TimerString, Mode=TwoWay}" />
 
                     <controls:CustomButton
@@ -44,7 +44,7 @@
                     <controls:ValidatableLabel
                         Grid.Row="1"
                         Grid.Column="0"
-                        Placeholder="{localization:Translate CountdownLabelText}"
+                        Placeholder="{s:Translate CountdownLabelText}"
                         Text="{Binding CountdownString, Mode=TwoWay}" />
 
                     <controls:CustomButton
