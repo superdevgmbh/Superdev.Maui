@@ -39,6 +39,7 @@ namespace Superdev.Maui
 
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
+            builder.Services.AddSingleton<IMainThread, MauiMainThread>();
 
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
