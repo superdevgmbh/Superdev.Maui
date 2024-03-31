@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.SampleApp.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="http://superdev.ch"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     BackgroundColor="{DynamicResource WindowBackgroundTable}">
 
     <ScrollView>
