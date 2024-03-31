@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
 using Superdev.Maui.Mvvm;
-using Superdev.Maui.SampleApp.Services;
+using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.SampleApp.ViewModels
 {

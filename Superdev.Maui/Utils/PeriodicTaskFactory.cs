@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Superdev.Maui.SampleApp.Services
+namespace Superdev.Maui.Utils
 {
     /// <summary>
     ///     Factory class to create a periodic Task to simulate a <see cref="Timer" /> using
