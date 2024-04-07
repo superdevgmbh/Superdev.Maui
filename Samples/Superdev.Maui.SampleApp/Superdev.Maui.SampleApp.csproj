@@ -67,6 +67,9 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Strings.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ItemTemplates\CountryItemTemplate.xaml.cs">
+	    <DependentUpon>CountryItemTemplate.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,5 +83,4 @@
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionSuperdevMauiSampleAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
-
 </Project>
