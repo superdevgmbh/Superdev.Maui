@@ -152,14 +152,14 @@ namespace Superdev.Maui.Controls
         public static readonly BindableProperty ItemDisplayBindingProperty =
             BindableProperty.Create(
                 nameof(ItemDisplayBinding),
-                typeof(string),
+                typeof(BindingBase),
                 typeof(ValidatablePicker),
                 null,
                 BindingMode.OneWay);
 
-        public string ItemDisplayBinding
+        public BindingBase ItemDisplayBinding
         {
-            get => (string)this.GetValue(ItemDisplayBindingProperty);
+            get => (BindingBase)this.GetValue(ItemDisplayBindingProperty);
             set => this.SetValue(ItemDisplayBindingProperty, value);
         }
 
