@@ -27,6 +27,7 @@ namespace Superdev.Maui.SampleApp.Services
             var viewModelType = assembly
                 .GetTypes()
                 .SingleOrDefault(t => t.Name == viewModelName);
+
             if (viewModelType != null)
             {
                 var viewModel = this.serviceProvider.GetService(viewModelType);
