@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Superdev.Maui.SampleApp.Views;
 
 namespace Superdev.Maui.SampleApp.Services
 {
@@ -14,7 +13,10 @@ namespace Superdev.Maui.SampleApp.Services
 
         public Task PushAsync(string pageName)
         {
-            var pageType = Assembly.GetExecutingAssembly().GetTypes().SingleOrDefault(t => t.Name == pageName);
+            var assembly = Assembly.GetExecutingAssembly();
+            var pageType = assembly
+                .GetTypes()
+                .SingleOrDefault(t => t.Name == pageName);
 
             if (this.serviceProvider.GetRequiredService(pageType) is not Page page)
             {
@@ -22,7 +24,9 @@ namespace Superdev.Maui.SampleApp.Services
             }
 
             var viewModelName = pageName.Substring(0, pageName.LastIndexOf("Page")) + "ViewModel";
-            var viewModelType = Assembly.GetExecutingAssembly().GetTypes().SingleOrDefault(t => t.Name == viewModelName);
+            var viewModelType = assembly
+                .GetTypes()
+                .SingleOrDefault(t => t.Name == viewModelName);
             if (viewModelType != null)
             {
                 var viewModel = this.serviceProvider.GetService(viewModelType);
