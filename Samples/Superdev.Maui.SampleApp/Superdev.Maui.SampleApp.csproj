@@ -82,5 +82,5 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionSuperdevMauiSampleAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionSuperdevMauiSampleAppHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionSuperdevMauiSampleAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 </Project>

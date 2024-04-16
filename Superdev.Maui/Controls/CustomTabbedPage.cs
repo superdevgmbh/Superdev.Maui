@@ -1,19 +1,18 @@
 ﻿namespace Superdev.Maui.Controls
 {
-    // TODO: Add handler
     public class CustomTabbedPage : TabbedPage
     {
-        public static readonly BindableProperty IsHiddenProperty =
+        public static readonly BindableProperty HideTabsProperty =
            BindableProperty.Create(
-               nameof(IsHidden),
+               nameof(HideTabs),
                typeof(bool),
                typeof(CustomTabbedPage),
                false);
 
-        public bool IsHidden
+        public bool HideTabs
         {
-            get => (bool)this.GetValue(IsHiddenProperty);
-            set => this.SetValue(IsHiddenProperty, value);
+            get => (bool)this.GetValue(HideTabsProperty);
+            set => this.SetValue(HideTabsProperty, value);
         }
     }
 }

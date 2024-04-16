@@ -241,6 +241,14 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
+                                    Text="&lt;!--Demo: CustomTabbedPage--&gt;" />
+                                <Button
+                                    Command="{Binding NavigateToPageCommand}"
+                                    CommandParameter="CustomTabbedPageDemoPage"
+                                    Text="CustomTabbedPage" />
+
+                                <Label
+                                    Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo: SegmentedStatusIndicator--&gt;" />
                                 <Button
                                     Command="{Binding NavigateToPageCommand}"
