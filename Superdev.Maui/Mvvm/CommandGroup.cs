@@ -122,7 +122,7 @@ namespace Superdev.Maui.Mvvm
             return this.CreateCommandWithFactory(
                 execute,
                 canExecute,
-               (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, ce }));
+                (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, new Predicate<TParameter>(p => ce(p)) }));
         }
 
         #endregion
