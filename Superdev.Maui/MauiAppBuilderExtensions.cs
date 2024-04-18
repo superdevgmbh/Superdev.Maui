@@ -40,6 +40,7 @@ namespace Superdev.Maui
 #endif
 
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
+            builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread, MauiMainThread>();
 

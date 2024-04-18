@@ -9,62 +9,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Converters.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <s:MyResourceDictionary />
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- Converters -->
-            <!--<converters:ColorToHexStringConverter x:Key="ColorToHexStringConverter" />
-            <converters:ColorInverter x:Key="ColorInverter" />
-            <converters:FontElementToStringConverter x:Key="FontElementToStringConverter" />
-            <converters:ThicknessToStringConverter x:Key="ThicknessToStringConverter" />
-            <converters:RandomValidationErrorsConverter x:Key="RandomValidationErrorsConverter" />
-            <valueConverters:BoolInverter x:Key="BoolInverter" />
-            <valueConverters:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
-            <valueConverters:DateTimeConverter x:Key="DateTimeConverter" Format="g" />
-            <valueConverters:DateTimeConverter x:Key="ShortDateConverter" Format="d" />
-            <valueConverters:BoolToColorConverter
-                x:Key="BoolToBlackAndWhiteConverter"
-                FalseValue="White"
-                TrueValue="Black" />-->
-
-            <!-- Colors -->
-            <Color x:Key="Primary">#ff70fc</Color>
-            <Color x:Key="Accent">#73e5c6</Color>
-            <Color x:Key="SemiMagenta">#7Fff3399</Color>
-
-            <OnPlatform
-                x:Key="WindowBackgroundTable"
-                x:TypeArguments="Color">
-                <On
-                    Platform="Android"
-                    Value="#F5F5F5" />
-                <On
-                    Platform="iOS"
-                    Value="#EFEFF4" />
-            </OnPlatform>
-
-            <OnPlatform
-                x:Key="WindowBackground"
-                x:TypeArguments="Color">
-                <On
-                    Platform="Android"
-                    Value="#F5F5F5" />
-                <On
-                    Platform="iOS"
-                    Value="White" />
-            </OnPlatform>
-
-            <OnPlatform
-                x:Key="LabelSectionBackground"
-                x:TypeArguments="Color">
-                <On
-                    Platform="Android"
-                    Value="White" />
-                <On
-                    Platform="iOS"
-                    Value="#EFEFF4" />
-            </OnPlatform>
 
             <!-- Styles -->
             <Style TargetType="NavigationPage">

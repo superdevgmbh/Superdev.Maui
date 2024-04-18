@@ -44,6 +44,8 @@ namespace Superdev.Maui.SampleApp
             builder.Services.AddTransient<ListViewDemoPage>();
             builder.Services.AddTransient<ListViewDemoViewModel>();
             builder.Services.AddTransient<CustomTabbedPageDemoPage>();
+            builder.Services.AddTransient<PreferencesDemoPage>();
+            builder.Services.AddTransient<PreferencesDemoViewModel>();
 
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IDisplayService, DisplayService>();

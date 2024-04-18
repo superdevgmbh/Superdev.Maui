@@ -46,7 +46,7 @@ namespace Superdev.Maui.Services.Settings
                     return this.cachedValue.Value;
                 }
 
-                var value = this.preferences.Get(this.key, this.defaultValue);
+                var value = this.preferences.Get<T>(this.key, this.defaultValue);
 
                 if (this.CachingEnabled)
                 {
@@ -62,14 +62,13 @@ namespace Superdev.Maui.Services.Settings
                     this.cachedValue.Value = value;
                 }
 
-                this.preferences.Set(this.key, value);
+                this.preferences.Set<T>(this.key, value);
             }
         }
 
         object ISettingsProperty.Value
         {
             get => this.Value;
-
             set => this.Value = (T)value;
         }
     }

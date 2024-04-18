@@ -233,6 +233,14 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
+                                    Text="&lt;!--Demo: Preferences--&gt;" />
+                                <Button
+                                    Command="{Binding NavigateToPageCommand}"
+                                    CommandParameter="PreferencesDemoPage"
+                                    Text="PreferencesDemoPage" />
+
+                                <Label
+                                    Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo: Behaviors--&gt;" />
                                 <Button
                                     Command="{Binding NavigateToPageCommand}"
@@ -787,7 +795,7 @@
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Debug App Resources--&gt;" />
                                 <VerticalStackLayout
-                                    BindableLayout.ItemTemplate="{StaticResource ResourceItemTemplateSelector}"
+                                    BindableLayout.ItemTemplateSelector="{StaticResource ResourceItemTemplateSelector}"
                                     BindableLayout.ItemsSource="{Binding ThemeResources}" />
 
                             </StackLayout>
