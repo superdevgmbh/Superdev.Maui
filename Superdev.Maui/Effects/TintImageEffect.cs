@@ -1,33 +1,16 @@
-﻿using System.Linq;
+﻿using Superdev.Maui.Extensions;
+
 namespace Superdev.Maui.Effects
 {
     public class TintImageEffect : RoutingEffect
     {
-        public TintImageEffect()
-          : base($"{Effects.Prefix}.{nameof(TintImageEffect)}")
-        {
-        }
-
         public static readonly BindableProperty TintColorProperty =
             BindableProperty.CreateAttached(
-                "TintImageEffect",
+                "TintColor",
                 typeof(Color),
                 typeof(TintImageEffect),
-                default(Color),
+                null,
                 propertyChanged: OnTintColorChanged);
-
-        public static void OnTintColorChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (!(bindable is View view))
-            {
-                return;
-            }
-
-            if (!view.Effects.Any(e => e is TintImageEffect))
-            {
-                view.Effects.Add(new TintImageEffect());
-            }
-        }
 
         public static Color GetTintColor(BindableObject bindable)
         {
@@ -37,6 +20,31 @@ namespace Superdev.Maui.Effects
         public static void SetTintColor(BindableObject bindable, Color value)
         {
             bindable.SetValue(TintColorProperty, value);
+        }
+
+        public static void OnTintColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is not View view)
+            {
+                return;
+            }
+
+            var existingEffect = view.Effects.FirstOrDefault<TintImageEffect>();
+
+            if (newValue is Color)
+            {
+                if (existingEffect == null)
+                {
+                    view.Effects.Add(new TintImageEffect());
+                }
+            }
+            else
+            {
+                if (existingEffect != null)
+                {
+                    view.Effects.Remove(existingEffect);
+                }
+            }
         }
     }
 }

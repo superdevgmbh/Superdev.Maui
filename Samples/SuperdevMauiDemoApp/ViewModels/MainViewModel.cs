@@ -12,6 +12,7 @@ using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
 using Superdev.Maui.Validation;
+using SuperdevMauiDemoApp.Services.Navigation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {

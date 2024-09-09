@@ -208,20 +208,26 @@
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo: TintImageEffect--&gt;" />
-                                <Image
-                                    s:TintImageEffect.TintColor="{Binding IsReadonly, Converter={StaticResource BoolToBlackAndWhiteConverter}}"
-                                    Aspect="AspectFit"
-                                    HeightRequest="100"
-                                    Source="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.rectangle_magenta_192.png}"
-                                    WidthRequest="100">
-
-                                    <Image.Effects>
-                                        <s:TintImageEffect />
-                                    </Image.Effects>
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ToggleSwitchCommand}" />
-                                    </Image.GestureRecognizers>
-                                </Image>
+                                <HorizontalStackLayout
+                                    Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                                    <Image
+                                        s:TintImageEffect.TintColor="Blue"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Source="camera_outline_black_192"
+                                        HorizontalOptions="Start"/>
+                                    <Image
+                                        s:TintImageEffect.TintColor="{Binding IsReadonly, Converter={StaticResource BoolToBlackAndWhiteConverter}}"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Source="rectangle_magenta_192"
+                                        HorizontalOptions="Start">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ToggleSwitchCommand}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </HorizontalStackLayout>
+                                
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"

@@ -4,6 +4,7 @@ using SampleApp.Services;
 using Superdev.Maui;
 using Superdev.Maui.Localization;
 using SuperdevMauiDemoApp.Services;
+using SuperdevMauiDemoApp.Services.Navigation;
 using SuperdevMauiDemoApp.Services.Validation;
 using SuperdevMauiDemoApp.Translations;
 using SuperdevMauiDemoApp.ViewModels;
@@ -50,7 +51,7 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<PreferencesDemoPage>();
             builder.Services.AddTransient<PreferencesDemoViewModel>();
 
-            builder.Services.AddSingleton<INavigationService, NavigationService>();
+            builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             builder.Services.AddSingleton<IDisplayService, DisplayService>();
             builder.Services.AddSingleton<ICountryService, CountryService>();
             builder.Services.AddSingleton<IValidationService, ValidationService>();

@@ -3,10 +3,16 @@ using Superdev.Maui.Platforms.Android.Handlers;
 using Superdev.Maui.Platforms.Android.Services;
 #elif IOS
 using Superdev.Maui.Platforms.iOS.Handlers;
+using Superdev.Maui.Platforms.iOS.Handlers.MauiFix;
 using Superdev.Maui.Platforms.iOS.Services;
 #endif
 
+#if ANDROID || IOS
+using Superdev.Maui.Platforms.Effects;
+#endif
+
 using Superdev.Maui.Controls;
+using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Services;
 
@@ -16,7 +22,6 @@ namespace Superdev.Maui
     {
         public static MauiAppBuilder UseSuperdevMaui(this MauiAppBuilder builder)
         {
-
 #if ANDROID || IOS
             builder.ConfigureMauiHandlers(handlers =>
             {
@@ -31,11 +36,12 @@ namespace Superdev.Maui
 #elif IOS
                 // Handlers for iOS only
                 handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
+                handlers.AddHandler<ScrollView, ScrollViewFixHandler>();
 #endif
             })
             .ConfigureEffects(effects =>
             {
-                //effects.Add<FocusRoutingEffect, FocusPlatformEffect>();
+                effects.Add(typeof(TintImageEffect), typeof(TintImagePlatformEffect));
             });
 #endif
 

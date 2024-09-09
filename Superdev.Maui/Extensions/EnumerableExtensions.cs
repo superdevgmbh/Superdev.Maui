@@ -305,5 +305,15 @@ namespace Superdev.Maui.Extensions
         {
             return string.Join("&", parameters.Select(p => $"{WebUtility.UrlEncode(p.Key)}={WebUtility.UrlEncode(p.Value)}"));
         }
+
+        public static T FirstOrDefault<T>(this IEnumerable items)
+        {
+            foreach (var item in items.OfType<T>())
+            {
+                return item;
+            }
+
+            return default;
+        }
     }
 }
