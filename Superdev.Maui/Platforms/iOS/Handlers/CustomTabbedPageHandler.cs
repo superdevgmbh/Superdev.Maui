@@ -1,91 +1,94 @@
-﻿using CoreGraphics;
+﻿using System.ComponentModel;
+using CoreGraphics;
 using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Shapes;
-using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Controls.Handlers.Compatibility;
+using Microsoft.Maui.Controls.Platform;
 using Superdev.Maui.Controls;
-using UIKit;
 
 namespace Superdev.Maui.Platforms.iOS.Handlers
 {
-    public class CustomTabbedPageHandler : TabbedViewHandler
+    public class CustomTabbedPageHandler : TabbedRenderer
     {
-        private CustomTabbedPage customTabbedPage;
         private ILogger logger;
 
-        public static IPropertyMapper<CustomTabbedPage, CustomTabbedPageHandler> CustomMapper = new PropertyMapper<CustomTabbedPage, CustomTabbedPageHandler>(Mapper)
+        static CustomTabbedPageHandler()
         {
-            [nameof(CustomTabbedPage.HideTabs)] = MapIsHidden,
-        };
-        private CGRect originalTabBarFrame;
-
-        private static void MapIsHidden(CustomTabbedPageHandler customTabbedPageHandler, CustomTabbedPage customTabbedPage)
-        {
-            customTabbedPageHandler.UpdateBottomNavigationVisibility(customTabbedPage);
+            Mapper.AppendToMapping(nameof(CustomTabbedPage.HideTabs), MapIsHidden);
         }
 
-        public CustomTabbedPageHandler() : base(CustomMapper)
+        private CGRect originalFrame;
+        private CGRect originalTabBarFrame;
+
+        private static void MapIsHidden(TabbedRenderer tabbedRenderer, TabbedPage tabbedPage)
+        {
+            if (tabbedRenderer is CustomTabbedPageHandler customTabbedPageHandler &&
+                tabbedPage is CustomTabbedPage customTabbedPage)
+            {
+                customTabbedPageHandler.UpdateBottomNavigationVisibility(customTabbedPage);
+            }
+        }
+
+        public CustomTabbedPageHandler()
         {
             this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
         }
 
-        protected override void ConnectHandler(UIView platformView)
+        protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
-            if (this.VirtualView is CustomTabbedPage customTabbedPage)
+            base.OnElementChanged(e);
+
+            if (e.NewElement != null)
             {
-                this.customTabbedPage = customTabbedPage;
-                this.customTabbedPage.Loaded += this.TabbedPage_Loaded;
+                this.UpdateBottomNavigationVisibility((CustomTabbedPage)this.Element);
+                this.Element.PropertyChanged += this.OnElementPropertyChanged;
             }
 
-            base.ConnectHandler(platformView);
+            if (e.OldElement != null)
+            {
+                this.Element.PropertyChanged -= this.OnElementPropertyChanged;
+            }
         }
 
-        private void TabbedPage_Loaded(object sender, EventArgs e)
+        private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.UpdateBottomNavigationVisibility(this.customTabbedPage);
+            if (e.PropertyName == nameof(CustomTabbedPage.HideTabs))
+            {
+                this.UpdateBottomNavigationVisibility((CustomTabbedPage)this.Element);
+            }
+            else if (e.PropertyName == NavigationPage.CurrentPageProperty.PropertyName)
+            {
+                this.View.SetNeedsLayout();
+            }
         }
 
         private void UpdateBottomNavigationVisibility(CustomTabbedPage customTabbedPage)
         {
-            try
-            {
-                var frame = this.PlatformView.Frame;
-                var tabBarFrame = this.ViewController.TabBarController.TabBar.Frame;
-                if (tabBarFrame.Height > 0)
-                {
-                    this.originalTabBarFrame = tabBarFrame;
-                }
+            var frame = this.View.Frame;
 
-                if (customTabbedPage.HideTabs)
-                {
-                    this.ViewController.TabBarController.TabBar.Hidden = true;
-                    this.ViewController.TabBarController.TabBar.Frame = new CGRect(0, 0, 0, 0);
-                    customTabbedPage.ContainerArea = new Rect(0, 0, frame.Width, frame.Height);
-                }
-                else
-                {
-                    this.ViewController.TabBarController.TabBar.Hidden = false;
-                    this.ViewController.TabBarController.TabBar.Frame = this.originalTabBarFrame;
-                    customTabbedPage.ContainerArea = new Rect(0, 0, frame.Width, frame.Height - this.originalTabBarFrame.Height);
-                }
-            }
-            catch (Exception ex)
+            var tabBarFrame = this.TabBar.Frame;
+            if (tabBarFrame.Height > 0)
             {
-                this.logger.LogError(ex, "UpdateBottomNavigationVisibility failed with exception");
+                this.originalTabBarFrame = tabBarFrame;
+            }
+
+            if (customTabbedPage.HideTabs)
+            {
+                this.TabBar.Hidden = true;
+                this.TabBar.Frame = new CGRect(0, 0, 0, 0);
+                customTabbedPage.ContainerArea = new Rect(0, 0, frame.Width, frame.Height);
+            }
+            else
+            {
+                this.TabBar.Hidden = false;
+                this.TabBar.Frame = this.originalTabBarFrame;
+                customTabbedPage.ContainerArea = new Rect(0, 0, frame.Width, frame.Height - this.originalTabBarFrame.Height);
             }
         }
 
-        protected override void DisconnectHandler(UIView platformView)
+        public override void ViewDidLayoutSubviews()
         {
-            if (this.customTabbedPage != null)
-            {
-                this.customTabbedPage.Loaded -= this.TabbedPage_Loaded;
-                this.customTabbedPage = null;
-            }
-
-            this.logger = null;
-
-            base.DisconnectHandler(platformView);
+            base.ViewDidLayoutSubviews();
+            this.UpdateBottomNavigationVisibility((CustomTabbedPage)this.Element);
         }
     }
 }

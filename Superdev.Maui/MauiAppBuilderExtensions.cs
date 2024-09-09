@@ -24,8 +24,14 @@ namespace Superdev.Maui
                 handlers.AddHandler(typeof(CustomScrollView), typeof(CustomScrollViewHandler));
                 handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
                 handlers.AddHandler(typeof(CustomViewCell), typeof(CustomViewCellHandler));
-                handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
                 //handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
+#if ANDROID
+                // Handlers for Android only
+                handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
+#elif IOS
+                // Handlers for iOS only
+                handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
+#endif
             })
             .ConfigureEffects(effects =>
             {
