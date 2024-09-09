@@ -19,8 +19,8 @@
     <!-- Annotation Text -->
     <controls:CustomLabel
         x:Name="AnnotationLabel"
-        Grid.Row="0"
         x:FieldModifier="internal"
+        Grid.Row="0"
         InputTransparent="True"
         RemovePadding="True"
         Style="{DynamicResource AnnotationEntryLabelStyle}"
@@ -29,12 +29,12 @@
     <Grid
         Grid.Row="1"
         IsClippedToBounds="True">
-        <Picker
+        <controls:CustomPicker
             x:Name="Picker"
+            x:FieldModifier="internal"
             Title="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
             effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
-            x:FieldModifier="internal"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
             ItemDisplayBinding="{Binding ItemDisplayBinding, Source={x:Reference Control}}"
             ItemsSource="{Binding ItemsSource, Source={x:Reference Control}}"
@@ -53,13 +53,13 @@
                         Value="0,-10,0,-6" />
                 </OnPlatform>
             </Picker.Margin>
-        </Picker>
+        </controls:CustomPicker>
 
         <!-- Readonly Text -->
         <controls:CustomLabel
             x:Name="ReadonlyLabel"
-            Margin="0"
             x:FieldModifier="internal"
+            Margin="0"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
             RemovePadding="True"
             Style="{DynamicResource EntryLabelStyle}"

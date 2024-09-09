@@ -149,18 +149,10 @@ namespace Superdev.Maui.Controls
             picker.OnPropertyChanged(nameof(picker.AnnotationText));
         }
 
-        public static readonly BindableProperty ItemDisplayBindingProperty =
-            BindableProperty.Create(
-                nameof(ItemDisplayBinding),
-                typeof(BindingBase),
-                typeof(ValidatablePicker),
-                null,
-                BindingMode.OneWay);
-
         public BindingBase ItemDisplayBinding
         {
-            get => (BindingBase)this.GetValue(ItemDisplayBindingProperty);
-            set => this.SetValue(ItemDisplayBindingProperty, value);
+            get => this.Picker.ItemDisplayBinding;
+            set => this.Picker.ItemDisplayBinding = value;
         }
 
         public static readonly BindableProperty IsReadonlyProperty =
