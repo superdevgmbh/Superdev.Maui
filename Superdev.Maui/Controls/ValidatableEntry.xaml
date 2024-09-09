@@ -19,9 +19,9 @@
     <!-- Annotation Text -->
     <controls:CustomLabel
         x:Name="AnnotationLabel"
+        x:FieldModifier="internal"
         Grid.Row="0"
         Margin="0"
-        x:FieldModifier="internal"
         InputTransparent="True"
         RemovePadding="True"
         Style="{DynamicResource AnnotationEntryLabelStyle}"
@@ -33,9 +33,9 @@
         IsClippedToBounds="True">
         <controls:CustomEntry
             x:Name="Entry"
+            x:FieldModifier="internal"
             effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
-            x:FieldModifier="internal"
             IsPassword="{Binding IsPassword, Source={x:Reference Control}, Mode=OneWay}"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
             Keyboard="{Binding Keyboard, Source={x:Reference Control}, Mode=OneWay}"
@@ -46,8 +46,8 @@
             Text="{Binding Text, Source={x:Reference Control}, Mode=TwoWay}"
             TextContentType="{Binding TextContentType, Source={x:Reference Control}, Mode=OneWay}"
             HorizontalOptions="FillAndExpand"
-            HorizontalTextAlignment="Start"
-            VerticalOptions="StartAndExpand">
+            VerticalOptions="StartAndExpand"
+            HorizontalTextAlignment="Start">
             <Entry.Margin>
                 <OnPlatform x:TypeArguments="Thickness">
                     <On

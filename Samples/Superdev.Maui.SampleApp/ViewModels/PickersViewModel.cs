@@ -63,7 +63,10 @@ namespace Superdev.Maui.SampleApp.ViewModels
             {
                 var defaultCountryViewModel = new CountryViewModel(new CountryDto { Name = null });
                 var countryDtos = await this.countryService.GetAllAsync();
-                this.Countries = countryDtos.Select(c => new CountryViewModel(c)).Prepend(defaultCountryViewModel).ToObservableCollection();
+                this.Countries = countryDtos
+                    .Select(c => new CountryViewModel(c))
+                    .Prepend(defaultCountryViewModel)
+                    .ToObservableCollection();
             }
             catch (Exception ex)
             {
