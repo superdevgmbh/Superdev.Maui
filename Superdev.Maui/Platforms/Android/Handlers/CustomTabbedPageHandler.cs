@@ -33,7 +33,7 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         {
             if (this.VirtualView is CustomTabbedPage customTabbedPage)
             {
-                this.VirtualView.AddCleanUpEvent();
+                //this.VirtualView.AddCleanUpEvent(); // Not needed because, pages call DisconnectHandler automagically
                 customTabbedPage.Loaded += this.TabbedPage_Loaded;
             }
 
