@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using Android.Graphics;
 using Android.Widget;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
+using Superdev.Maui.Effects;
 using Color = Microsoft.Maui.Graphics.Color;
 
 namespace Superdev.Maui.Platforms.Effects
@@ -28,7 +30,7 @@ namespace Superdev.Maui.Platforms.Effects
 
         protected override void OnAttached()
         {
-            UpdateTintColor();
+            this.UpdateTintColor();
         }
 
         protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
@@ -38,7 +40,7 @@ namespace Superdev.Maui.Platforms.Effects
                 args.PropertyName == Image.SourceProperty.PropertyName ||
                 args.PropertyName == VisualElement.IsVisibleProperty.PropertyName)
             {
-                UpdateTintColor();
+                this.UpdateTintColor();
             }
         }
 
@@ -46,12 +48,12 @@ namespace Superdev.Maui.Platforms.Effects
         {
             try
             {
-                if (!(Control is ImageView imageView))
+                if (!(this.Control is ImageView imageView))
                 {
                     return;
                 }
 
-                if (TintImageEffect.GetTintColor(Element) is Color tintColor)
+                if (TintImageEffect.GetTintColor(this.Element) is Color tintColor)
                 {
                     var newTintColor = tintColor.ToPlatform();
                     var filter = new PorterDuffColorFilter(newTintColor, PorterDuff.Mode.SrcIn);
@@ -70,7 +72,7 @@ namespace Superdev.Maui.Platforms.Effects
 
         protected override void OnDetached()
         {
-            this.Log("TintImageEffect.OnDetached");
+            Logger.LogDebug("TintImageEffect.OnDetached");
         }
     }
 }
