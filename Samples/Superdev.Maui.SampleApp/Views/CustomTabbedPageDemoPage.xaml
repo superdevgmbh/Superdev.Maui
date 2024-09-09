@@ -9,7 +9,7 @@
     Title="CustomTabbedPageDemoPage"
     android:TabbedPage.IsSmoothScrollEnabled="False"
     android:TabbedPage.IsSwipePagingEnabled="False"
-    android:TabbedPage.ToolbarPlacement="Bottom"
+    android:TabbedPage.ToolbarPlacement="Default"
     ios:TabbedPage.TranslucencyMode="Default"
     HideTabs="True">
     <!-- android:TabbedPage.ToolbarPlacement="Bottom" does not work yet!!! -->

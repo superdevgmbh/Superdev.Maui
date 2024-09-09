@@ -1,16 +1,17 @@
 ﻿using Android.Views;
 using AndroidX.CoordinatorLayout.Widget;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
 using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
-using AView = global::Android.Views.View;
+using Superdev.Maui.Utils;
 using static Android.Views.ViewGroup;
+using AView = global::Android.Views.View;
 
 namespace Superdev.Maui.Platforms.Android.Handlers
 {
     public partial class CustomTabbedPageHandler : TabbedViewHandler
     {
-        private CustomTabbedPage customTabbedPage;
         private ILogger logger;
 
         public static IPropertyMapper<CustomTabbedPage, CustomTabbedPageHandler> CustomMapper = new PropertyMapper<CustomTabbedPage, CustomTabbedPageHandler>(Mapper)
@@ -32,8 +33,8 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         {
             if (this.VirtualView is CustomTabbedPage customTabbedPage)
             {
-                this.customTabbedPage = customTabbedPage;
-                this.customTabbedPage.Loaded += this.TabbedPage_Loaded;
+                this.VirtualView.AddCleanUpEvent();
+                customTabbedPage.Loaded += this.TabbedPage_Loaded;
             }
 
             base.ConnectHandler(platformView);
@@ -46,8 +47,15 @@ namespace Superdev.Maui.Platforms.Android.Handlers
                 // Find the tabs navigation bar:
                 // https://github.com/dotnet/maui/blob/main/src/Core/src/Platform/Android/Resources/Layout/navigationlayout.axml
 
-                var coordinatorLayout = FindParent(this.PlatformView, (view) => view is CoordinatorLayout) as CoordinatorLayout;
+                var parentView = FindParent(this.PlatformView, (view) => view is CoordinatorLayout);
+                if (parentView is not CoordinatorLayout coordinatorLayout)
+                {
+                    return;
+                }
 
+                var toolbarPlacement = Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific.TabbedPage.GetToolbarPlacement(customTabbedPage);
+
+                if (toolbarPlacement is ToolbarPlacement.Default or ToolbarPlacement.Top)
                 {
                     var toptabs = coordinatorLayout.FindViewById(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_toptabs);
                     if (toptabs.LayoutParameters is LayoutParams layoutParams)
@@ -60,27 +68,39 @@ namespace Superdev.Maui.Platforms.Android.Handlers
                         else
                         {
                             layoutParams.Height = LayoutParams.WrapContent;
+                            toptabs.Visibility = ViewStates.Visible;
                         }
 
                         toptabs.LayoutParameters = layoutParams;
                     }
                 }
-                {
-                    var bottomtabs = coordinatorLayout.FindViewById(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_bottomtabs);
-                    if (bottomtabs.LayoutParameters is LayoutParams layoutParams)
-                    {
-                        if (customTabbedPage.HideTabs)
-                        {                            
-                            layoutParams.Height = 0;
-                            bottomtabs.Visibility = ViewStates.Gone;
-                        }
-                        else
-                        {
-                            layoutParams.Height = LayoutParams.WrapContent;
-                        }
+                //else if (this.toolbarPlacement == ToolbarPlacement.Bottom)
+                //{
+                //    var bottomtabs = coordinatorLayout.FindViewById(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_bottomtabs) as FragmentContainerView;
+                //    var fragment = bottomtabs.Fragment as Fragment;
+                //    var bottomNavigationView = fragment.View as BottomNavigationView;
 
-                        bottomtabs.LayoutParameters = layoutParams;
-                    }
+
+                //    if (bottomNavigationView.LayoutParameters is LayoutParams layoutParams)
+                //    {
+                //        if (customTabbedPage.HideTabs)
+                //        {
+                //            layoutParams.Height = 0;
+                //            bottomNavigationView.Visibility = ViewStates.Gone;
+                //        }
+                //        else
+                //        {
+                //            layoutParams.Height = LayoutParams.WrapContent;
+                //            bottomNavigationView.Visibility = ViewStates.Visible;
+                //        }
+
+                //        bottomNavigationView.LayoutParameters = layoutParams;
+                //    }
+
+                //}
+                else
+                {
+                    this.logger.LogWarning($"ToolbarPlacement '{toolbarPlacement}' is currently not supported");
                 }
             }
             catch (Exception ex)
@@ -106,16 +126,17 @@ namespace Superdev.Maui.Platforms.Android.Handlers
 
         private void TabbedPage_Loaded(object sender, EventArgs e)
         {
-            this.UpdateBottomNavigationVisibility(this.customTabbedPage);
+            if (sender is CustomTabbedPage customTabbedPage)
+            {
+                this.UpdateBottomNavigationVisibility(customTabbedPage);
+            }
         }
 
-        //Currently the Disconnect Handler needs to be manually called from the App: https://github.com/dotnet/maui/issues/3604
         protected override void DisconnectHandler(AView platformView)
         {
-            if (this.customTabbedPage != null)
+            if (this.VirtualView is CustomTabbedPage customTabbedPage)
             {
-                this.customTabbedPage.Loaded -= this.TabbedPage_Loaded;
-                this.customTabbedPage = null;
+                customTabbedPage.Loaded -= this.TabbedPage_Loaded;
             }
 
             this.logger = null;
