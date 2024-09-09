@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.LabelDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    Title="CustomLabel Demo">
+
+    <ScrollView>
+        <StackLayout VerticalOptions="Start">
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="&lt;!--Demo CustomLabel--&gt;" />
+            <Label
+                BackgroundColor="LightGray"
+                Text="Label" />
+            <s:CustomLabel
+                BackgroundColor="LightGray"
+                Text="CustomLabel" />
+            <s:CustomLabel
+                BackgroundColor="LightCyan"
+                Lines="3"
+                Text="CustomLabel with Lines=&quot;3&quot;" />
+            <s:CustomLabel
+                BackgroundColor="LightGreen"
+                RemovePadding="True"
+                Text="CustomLabel with RemovePadding=&quot;True&quot;" />
+            <s:CustomLabel
+                BackgroundColor="LightGreen"
+                RemovePadding="False"
+                Text="CustomLabel with RemovePadding=&quot;False&quot;" />
+            <s:CustomLabel
+                BackgroundColor="LightGoldenrodYellow"
+                JustifyText="True"
+                LineBreakMode="WordWrap"
+                Text="CustomLabel with JustifyText=&quot;True&quot;: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam."
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="StartAndExpand" />
+            <s:CustomLabel
+                BackgroundColor="LightGoldenrodYellow"
+                JustifyText="False"
+                LineBreakMode="WordWrap"
+                Text="CustomLabel with JustifyText=&quot;False&quot;: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam."
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="StartAndExpand" />
+
+
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="&lt;!--Demo ValidatableLabel--&gt;" />
+            <s:ValidatableLabel
+                BackgroundColor="Transparent"
+                Placeholder="ValidatableLabel Placeholder"
+                Text="ValidatableLabel Text" />
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <s:ValidatableLabel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    BackgroundColor="Aquamarine"
+                    Placeholder="ValidatableLabel"
+                    Text="ValidatableLabel" />
+                <s:ValidatableEntry
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BackgroundColor="LightGoldenrodYellow"
+                    Placeholder="ValidatableEntry"
+                    Text="ValidatableEntry" />
+                <s:ValidatableLabel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    BackgroundColor="Aquamarine"
+                    Placeholder="ValidatableLabel"
+                    Text="ValidatableLabel" />
+                <s:ValidatableEntry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BackgroundColor="LightGoldenrodYellow"
+                    IsReadonly="True"
+                    Placeholder="ValidatableEntry"
+                    Text="ValidatableEntry IsReadonly=&quot;True&quot;" />
+            </Grid>
+
+            <s:ValidatableLabel
+                BackgroundColor="LightBlue"
+                Placeholder="ValidatableLabel Placeholder"
+                Text="ValidatableLabel with custom LabelStyle which sets LineBreakMode to &quot;WordWrap&quot;&#x0a;Multiple lines of text&#x0a;Line 3: More text">
+                <s:ValidatableLabel.LabelStyle>
+                    <Style
+                        BaseResourceKey="EntryLabelStyle"
+                        TargetType="Label">
+                        <Setter Property="LineBreakMode" Value="WordWrap" />
+                    </Style>
+                </s:ValidatableLabel.LabelStyle>
+            </s:ValidatableLabel>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,31 @@
+﻿using Superdev.Maui.Mvvm;
+using SuperdevMauiDemoApp.Model;
+
+namespace SuperdevMauiDemoApp.ViewModels
+{
+    public class CountryViewModel : BindableBase
+    {
+        private bool isSelected;
+
+        public CountryViewModel(CountryDto countryDto)
+        {
+            this.Id = countryDto.Id;
+            this.Name = countryDto.Name;
+        }
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public bool IsSelected
+        {
+            get => this.isSelected;
+            set => this.SetProperty(ref this.isSelected, value, nameof(this.IsSelected));
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id}) {this.Name}";
+        }
+    }
+}

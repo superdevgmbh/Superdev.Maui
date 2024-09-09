@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.PickersPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    Title="Pickers Page"
+    BackgroundColor="{DynamicResource WindowBackgroundTable}">
+
+    <ScrollView>
+        <Grid>
+            <StackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="ValidatablePickers" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ValidatablePicker with strings--&gt;" />
+                            <s:ValidatablePicker
+                                ItemsSource="{Binding StringValues}"
+                                Placeholder="String Values"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ValidatablePicker with strings, using DisplayMemberPath and NullString--&gt;" />
+                            <s:ValidatablePicker
+                                ItemDisplayBinding="{Binding .}"
+                                ItemsSource="{Binding StringValues}"
+                                Placeholder="String Values"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ValidatablePicker with CountryViewModels--&gt;" />
+                            <s:ValidatablePicker
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                ItemDisplayBinding="{Binding Name}"
+                                ItemsSource="{Binding Countries}"
+                                Placeholder="ValidatablePicker by Country.Name"
+                                ReadonlyText="ReadonlyText"
+                                SelectedItem="{Binding Country, Mode=TwoWay}"
+                                ValidationErrors="{Binding Validation.Errors[Country]}" />
+
+                            <s:ValidatablePicker
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                ItemDisplayBinding="{Binding Name}"
+                                ItemsSource="{Binding Countries, Mode=OneWay}"
+                                Placeholder="{s:Translate PatentOptionLabelText}"
+                                ReadonlyText="ReadonlyText"
+                                SelectedItem="{Binding Country, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Toggle IsReadonly--&gt;" />
+                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="ExtendedDatePickers" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ExtendedDatePicker--&gt;" />
+                            <!--<s:ExtendedDatePicker
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{x:Null}"
+                                Placeholder="ExtendedDatePicker with NullableDate" />
+                            <s:ExtendedDatePicker
+                                Format="D"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="ExtendedDatePicker with Birthdate" />
+                            <s:ExtendedDatePicker
+                                ClearButtonText="Clear"
+                                Format="D"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="ExtendedDatePicker with ClearButtonText" />
+                            <s:ExtendedDatePicker
+                                CancelButtonText="{s:Translate CancelButtonText}"
+                                ClearButtonText="{s:Translate ClearButtonText}"
+                                Format="D"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="ExtendedDatePicker with Clean+Cancel" />
+                            <s:ExtendedDatePicker
+                                Format="D"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="ExtendedDatePicker with ValidityRange"
+                                ValidityRange="{Binding BirthdateValidityRange}" />-->
+
+                            <Button
+                                Command="{Binding ToggleBirthdateCommand}"
+                                Text="Toggle Birthdate" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Toggle IsEnabled--&gt;" />
+                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
+
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="ValidatableDatePickers" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ValidatableDatePicker--&gt;" />
+                            <!--<s:ValidatableDatePicker
+                                Date="{Binding Birthdate, Mode=TwoWay}"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="ValidatableDatePicker"
+                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
+
+                            <s:ValidatableDatePicker
+                                Date="{Binding Birthdate, Mode=TwoWay}"
+                                IsReadonly="True"
+                                Placeholder="ValidatableDatePicker IsReadonly=&quot;True&quot;"
+                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
+
+                            <s:ValidatableDatePicker
+                                Date="{x:Null}"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="ValidatableDatePicker Date=&quot;null&quot;"
+                                ReadonlyText="ReadonlyText"
+                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
+
+                            <s:ValidatableDatePicker
+                                x:Name="ValidatableDatePickerTest2"
+                                Date="{Binding Birthdate, Mode=TwoWay}"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="ValidatableDatePicker with ValidationErrors"
+                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                ValidationErrors="{Binding Source={x:Reference ValidatableDatePickerTest2}, Path=Date, Converter={StaticResource RandomValidationErrorsConverter}}" />-->
+
+                            <ScrollView Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<s:ValidatableDatePicker
+                                        BackgroundColor="Aquamarine"
+                                        Date="{x:Null}"
+                                        Placeholder="ValidatableDatePicker" />-->
+                                    <s:ValidatableEntry
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        BackgroundColor="LightGoldenrodYellow"
+                                        Placeholder="ValidatableEntry"
+                                        Text="" />
+                                </Grid>
+                            </ScrollView>
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="ExtendedTimePickers" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ExtendedTimePicker--&gt;" />
+                            <!--<s:ExtendedTimePicker
+                                Format="t"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{x:Null}"
+                                Placeholder="ExtendedTimePicker with ShortTimePattern" />
+                            <s:ExtendedTimePicker
+                                Format="T"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="ExtendedTimePicker with LongTimePattern" />-->
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Toggle IsEnabled--&gt;" />
+                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
+
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="ValidatableDatePickers" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!--Demo ValidatableDateTimePicker--&gt;" />
+                            <!--<s:ValidatableDateTimePicker
+                                Date="{Binding Birthdate, Mode=TwoWay}"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="Birthdate with ValidatableDateTimePicker"
+                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
+                            <s:ValidatableDateTimePicker
+                                Date="{x:Null}"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="ValidatableDateTimePicker with Date=&quot;null&quot;"
+                                ReadonlyText="ReadonlyText"
+                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />-->
+
+                            <ScrollView Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<s:ValidatableDateTimePicker
+                                        BackgroundColor="Aquamarine"
+                                        Date="{x:Null}"
+                                        IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                        Placeholder="ValidatableDateTimePicker"
+                                        Time="{x:Null}" />-->
+                                    <s:ValidatableEntry
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        BackgroundColor="LightGoldenrodYellow"
+                                        IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                        Placeholder="ValidatableEntry"
+                                        Text="" />
+                                </Grid>
+                            </ScrollView>
+
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

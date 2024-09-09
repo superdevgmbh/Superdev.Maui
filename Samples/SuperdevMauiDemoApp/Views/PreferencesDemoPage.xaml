@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.PreferencesDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    Title="PreferencesDemoPage"
+    x:DataType="vm:PreferencesDemoViewModel">
+    <VerticalStackLayout>
+        <Label Text="EnvironmentName:" />
+        <Label Text="{Binding CurrentEnvironment.EnvironmentName}" />
+
+        <Label Text="BaseUrl:" />
+        <Label Text="{Binding CurrentEnvironment.BaseUrl}" />
+
+        <Button
+            Command="{Binding GetCommand}"
+            Text="Get" />
+        <Button
+            Command="{Binding SetCommand}"
+            Text="Set" />
+        <Button
+            Command="{Binding ClearCommand}"
+            Text="Clear" />
+    </VerticalStackLayout>
+</ContentPage>

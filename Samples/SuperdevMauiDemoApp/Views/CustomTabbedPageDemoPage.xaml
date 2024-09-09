@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<s:CustomTabbedPage
+    x:Class="SuperdevMauiDemoApp.Views.CustomTabbedPageDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    Title="CustomTabbedPageDemoPage"
+    android:TabbedPage.IsSmoothScrollEnabled="False"
+    android:TabbedPage.IsSwipePagingEnabled="False"
+    android:TabbedPage.ToolbarPlacement="Default"
+    ios:TabbedPage.TranslucencyMode="Default"
+    HideTabs="True">
+    <!-- android:TabbedPage.ToolbarPlacement="Bottom" does not work yet!!! -->
+
+    <NavigationPage Title="Page1">
+        <x:Arguments>
+            <ContentPage
+                Title="Page1"
+                BackgroundColor="LightPink">
+                <VerticalStackLayout>
+                    <Label
+                        Text="Page1"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                    <Button
+                        Clicked="ToggleIsSwipePagingEnabled"
+                        Text="Toggle IsSmoothScrollEnabled" />
+                    <Button
+                        Clicked="ToggleHideTabs"
+                        Text="Toggle HideTabs" />
+                </VerticalStackLayout>
+            </ContentPage>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Page2">
+        <x:Arguments>
+            <ContentPage
+                Title="Page2"
+                BackgroundColor="LightGreen">
+                <VerticalStackLayout>
+                    <Label
+                        Text="Page2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </VerticalStackLayout>
+            </ContentPage>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Page3">
+        <x:Arguments>
+            <ContentPage
+                Title="Page3"
+                BackgroundColor="LightBlue">
+                <VerticalStackLayout>
+                    <Label
+                        Text="Page3"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </VerticalStackLayout>
+            </ContentPage>
+        </x:Arguments>
+    </NavigationPage>
+
+</s:CustomTabbedPage>
