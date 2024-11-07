@@ -7,8 +7,8 @@
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     x:Name="Control"
     BackgroundColor="Transparent"
-    HorizontalOptions="FillAndExpand"
-    VerticalOptions="StartAndExpand">
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
 
     <Grid.Resources>
         <ResourceDictionary>
@@ -28,8 +28,8 @@
                         IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         Style="{DynamicResource DrilldownButtonStyle}"
                         Text="{Binding ., Mode=OneWay}"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="StartAndExpand"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Start"
                         HorizontalTextAlignment="Start"
                         VerticalTextAlignment="Center">
 
@@ -82,8 +82,8 @@
                             IsVisible="{Binding IsBusy, Mode=OneWay, Converter={StaticResource BoolInverter}}"
                             Source="{Binding ImageSource, Mode=OneWay}"
                             WidthRequest="24"
-                            HorizontalOptions="EndAndExpand"
-                            VerticalOptions="CenterAndExpand" />
+                            HorizontalOptions="End"
+                            VerticalOptions="Center" />
 
                         <ActivityIndicator
                             x:Name="ActivityIndicator"
@@ -92,8 +92,8 @@
                             IsRunning="{Binding IsBusy, Mode=OneWay}"
                             IsVisible="{Binding IsBusy, Mode=OneWay}"
                             WidthRequest="24"
-                            HorizontalOptions="EndAndExpand"
-                            VerticalOptions="CenterAndExpand" />
+                            HorizontalOptions="End"
+                            VerticalOptions="Center" />
                     </Grid>
 
                     <Grid.GestureRecognizers>
@@ -146,6 +146,6 @@
         RowHeight="46"
         SeparatorColor="{DynamicResource ListSeparator}"
         SeparatorVisibility="Default"
-        VerticalOptions="StartAndExpand" />
+        VerticalOptions="Start" />
 
 </Grid>

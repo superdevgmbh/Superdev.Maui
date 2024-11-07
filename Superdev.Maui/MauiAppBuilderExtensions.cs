@@ -24,25 +24,30 @@ namespace Superdev.Maui
         {
 #if ANDROID || IOS
             builder.ConfigureMauiHandlers(handlers =>
-            {
-                handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
-                handlers.AddHandler(typeof(CustomScrollView), typeof(CustomScrollViewHandler));
-                handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
-                handlers.AddHandler(typeof(CustomViewCell), typeof(CustomViewCellHandler));
-                //handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
+                {
+                    handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
+                    handlers.AddHandler(typeof(CustomScrollView), typeof(CustomScrollViewHandler));
+                    handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
+                    handlers.AddHandler(typeof(CustomViewCell), typeof(CustomViewCellHandler));
+                    //handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
 #if ANDROID
-                // Handlers for Android only
-                handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
+                    // Handlers for Android only
+                    handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
 #elif IOS
-                // Handlers for iOS only
-                handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
-                handlers.AddHandler<ScrollView, ScrollViewFixHandler>();
+                    // Handlers for iOS only
+                    handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
+                    handlers.AddHandler<ScrollView, ScrollViewFixHandler>();
 #endif
-            })
-            .ConfigureEffects(effects =>
-            {
-                effects.Add(typeof(TintImageEffect), typeof(TintImagePlatformEffect));
-            });
+                })
+                .ConfigureEffects(effects =>
+                {
+                    effects.Add(typeof(TintImageEffect), typeof(TintImagePlatformEffect));
+#if IOS
+                    effects.Add(typeof(SafeAreaPaddingEffect), typeof(SafeAreaPaddingPlatformEffect));
+                    effects.Add(typeof(SafeAreaTopPaddingEffect), typeof(SafeAreaTopPaddingPlatformEffect));
+                    effects.Add(typeof(SafeAreaBottomPaddingEffect), typeof(SafeAreaBottomPaddingPlatformEffect));
+#endif
+                });
 #endif
 
 #if ANDROID || IOS
@@ -55,7 +60,6 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread, MauiMainThread>();
-
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 
