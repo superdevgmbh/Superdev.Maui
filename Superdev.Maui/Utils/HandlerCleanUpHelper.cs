@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Superdev.Maui.Utils
@@ -7,7 +8,7 @@ namespace Superdev.Maui.Utils
     /// </summary>
     internal static class HandlerCleanUpHelper
     {
-        public static void AddCleanUpEvent(this IView view)
+        internal static void AddCleanUpEvent(this IView view)
         {
             if (view is not Element element)
             {
@@ -15,10 +16,14 @@ namespace Superdev.Maui.Utils
             }
 
             var parentPage = element.GetRealParentPages().FirstOrDefault();
-            var targetPage = GetTarget(parentPage);
+            var targetPage = PageHelper.GetTarget(parentPage);
 
-            async void OnPageUnloaded(object sender, EventArgs e)
+            async void OnDisappearing(object sender, EventArgs e)
             {
+                // For some reason we cannot use NavigatedFrom. When NavigatedFrom is fired,
+                // the navigated page is still on the navigation stack which seems pretty odd.
+                // The only way we could check if the page is navigated away is
+                // to wait some milliseconds after the Disappearing event. It's a hack but it works well.
                 await Task.Delay(200);
 
                 var pagesIsUsed = CheckIfPageIsUsed(targetPage);
@@ -27,27 +32,40 @@ namespace Superdev.Maui.Utils
                     return;
                 }
 
-                // If the target page is no longer used anywhere,
-                // we can safely unsubscribe from Unloaded event and call DisconnectHandler.
-                targetPage.Unloaded -= OnPageUnloaded;
+                // If the target page is no longer used anywhere on the navigation stack nor on the modal stack,
+                // we can safely unsubscribe from Disappearing event and call DisconnectHandler.
+                targetPage.Disappearing -= OnDisappearing;
 
                 if (view.Handler is not IElementHandler elementHandler)
                 {
-                    Debug.WriteLine(
-                        $"HandlerCleanUpHelper.OnPageUnloaded: Page \"{targetPage.GetType().Name}\" is no longer present on the navigation stack " +
+                    Trace.WriteLine(
+                        $"HandlerCleanUpHelper.OnNavigatedFrom: Page \"{GetPageNameForLogging(targetPage)}\" is no longer present on the navigation stack " +
                         $"--> {view.GetType().Name}.Handler is null");
                 }
                 else
                 {
-                    Debug.WriteLine(
-                        $"HandlerCleanUpHelper.OnPageUnloaded: Page \"{targetPage.GetType().Name}\" is no longer present on the navigation stack " +
+                    Trace.WriteLine(
+                        $"HandlerCleanUpHelper.OnNavigatedFrom: Page \"{GetPageNameForLogging(targetPage)}\" is no longer present on the navigation stack " +
                         $"--> {elementHandler.GetType().Name}.DisconnectHandler()");
                     elementHandler.DisconnectHandler();
                 }
             }
 
-            Debug.WriteLine($"HandlerCleanUpHelper.AddCleanUpEvent for Page \"{targetPage.GetType().Name}\"");
-            targetPage.Unloaded += OnPageUnloaded;
+            targetPage.Disappearing += OnDisappearing;
+
+            Trace.WriteLine($"HandlerCleanUpHelper.AddCleanUpEvent for \"{view.GetType().Name}\" on page \"{GetPageNameForLogging(targetPage)}\"");
+        }
+
+        private static string GetPageNameForLogging(Page targetPage)
+        {
+            var pageName = targetPage.GetType().Name;
+
+            if (targetPage is IDebugPage internalPage)
+            {
+                pageName += $"[{nameof(internalPage.DebugId)}={internalPage.DebugId}]";
+            }
+
+            return pageName;
         }
 
         private static bool CheckIfPageIsUsed(Page targetPage)
@@ -63,15 +81,13 @@ namespace Superdev.Maui.Utils
 
             // For apps with classic navigation, we check the target page
             // is part of the NavigationStack or the ModalStack.
-            var navigation = targetPage.Navigation;
-            if (navigation != null &&
-                (navigation.NavigationStack.Any(p => p == targetPage) ||
-                 navigation.ModalStack.Any(p => p == targetPage)))
             {
-                return true;
+                var mainPage = Application.Current.MainPage;
+                var navigation = mainPage.Navigation;
+                var pages = PageHelper.GetNavigationTree(navigation, mainPage).ToArray();
+                var pageExists = pages.Any(p => p == targetPage);
+                return pageExists;
             }
-
-            return false;
         }
 
         private static IEnumerable<Page> GetActivePages(Shell shell)
@@ -131,22 +147,15 @@ namespace Superdev.Maui.Utils
             }
         }
 
-        private static Page GetTarget(Page target)
-        {
-            return target switch
-            {
-                FlyoutPage flyout => GetTarget(flyout.Detail),
-                TabbedPage tabbed => GetTarget(tabbed.CurrentPage),
-                NavigationPage navigation => GetTarget(navigation.CurrentPage) ?? navigation,
-                ContentPage page => page,
-                null => null,
-                _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
-            };
-        }
-
         private static bool IsApplicationOrNull(object element)
         {
             return element == null || element is IApplication;
         }
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public interface IDebugPage
+    {
+        public string DebugId { get; }
     }
 }
