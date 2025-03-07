@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
+using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Effects
 {
     public static class SafeAreaPadding
     {
-        public static readonly string EffectName = $"{Effects.Prefix}.{nameof(SafeAreaPaddingEffect)}";
-
         public static readonly BindableProperty EnableSafeAreaPaddingProperty =
             BindableProperty.CreateAttached(
                 "EnableSafeAreaPadding",
@@ -103,14 +102,15 @@ namespace Superdev.Maui.Effects
         static void AttachEffect(BindableObject bindableObject)
         {
             Debug.WriteLine($"AttachEffect for {bindableObject?.GetType().Name}...");
-            if (!(bindableObject is IElementController controller) || controller == null || controller.EffectIsAttached(EffectName))
+            if (!(bindableObject is IElementController controller))
             {
                 return;
             }
 
             if (bindableObject is Element element)
             {
-                element.Effects.Add(Effect.Resolve(EffectName));
+                element.Effects.Add(new SafeAreaPaddingEffect());
+                // element.Effects.Add(Effect.Resolve(EffectName));
                 Debug.WriteLine($"AttachEffect added for {bindableObject?.GetType().Name}...");
             }
         }
@@ -118,14 +118,14 @@ namespace Superdev.Maui.Effects
         static void DetachEffect(BindableObject bindableObject)
         {
             Debug.WriteLine($"DetachEffect for {bindableObject?.GetType().Name}...");
-            if (!(bindableObject is IElementController controller) || controller == null || !controller.EffectIsAttached(EffectName))
+            if (!(bindableObject is IElementController controller))
             {
                 return;
             }
 
             if (bindableObject is Element element)
             {
-                var toRemove = element.Effects.FirstOrDefault(e => e.ResolveId == Effect.Resolve(EffectName).ResolveId);
+                var toRemove = element.Effects.FirstOrDefault<SafeAreaPaddingEffect>();
                 if (toRemove != null)
                 {
                     element.Effects.Remove(toRemove);

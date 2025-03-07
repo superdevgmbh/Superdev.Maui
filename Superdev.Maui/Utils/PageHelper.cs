@@ -26,7 +26,7 @@ namespace Superdev.Maui.Utils
 
         private static string PrintNavigationPath(IEnumerable<Page> pages)
         {
-            return pages.Aggregate("", (current, page) => $"{current}/{page?.GetType().Name ?? ""}");
+            return pages.Aggregate("", (current, page) => $"{current}/{(page?.GetType().Name ?? "")}");
         }
 
         internal static IEnumerable<Page> GetNavigationTree(INavigation navigation, Page page, bool modal = false)

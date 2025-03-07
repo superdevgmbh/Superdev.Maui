@@ -3,7 +3,6 @@
     x:Class="Superdev.Maui.Controls.DrilldownButtonCell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:a="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     x:Name="Control">
@@ -23,8 +22,8 @@
             IsEnabled="{Binding IsEnabled, Mode=OneWay}"
             Style="{DynamicResource DrilldownButtonStyle}"
             Text="{Binding Title, Mode=OneWay}"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="StartAndExpand"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
             HorizontalTextAlignment="Start"
             VerticalTextAlignment="Center">
 
@@ -55,8 +54,8 @@
             IsVisible="{Binding IsBusy, Mode=OneWay, Converter={StaticResource BoolInverter}}"
             Source="{Binding ImageSource, Mode=OneWay}"
             WidthRequest="24"
-            HorizontalOptions="EndAndExpand"
-            VerticalOptions="CenterAndExpand" />
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
 
         <ActivityIndicator
             x:Name="ActivityIndicator"
@@ -64,8 +63,8 @@
             IsRunning="{Binding IsBusy, Mode=OneWay}"
             IsVisible="{Binding IsBusy, Mode=OneWay}"
             WidthRequest="24"
-            HorizontalOptions="EndAndExpand"
-            VerticalOptions="CenterAndExpand" />
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
 
         <Grid.GestureRecognizers>
             <TapGestureRecognizer

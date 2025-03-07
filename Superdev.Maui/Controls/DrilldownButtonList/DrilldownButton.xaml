@@ -24,8 +24,8 @@
                 IsEnabled="{Binding IsEnabled, Source={x:Reference Control}, Mode=OneWay}"
                 Style="{DynamicResource DrilldownButtonStyle}"
                 Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="StartAndExpand"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
                 HorizontalTextAlignment="Start"
                 VerticalTextAlignment="Center">
 
@@ -55,8 +55,8 @@
                 HeightRequest="24"
                 Source="{Binding ImageSource, Source={x:Reference Control}, Mode=OneWay}"
                 WidthRequest="24"
-                HorizontalOptions="EndAndExpand"
-                VerticalOptions="CenterAndExpand" />
+                HorizontalOptions="End"
+                VerticalOptions="Center" />
 
             <ActivityIndicator
                 x:Name="ActivityIndicator"
@@ -64,8 +64,8 @@
                 IsRunning="{Binding IsBusy, Source={x:Reference Control}, Mode=OneWay}"
                 IsVisible="{Binding IsBusy, Source={x:Reference Control}, Mode=OneWay}"
                 WidthRequest="24"
-                HorizontalOptions="EndAndExpand"
-                VerticalOptions="CenterAndExpand" />
+                HorizontalOptions="End"
+                VerticalOptions="Center" />
 
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer

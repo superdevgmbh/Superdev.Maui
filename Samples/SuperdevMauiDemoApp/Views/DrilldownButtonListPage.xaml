@@ -84,8 +84,6 @@
 
                             <StackLayout BackgroundColor="Green">
                                 <Label
-                                    Grid.Row="0"
-                                    BackgroundColor="Magenta"
                                     LineBreakMode="WordWrap"
                                     Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
                             </StackLayout>
