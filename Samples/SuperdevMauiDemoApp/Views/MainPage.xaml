@@ -5,7 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:itemTemplates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:views="clr-namespace:SuperdevMauiDemoApp.Views"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
     Title="Superdev.Maui Sample App"
     s:SafeAreaPadding.Layout="Top,Bottom"
@@ -181,7 +183,7 @@
                 <s:SafeAreaTopPaddingEffect />
             </Grid.Effects>
 
-            <Grid IsVisible="{Binding IsNotBusyAndHasNoViewModelError}">
+            <Grid IsVisible="{Binding IsContentReady}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -208,26 +210,25 @@
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo: TintImageEffect--&gt;" />
-                                <HorizontalStackLayout
-                                    Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                                <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
                                     <Image
                                         s:TintImageEffect.TintColor="Blue"
-                                        WidthRequest="50"
                                         HeightRequest="50"
                                         Source="camera_outline_black_192"
-                                        HorizontalOptions="Start"/>
+                                        WidthRequest="50"
+                                        HorizontalOptions="Start" />
                                     <Image
                                         s:TintImageEffect.TintColor="{Binding IsReadonly, Converter={StaticResource BoolToBlackAndWhiteConverter}}"
-                                        WidthRequest="50"
                                         HeightRequest="50"
                                         Source="rectangle_magenta_192"
+                                        WidthRequest="50"
                                         HorizontalOptions="Start">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding ToggleSwitchCommand}" />
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </HorizontalStackLayout>
-                                
+
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -747,14 +748,14 @@
                                     Padding="10"
                                     ContentLayout="Left, 20"
                                     HeightRequest="40"
-                                    ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.rectangle_magenta_192.png}"
+                                    ImageSource="{s:ImageResource rectangle_magenta_192.png}"
                                     Style="{DynamicResource CustomButtonStyle}"
                                     Text="Button with Image" />
                                 <ImageButton
                                     Padding="10"
                                     Aspect="AspectFit"
                                     HeightRequest="40"
-                                    Source="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.rectangle_magenta_192.png}" />
+                                    Source="{s:ImageResource rectangle_magenta_192.png}" />
                                 <VerticalStackLayout>
                                     <Label
                                         FontSize="Micro"

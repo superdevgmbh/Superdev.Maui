@@ -145,7 +145,7 @@
                                     Placeholder="ValidatableEntry"
                                     ReturnType="Next"
                                     Text="{Binding UserName, Mode=TwoWay}"
-                                    TrailingIcon="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.rectangle_magenta_192.png}"
+                                    TrailingIcon="{s:ImageResource rectangle_magenta_192}"
                                     TrailingIconCommand="{Binding CalloutCommand}"
                                     TrailingIconCommandParameter="{Binding Text, Source={x:Reference UserNameEntry}}"
                                     ValidationErrors="{Binding Validation.Errors[UserName]}">

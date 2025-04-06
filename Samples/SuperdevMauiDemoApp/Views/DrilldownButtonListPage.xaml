@@ -7,8 +7,8 @@
     xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=netstandard"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
-    Title="Drilldown Buttons"
     x:DataType="vm:DrilldownButtonListViewModel"
+    Title="Drilldown Buttons"
     BackgroundColor="{DynamicResource WindowBackgroundTable}">
 
     <ScrollView>
@@ -22,14 +22,14 @@
                     Text="Demo DrilldownButton" />
                 <s:DrilldownButton
                     Command="{Binding DisplayAlertCommand}"
-                    ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.chevron_right_grey_192x192.png}"
+                    ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                     Text="{s:Translate SingleButtonText}" />
 
                 <s:SpacerSection />
 
                 <s:DrilldownButton
                     Command="{Binding DisplayAlertCommand}"
-                    ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.chevron_right_grey_192x192.png}"
+                    ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                     Text="{s:Translate SingleButtonText}" />
 
                 <s:CardView>
@@ -42,12 +42,12 @@
                                     <s:DrilldownButtonView
                                         Title="DrilldownButtonCell (Enabled)"
                                         Command="{Binding DisplayAlertCommand}"
-                                        ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsEnabled="True" />
                                     <s:DrilldownButtonView
                                         Title="DrilldownButtonCell (Disabled)"
                                         Command="{Binding DisplayAlertCommand}"
-                                        ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsEnabled="False" />
                                     <s:DrilldownButtonView
                                         Title="{Binding RefreshButtonText}"
@@ -141,13 +141,13 @@
                                     <s:DrilldownButtonView
                                         Title="{s:Translate TermsAndConditionsButtonText}"
                                         Command="{Binding DisplayAlertCommand}"
-                                        ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsBusy="{Binding IsNavigatingToTermsAndConditions}"
                                         IsEnabled="{Binding IsNavigatingToTermsAndConditions, Converter={StaticResource BoolInverter}}" />
                                     <s:DrilldownButtonView
                                         Title="{s:Translate PrivacyPolicyButtonText}"
                                         Command="{Binding DisplayAlertCommand}"
-                                        ImageSource="{s:ImageResource SuperdevMauiDemoApp.Resources.Images.chevron_right_grey_192x192.png}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsBusy="{Binding IsNavigatingToPrivacyPolicy}"
                                         IsEnabled="{Binding IsNavigatingToPrivacyPolicy, Converter={StaticResource BoolInverter}}" />
                                 </objectModel:ObservableCollection>

@@ -25,7 +25,7 @@ namespace Superdev.Maui.Controls
                 return null;
             }
 
-            var imageSource = ImageSource.FromResource(this.Source, TargetAssembly);
+            var imageSource = ImageSource.FromFile(this.Source);
             return imageSource;
         }
     }
