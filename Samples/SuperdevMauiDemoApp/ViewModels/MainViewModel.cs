@@ -76,7 +76,19 @@ namespace SuperdevMauiDemoApp.ViewModels
             };
             this.language = this.Languages.First();
 
-            _ = this.LoadData();
+            _ = this.InitializeAsync();
+        }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                await this.LoadData();
+            }
+            finally
+            {
+                this.IsInitialized = true;
+            }
         }
 
         public ObservableCollection<LanguageViewModel> Languages { get; }

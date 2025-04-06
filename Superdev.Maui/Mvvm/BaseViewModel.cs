@@ -1,19 +1,23 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Superdev.Maui.Utils;
 using Superdev.Maui.Validation;
 
 namespace Superdev.Maui.Mvvm
 {
     public abstract class BaseViewModel : BindableBase
     {
-        private string title = string.Empty;
-        private string subTitle = string.Empty;
-        private string icon = null;
-        private bool isBusy = true;
+        private readonly RefCountBool busyRefCount = new RefCountBool();
+
+        private string title;
+        private string subTitle;
+        private string icon;
         private bool isRefreshing;
         private ViewModelError viewModelError;
         private bool isLoadingMore;
         private ViewModelValidation validation;
+        private bool isInitialized;
 
         protected BaseViewModel()
         {
@@ -24,44 +28,75 @@ namespace Superdev.Maui.Mvvm
         public virtual string Title
         {
             get => this.title;
-            set => this.SetProperty(ref this.title, value, nameof(this.Title));
+            set => this.SetProperty(ref this.title, value);
         }
 
         public string Subtitle
         {
             get => this.subTitle;
-            set => this.SetProperty(ref this.subTitle, value, nameof(this.Subtitle));
+            set => this.SetProperty(ref this.subTitle, value);
         }
 
         public string Icon
         {
             get => this.icon;
-            set => this.SetProperty(ref this.icon, value, nameof(this.Icon));
+            set => this.SetProperty(ref this.icon, value);
         }
 
         public bool IsLoadingMore
         {
             get => this.isLoadingMore;
-            set => this.SetProperty(ref this.isLoadingMore, value, nameof(this.IsLoadingMore));
+            set => this.SetProperty(ref this.isLoadingMore, value);
+        }
+
+        public bool IsInitialized
+        {
+            get => this.isInitialized;
+            set
+            {
+                var isBusyBefore = this.IsBusy;
+
+                if (this.SetProperty(ref this.isInitialized, value))
+                {
+                    if (value == false)
+                    {
+                        throw new InvalidOperationException($"{nameof(this.IsInitialized)} must not be set to false.");
+                    }
+
+                    var isBusyAfter = this.IsBusy;
+                    if (isBusyBefore != isBusyAfter)
+                    {
+                        this.RaisePropertyChanged(nameof(this.IsBusy));
+                        this.RaisePropertyChanged(nameof(this.IsNotBusy));
+                        this.RaisePropertyChanged(nameof(this.HasViewModelError));
+                        this.RaisePropertyChanged(nameof(this.IsContentReady));
+                        this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
+                        this.OnBusyChanged(isBusyAfter);
+                    }
+                }
+            }
         }
 
         public virtual bool IsBusy
         {
-            get => this.isBusy;
+            get
+            {
+                return this.busyRefCount.Value || !this.IsInitialized;
+            }
             set
             {
-                if (this.SetProperty(ref this.isBusy, value, nameof(this.IsBusy)))
+                if (this.SetProperty(this.busyRefCount, value))
                 {
                     this.RaisePropertyChanged(nameof(this.IsNotBusy));
                     this.RaisePropertyChanged(nameof(this.HasViewModelError));
-                    this.RaisePropertyChanged(nameof(this.IsNotBusyAndHasNoViewModelError));
+                    this.RaisePropertyChanged(nameof(this.IsContentReady));
                     this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                     this.OnBusyChanged(value);
                 }
             }
         }
 
-        public bool IsNotBusy => !this.isBusy;
+        public bool IsNotBusy => !this.IsBusy;
 
         protected virtual void OnBusyChanged(bool busy)
         {
@@ -86,7 +121,7 @@ namespace Superdev.Maui.Mvvm
         public bool IsRefreshing
         {
             get => this.isRefreshing;
-            set => this.SetProperty(ref this.isRefreshing, value, nameof(this.IsRefreshing));
+            set => this.SetProperty(ref this.isRefreshing, value);
         }
 
         public virtual ViewModelError ViewModelError
@@ -94,10 +129,10 @@ namespace Superdev.Maui.Mvvm
             get => this.viewModelError;
             set
             {
-                if (this.SetProperty(ref this.viewModelError, value, nameof(this.ViewModelError)))
+                if (this.SetProperty(ref this.viewModelError, value))
                 {
                     this.RaisePropertyChanged(nameof(this.HasViewModelError));
-                    this.RaisePropertyChanged(nameof(this.IsNotBusyAndHasNoViewModelError));
+                    this.RaisePropertyChanged(nameof(this.IsContentReady));
                     this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                     this.OnViewModelErrorChanged();
                 }
@@ -110,7 +145,7 @@ namespace Superdev.Maui.Mvvm
 
         public bool HasViewModelError => this.IsNotBusy && this.viewModelError.HasError;
 
-        public bool IsNotBusyAndHasNoViewModelError => this.IsNotBusy && this.viewModelError.HasError == false;
+        public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.viewModelError.HasError == false;
 
         /// <summary>
         /// Indicates if the view model has payload data available.
@@ -148,6 +183,17 @@ namespace Superdev.Maui.Mvvm
         {
             base.OnPropertyChanged(args);
             this.Validation?.HandlePropertyChange(args.PropertyName);
+        }
+
+        protected virtual bool SetProperty(RefCountBool refCountBool, bool value, [CallerMemberName] string propertyName = null)
+        {
+            var hasChanged = refCountBool.SetValue(value);
+            if (hasChanged)
+            {
+                this.RaisePropertyChanged(propertyName);
+            }
+
+            return hasChanged;
         }
     }
 }
