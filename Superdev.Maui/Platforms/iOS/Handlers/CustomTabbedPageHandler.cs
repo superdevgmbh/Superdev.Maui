@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using CoreGraphics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Handlers.Compatibility;
 using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
+using UIKit;
 
 namespace Superdev.Maui.Platforms.iOS.Handlers
 {
@@ -51,19 +54,31 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
 
         private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Debug.WriteLine($"OnElementPropertyChanged: {e.PropertyName}");
+
             if (e.PropertyName == nameof(CustomTabbedPage.HideTabs))
             {
                 this.UpdateBottomNavigationVisibility((CustomTabbedPage)this.Element);
             }
             else if (e.PropertyName == NavigationPage.CurrentPageProperty.PropertyName)
             {
-                this.View.SetNeedsLayout();
+                this.View?.SetNeedsLayout();
+            }
+            else if (e.PropertyName == VisualElement.WidthProperty.PropertyName ||
+                     e.PropertyName == VisualElement.HeightProperty.PropertyName)
+            {
+                this.View?.SetNeedsLayout();
             }
         }
 
         private void UpdateBottomNavigationVisibility(CustomTabbedPage customTabbedPage)
         {
-            var frame = this.View.Frame;
+            if (this.View is not UIView view)
+            {
+                return;
+            }
+
+            var frame = view.Frame;
 
             var tabBarFrame = this.TabBar.Frame;
             if (tabBarFrame.Height > 0)
@@ -83,6 +98,17 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
                 this.TabBar.Frame = this.originalTabBarFrame;
                 customTabbedPage.ContainerArea = new Rect(0, 0, frame.Width, frame.Height - this.originalTabBarFrame.Height);
             }
+        }
+
+        public override void ViewWillLayoutSubviews()
+        {
+            base.ViewWillLayoutSubviews();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            this.UpdateBottomNavigationVisibility((CustomTabbedPage)this.Element);
         }
 
         public override void ViewDidLayoutSubviews()

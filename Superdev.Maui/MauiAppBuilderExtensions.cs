@@ -30,12 +30,11 @@ namespace Superdev.Maui
                     handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
                     handlers.AddHandler(typeof(CustomViewCell), typeof(CustomViewCellHandler));
                     //handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
+                    handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
 #if ANDROID
                     // Handlers for Android only
-                    handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
 #elif IOS
                     // Handlers for iOS only
-                    handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
                     handlers.AddHandler<ScrollView, ScrollViewFixHandler>();
 #endif
                 })
