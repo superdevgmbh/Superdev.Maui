@@ -65,6 +65,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.emailService = emailService;
             this.localizer = localizer;
 
+            this.EnableBusyRefCount = false;
             this.ViewModelError = ViewModelError.None;
             this.User = new UserDto();
             this.Countries = new ObservableCollection<CountryViewModel>();

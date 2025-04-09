@@ -70,7 +70,7 @@ namespace Superdev.Maui.Tests.Mvvm
             action.Should().Throw<InvalidOperationException>();
         }
 
-        public class TestViewModel : BindableBase
+        private class TestViewModel : BindableBase
         {
             private string userName;
             private string wrongProperty;

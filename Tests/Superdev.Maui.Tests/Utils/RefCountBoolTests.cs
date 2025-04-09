@@ -27,8 +27,12 @@ namespace Superdev.Maui.Tests.Utils
             viewModel.IsScannerBusy = false;
 
             // Assert
-            Assert.True(viewModel.IsScannerBusy);
-            Assert.Equal(1, propertyChangedList.Count(p => p == "IsScannerBusy"));
+            viewModel.IsScannerBusy.Should().BeTrue();
+            propertyChangedList.Should().HaveCount(1);
+            propertyChangedList.Should().ContainInOrder(new []
+            {
+                "IsScannerBusy",
+            });
         }
 
         [Fact]
@@ -46,8 +50,13 @@ namespace Superdev.Maui.Tests.Utils
             viewModel.IsScannerBusy = false;
 
             // Assert
-            Assert.False(viewModel.IsScannerBusy);
-            Assert.Equal(2, propertyChangedList.Count(p => p == "IsScannerBusy"));
+            viewModel.IsScannerBusy.Should().BeFalse();
+            propertyChangedList.Should().HaveCount(2);
+            propertyChangedList.Should().ContainInOrder(new []
+            {
+                "IsScannerBusy",
+                "IsScannerBusy",
+            });
         }
 
         [Fact]
@@ -64,8 +73,12 @@ namespace Superdev.Maui.Tests.Utils
             viewModel.IsScannerBusy = true;
 
             // Assert
-            Assert.False(viewModel.IsScannerBusy);
-            Assert.Equal(0, propertyChangedList.Count(p => p == "IsScannerBusy"));
+            viewModel.IsScannerBusy.Should().BeTrue();
+            propertyChangedList.Should().HaveCount(1);
+            propertyChangedList.Should().ContainInOrder(new []
+            {
+                "IsScannerBusy",
+            });
         }
 
         [Fact]
@@ -82,8 +95,13 @@ namespace Superdev.Maui.Tests.Utils
             viewModel.IsScannerBusy = false;
 
             // Assert
-            Assert.False(viewModel.IsScannerBusy);
-            Assert.Equal(2, propertyChangedList.Count(p => p == "IsScannerBusy"));
+            viewModel.IsScannerBusy.Should().BeFalse();
+            propertyChangedList.Should().HaveCount(2);
+            propertyChangedList.Should().ContainInOrder(new []
+            {
+                "IsScannerBusy",
+                "IsScannerBusy",
+            });
         }
     }
 

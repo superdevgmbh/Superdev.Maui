@@ -18,6 +18,8 @@ namespace Superdev.Maui.Mvvm
         private bool isLoadingMore;
         private ViewModelValidation validation;
         private bool isInitialized;
+        private bool enableBusyRefCount;
+        private bool isBusy;
 
         protected BaseViewModel()
         {
@@ -49,6 +51,11 @@ namespace Superdev.Maui.Mvvm
             set => this.SetProperty(ref this.isLoadingMore, value);
         }
 
+        /// <summary>
+        /// Indicates if the viewmodel is initialized. An already initialized viewmodel cannot be uninitialized.
+        /// This property participates in the <see cref="IsBusy"/> property: If IsInitialized is <c>false</c>, IsBusy is <c>true</c>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">If an IsInitialized is switch from <c>true</c> to <c>false</c>.</exception>
         public bool IsInitialized
         {
             get => this.isInitialized;
@@ -77,15 +84,45 @@ namespace Superdev.Maui.Mvvm
             }
         }
 
+        /// <summary>
+        /// Enable or disable "BusyRefCount". This is used to count the IsBusy calls with <c>true</c> or <c>false</c> values.
+        /// </summary>
+        public bool EnableBusyRefCount
+        {
+            get => this.enableBusyRefCount;
+            set
+            {
+                if (this.enableBusyRefCount != value)
+                {
+                    this.busyRefCount.Reset();
+                    this.enableBusyRefCount = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indicates the busy state of the viewmodel. This flag can be used to block the user interface with a loading message.
+        /// </summary>
         public virtual bool IsBusy
         {
             get
             {
-                return this.busyRefCount.Value || !this.IsInitialized;
+                return (this.EnableBusyRefCount ? this.busyRefCount.Value : this.isBusy) || !this.IsInitialized;
             }
             set
             {
-                if (this.SetProperty(this.busyRefCount, value))
+                bool propertyChanged;
+
+                if (this.EnableBusyRefCount)
+                {
+                    propertyChanged = this.SetProperty(this.busyRefCount, value);
+                }
+                else
+                {
+                    propertyChanged = this.SetProperty(ref this.isBusy, value);
+                }
+
+                if (propertyChanged)
                 {
                     this.RaisePropertyChanged(nameof(this.IsNotBusy));
                     this.RaisePropertyChanged(nameof(this.HasViewModelError));

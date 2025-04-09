@@ -4,18 +4,28 @@
     {
         private readonly object syncObj = new object();
 
-        private long refCount;
+        private int refCount;
 
         public bool Value
         {
             get
             {
-                var count = Interlocked.Read(ref this.refCount);
-                return count > 0;
+                lock (this.syncObj)
+                {
+                    return this.refCount > 0;
+                }
             }
             set
             {
                 this.SetValue(value);
+            }
+        }
+
+        public void Reset()
+        {
+            lock (this.syncObj)
+            {
+                this.refCount = 0;
             }
         }
 
@@ -27,11 +37,14 @@
 
                 if (value)
                 {
-                    var count = Interlocked.Increment(ref this.refCount);
+                    this.refCount++;
                 }
                 else
                 {
-                    var count = Interlocked.Decrement(ref this.refCount);
+                    if (this.refCount > 0)
+                    {
+                        this.refCount--;
+                    }
                 }
 
                 var newValue = this.Value;

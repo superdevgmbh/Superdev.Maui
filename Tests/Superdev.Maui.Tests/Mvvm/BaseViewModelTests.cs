@@ -39,9 +39,85 @@ namespace Superdev.Maui.Tests.Mvvm
             viewModel.IsContentReady.Should().BeTrue();
         }
 
-        public class TestViewModel : BaseViewModel
+        [Fact]
+        public void ShouldUpdateIsBusy_BusyRefCountEnabled()
         {
+            // Arrange
+            var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
+            viewModel.EnableBusyRefCount = true;
 
+            var propertyChangedCallbacks = new List<string>();
+            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+
+            // Act
+            viewModel.IsBusy = true;
+            viewModel.IsBusy = false;
+            viewModel.IsInitialized = true;
+
+            // Assert
+            propertyChangedCallbacks.Should().HaveCount(16);
+            propertyChangedCallbacks.Should().ContainInOrder(new []
+            {
+                "IsBusy",
+                "IsNotBusy",
+                "HasViewModelError",
+                "IsContentReady",
+                "HasNoDataAvailable",
+                "IsBusy",
+                "IsNotBusy",
+                "HasViewModelError",
+                "IsContentReady",
+                "HasNoDataAvailable",
+                "IsInitialized",
+                "IsBusy",
+                "IsNotBusy",
+                "HasViewModelError",
+                "IsContentReady",
+                "HasNoDataAvailable"
+            });
+        }
+
+        [Fact]
+        public void ShouldUpdateIsBusy_BusyRefCountDisabled()
+        {
+            // Arrange
+            var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
+            viewModel.EnableBusyRefCount = false;
+
+            var propertyChangedCallbacks = new List<string>();
+            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+
+            // Act
+            viewModel.IsBusy = true;
+            viewModel.IsBusy = false;
+            viewModel.IsInitialized = true;
+
+            // Assert
+            propertyChangedCallbacks.Should().HaveCount(16);
+            propertyChangedCallbacks.Should().ContainInOrder(new []
+            {
+                "IsBusy",
+                "IsNotBusy",
+                "HasViewModelError",
+                "IsContentReady",
+                "HasNoDataAvailable",
+                "IsBusy",
+                "IsNotBusy",
+                "HasViewModelError",
+                "IsContentReady",
+                "HasNoDataAvailable",
+                "IsInitialized",
+                "IsBusy",
+                "IsNotBusy",
+                "HasViewModelError",
+                "IsContentReady",
+                "HasNoDataAvailable"
+            });
+        }
+
+
+        private class TestViewModel : BaseViewModel
+        {
         }
     }
 }
