@@ -9,7 +9,7 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
 {
     public class CustomEntryHandler : EntryHandler
     {
-        public static PropertyMapper<CustomEntry, CustomEntryHandler> PropertyMapper = new(ViewMapper)
+        public static PropertyMapper<CustomEntry, CustomEntryHandler> PropertyMapper = new(Mapper)
         {
             [nameof(CustomEntry.Text)] = MapControl,
             [nameof(CustomEntry.TextColor)] = MapControl,
@@ -56,22 +56,22 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
             //    var view = (CustomEntry)Element;
             //    if (view.IsCurvedCornersEnabled)
             //    {
-            //        // creating gradient drawable for the curved background  
+            //        // creating gradient drawable for the curved background
             //        var _gradientBackground = new GradientDrawable();
             //        _gradientBackground.SetShape(ShapeType.Rectangle);
             //        _gradientBackground.SetColor(view.BackgroundColor.ToAndroid());
 
-            //        // Thickness of the stroke line  
+            //        // Thickness of the stroke line
             //        _gradientBackground.SetStroke(view.BorderWidth, view.BorderColor.ToAndroid());
 
-            //        // Radius for the curves  
+            //        // Radius for the curves
             //        _gradientBackground.SetCornerRadius(
             //            DpToPixels(this.Context, Convert.ToSingle(view.CornerRadius)));
 
-            //        // set the background of the   
+            //        // set the background of the
             //        Control.SetBackground(_gradientBackground);
             //    }
-            //    // Set padding for the internal text from border  
+            //    // Set padding for the internal text from border
             //    Control.SetPadding(
             //        (int)DpToPixels(this.Context, Convert.ToSingle(5)), Control.PaddingTop,
             //        (int)DpToPixels(this.Context, Convert.ToSingle(5)), Control.PaddingBottom);
@@ -102,11 +102,11 @@ namespace Superdev.Maui.Platforms.iOS.Handlers
 
             handler.PlatformView.KeyboardAppearance = UIKeyboardAppearance.Dark;
             handler.PlatformView.ReturnKeyType = UIReturnKeyType.Done;
-            // Radius for the curves  
+            // Radius for the curves
             handler.PlatformView.Layer.CornerRadius = Convert.ToSingle(view.CornerRadius);
-            // Thickness of the Border Color  
+            // Thickness of the Border Color
             handler.PlatformView.Layer.BorderColor = view.BorderColor.ToCGColor();
-            // Thickness of the Border Width  
+            // Thickness of the Border Width
             handler.PlatformView.Layer.BorderWidth = view.BorderWidth;
             handler.PlatformView.ClipsToBounds = true;
             handler.PlatformView.BackgroundColor = view.BackgroundColor.ToPlatform();

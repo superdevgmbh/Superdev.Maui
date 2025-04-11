@@ -7,7 +7,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Effects;
 using UIKit;
 
-namespace Superdev.Maui.Platforms.Effects
+namespace Superdev.Maui.Platform.Effects
 {
     public class TintImagePlatformEffect : PlatformEffect
     {

@@ -5,11 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
-    x:Name="Control">
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:Name="Control"
+    x:DataType="vm:PeriodicTaskViewModel">
 
-    <StackLayout>
+    <VerticalStackLayout>
         <s:CardView>
-            <StackLayout>
+            <VerticalStackLayout>
                 <controls:LabelSection
                     IsTextUpperCase="False"
                     Text="{s:Translate PeriodicTaskCaptionText}" />
@@ -53,10 +55,9 @@
                         Style="{StaticResource CustomButtonSecondaryStyle}"
                         Text="{Binding CountdownButtonText}"
                         VerticalOptions="StartAndExpand" />
-
                 </Grid>
                 <controls:FooterDivider />
-            </StackLayout>
+            </VerticalStackLayout>
         </s:CardView>
-    </StackLayout>
+    </VerticalStackLayout>
 </Grid>

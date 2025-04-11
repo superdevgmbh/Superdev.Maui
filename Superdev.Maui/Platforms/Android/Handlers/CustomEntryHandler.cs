@@ -22,7 +22,7 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         private static readonly string[] AutofillHintPassword = { View.AutofillHintPassword };
         private static readonly string[] AutofillHintNewPassword = { "new-password" };
 
-        public static PropertyMapper<CustomEntry, CustomEntryHandler> PropertyMapper = new(ViewMapper)
+        public static PropertyMapper<CustomEntry, CustomEntryHandler> PropertyMapper = new(Mapper)
         {
             [nameof(CustomEntry.Text)] = MapControl,
             [nameof(CustomEntry.TextColor)] = MapControl,
@@ -70,22 +70,22 @@ namespace Superdev.Maui.Platforms.Android.Handlers
             //    var view = (CustomEntry)Element;
             //    if (view.IsCurvedCornersEnabled)
             //    {
-            //        // creating gradient drawable for the curved background  
+            //        // creating gradient drawable for the curved background
             //        var _gradientBackground = new GradientDrawable();
             //        _gradientBackground.SetShape(ShapeType.Rectangle);
             //        _gradientBackground.SetColor(view.BackgroundColor.ToAndroid());
 
-            //        // Thickness of the stroke line  
+            //        // Thickness of the stroke line
             //        _gradientBackground.SetStroke(view.BorderWidth, view.BorderColor.ToAndroid());
 
-            //        // Radius for the curves  
+            //        // Radius for the curves
             //        _gradientBackground.SetCornerRadius(
             //            DpToPixels(this.Context, Convert.ToSingle(view.CornerRadius)));
 
-            //        // set the background of the   
+            //        // set the background of the
             //        Control.SetBackground(_gradientBackground);
             //    }
-            //    // Set padding for the internal text from border  
+            //    // Set padding for the internal text from border
             //    Control.SetPadding(
             //        (int)DpToPixels(this.Context, Convert.ToSingle(5)), Control.PaddingTop,
             //        (int)DpToPixels(this.Context, Convert.ToSingle(5)), Control.PaddingBottom);
@@ -138,10 +138,10 @@ namespace Superdev.Maui.Platforms.Android.Handlers
             _gradientBackground.SetShape(ShapeType.Rectangle);
             _gradientBackground.SetColor(view.BackgroundColor.ToPlatform());
 
-            // Thickness of the stroke line  
+            // Thickness of the stroke line
             _gradientBackground.SetStroke(view.BorderWidth, view.BorderColor.ToPlatform());
 
-            // Radius for the curves  
+            // Radius for the curves
             _gradientBackground.SetCornerRadius(
                 DpToPixels(handler.PlatformView.Context!, Convert.ToSingle(view.CornerRadius)));
 

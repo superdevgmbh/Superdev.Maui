@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Handlers;
+﻿using Google.Android.Material.Button;
+using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
 
 namespace Superdev.Maui.Platforms.Android.Handlers
@@ -16,35 +17,38 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         }
 
 
-        //protected override void ConnectHandler(MaterialButton platformView)
-        //{
-        //    base.ConnectHandler(platformView);
+        protected override void ConnectHandler(MaterialButton platformView)
+        {
+            base.ConnectHandler(platformView);
 
-        //    //this.UpdateHorizontalTextAlignment();
-        //}
+            UpdateHorizontalTextAlignment((CustomButton)this.VirtualView, platformView);
+        }
 
-        //public override void UpdateValue(string property)
-        //{
-        //    base.UpdateValue(property);
+        public override void UpdateValue(string property)
+        {
+            base.UpdateValue(property);
 
-        //    if (property == CustomButton.HorizontalTextAlignmentProperty.PropertyName ||
-        //        property == CustomButton.VerticalTextAlignmentProperty.PropertyName)
-        //    {
-        //    }
-        //}
-
+            if (property == CustomButton.HorizontalTextAlignmentProperty.PropertyName ||
+                property == CustomButton.VerticalTextAlignmentProperty.PropertyName)
+            {
+                if (this.VirtualView is CustomButton customButton && this.PlatformView is MaterialButton platformView)
+                {
+                    UpdateHorizontalTextAlignment(customButton, platformView);
+                }
+            }
+        }
 
         private static void MapVerticalTextAlignment(CustomButtonHandler customButtonHandler, CustomButton customButton)
         {
-            UpdateTextGravity(customButtonHandler, customButton);
+            UpdateHorizontalTextAlignment(customButton, customButtonHandler.PlatformView);
         }
 
         private static void MapHorizontalTextAlignment(CustomButtonHandler customButtonHandler, CustomButton customButton)
         {
-            UpdateTextGravity(customButtonHandler, customButton);
+            UpdateHorizontalTextAlignment(customButton, customButtonHandler.PlatformView);
         }
 
-        private static void UpdateTextGravity(CustomButtonHandler customButtonHandler, CustomButton customButton)
+        private static void UpdateHorizontalTextAlignment(CustomButton customButton, MaterialButton platformView)
         {
             var horizontalFlag = customButton.HorizontalTextAlignment switch
             {
@@ -62,7 +66,7 @@ namespace Superdev.Maui.Platforms.Android.Handlers
                 _ => global::Android.Views.GravityFlags.Center
             };
 
-            customButtonHandler.PlatformView.Gravity = verticalFlag | horizontalFlag;
+            platformView.Gravity = verticalFlag | horizontalFlag;
         }
     }
 }

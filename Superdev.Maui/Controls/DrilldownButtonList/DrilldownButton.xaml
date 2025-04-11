@@ -10,10 +10,6 @@
     <StackLayout>
         <controls:HeaderDivider />
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
             <controls:CustomButton
                 AllCaps="False"
                 Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"

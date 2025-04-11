@@ -8,7 +8,7 @@ using Superdev.Maui.Platforms.iOS.Services;
 #endif
 
 #if ANDROID || IOS
-using Superdev.Maui.Platforms.Effects;
+using Superdev.Maui.Platform.Effects;
 #endif
 
 using Superdev.Maui.Controls;
@@ -45,6 +45,8 @@ namespace Superdev.Maui
                     effects.Add(typeof(SafeAreaPaddingEffect), typeof(SafeAreaPaddingPlatformEffect));
                     effects.Add(typeof(SafeAreaTopPaddingEffect), typeof(SafeAreaTopPaddingPlatformEffect));
                     effects.Add(typeof(SafeAreaBottomPaddingEffect), typeof(SafeAreaBottomPaddingPlatformEffect));
+
+                    effects.Add(typeof(EntryLineColorEffect), typeof(EntryLineColorPlatformEffect));
 #endif
                 });
 #endif

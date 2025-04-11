@@ -5,9 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:itemTemplates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:views="clr-namespace:SuperdevMauiDemoApp.Views"
-    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
     Title="Superdev.Maui Sample App"
     s:SafeAreaPadding.Layout="Top,Bottom"
@@ -199,7 +197,7 @@
                         <StackLayout IsVisible="{Binding IsNotBusy}">
                             <StackLayout
                                 Padding="{DynamicResource Theme.Padding.CardPadding}"
-                                Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                                Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                                 <s:ValidatablePicker
                                     ItemDisplayBinding="{Binding NativeName}"
@@ -210,7 +208,7 @@
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo: TintImageEffect--&gt;" />
-                                <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                                <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
                                     <Image
                                         s:TintImageEffect.TintColor="Blue"
                                         HeightRequest="50"
@@ -228,7 +226,6 @@
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </HorizontalStackLayout>
-
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"

@@ -52,8 +52,8 @@
 
             <!-- Fonts -->
             <OnPlatform
-                x:Key="SampleApp.FontFamily.OswaldLight"
-                x:TypeArguments="x:String">
+                x:TypeArguments="x:String"
+                x:Key="SampleApp.FontFamily.OswaldLight">
                 <On
                     Platform="Android"
                     Value="Fonts/Oswald-Light.ttf#Oswald Light" />
@@ -63,8 +63,8 @@
             </OnPlatform>
 
             <OnPlatform
-                x:Key="SampleApp.FontFamily.OswaldMedium"
-                x:TypeArguments="x:String">
+                x:TypeArguments="x:String"
+                x:Key="SampleApp.FontFamily.OswaldMedium">
                 <On
                     Platform="Android"
                     Value="Fonts/Oswald-Medium.ttf#Oswald Medium" />

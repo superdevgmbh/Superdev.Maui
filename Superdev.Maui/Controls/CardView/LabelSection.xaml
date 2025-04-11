@@ -3,7 +3,6 @@
     x:Class="Superdev.Maui.Controls.LabelSection"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     x:Name="Control"
     BackgroundColor="{DynamicResource CardViewStyle.Header.BackgroundColor}">
     <ContentView.Padding>
@@ -17,13 +16,12 @@
         </OnPlatform>
     </ContentView.Padding>
 
-    <StackLayout
-        Orientation="Vertical"
+    <VerticalStackLayout
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
 
         <Label
             x:Name="Section"
             Style="{Binding LabelStyle, Source={x:Reference Control}}" />
-    </StackLayout>
+    </VerticalStackLayout>
 </ContentView>

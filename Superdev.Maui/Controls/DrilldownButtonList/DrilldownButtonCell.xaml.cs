@@ -13,7 +13,7 @@ namespace Superdev.Maui.Controls
                 this.InitializeComponent();
 
                 // Hack: OnPlatform lacks of support for DynamicResource bindings!
-                if (Device.RuntimePlatform == Device.Android)
+                if (DeviceInfo.Current.Platform == DevicePlatform.Android)
                 {
                     this.ActivityIndicator.SetDynamicResource(ActivityIndicator.ColorProperty, ThemeConstants.Color.Secondary);
                 }

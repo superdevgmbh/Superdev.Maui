@@ -11,7 +11,7 @@
         <Grid>
             <StackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
-                Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <s:CardView>
                     <StackLayout>
                         <s:LabelSection Text="CustomEntry" />

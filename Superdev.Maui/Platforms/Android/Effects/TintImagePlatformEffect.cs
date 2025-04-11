@@ -8,7 +8,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Effects;
 using Color = Microsoft.Maui.Graphics.Color;
 
-namespace Superdev.Maui.Platforms.Effects
+namespace Superdev.Maui.Platform.Effects
 {
     public class TintImagePlatformEffect : PlatformEffect
     {

@@ -4,15 +4,14 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:SuperdevMauiDemoApp.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    Title="CardViewPage"
     BackgroundColor="{DynamicResource WindowBackgroundTable}">
 
     <ScrollView>
         <Grid>
             <StackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
-                Spacing="{DynamicResource Theme.Spacing.MediumSpacing}">
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <Label
                     Style="{StaticResource DemoLabelStyle}"
                     Text="&lt;!--Demo: AddressControl uses CardView--&gt;" />

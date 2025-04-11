@@ -88,12 +88,12 @@ namespace Superdev.Maui.Styles
 
         private static Thickness GetDefaultCardViewPadding()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
                 return new Thickness(MediumSpacingDefault);
             }
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
                 return new Thickness(LargeSpacingDefault, MediumSpacingDefault);
             }
@@ -115,12 +115,12 @@ namespace Superdev.Maui.Styles
 
         private static Thickness GetDefaultCardPadding()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
                 return new Thickness(MediumSpacingDefault, LargeSpacingDefault);
             }
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
                 return new Thickness(0, 0, 0, LargeSpacingDefault);
             }
@@ -142,12 +142,12 @@ namespace Superdev.Maui.Styles
 
         private static double GetDefaultCardSpacing()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
                 return LargeSpacingDefault;
             }
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
                 return 0;
             }

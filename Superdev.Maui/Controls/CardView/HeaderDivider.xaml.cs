@@ -1,7 +1,7 @@
 ﻿
 namespace Superdev.Maui.Controls
 {
-    public partial class HeaderDivider : ContentView
+    public partial class HeaderDivider : BoxView
     {
         public HeaderDivider()
         {

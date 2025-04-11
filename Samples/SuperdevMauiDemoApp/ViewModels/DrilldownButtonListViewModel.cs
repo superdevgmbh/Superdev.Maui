@@ -43,8 +43,8 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private async void DisplayAlert()
         {
+            await Task.Delay(2000);
             await this.displayService.DisplayAlert("DisplayAlert", "This is a test alert");
-            await Task.Delay(1000);
         }
 
 
@@ -53,21 +53,23 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.isToggled;
             set
             {
-                if (this.SetProperty(ref this.isToggled, value, nameof(this.IsToggled)))
+                if (this.SetProperty(ref this.isToggled, value))
                 {
                     this.RaisePropertyChanged(nameof(this.ToggleSwitchButtonText));
                 }
             }
         }
 
-        public string ToggleSwitchButtonText => this.IsToggled ? "IsToggled: Yes" : "IsToggled: No";
+        public string ToggleSwitchButtonText
+        {
+            get => this.IsToggled ? "IsToggled: Yes" : "IsToggled: No";
+        }
 
         public ICommand ToggleSwitchCommand
         {
             get
             {
-                return this.toggleSwitchCommand ??
-                       (this.toggleSwitchCommand = new Command(() => { this.IsToggled = !this.IsToggled; }));
+                return this.toggleSwitchCommand ??= new Command(() => { this.IsToggled = !this.IsToggled; });
             }
         }
 

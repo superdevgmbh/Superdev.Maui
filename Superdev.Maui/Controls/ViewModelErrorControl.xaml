@@ -6,8 +6,7 @@
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
     x:Name="Control">
 
-    <StackLayout
-        Orientation="Vertical"
+    <VerticalStackLayout
         Spacing="{DynamicResource Theme.Spacing.Medium}"
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand">
@@ -31,5 +30,5 @@
         <StackLayout.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding ViewModelError.Command, Source={x:Reference Control}}" />
         </StackLayout.GestureRecognizers>
-    </StackLayout>
+    </VerticalStackLayout>
 </ContentView>

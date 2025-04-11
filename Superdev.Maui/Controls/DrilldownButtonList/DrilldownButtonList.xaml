@@ -146,6 +146,7 @@
         RowHeight="46"
         SeparatorColor="{DynamicResource ListSeparator}"
         SeparatorVisibility="Default"
-        VerticalOptions="Start" />
-
+        HorizontalScrollBarVisibility="Never"
+        VerticalOptions="Start"
+        VerticalScrollBarVisibility="Never" />
 </Grid>

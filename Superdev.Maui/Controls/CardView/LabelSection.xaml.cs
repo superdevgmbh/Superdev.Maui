@@ -54,7 +54,7 @@ namespace Superdev.Maui.Controls
 
         private static bool GetPlatformDefaultIsTextUpperCase()
         {
-            return Device.RuntimePlatform == Device.iOS;
+            return DeviceInfo.Current.Platform == DevicePlatform.iOS;
         }
 
         public bool IsTextUpperCase
@@ -79,8 +79,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(LabelStyle),
                 typeof(Style),
-                typeof(LabelSection),
-                default(Style));
+                typeof(LabelSection));
 
         public Style LabelStyle
         {

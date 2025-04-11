@@ -2,46 +2,48 @@
 using Superdev.Maui.Controls;
 using UIKit;
 
-namespace Superdev.Maui.Platforms.iOS.Handlers;
-
-public class CustomButtonHandler : ButtonHandler
+namespace Superdev.Maui.Platforms.iOS.Handlers
 {
-    protected override void ConnectHandler(UIButton platformView)
+    public class CustomButtonHandler : ButtonHandler
     {
-        base.ConnectHandler(platformView);
-
-        this.UpdateHorizontalTextAlignment();
-    }
-
-    public override void UpdateValue(string property)
-    {
-        base.UpdateValue(property);
-
-        if (property == CustomButton.HorizontalTextAlignmentProperty.PropertyName ||
-            property == CustomButton.VerticalTextAlignmentProperty.PropertyName)
+        protected override void ConnectHandler(UIButton platformView)
         {
+            base.ConnectHandler(platformView);
+
             this.UpdateHorizontalTextAlignment();
         }
-    }
 
-    private void UpdateHorizontalTextAlignment()
-    {
-        if (this.VirtualView is CustomButton virtualButton)
+        public override void UpdateValue(string property)
         {
-            this.PlatformView.HorizontalAlignment = virtualButton.HorizontalTextAlignment switch
+            base.UpdateValue(property);
+
+            if (property == CustomButton.HorizontalTextAlignmentProperty.PropertyName ||
+                property == CustomButton.VerticalTextAlignmentProperty.PropertyName)
             {
-                TextAlignment.Start => UIKit.UIControlContentHorizontalAlignment.Left,
-                TextAlignment.Center => UIKit.UIControlContentHorizontalAlignment.Center,
-                TextAlignment.End => UIKit.UIControlContentHorizontalAlignment.Right,
-                _ => UIKit.UIControlContentHorizontalAlignment.Center,
-            };
-            this.PlatformView.VerticalAlignment = virtualButton.HorizontalTextAlignment switch
+                this.UpdateHorizontalTextAlignment();
+            }
+        }
+
+        private void UpdateHorizontalTextAlignment()
+        {
+            if (this.VirtualView is CustomButton customButton)
             {
-                TextAlignment.Start => UIKit.UIControlContentVerticalAlignment.Top,
-                TextAlignment.Center => UIKit.UIControlContentVerticalAlignment.Center,
-                TextAlignment.End => UIKit.UIControlContentVerticalAlignment.Bottom,
-                _ => UIKit.UIControlContentVerticalAlignment.Center,
-            };
+                this.PlatformView.HorizontalAlignment = customButton.HorizontalTextAlignment switch
+                {
+                    TextAlignment.Start => UIKit.UIControlContentHorizontalAlignment.Left,
+                    TextAlignment.Center => UIKit.UIControlContentHorizontalAlignment.Center,
+                    TextAlignment.End => UIKit.UIControlContentHorizontalAlignment.Right,
+                    _ => UIKit.UIControlContentHorizontalAlignment.Center,
+                };
+
+                this.PlatformView.VerticalAlignment = customButton.HorizontalTextAlignment switch
+                {
+                    TextAlignment.Start => UIKit.UIControlContentVerticalAlignment.Top,
+                    TextAlignment.Center => UIKit.UIControlContentVerticalAlignment.Center,
+                    TextAlignment.End => UIKit.UIControlContentVerticalAlignment.Bottom,
+                    _ => UIKit.UIControlContentVerticalAlignment.Center,
+                };
+            }
         }
     }
 }

@@ -3,75 +3,72 @@
     x:Class="SuperdevMauiDemoApp.Controls.AddressControl"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:cardView="clr-namespace:Superdev.Maui.Controls.CardView;assembly=Superdev.Maui"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
+    xmlns:localization="clr-namespace:Superdev.Maui.Localization;assembly=Superdev.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="Control">
 
     <StackLayout>
-        <s:CardView>
-            <StackLayout>
-                <s:LabelSection Text="{s:Translate UserProfileAddressCaptionText}" />
-                <s:HeaderDivider />
+        <cardView:CardView>
+            <VerticalStackLayout>
+                <controls:LabelSection Text="{localization:Translate UserProfileAddressCaptionText}" />
+                <controls:HeaderDivider />
                 <Grid
                     Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                    BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                    BackgroundColor="{StaticResource WindowBackground}"
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                    RowDefinitions="Auto,Auto,Auto">
 
-                    <s:ValidatableEntry
+                    <controls:ValidatableEntry
                         Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Keyboard="Text"
                         MaxLength="200"
-                        Placeholder="{s:Translate UserAddressStreetLabelText}"
+                        Placeholder="{localization:Translate UserAddressStreetLabelText}"
                         Text="{Binding Street, Mode=TwoWay}"
                         ValidationErrors="{Binding Validation.Errors[Street]}" />
 
-                    <s:ValidatableEntry
+                    <controls:ValidatableEntry
                         Grid.Row="1"
                         Grid.Column="0"
                         Keyboard="Numeric"
                         MaxLength="4"
-                        Placeholder="{s:Translate UserAddressPostalCodeLabelText}"
+                        Placeholder="{localization:Translate UserAddressPostalCodeLabelText}"
                         Text="{Binding PostalCode, Mode=TwoWay}"
                         ValidationErrors="{Binding Validation.Errors[PostalCode]}">
-                        <s:ValidatableEntry.Behaviors>
-                            <s:EventToCommandBehavior
+                        <controls:ValidatableEntry.Behaviors>
+                            <toolkit:EventToCommandBehavior
                                 Command="{Binding PostalCodeUnfocusedCommand}"
                                 EventName="Unfocused" />
-                        </s:ValidatableEntry.Behaviors>
-                    </s:ValidatableEntry>
+                        </controls:ValidatableEntry.Behaviors>
+                    </controls:ValidatableEntry>
 
-                    <s:ValidatableEntry
+                    <controls:ValidatableEntry
                         Grid.Row="1"
                         Grid.Column="1"
                         Keyboard="Text"
                         MaxLength="200"
-                        Placeholder="{s:Translate UserAddressPlaceLabelText}"
+                        Placeholder="{localization:Translate UserAddressPlaceLabelText}"
                         Text="{Binding Place, Mode=TwoWay}"
                         ValidationErrors="{Binding Validation.Errors[Place]}" />
 
-                    <s:ValidatablePicker
+                    <controls:ValidatablePicker
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Countries}"
-                        Placeholder="{s:Translate UserAddressCountryLabelText}"
+                        Placeholder="{localization:Translate UserAddressCountryLabelText}"
                         SelectedItem="{Binding Country, Mode=TwoWay}"
                         ValidationErrors="{Binding Validation.Errors[Country]}" />
 
                 </Grid>
-                <s:FooterDivider />
-                <s:FooterSection Text="FooterSection can be used after FooterDivider to give additional information to the content of the CardView." />
-            </StackLayout>
-        </s:CardView>
+                <controls:FooterDivider />
+                <controls:FooterSection Text="FooterSection can be used after FooterDivider to give additional information to the content of the CardView." />
+            </VerticalStackLayout>
+        </cardView:CardView>
     </StackLayout>
 </Grid>

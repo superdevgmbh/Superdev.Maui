@@ -59,7 +59,7 @@
 
         private static object GetDefaultAllCaps()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
                 return true;
             }

@@ -9,6 +9,7 @@
     <VerticalStackLayout>
         <BoxView
             BackgroundColor="{DynamicResource CardViewStyle.Footer.DividerColor}"
+            Color="{DynamicResource CardViewStyle.Footer.DividerColor}"
             HorizontalOptions="FillAndExpand">
             <BoxView.IsVisible>
                 <OnPlatform x:TypeArguments="x:Boolean">

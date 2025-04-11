@@ -10,8 +10,8 @@
 
     <!-- Colors -->
     <OnPlatform
-        x:Key="WindowBackgroundTable"
-        x:TypeArguments="Color">
+        x:TypeArguments="Color"
+        x:Key="WindowBackgroundTable">
         <On
             Platform="Android"
             Value="#F5F5F5" />
@@ -20,8 +20,8 @@
             Value="#EFEFF4" />
     </OnPlatform>
     <OnPlatform
-        x:Key="WindowBackground"
-        x:TypeArguments="Color">
+        x:TypeArguments="Color"
+        x:Key="WindowBackground">
         <On
             Platform="Android"
             Value="#F5F5F5" />
@@ -33,8 +33,8 @@
     <Color x:Key="ListSeparator">#C8C7CC</Color>
 
     <OnPlatform
-        x:Key="Theme.DividerLine.Small"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="x:Double"
+        x:Key="Theme.DividerLine.Small">
         <On
             Platform="Android"
             Value="0.1" />
@@ -44,8 +44,8 @@
     </OnPlatform>
 
     <OnPlatform
-        x:Key="Theme.DividerLine.Medium"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="x:Double"
+        x:Key="Theme.DividerLine.Medium">
         <On
             Platform="Android"
             Value="1" />
@@ -55,8 +55,8 @@
     </OnPlatform>
 
     <OnPlatform
-        x:Key="CardPadding"
-        x:TypeArguments="Thickness">
+        x:TypeArguments="Thickness"
+        x:Key="CardPadding">
         <On
             Platform="Android"
             Value="8, 8, 8, 16" />
@@ -65,8 +65,8 @@
             Value="0, 0, 0, 16" />
     </OnPlatform>
     <OnPlatform
-        x:Key="CardSpacing"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="x:Double"
+        x:Key="CardSpacing">
         <On
             Platform="Android"
             Value="16" />
@@ -76,8 +76,8 @@
     </OnPlatform>
 
     <OnPlatform
-        x:Key="CustomListItemTextStyleSize"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="x:Double"
+        x:Key="CustomListItemTextStyleSize">
         <On
             Platform="Android"
             Value="16" />
@@ -87,8 +87,8 @@
     </OnPlatform>
 
     <OnPlatform
-        x:Key="CustomListItemDetailTextStyleSize"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="x:Double"
+        x:Key="CustomListItemDetailTextStyleSize">
         <On
             Platform="Android"
             Value="13" />
@@ -147,6 +147,9 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Button}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Button}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Button}" />
+        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Enabled}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
     </Style>
     <Style
         BasedOn="{StaticResource ButtonStyle}"
@@ -167,10 +170,8 @@
         BasedOn="{StaticResource ButtonStyle}"
         TargetType="controls:CustomButton">
         <Setter Property="BackgroundColorPressed" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Pressed}" />
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Enabled}" />
         <Setter Property="BorderColorPressed" Value="{DynamicResource CustomButtonStyle.BorderColor.Pressed}" />
-        <Setter Property="BorderWidth" Value="2" />
-        <Setter Property="CornerRadius" Value="20" />
+
     </Style>
     <Style
         BasedOn="{StaticResource CustomButtonStyle}"

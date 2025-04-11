@@ -5,15 +5,15 @@
     /// </summary>
     public sealed class ColorConfiguration : BindableObject, IColorConfiguration
     {
-        public Color SemiTransparentBright => Color.FromHex("#7FFFFFFF");
+        public Color SemiTransparentBright => Color.FromArgb("#7FFFFFFF");
 
-        public Color SemiTransparentDark => Color.FromHex("#7F000000");
+        public Color SemiTransparentDark => Color.FromArgb("#7F000000");
 
         public static readonly BindableProperty BackgroundProperty = BindableProperty.Create(
             nameof(Background),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#EAEAEA"));
+            Color.FromArgb("#EAEAEA"));
 
         /// <summary>
         ///     The underlying color of an app's content.
@@ -29,7 +29,7 @@
             nameof(OnBackground),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#000000"));
+            Color.FromArgb("#000000"));
 
         /// <summary>
         ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Background" />.
@@ -44,7 +44,7 @@
             nameof(Error),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#B00020"));
+            Color.FromArgb("#B00020"));
 
         /// <summary>
         ///     The color used to indicate error status.
@@ -59,7 +59,7 @@
             nameof(OnError),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#FFFFFF"));
+            Color.FromArgb("#FFFFFF"));
 
         /// <summary>
         ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Error" />.
@@ -74,7 +74,7 @@
             nameof(ErrorBackground),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#FFCCD5"));
+            Color.FromArgb("#FFCCD5"));
 
         /// <summary>
         ///     The color used as background for error callouts, message boxes, error signs.
@@ -89,25 +89,25 @@
             nameof(OnPrimary),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#FFFFFF"));
+            Color.FromArgb("#FFFFFF"));
 
         public static readonly BindableProperty OnSecondaryProperty = BindableProperty.Create(
             nameof(OnSecondary),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#FFFFFF"));
+            Color.FromArgb("#FFFFFF"));
 
         public static readonly BindableProperty OnSurfaceProperty = BindableProperty.Create(
             nameof(OnSurface),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#000000"));
+            Color.FromArgb("#000000"));
 
         public static readonly BindableProperty PrimaryProperty = BindableProperty.Create(
             nameof(Primary),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#6200EE"));
+            Color.FromArgb("#6200EE"));
 
         /// <summary>
         ///     Displayed most frequently across your app.
@@ -122,7 +122,7 @@
             nameof(TextColor),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#343434"));
+            Color.FromArgb("#343434"));
 
         /// <summary>
         ///     Displayed most frequently across your app.
@@ -137,7 +137,7 @@
             nameof(TextColorBright),
             typeof(Color),
             typeof(Color),
-            Color.FromHex("#7E8184"));
+            Color.FromArgb("#7E8184"));
 
         /// <summary>
         ///     Displayed most frequently across your app.
@@ -153,7 +153,7 @@
                 nameof(PrimaryVariant),
                 typeof(Color),
                 typeof(Color),
-                Color.FromHex("#6200EE"));
+                Color.FromArgb("#6200EE"));
 
         public static readonly BindableProperty PrimaryDisabledProperty =
             BindableProperty.Create(
@@ -174,7 +174,7 @@
                 nameof(SecondaryVariant),
                 typeof(Color),
                 typeof(Color),
-                Color.FromHex("#0400BA"));
+                Color.FromArgb("#0400BA"));
 
         public static readonly BindableProperty SecondaryDisabledProperty =
             BindableProperty.Create(
@@ -188,7 +188,7 @@
                 nameof(Surface),
                 typeof(Color),
                 typeof(Color),
-                Color.FromHex("#FFFFFF"));
+                Color.FromArgb("#FFFFFF"));
 
         /// <summary>
         ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Primary" />.
@@ -293,12 +293,12 @@
 
         private static Color GetDefaultCardViewDividerColor()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
-                return Color.FromHex("#ECECEC");
+                return Color.FromArgb("#ECECEC");
             }
 
-            return Color.FromHex("#C8C7CC");
+            return Color.FromArgb("#C8C7CC");
         }
 
         public Color CardViewDividerColor
@@ -316,7 +316,7 @@
 
         private static Color GetDefaultCardViewHeaderTextColor()
         {
-            return Color.FromHex("#6D6D72");
+            return Color.FromArgb("#6D6D72");
         }
 
         public Color CardViewHeaderTextColor
@@ -334,7 +334,7 @@
 
         private static Color GetDefaultCardViewFooterTextColor()
         {
-            return Color.FromHex("#6D6D72");
+            return Color.FromArgb("#6D6D72");
         }
 
         public Color CardViewFooterTextColor
@@ -352,18 +352,18 @@
 
         private static Color GetDefaultCardViewHeaderBackgroundColor()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
                 return Colors.White;
             }
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
                 // TODO: Check if Color.Transparent is the better choice
-                return Color.FromHex("#EFEFF4");
+                return Color.FromArgb("#EFEFF4");
             }
 
-            return Color.FromHex("#EFEFF4");
+            return Color.FromArgb("#EFEFF4");
         }
 
         public Color CardViewHeaderBackgroundColor
@@ -381,12 +381,12 @@
 
         private static Color GetDefaultCardViewBackgroundColor()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
-                return Color.FromHex("#F5F5F5");
+                return Color.FromArgb("#F5F5F5");
             }
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
                 return Colors.White;
             }

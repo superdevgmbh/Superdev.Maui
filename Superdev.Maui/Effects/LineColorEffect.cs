@@ -109,10 +109,9 @@ namespace Superdev.Maui.Effects
         public static readonly BindableProperty LineColorProperty =
             BindableProperty.CreateAttached(
                 "LineColor",
-                typeof(object),
+                typeof(Color),
                 typeof(LineColorEffect),
-                Colors.Black,
-                BindingMode.OneWay);
+                Colors.Black);
 
         public static Color GetLineColor(BindableObject view)
         {

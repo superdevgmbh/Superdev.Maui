@@ -1,30 +1,45 @@
-﻿using Superdev.Maui.Styles;
+﻿using Microsoft.Maui.Controls.Shapes;
+using Superdev.Maui.Styles;
 
 namespace Superdev.Maui.Controls.CardView
 {
-    public class CardView : Frame
+    public class CardView : Border
     {
         public CardView()
         {
             this.Padding = 0;
-            this.BorderColor = Colors.Transparent;
-            this.IsClippedToBounds = true;
 
-            if (Device.RuntimePlatform == Device.iOS)
+            // this.BorderColor = Colors.Transparent;
+            // this.IsClippedToBounds = true;
+
+            if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
-                this.HasShadow = false;
-                this.CornerRadius = 0;
-                this.BackgroundColor = Colors.Transparent;
+                this.Stroke = Brush.Transparent;
+                this.StrokeThickness = 0d;
+                this.StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = 0
+                };
             }
             else
             {
-                this.HasShadow = true;
-                //this.BorderColor = Colors.White; // BUG: If this is not set, HasShadow has no effect
-                this.CornerRadius = 6;
+                this.SetDynamicResource(StrokeProperty, ThemeConstants.CardViewStyle.HeaderDividerColor);
+                this.StrokeThickness = 1d;
+                this.StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = 6
+                };
+
+                this.Shadow = new Shadow
+                {
+                    Brush = Brush.Gray,
+                    Offset = new Point(0, 0),
+                    Radius = 10f,
+                    Opacity = 0.2f,
+                };
 
                 // Hack: OnPlatform lacks of support for DynamicResource bindings!
                 this.SetDynamicResource(BackgroundColorProperty, ThemeConstants.CardViewStyle.BackgroundColor);
-                this.SetDynamicResource(BorderColorProperty, ThemeConstants.CardViewStyle.BackgroundColor);
             }
         }
     }
