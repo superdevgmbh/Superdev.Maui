@@ -1,5 +1,5 @@
 # Superdev.Maui
-[![Version](https://img.shields.io/nuget/v/Superdev.Maui.svg)](https://www.nuget.org/packages/Superdev.Maui)  [![Downloads](https://img.shields.io/nuget/dt/Superdev.Maui.svg)](https://www.nuget.org/packages/Superdev.Maui)
+[![Version](https://img.shields.io/nuget/v/Superdev.Maui.svg)](https://www.nuget.org/packages/Superdev.Maui) [![Downloads](https://img.shields.io/nuget/dt/Superdev.Maui.svg)](https://www.nuget.org/packages/Superdev.Maui) [![Buy Me a Coffee](https://img.shields.io/badge/support-buy%20me%20a%20coffee-FFDD00)](https://buymeacoffee.com/thomasgalliker)
 
 
 ### Download and Install Superdev.Maui
