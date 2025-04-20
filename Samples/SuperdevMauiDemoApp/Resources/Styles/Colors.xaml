@@ -13,8 +13,8 @@
     <Color x:Key="SemiMagenta">#7Fff3399</Color>
 
     <OnPlatform
-        x:Key="WindowBackgroundTable"
-        x:TypeArguments="Color">
+        x:TypeArguments="Color"
+        x:Key="WindowBackgroundTable">
         <On
             Platform="Android"
             Value="#F5F5F5" />
@@ -24,8 +24,8 @@
     </OnPlatform>
 
     <OnPlatform
-        x:Key="WindowBackground"
-        x:TypeArguments="Color">
+        x:TypeArguments="Color"
+        x:Key="WindowBackground">
         <On
             Platform="Android"
             Value="#F5F5F5" />
@@ -35,8 +35,8 @@
     </OnPlatform>
 
     <OnPlatform
-        x:Key="LabelSectionBackground"
-        x:TypeArguments="Color">
+        x:TypeArguments="Color"
+        x:Key="LabelSectionBackground">
         <On
             Platform="Android"
             Value="White" />
@@ -53,7 +53,7 @@
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#D600AA</Color>
+    <Color x:Key="Magenta">#FF00FF</Color>
     <Color x:Key="MidnightBlue">#190649</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
 
