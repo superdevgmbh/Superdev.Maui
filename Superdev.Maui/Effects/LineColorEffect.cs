@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using Superdev.Maui.Controls;
+
 namespace Superdev.Maui.Effects
 {
     public static class LineColorEffect

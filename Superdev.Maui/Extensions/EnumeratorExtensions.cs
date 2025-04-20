@@ -13,6 +13,11 @@ namespace Superdev.Maui.Extensions
             }
         }
 
+        public static IEnumerable<T> ToArray<T>(this IEnumerator iterator)
+        {
+            return iterator.ToEnumerable<T>().ToArray();
+        }
+
         public static IEnumerable<T> ToList<T>(this IEnumerator iterator)
         {
             return iterator.ToEnumerable<T>().ToList();

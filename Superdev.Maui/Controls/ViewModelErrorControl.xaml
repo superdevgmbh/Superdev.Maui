@@ -8,8 +8,8 @@
 
     <VerticalStackLayout
         Spacing="{DynamicResource Theme.Spacing.Medium}"
-        HorizontalOptions="CenterAndExpand"
-        VerticalOptions="CenterAndExpand">
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
 
         <Image
             Aspect="AspectFit"
@@ -27,8 +27,8 @@
             HorizontalOptions="StartAndExpand"
             HorizontalTextAlignment="Center" />
 
-        <StackLayout.GestureRecognizers>
+        <VerticalStackLayout.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding ViewModelError.Command, Source={x:Reference Control}}" />
-        </StackLayout.GestureRecognizers>
+        </VerticalStackLayout.GestureRecognizers>
     </VerticalStackLayout>
 </ContentView>

@@ -2,9 +2,5 @@
 {
     public class PickerLineColorEffect : RoutingEffect
 	{
-        public PickerLineColorEffect()
-            : base($"{Effects.Prefix}.{nameof(PickerLineColorEffect)}")
-        {
-		}
 	}
 }

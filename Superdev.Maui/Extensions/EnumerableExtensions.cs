@@ -199,14 +199,6 @@ namespace Superdev.Maui.Extensions
         /// <summary>
         ///     Appends element <paramref name="item" /> to enumerable <paramref name="source" />.
         /// </summary>
-        public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T item)
-        {
-            return source.Add(item);
-        }
-
-        /// <summary>
-        ///     Appends element <paramref name="item" /> to enumerable <paramref name="source" />.
-        /// </summary>
         public static IEnumerable<T> Add<T>(this IEnumerable<T> source, T item)
         {
             foreach (var sourceItem in source)
@@ -314,6 +306,21 @@ namespace Superdev.Maui.Extensions
             }
 
             return default;
+        }
+
+        public static T[] Replace<T>(this T[] list, T oldItem, T newItem)
+        {
+            list.Replace(i => Equals(i, oldItem), newItem);
+            return list;
+        }
+
+        public static void Replace<T>(this T[] list, Predicate<T> oldItemSelector , T newItem)
+        {
+            //check for different situations here and throw exception
+            //if list contains multiple items that match the predicate
+            //or check for nullability of list and etc ...
+            var oldItemIndex = Array.FindIndex(list, oldItemSelector);
+            list[oldItemIndex] = newItem;
         }
     }
 }

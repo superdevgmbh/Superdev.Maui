@@ -62,7 +62,7 @@
     <controls:CustomLabel
         x:Name="ErrorLabel"
         Grid.Row="2"
-        IsVisible="{Binding Text, Source={x:Reference ErrorLabel}, Mode=OneWay, Converter={StaticResource IsNotEmptyConverter}}"
-        Style="{DynamicResource ValidationLabelStyle}"
-        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource FirstErrorConverter}}" />
+        IsVisible="{Binding Text, Source={x:Reference ErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{DynamicResource ValidationErrorLabelStyle}"
+        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource EnumerableToFirstOrDefaultConverter}}" />
 </Grid>

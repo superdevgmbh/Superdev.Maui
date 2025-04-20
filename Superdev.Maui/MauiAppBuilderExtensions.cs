@@ -26,11 +26,21 @@ namespace Superdev.Maui
             builder.ConfigureMauiHandlers(handlers =>
                 {
                     handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
+                    handlers.AddHandler(typeof(CustomEditor), typeof(CustomEditorHandler));
+
                     handlers.AddHandler(typeof(CustomScrollView), typeof(CustomScrollViewHandler));
                     handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
                     handlers.AddHandler(typeof(CustomViewCell), typeof(CustomViewCellHandler));
-                    //handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
                     handlers.AddHandler(typeof(CustomTabbedPage), typeof(CustomTabbedPageHandler));
+
+                    handlers.AddHandler(typeof(Picker), typeof(PickerHandler));
+                    handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
+
+                    handlers.AddHandler(typeof(DatePicker), typeof(DatePickerHandler));
+                    handlers.AddHandler(typeof(CustomDatePicker), typeof(CustomDatePickerHandler));
+                    handlers.AddHandler(typeof(NullableDatePicker), typeof(NullableDatePickerHandler));
+
+                    handlers.AddHandler(typeof(TimePicker), typeof(TimePickerHandler));
 #if ANDROID
                     // Handlers for Android only
 #elif IOS
@@ -47,6 +57,10 @@ namespace Superdev.Maui
                     effects.Add(typeof(SafeAreaBottomPaddingEffect), typeof(SafeAreaBottomPaddingPlatformEffect));
 
                     effects.Add(typeof(EntryLineColorEffect), typeof(EntryLineColorPlatformEffect));
+                    effects.Add(typeof(EditorLineColorEffect), typeof(EditorLineColorPlatformEffect));
+                    effects.Add(typeof(PickerLineColorEffect), typeof(PickerLineColorPlatformEffect));
+                    effects.Add(typeof(DatePickerLineColorEffect), typeof(DatePickerLineColorPlatformEffect));
+                    effects.Add(typeof(TimePickerLineColorEffect), typeof(TimePickerLineColorPlatformEffect));
 #endif
                 });
 #endif

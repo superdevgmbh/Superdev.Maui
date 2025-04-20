@@ -99,16 +99,19 @@
 
     <!-- Converters -->
     <converters:DebugConverter x:Key="DebugConverter" />
-    <converters:IsNotEmptyConverter x:Key="IsNotEmptyConverter" />
     <converters:BoolInverter x:Key="BoolInverter" />
     <converters:NullToBoolConverter x:Key="NullToTrueConverter" />
     <converters:NullToBoolConverter
         x:Key="NullToFalseConverter"
         Inverted="True" />
-    <converters:FirstErrorConverter x:Key="FirstErrorConverter" />
+    <converters:EnumerableToFirstOrDefaultConverter x:Key="EnumerableToFirstOrDefaultConverter" />
     <converters:NullableDateTimeToFormatConverter x:Key="NullableDateTimeToFormatConverter" />
     <converters:PropertyErrorsToColorConverter x:Key="PropertyErrorsToColorConverter" />
     <converters:ValidationErrorsToStringConverter x:Key="ValidationErrorsToStringConverter" />
+    <converters:StringIsNullOrEmptyToBoolConverter x:Key="StringIsNullOrEmptyToTrueConverter" />
+    <converters:StringIsNullOrEmptyToBoolConverter
+        x:Key="StringIsNullOrEmptyToFalseConverter"
+        IsInverted="True" />
 
     <!-- Styles -->
     <x:Double x:Key="MinimumHeight.Input">48</x:Double>
@@ -480,7 +483,6 @@
         BasedOn="{StaticResource CustomPickerStyle}"
         TargetType="controls:CustomPicker" />
 
-    <!--
     <Style
         x:Key="DatePickerStyle"
         TargetType="DatePicker">
@@ -499,16 +501,16 @@
         TargetType="DatePicker" />
 
     <Style
-        x:Key="ExtendedDatePickerStyle"
+        x:Key="NullableDatePickerStyle"
         BasedOn="{StaticResource DatePickerStyle}"
-        TargetType="controls:ExtendedDatePicker">
-        <Setter Property="PlaceholderTextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        TargetType="controls:NullableDatePicker">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 
     <Style
-        BasedOn="{StaticResource ExtendedDatePickerStyle}"
-        TargetType="controls:ExtendedDatePicker" />
-
+        BasedOn="{StaticResource NullableDatePickerStyle}"
+        TargetType="controls:NullableDatePicker" />
+    <!--
     <Style
         x:Key="TimePickerStyle"
         TargetType="TimePicker">
@@ -586,7 +588,7 @@
     </Style>
 
     <Style
-        x:Key="ValidationLabelStyle"
+        x:Key="ValidationErrorLabelStyle"
         TargetType="controls:CustomLabel">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Error}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Caption}" />
@@ -630,22 +632,50 @@
     </Style>
 
     <!-- Validatable Controls -->
+    <OnPlatform
+        x:TypeArguments="Thickness"
+        x:Key="ValidatableInputControlMargin">
+        <On
+            Platform="Android"
+            Value="-4,-10,-4,-6" />
+    </OnPlatform>
 
+    <!-- ValidatableEditor -->
     <Style TargetType="controls:ValidatableEditor">
         <Setter Property="EditorStyle" Value="{DynamicResource EditorStyle}" />
     </Style>
 
-    <Style TargetType="controls:ValidatableEntry">
-        <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
+    <!-- ValidatableEntry -->
+    <Style
+        x:Key="ValidatableEntryStyle"
+        TargetType="controls:ValidatableEntry">
+        <Setter Property="EntryStyle" Value="{StaticResource EntryStyle}" />
     </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableEntryStyle}"
+        TargetType="controls:ValidatableEntry" />
 
+    <!-- ValidatableLabel -->
     <Style TargetType="controls:ValidatableLabel">
         <Setter Property="LabelStyle" Value="{DynamicResource EntryLabelStyle}" />
     </Style>
 
+    <!-- ValidatablePicker -->
     <Style TargetType="controls:ValidatablePicker">
         <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
     </Style>
+
+    <!-- ValidatableDatePicker -->
+    <Style
+        x:Key="ValidatableDatePickerStyle"
+        TargetType="controls:ValidatableDatePicker">
+        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableDatePickerStyle}"
+        TargetType="controls:ValidatableDatePicker" />
 
     <!--
  <Style TargetType="controls:ValidatableAutoCompleteView">

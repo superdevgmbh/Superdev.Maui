@@ -6,15 +6,11 @@
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
     xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     x:Name="Control"
+    ColumnDefinitions="*"
     IsClippedToBounds="True"
+    RowDefinitions="Auto,Auto,Auto"
     HorizontalOptions="Fill"
     VerticalOptions="Start">
-
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
 
     <!-- Annotation Text -->
     <controls:CustomLabel
@@ -34,6 +30,7 @@
         <controls:CustomEntry
             x:Name="Entry"
             x:FieldModifier="internal"
+            Margin="{StaticResource ValidatableInputControlMargin}"
             effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
             IsPassword="{Binding IsPassword, Source={x:Reference Control}, Mode=OneWay}"
@@ -48,16 +45,16 @@
             HorizontalOptions="FillAndExpand"
             VerticalOptions="StartAndExpand"
             HorizontalTextAlignment="Start">
-            <Entry.Margin>
-                <OnPlatform x:TypeArguments="Thickness">
-                    <On
-                        Platform="Android"
-                        Value="-4,-10,-4,-6" />
-                    <On
-                        Platform="iOS"
-                        Value="0,-10,0,-6" />
-                </OnPlatform>
-            </Entry.Margin>
+            <!-- <Entry.Margin> -->
+            <!--     <OnPlatform x:TypeArguments="Thickness"> -->
+            <!-- <On -->
+            <!-- Platform="Android" -->
+            <!-- Value="-4,-10,-4,-6" /> -->
+            <!-- <On -->
+            <!-- Platform="iOS" -->
+            <!-- Value="0,-10,0,-6" /> -->
+            <!--     </OnPlatform> -->
+            <!-- </Entry.Margin> -->
             <controls:CustomEntry.Padding>
                 <OnPlatform x:TypeArguments="Thickness">
                     <On
@@ -115,7 +112,7 @@
     <controls:CustomLabel
         x:Name="ErrorLabel"
         Grid.Row="2"
-        IsVisible="{Binding Text, Source={x:Reference ErrorLabel}, Mode=OneWay, Converter={StaticResource IsNotEmptyConverter}}"
-        Style="{DynamicResource ValidationLabelStyle}"
-        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource FirstErrorConverter}}" />
+        IsVisible="{Binding Text, Source={x:Reference ErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{DynamicResource ValidationErrorLabelStyle}"
+        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource EnumerableToFirstOrDefaultConverter}}" />
 </Grid>

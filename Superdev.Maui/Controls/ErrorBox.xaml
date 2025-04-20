@@ -9,7 +9,7 @@
     BorderColor="{DynamicResource Theme.Color.Error}"
     CornerRadius="6"
     HasShadow="False"
-    IsVisible="{Binding Source={x:Reference Control}, Path=Text, Converter={StaticResource IsNotEmptyConverter}}">
+    IsVisible="{Binding Source={x:Reference Control}, Path=Text, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}">
     <StackLayout>
         <Label
             LineBreakMode="WordWrap"

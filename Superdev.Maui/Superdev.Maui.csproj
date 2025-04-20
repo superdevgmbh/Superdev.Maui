@@ -25,5 +25,21 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
+  
+	<ItemGroup>
+	  <Compile Update="Platforms\iOS\Effects\PickerLineColorPlatformEffect.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\iOS\Handlers\CustomEditorHandler.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\Android\Handlers\CustomPickerHandler.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <Folder Include="Platforms\Android\Handlers\MauiFix\" />
+	</ItemGroup>
 
 </Project>
