@@ -13,9 +13,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(ItemsSource),
                 typeof(IEnumerable),
-                typeof(DrilldownButtonList),
-                null,
-                BindingMode.OneWay);
+                typeof(DrilldownButtonList));
 
         public IEnumerable ItemsSource
         {
@@ -41,9 +39,13 @@ namespace Superdev.Maui.Controls
             base.OnBindingContextChanged();
 
             var bc = this.BindingContext;
-            foreach (var child in this.ItemsSource.OfType<BindableObject>())
+            var itemsSource = this.ItemsSource;
+            if (itemsSource != null)
             {
-                SetInheritedBindingContext(child, bc);
+                foreach (var child in itemsSource.OfType<BindableObject>())
+                {
+                    SetInheritedBindingContext(child, bc);
+                }
             }
         }
     }

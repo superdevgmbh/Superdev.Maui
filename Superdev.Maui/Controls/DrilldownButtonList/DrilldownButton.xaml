@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <cardView:CardView
     x:Class="Superdev.Maui.Controls.DrilldownButton"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -7,7 +8,7 @@
     xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     x:Name="Control">
 
-    <StackLayout>
+    <VerticalStackLayout>
         <controls:HeaderDivider />
         <Grid>
             <controls:CustomButton
@@ -21,7 +22,7 @@
                 Style="{DynamicResource DrilldownButtonStyle}"
                 Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}"
                 HorizontalOptions="Fill"
-                VerticalOptions="Fill"
+                VerticalOptions="Center"
                 HorizontalTextAlignment="Start"
                 VerticalTextAlignment="Center">
 
@@ -40,7 +41,7 @@
                             Value="8, 0, 0, 0" />
                         <On
                             Platform="iOS"
-                            Value="16, 0, 0, 0" />
+                            Value="16, 10, 16, 10" />
                     </OnPlatform>
                 </controls:CustomButton.Padding>
 
@@ -70,5 +71,5 @@
             </Grid.GestureRecognizers>
         </Grid>
         <controls:FooterDivider />
-    </StackLayout>
+    </VerticalStackLayout>
 </cardView:CardView>

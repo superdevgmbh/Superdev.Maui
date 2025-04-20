@@ -5,8 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
     xmlns:converters="clr-namespace:Superdev.Maui.Converters;assembly=Superdev.Maui"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects;assembly=Superdev.Maui"
-    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui">
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects;assembly=Superdev.Maui">
 
     <!-- Colors -->
     <OnPlatform

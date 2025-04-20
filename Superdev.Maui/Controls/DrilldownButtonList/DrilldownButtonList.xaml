@@ -14,11 +14,8 @@
         <ResourceDictionary>
             <ControlTemplate x:Key="DrilldownControlTemplate">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
                     <controls:CustomButton
+                        Grid.Row="0"
                         AllCaps="False"
                         Command="{Binding Command, Mode=OneWay}"
                         CommandParameter="{Binding CommandParameter, Mode=OneWay}"
@@ -29,7 +26,7 @@
                         Style="{DynamicResource DrilldownButtonStyle}"
                         Text="{Binding ., Mode=OneWay}"
                         HorizontalOptions="Fill"
-                        VerticalOptions="Start"
+                        VerticalOptions="Center"
                         HorizontalTextAlignment="Start"
                         VerticalTextAlignment="Center">
 
@@ -48,13 +45,14 @@
                                     Value="8, 0, 0, 0" />
                                 <On
                                     Platform="iOS"
-                                    Value="16, 0, 0, 0" />
+                                    Value="16, 8, 16, 8" />
                             </OnPlatform>
                         </controls:CustomButton.Padding>
-
                     </controls:CustomButton>
 
-                    <Grid InputTransparent="True">
+                    <Grid
+                        Grid.Row="0"
+                        InputTransparent="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -70,7 +68,7 @@
                                         Value="8, 0, 0, 0" />
                                     <On
                                         Platform="iOS"
-                                        Value="16, 0, 0, 0" />
+                                        Value="16, 8, 8, 16" />
                                 </OnPlatform>
                             </ContentPresenter.Padding>
                         </ContentPresenter>
@@ -105,16 +103,13 @@
             </ControlTemplate>
 
             <DataTemplate x:Key="CustomDrilldownTemplate">
-                <ViewCell>
+                <controls:CustomViewCell SelectedBackgroundColor="{DynamicResource DrilldownButtonStyle.BackgroundColor.Pressed}">
                     <ContentView ControlTemplate="{StaticResource DrilldownControlTemplate}">
-                        <ContentPresenter
+                        <controls:ContentControl
                             BindingContext="{Binding .}"
-                            Content="{Binding Source={x:Reference Control}, Path=ItemTemplate}" />
-                        <!--<controls:ContentControl
-                            BindingContext="{Binding .}"
-                            ItemTemplate="{Binding Source={x:Reference Control}, Path=ItemTemplate}" />-->
+                            ItemTemplate="{Binding Source={x:Reference Control}, Path=ItemTemplate}" />
                     </ContentView>
-                </ViewCell>
+                </controls:CustomViewCell>
             </DataTemplate>
 
             <DataTemplate x:Key="DrilldownButtonCell">
@@ -137,7 +132,6 @@
         x:Name="ListView"
         Margin="0"
         ios:ListView.SeparatorStyle="FullWidth"
-        BackgroundColor="Transparent"
         Footer="{x:Null}"
         HasUnevenRows="False"
         Header="{x:Null}"

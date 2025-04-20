@@ -7,11 +7,8 @@
     x:Name="Control">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
         <controls:CustomButton
+            Grid.Row="0"
             AllCaps="False"
             Command="{Binding Command, Mode=OneWay}"
             CommandParameter="{Binding CommandParameter, Mode=OneWay}"
@@ -22,7 +19,7 @@
             Style="{DynamicResource DrilldownButtonStyle}"
             Text="{Binding Title, Mode=OneWay}"
             HorizontalOptions="Fill"
-            VerticalOptions="Fill"
+            VerticalOptions="Center"
             HorizontalTextAlignment="Start"
             VerticalTextAlignment="Center">
 
@@ -41,13 +38,13 @@
                         Value="8, 0, 0, 0" />
                     <On
                         Platform="iOS"
-                        Value="16, 0, 0, 0" />
+                        Value="16, 8, 16, 8" />
                 </OnPlatform>
             </controls:CustomButton.Padding>
-
         </controls:CustomButton>
 
         <Image
+            Grid.Row="0"
             Margin="0,0,8,0"
             HeightRequest="24"
             IsVisible="{Binding IsBusy, Mode=OneWay, Converter={StaticResource BoolInverter}}"
@@ -58,6 +55,7 @@
 
         <ActivityIndicator
             x:Name="ActivityIndicator"
+            Grid.Row="0"
             Margin="0,0,8,0"
             IsRunning="{Binding IsBusy, Mode=OneWay}"
             IsVisible="{Binding IsBusy, Mode=OneWay}"

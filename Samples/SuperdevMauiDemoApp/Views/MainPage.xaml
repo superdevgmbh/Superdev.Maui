@@ -227,37 +227,34 @@
                                     </Image>
                                 </HorizontalStackLayout>
 
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: AutoCompleteView--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="AutoCompletePage"
-                                    Text="AutoCompleteView" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: Preferences--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="PreferencesDemoPage"
-                                    Text="PreferencesDemoPage" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: Behaviors--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="BehaviorDemoPage"
-                                    Text="Behaviors" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: CustomTabbedPage--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="CustomTabbedPageDemoPage"
-                                    Text="CustomTabbedPage" />
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="AutoCompletePage"
+                                        Text="AutoCompleteView" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="PreferencesDemoPage"
+                                        Text="Preferences" />
+                                </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="BehaviorDemoPage"
+                                        Text="Behaviors" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="CustomTabbedPageDemoPage"
+                                        Text="CustomTabbedPage" />
+                                </Grid>
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"

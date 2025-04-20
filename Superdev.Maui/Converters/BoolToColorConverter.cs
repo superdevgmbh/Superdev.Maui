@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 namespace Superdev.Maui.Converters
 {
     internal class BoolToColorConverter : BindableObject, IValueConverter

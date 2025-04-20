@@ -29,9 +29,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(Text),
                 typeof(string),
-                typeof(DrilldownButtonCell),
-                null,
-                BindingMode.OneWay);
+                typeof(DrilldownButtonCell));
 
         public string Text
         {
@@ -43,9 +41,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(Command),
                 typeof(ICommand),
-                typeof(DrilldownButtonCell),
-                null,
-                BindingMode.OneWay);
+                typeof(DrilldownButtonCell));
 
         public ICommand Command
         {
@@ -57,9 +53,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(CommandParameter),
                 typeof(object),
-                typeof(DrilldownButtonCell),
-                null,
-                BindingMode.OneWay);
+                typeof(DrilldownButtonCell));
 
         public object CommandParameter
         {
@@ -72,8 +66,7 @@ namespace Superdev.Maui.Controls
                 nameof(IsEnabled),
                 typeof(bool),
                 typeof(DrilldownButtonCell),
-                true,
-                BindingMode.OneWay);
+                true);
 
         public new bool IsEnabled
         {
@@ -85,9 +78,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(ImageSource),
                 typeof(ImageSource),
-                typeof(DrilldownButtonCell),
-                null,
-                BindingMode.OneWay);
+                typeof(DrilldownButtonCell));
 
         public ImageSource ImageSource
         {
@@ -100,8 +91,7 @@ namespace Superdev.Maui.Controls
                 nameof(IsBusy),
                 typeof(bool),
                 typeof(DrilldownButtonCell),
-                false,
-                BindingMode.OneWay);
+                false);
 
         public bool IsBusy
         {

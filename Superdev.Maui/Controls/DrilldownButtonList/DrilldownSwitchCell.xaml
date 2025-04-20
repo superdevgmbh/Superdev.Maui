@@ -22,7 +22,7 @@
             Style="{DynamicResource DrilldownButtonStyle}"
             Text="{Binding Title, Mode=OneWay}"
             HorizontalOptions="Fill"
-            VerticalOptions="Fill"
+            VerticalOptions="Center"
             HorizontalTextAlignment="Start"
             VerticalTextAlignment="Center">
 

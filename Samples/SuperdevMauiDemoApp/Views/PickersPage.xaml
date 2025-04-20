@@ -25,6 +25,7 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="&lt;!--Demo ValidatablePicker with strings--&gt;" />
                             <s:ValidatablePicker
+                                ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
                                 Placeholder="String Values"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
