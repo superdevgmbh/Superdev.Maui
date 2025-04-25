@@ -4,7 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
-    Title="Entry Demo Page"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:EntryViewModel"
+    Title="EntryPage"
     BackgroundColor="{DynamicResource WindowBackgroundTable}">
 
     <ScrollView>
@@ -149,21 +151,21 @@
                                     TrailingIconCommand="{Binding CalloutCommand}"
                                     TrailingIconCommandParameter="{Binding Text, Source={x:Reference UserNameEntry}}"
                                     ValidationErrors="{Binding Validation.Errors[UserName]}">
-                                    <!--<s:ValidatableEntry.Behaviors>
+                                    <s:ValidatableEntry.Behaviors>
                                         <s:MaxLengthTextBehavior MaxLength="{Binding UserNameMaxLength}" />
                                         <s:EntryUnfocusedBehavior DecorationFlags="TrimEnd" />
                                         <s:EntryCompletedBehavior TargetElementName="ValidatableEntryTest1" />
-                                    </s:ValidatableEntry.Behaviors>-->
+                                    </s:ValidatableEntry.Behaviors>
                                 </s:ValidatableEntry>
                                 <Entry
                                     Grid.Column="1"
                                     Placeholder="Entry"
                                     ReturnType="Go"
                                     Text="{Binding UserName, Mode=TwoWay}">
-                                    <!--<Entry.Behaviors>
+                                    <Entry.Behaviors>
                                         <s:EntryUnfocusedBehavior DecorationFlags="All" />
                                         <s:EntryCompletedBehavior TargetElement="{x:Reference UserNameEntry}" />
-                                    </Entry.Behaviors>-->
+                                    </Entry.Behaviors>
                                 </Entry>
                             </Grid>
                             <s:ValidatableEntry

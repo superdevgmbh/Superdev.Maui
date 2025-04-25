@@ -286,7 +286,7 @@
                                 <Button
                                     Command="{Binding NavigateToPageCommand}"
                                     CommandParameter="EntryPage"
-                                    Text="CustomEntry" />
+                                    Text="Entry Demo" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"

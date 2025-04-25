@@ -40,7 +40,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private ICommand longPressCommand;
         private ICommand normalPressCommand;
         private ObservableCollection<CountryViewModel> countries;
-        private int userNameMaxLength;
         private DateTime? birthdate;
         private bool isSaving;
         private ObservableCollection<ResourceViewModel> themeResources;
@@ -142,12 +141,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.User?.UserName;
             set => this.SetProperty(this.User, value); // Sync property value based on property name
-        }
-
-        public int UserNameMaxLength
-        {
-            get => this.userNameMaxLength;
-            set => this.SetProperty(ref this.userNameMaxLength, value, nameof(this.UserNameMaxLength));
         }
 
         public DateTime? Birthdate
@@ -351,11 +344,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public ICommand LoadDataButtonCommand
         {
-            get
-            {
-                return this.loadDataButtonCommand ??
-                       (this.loadDataButtonCommand = new Command(async () => await this.LoadData()));
-            }
+            get => this.loadDataButtonCommand ??= new Command(async () => await this.LoadData());
         }
 
         private async Task LoadData()
@@ -376,9 +365,6 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.UserId = 2;
 
                 this.numberOfLoads++;
-
-                // Demo dynamic adjustment of MaxLength binding
-                this.UserNameMaxLength = Math.Max(2, ++this.UserNameMaxLength);
 
                 this.LogContent = this.logContent + Environment.NewLine + $"{DateTime.Now:G} LoadData called";
                 if (this.numberOfLoads % 2 == 0)
