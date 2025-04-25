@@ -16,7 +16,6 @@ namespace Superdev.Maui.Platforms.Android.Handlers
         {
         }
 
-
         protected override void ConnectHandler(MaterialButton platformView)
         {
             base.ConnectHandler(platformView);
