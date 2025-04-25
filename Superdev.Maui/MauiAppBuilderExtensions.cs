@@ -69,6 +69,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IToastService, ToastService>();
             builder.Services.AddSingleton<IAppHandler, AppHandler>();
             builder.Services.AddSingleton<IClipboardService, ClipboardService>();
+            builder.Services.AddSingleton<IStatusBarService>(_ => StatusBarService.Current);
 #endif
 
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);

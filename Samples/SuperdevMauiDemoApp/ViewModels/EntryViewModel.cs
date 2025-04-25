@@ -8,6 +8,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class EntryViewModel : BaseViewModel
     {
         private readonly IDisplayService displayService;
+
         private bool isReadonly;
         private string userName;
         private int userNameMaxLength;

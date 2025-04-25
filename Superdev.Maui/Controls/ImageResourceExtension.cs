@@ -7,17 +7,6 @@ namespace Superdev.Maui.Controls
     {
         public string Source { get; set; }
 
-        private static Assembly TargetAssembly;
-
-        /// <summary>
-        /// Use <seealso cref="Init"/> to define which assembly contains the resources which are resolved using <seealso cref="ImageResourceExtension"/>.
-        /// </summary>
-        /// <param name="resourceAssembly"></param>
-        public static void Init(Assembly resourceAssembly)
-        {
-            TargetAssembly = resourceAssembly;
-        }
-
         public object ProvideValue(IServiceProvider serviceProvider)
         {
             if (this.Source == null)

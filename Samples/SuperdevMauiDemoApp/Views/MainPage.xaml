@@ -256,13 +256,36 @@
                                         Text="CustomTabbedPage" />
                                 </Grid>
 
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: SegmentedStatusIndicator--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="SegmentedStatusIndicatorPage"
-                                    Text="SegmentedStatusIndicatorPage" />
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="EntryPage"
+                                        Text="Entry" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="LabelDemoPage"
+                                        Text="Label" />
+                                </Grid>
+
+
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="StatusBarServicePage"
+                                        Text="StatusBarService" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SegmentedStatusIndicatorPage"
+                                        Text="SegmentedStatusIndicatorPage" />
+                                </Grid>
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -279,22 +302,6 @@
                                     Command="{Binding NavigateToPageCommand}"
                                     CommandParameter="DrilldownButtonListPage"
                                     Text="Drilldown Buttons" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: CustomEntry--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="EntryPage"
-                                    Text="Entry Demo" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: CustomLabel--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="LabelDemoPage"
-                                    Text="CustomLabel" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
