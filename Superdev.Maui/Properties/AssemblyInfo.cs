@@ -1,5 +1,6 @@
 ﻿[assembly: Superdev.Maui.Internals.Preserve(AllMembers = true)]
 
+[assembly: Microsoft.Maui.Controls.XmlnsPrefix("http://schemas.superdev.ch/dotnet/2021/maui", "s")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Controls")]
