@@ -4,31 +4,43 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
-    x:Name="Control">
+    x:Name="Control"
+    BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BackgroundColor}"
+    IsVisible="{Binding ViewModelError, Source={x:Reference Control}, Converter={StaticResource ViewModelErrorIsVisibleConverter}, FallbackValue=False}">
 
-    <VerticalStackLayout
-        Spacing="{DynamicResource Theme.Spacing.Medium}"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
-
-        <Image
-            Aspect="AspectFit"
-            HeightRequest="48"
-            Source="{Binding ImageSource, Source={x:Reference Control}}"
-            WidthRequest="48"
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="{StaticResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}"
             HorizontalOptions="Center"
-            VerticalOptions="End" />
+            VerticalOptions="Center">
+            <VerticalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ViewModelError.RetryCommand, Source={x:Reference Control}}" />
+            </VerticalStackLayout.GestureRecognizers>
 
-        <controls:CustomLabel
-            FontSize="{DynamicResource LargeSize}"
-            LineBreakMode="WordWrap"
-            Style="{Binding LabelStyle, Source={x:Reference Control}}"
-            Text="{Binding ViewModelError.Text, Source={x:Reference Control}}"
-            HorizontalOptions="StartAndExpand"
-            HorizontalTextAlignment="Center" />
+            <Image
+                HeightRequest="48"
+                IsVisible="{Binding ViewModelError.Icon, Source={x:Reference Control}, Converter={StaticResource IsNotNullToBoolConverter}}"
+                Source="{Binding ViewModelError.Icon, Source={x:Reference Control}, Converter={StaticResource StringToImageSourceConverter}}"
+                WidthRequest="48" />
 
-        <VerticalStackLayout.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding ViewModelError.Command, Source={x:Reference Control}}" />
-        </VerticalStackLayout.GestureRecognizers>
-    </VerticalStackLayout>
+            <Image
+                HeightRequest="48"
+                IsVisible="{Binding ViewModelError.Icon, Source={x:Reference Control}, Converter={StaticResource IsNullToBoolConverter}}"
+                Source="{Binding ImageSource, Source={x:Reference Control}}"
+                WidthRequest="48" />
+
+
+            <VerticalStackLayout Spacing="{StaticResource Theme.Spacing.Medium}">
+                <controls:CustomLabel
+                    IsVisible="{Binding ViewModelError.Title, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+                    Style="{StaticResource ViewModelErrorTitleLabelStyle}"
+                    Text="{Binding ViewModelError.Title, Source={x:Reference Control}}" />
+                <controls:CustomLabel
+                    IsVisible="{Binding ViewModelError.Text, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+                    Style="{StaticResource ViewModelErrorTextLabelStyle}"
+                    Text="{Binding ViewModelError.Text, Source={x:Reference Control}}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentView>

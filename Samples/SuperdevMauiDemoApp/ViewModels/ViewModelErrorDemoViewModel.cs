@@ -1,18 +1,18 @@
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
-using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class StatusBarServiceViewModel : BaseViewModel
+    public class ViewModelErrorDemoViewModel : BaseViewModel
     {
-        private readonly IStatusBarService statusBarService;
+        private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        public StatusBarServiceViewModel(
-            IStatusBarService statusBarService,
+        public ViewModelErrorDemoViewModel(
+            ILogger<ViewModelErrorDemoViewModel> logger,
             IViewModelErrorHandler viewModelErrorHandler)
         {
-            this.statusBarService = statusBarService;
+            this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             _ = this.InitializeAsync();
@@ -37,19 +37,16 @@ namespace SuperdevMauiDemoApp.ViewModels
             try
             {
                 await Task.Delay(1000);
-                this.statusBarService.SetStatusBarMode(StatusBarStyle.Dark);
-                this.statusBarService.SetColor(Colors.Magenta);
-
-                await Task.Delay(1000);
-                this.statusBarService.SetStatusBarMode(StatusBarStyle.Light);
-                this.statusBarService.SetColor(Colors.DeepSkyBlue);
+                throw new InvalidOperationException("Test");
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex, "Failed to initialize viewmodel");
                 this.ViewModelError = this.viewModelErrorHandler.FromException(ex).WithRetry(this.LoadData);
             }
 
             this.IsBusy = false;
         }
+
     }
 }

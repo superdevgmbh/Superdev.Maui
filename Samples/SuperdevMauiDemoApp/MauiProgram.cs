@@ -45,6 +45,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<EntryViewModel>();
             builder.Services.AddTransient<StatusBarServicePage>();
             builder.Services.AddTransient<StatusBarServiceViewModel>();
+            builder.Services.AddTransient<ViewModelErrorDemoPage>();
+            builder.Services.AddTransient<ViewModelErrorDemoViewModel>();
             builder.Services.AddTransient<PickersPage>();
             builder.Services.AddTransient<PickersViewModel>();
             builder.Services.AddTransient<ListViewDemoPage>();

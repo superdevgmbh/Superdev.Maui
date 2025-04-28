@@ -143,6 +143,4 @@
     <Message Importance="high" Text="Optimize: $(Optimize)"/>
     <Message Importance="high" Text="----------------------"/>
   </Target>
-
-  <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionSuperdevMauiDemoAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 </Project>

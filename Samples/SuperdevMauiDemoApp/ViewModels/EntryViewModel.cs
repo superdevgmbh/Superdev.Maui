@@ -7,14 +7,18 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class EntryViewModel : BaseViewModel
     {
+        private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDisplayService displayService;
 
         private bool isReadonly;
         private string userName;
         private int userNameMaxLength;
 
-        public EntryViewModel(IDisplayService displayService)
+        public EntryViewModel(
+            IViewModelErrorHandler viewModelErrorHandler,
+            IDisplayService displayService)
         {
+            this.viewModelErrorHandler = viewModelErrorHandler;
             this.displayService = displayService;
 
             _ = this.InitializeAsync();
@@ -55,7 +59,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
             catch (Exception ex)
             {
-                this.ViewModelError = new ViewModelError(ex.Message, async () => await this.LoadData());
+                this.ViewModelError = this.viewModelErrorHandler.FromException(ex).WithRetry(this.LoadData);
             }
 
             this.IsBusy = false;

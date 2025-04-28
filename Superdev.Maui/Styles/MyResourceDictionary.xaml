@@ -112,6 +112,15 @@
         x:Key="StringIsNullOrEmptyToFalseConverter"
         IsInverted="True" />
 
+    <converters:ViewModelErrorIsVisibleConverter
+        x:Key="ViewModelErrorIsVisibleConverter"
+        IsInverted="False" />
+    <converters:IsNullToBoolConverter x:Key="IsNullToBoolConverter" />
+    <converters:IsNullToBoolConverter
+        x:Key="IsNotNullToBoolConverter"
+        IsInverted="True" />
+    <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+
     <!-- Styles -->
     <x:Double x:Key="MinimumHeight.Input">48</x:Double>
 
@@ -348,12 +357,24 @@
     <!-- ViewModelErrorControl Default Style -->
 
     <Style
-        x:Key="ViewModelErrorControlLabelStyle"
+        x:Key="ViewModelErrorTitleLabelStyle"
         BasedOn="{StaticResource LabelStyle}"
         TargetType="Label">
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Title}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Title}" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style
+        x:Key="ViewModelErrorTextLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Medium}" />
         <Setter Property="VerticalOptions" Value="Start" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
@@ -367,7 +388,8 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="LabelStyle" Value="{StaticResource ViewModelErrorControlLabelStyle}" />
+        <Setter Property="TitleLabelStyle" Value="{StaticResource ViewModelErrorTitleLabelStyle}" />
+        <Setter Property="TextLabelStyle" Value="{StaticResource ViewModelErrorTextLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource ViewModelErrorControlStyle}"

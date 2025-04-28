@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using SampleApp.Services;
 using SampleApp.ViewModels;
@@ -20,6 +21,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private readonly ILogger<MainViewModel> logger;
         private readonly INavigationService navigationService;
+        private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDisplayService displayService;
         private readonly ICountryService countryService;
         private readonly IValidationService validationService;
@@ -32,7 +34,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private int numberOfLoads = 0;
         private ICommand saveProfileButtonCommand;
-        private ICommand loadDataButtonCommand;
+        private IAsyncRelayCommand loadDataButtonCommand;
         private UserDto user;
         private string logContent;
         private ICommand toggleSwitchCommand;
@@ -50,6 +52,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public MainViewModel(
             ILogger<MainViewModel> logger,
             INavigationService navigationService,
+            IViewModelErrorHandler viewModelErrorHandler,
             IDisplayService displayService,
             ICountryService countryService,
             IValidationService validationService,
@@ -58,6 +61,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.logger = logger;
             this.navigationService = navigationService;
+            this.viewModelErrorHandler = viewModelErrorHandler;
             this.displayService = displayService;
             this.countryService = countryService;
             this.validationService = validationService;
@@ -287,7 +291,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public ObservableCollection<ResourceViewModel> ThemeResources
         {
             get => this.themeResources;
-            private set => this.SetProperty(ref this.themeResources, value, nameof(this.ThemeResources));
+            private set => this.SetProperty(ref this.themeResources, value);
         }
 
 
@@ -304,7 +308,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.isSaving;
             set
             {
-                if (this.SetProperty(ref this.isSaving, value, nameof(this.IsSaving)))
+                if (this.SetProperty(ref this.isSaving, value))
                 {
                     this.RaisePropertyChanged(nameof(this.CanExecuteSaveProfileButtonCommand));
                     this.RaisePropertyChanged(nameof(this.CanExecuteLoadDataButtonCommand));
@@ -316,8 +320,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get
             {
-                return this.saveProfileButtonCommand ??
-                       (this.saveProfileButtonCommand = new Command(async () => await this.OnSaveProfile(), () => this.CanExecuteSaveProfileButtonCommand));
+                return this.saveProfileButtonCommand ??= new AsyncRelayCommand(
+                    execute: this.OnSaveProfile,
+                    canExecute: () => this.CanExecuteSaveProfileButtonCommand);
             }
         }
 
@@ -342,9 +347,11 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public bool CanExecuteLoadDataButtonCommand => this.IsNotBusy && !this.IsSaving;
 
-        public ICommand LoadDataButtonCommand
+        public IAsyncRelayCommand LoadDataButtonCommand
         {
-            get => this.loadDataButtonCommand ??= new Command(async () => await this.LoadData());
+            get => this.loadDataButtonCommand ??= new AsyncRelayCommand(
+                execute: this.LoadData,
+                canExecute: () => this.CanExecuteLoadDataButtonCommand);
         }
 
         private async Task LoadData()
@@ -395,7 +402,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
             catch (Exception ex)
             {
-                this.ViewModelError = new ViewModelError(ex.Message, this.LoadDataButtonCommand);
+                this.ViewModelError = this.viewModelErrorHandler.FromException(ex).WithRetry(this.LoadData);
             }
             finally
             {

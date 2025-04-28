@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.ViewModelErrorDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:ViewModelErrorDemoViewModel"
+    Title="ViewModelErrorDemoPage"
+    BackgroundColor="{DynamicResource WindowBackgroundTable}">
+
+    <Grid>
+        <ScrollView Grid.Row="0">
+            <Grid>
+                <StackLayout
+                    Padding="{DynamicResource Theme.Padding.CardPadding}"
+                    Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                    <Label Text="Demo" />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+
+        <s:CustomActivityIndicator
+            Grid.Row="0"
+            IsVisible="{Binding IsBusy}" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>

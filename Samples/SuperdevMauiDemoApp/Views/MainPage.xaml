@@ -230,26 +230,28 @@
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="AutoCompletePage"
+                                        LineBreakMode="CharacterWrap"
                                         Text="AutoCompleteView" />
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="PreferencesDemoPage"
+                                        LineBreakMode="CharacterWrap"
                                         Text="Preferences" />
                                 </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="BehaviorDemoPage"
                                         Text="Behaviors" />
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="CustomTabbedPageDemoPage"
@@ -259,41 +261,45 @@
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="EntryPage"
                                         Text="Entry" />
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="LabelDemoPage"
                                         Text="Label" />
                                 </Grid>
-
-
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="StatusBarServicePage"
+                                        Text="StatusBarService" />
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SegmentedStatusIndicatorPage"
+                                        Text="SegmentedStatusIndicatorPage" />
+                                </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
                                     <Button
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="StatusBarServicePage"
-                                        Text="StatusBarService" />
+                                        CommandParameter="ViewModelErrorDemoPage"
+                                        Text="ViewModelError" />
                                     <Button
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="SegmentedStatusIndicatorPage"
-                                        Text="SegmentedStatusIndicatorPage" />
+                                        CommandParameter="CardViewPage"
+                                        Text="CardViewPage" />
                                 </Grid>
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: CardView--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="CardViewPage"
-                                    Text="CardViewPage" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"

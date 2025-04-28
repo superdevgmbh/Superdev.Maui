@@ -73,11 +73,14 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IStatusBarService>(_ => StatusBarService.Current);
 #endif
 
+            builder.Services.AddSingleton<IDialogService, DialogService>();
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
             builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread, MauiMainThread>();
             builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();
+            builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => ViewModelErrorRegistry.Current);
+            builder.Services.AddSingleton<IViewModelErrorHandler>(_ => ViewModelErrorRegistry.Current);
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 

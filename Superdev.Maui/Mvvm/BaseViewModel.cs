@@ -180,9 +180,9 @@ namespace Superdev.Maui.Mvvm
         {
         }
 
-        public bool HasViewModelError => this.IsNotBusy && this.viewModelError.HasError;
+        public bool HasViewModelError => this.IsNotBusy && this.viewModelError != ViewModelError.None;
 
-        public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.viewModelError.HasError == false;
+        public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.viewModelError == ViewModelError.None;
 
         /// <summary>
         /// Indicates if the view model has payload data available.

@@ -11,6 +11,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class PickersViewModel : BaseViewModel
     {
+        private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDisplayService displayService;
         private readonly ICountryService countryService;
         private string selectedString;
@@ -21,9 +22,11 @@ namespace SuperdevMauiDemoApp.ViewModels
         private ICommand toggleBirthdateCommand;
 
         public PickersViewModel(
+            IViewModelErrorHandler viewModelErrorHandler,
             IDisplayService displayService,
             ICountryService countryService)
         {
+            this.viewModelErrorHandler = viewModelErrorHandler;
             this.displayService = displayService;
             this.countryService = countryService;
 
@@ -70,7 +73,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
             catch (Exception ex)
             {
-                this.ViewModelError = new ViewModelError(ex.Message, async () => await this.LoadData());
+                this.ViewModelError = this.viewModelErrorHandler.FromException(ex).WithRetry(this.LoadData);
             }
 
             this.IsBusy = false;

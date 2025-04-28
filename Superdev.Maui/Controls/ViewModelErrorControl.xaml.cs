@@ -25,7 +25,7 @@ namespace Superdev.Maui.Controls
             nameof(ImageSource),
             typeof(ImageSource),
             typeof(ViewModelErrorControl),
-            ImageSource.FromResource("Superdev.Maui.Resources.Images.reload_192x192.png"));
+            ImageSource.FromResource("reload_192x192"));
 
         public ImageSource ImageSource
         {
@@ -33,18 +33,28 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ImageSourceProperty, value);
         }
 
-        public static readonly BindableProperty LabelStyleProperty =
+        public static readonly BindableProperty TitleLabelStyleProperty =
             BindableProperty.Create(
-                nameof(LabelStyle),
+                nameof(TitleLabelStyle),
                 typeof(Style),
-                typeof(ViewModelErrorControl),
-                default(Style),
-                BindingMode.OneWay);
+                typeof(ViewModelErrorControl));
 
-        public Style LabelStyle
+        public Style TitleLabelStyle
         {
-            get => (Style)this.GetValue(LabelStyleProperty);
-            set => this.SetValue(LabelStyleProperty, value);
+            get => (Style)this.GetValue(TitleLabelStyleProperty);
+            set => this.SetValue(TitleLabelStyleProperty, value);
+        }
+
+        public static readonly BindableProperty TextLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(TextLabelStyle),
+                typeof(Style),
+                typeof(ViewModelErrorControl));
+
+        public Style TextLabelStyle
+        {
+            get => (Style)this.GetValue(TextLabelStyleProperty);
+            set => this.SetValue(TextLabelStyleProperty, value);
         }
     }
 }
