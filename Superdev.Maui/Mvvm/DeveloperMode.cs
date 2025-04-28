@@ -34,7 +34,7 @@ namespace Superdev.Maui.Mvvm
             else
             {
                 this.Unlocked = true;
-                this.UnlockedEvent?.Invoke(this, new EventArgs());
+                this.UnlockedEvent?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -44,19 +44,10 @@ namespace Superdev.Maui.Mvvm
             set
             {
                 this.unlocked = value;
-                this.OnPropertyChanged(nameof(this.Unlocked));
+                this.OnPropertyChanged();
             }
         }
 
         public event EventHandler<EventArgs> UnlockedEvent;
-    }
-
-    public interface IDeveloperMode
-    {
-        ICommand UnlockCommand { get; }
-
-        bool Unlocked { get; set; }
-
-        event EventHandler<EventArgs> UnlockedEvent;
     }
 }

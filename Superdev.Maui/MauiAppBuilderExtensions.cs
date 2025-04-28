@@ -14,6 +14,7 @@ using Superdev.Maui.Platform.Effects;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
+using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 
 namespace Superdev.Maui
@@ -76,6 +77,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread, MauiMainThread>();
+            builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 
