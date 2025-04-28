@@ -1,15 +1,11 @@
-﻿using System;
-using System.Threading;
-using Android.Graphics;
-using Android.OS;
+﻿using Android.OS;
 using Android.Views;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Services;
 using Color = Microsoft.Maui.Graphics.Color;
 using Window = Android.Views.Window;
-using AColor = global::Android.Graphics.Color;
 
-namespace Superdev.Maui.Platforms.Android.Services
+namespace Superdev.Maui.Platforms.Services
 {
     public class StatusBarService : IStatusBarService
     {
@@ -30,7 +26,7 @@ namespace Superdev.Maui.Platforms.Android.Services
 
         public void SetColor(Color color)
         {
-            var currentActivity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+            var currentActivity = Platform.CurrentActivity;
             var window = currentActivity.Window;
             this.SetStatusBarColor(window, color.ToPlatform());
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
 
-namespace Superdev.Maui.Platforms.iOS.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomScrollViewHandler : ScrollViewHandler
     {

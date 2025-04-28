@@ -2,7 +2,7 @@ using Android.App;
 using Android.Content;
 using Superdev.Maui.Controls;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class TimePickerHandler : Microsoft.Maui.Handlers.TimePickerHandler
     {

@@ -4,7 +4,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.Android.Controls;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomScrollViewHandler : ScrollViewHandler
     {

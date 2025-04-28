@@ -13,19 +13,19 @@
             this.deviceInfo = deviceInfo;
         }
 
-        public Task ShowDialogAsync(string title, string message, string cancel)
+        public Task DisplayAlertAsync(string title, string message, string cancel)
         {
             return this.mainThread.InvokeOnMainThreadAsync(
                 () => GetMainPage().DisplayAlert(title, message, cancel));
         }
 
-        public Task<bool> ShowDialogAsync(string title, string message, string confirm, string cancel)
+        public Task<bool> DisplayAlertAsync(string title, string message, string confirm, string cancel)
         {
             return this.mainThread.InvokeOnMainThreadAsync(
                 () => GetMainPage().DisplayAlert(title, message, confirm, cancel));
         }
 
-        public Task<bool> ShowDestructiveDialogAsync(string title, string message, string destructiveButton, string cancelButton)
+        public Task<bool> DisplayDestructiveAlertAsync(string title, string message, string destructiveButton, string cancelButton)
         {
             return this.mainThread.InvokeOnMainThreadAsync(async () =>
             {

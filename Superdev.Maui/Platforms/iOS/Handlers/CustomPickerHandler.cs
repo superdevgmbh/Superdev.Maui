@@ -1,4 +1,4 @@
-namespace Superdev.Maui.Platforms.iOS.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomPickerHandler : PickerHandler
     {

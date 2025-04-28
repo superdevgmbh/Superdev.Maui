@@ -6,7 +6,7 @@ using Superdev.Maui.Platforms.iOS.Utils;
 using Superdev.Maui.Utils;
 using UIKit;
 
-namespace Superdev.Maui.Platforms.iOS.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class NullableDatePickerHandler : CustomDatePickerHandler
     {

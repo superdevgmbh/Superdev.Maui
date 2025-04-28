@@ -1,8 +1,7 @@
 using ALayoutDirection = Android.Views.LayoutDirection;
 using ATextDirection = Android.Views.TextDirection;
-using AView = Android.Views.View;
 
-namespace Superdev.Platforms.Android.Handlers.MauiFix.Extensions
+namespace Superdev.Maui.Platforms.Handlers.MauiFix.Extensions
 {
     internal static class FlowDirectionExtensions
     {

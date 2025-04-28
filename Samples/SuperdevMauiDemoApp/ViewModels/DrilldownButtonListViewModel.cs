@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -13,20 +14,20 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isToggled;
         private bool isNavigatingToTermsAndConditions;
         private bool isNavigatingToPrivacyPolicy;
-        private readonly IDisplayService displayService;
+        private readonly IDialogService dialogService;
 
-        public DrilldownButtonListViewModel(IDisplayService displayService)
+        public DrilldownButtonListViewModel(IDialogService dialogService)
         {
-            this.displayService = displayService;
+            this.dialogService = dialogService;
 
             this.DrilldownItems = new ObservableCollection<BindableBase>
             {
-                new DrilldownSwitchViewModel(displayService, isToggled: true){ Title = "DrilldownSwitchView 1" },
-                new DrilldownSwitchViewModel(displayService, isToggled: false){ Title = "DrilldownSwitchView 2" },
-                new DrilldownButtonViewModel(displayService){ Title = "DrilldownButtonView 1"},
-                new DrilldownButtonViewModel(displayService){ Title = "DrilldownButtonView 2"},
-                new CustomDrilldownViewModel(displayService){ Title = "CustomDrilldownViewModel 1"},
-                new CustomDrilldownViewModel(displayService){ Title = "CustomDrilldownViewModel 2", IsBusy=true },
+                new DrilldownSwitchViewModel(dialogService, isToggled: true){ Title = "DrilldownSwitchView 1" },
+                new DrilldownSwitchViewModel(dialogService, isToggled: false){ Title = "DrilldownSwitchView 2" },
+                new DrilldownButtonViewModel(dialogService){ Title = "DrilldownButtonView 1"},
+                new DrilldownButtonViewModel(dialogService){ Title = "DrilldownButtonView 2"},
+                new CustomDrilldownViewModel(dialogService){ Title = "CustomDrilldownViewModel 1"},
+                new CustomDrilldownViewModel(dialogService){ Title = "CustomDrilldownViewModel 2", IsBusy=true },
             };
         }
 
@@ -44,7 +45,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private async void DisplayAlert()
         {
             await Task.Delay(2000);
-            await this.displayService.DisplayAlert("DisplayAlert", "This is a test alert");
+            await this.dialogService.DisplayAlertAsync("DisplayAlert", "This is a test alert", "OK");
         }
 
 
@@ -90,9 +91,9 @@ namespace SuperdevMauiDemoApp.ViewModels
 
     public abstract class DrilldownBaseViewModel : BaseViewModel, IDrilldownView
     {
-        public DrilldownBaseViewModel(IDisplayService displayService)
+        public DrilldownBaseViewModel(IDialogService dialogService)
         {
-            this.Command = new Command(() => { displayService.DisplayAlert(this.Title, "Command executed"); });
+            this.Command = new Command(() => { dialogService.DisplayAlertAsync(this.Title, "Command executed", "OK"); });
             this.IsBusy = false;
         }
 
@@ -105,12 +106,12 @@ namespace SuperdevMauiDemoApp.ViewModels
 
     public class DrilldownSwitchViewModel : DrilldownBaseViewModel, IDrilldownSwitchView
     {
-        private readonly IDisplayService displayService;
+        private readonly IDialogService dialogService;
         private bool isToggled;
 
-        public DrilldownSwitchViewModel(IDisplayService displayService, bool isToggled) : base(displayService)
+        public DrilldownSwitchViewModel(IDialogService dialogService, bool isToggled) : base(dialogService)
         {
-            this.displayService = displayService;
+            this.dialogService = dialogService;
             this.isToggled = isToggled;
         }
 
@@ -123,7 +124,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 {
                     if (this.IsNotBusy)
                     {
-                        this.displayService.DisplayAlert(this.Title, $"IsToggled={this.IsToggled}");
+                        this.dialogService.DisplayAlertAsync(this.Title, $"IsToggled={this.IsToggled}", "OK");
                     }
                 }
             }
@@ -132,16 +133,16 @@ namespace SuperdevMauiDemoApp.ViewModels
 
     public class DrilldownButtonViewModel : DrilldownBaseViewModel, IDrilldownButtonView
     {
-        public DrilldownButtonViewModel(IDisplayService displayService) : base(displayService)
+        public DrilldownButtonViewModel(IDialogService dialogService) : base(dialogService)
         {
         }
     }
 
     public class CustomDrilldownViewModel : BaseViewModel
     {
-        public CustomDrilldownViewModel(IDisplayService displayService)
+        public CustomDrilldownViewModel(IDialogService dialogService)
         {
-            this.Command = new Command(() => { displayService.DisplayAlert(this.Title, "Command executed"); });
+            this.Command = new Command(() => { dialogService.DisplayAlertAsync(this.Title, "Command executed", "OK"); });
         }
 
         public ICommand Command { get; set; }

@@ -9,6 +9,7 @@ using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
@@ -22,11 +23,12 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ILogger<MainViewModel> logger;
         private readonly INavigationService navigationService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private readonly IDisplayService displayService;
+        private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
         private readonly IValidationService validationService;
         private readonly IEmailService emailService;
         private readonly ILocalizer localizer;
+        private readonly IActivityIndicatorService activityIndicatorService;
 
         private CountryViewModel country;
         private string notes;
@@ -53,20 +55,22 @@ namespace SuperdevMauiDemoApp.ViewModels
             ILogger<MainViewModel> logger,
             INavigationService navigationService,
             IViewModelErrorHandler viewModelErrorHandler,
-            IDisplayService displayService,
+            IDialogService dialogService,
             ICountryService countryService,
             IValidationService validationService,
             IEmailService emailService,
-            ILocalizer localizer)
+            ILocalizer localizer,
+            IActivityIndicatorService activityIndicatorService)
         {
             this.logger = logger;
             this.navigationService = navigationService;
             this.viewModelErrorHandler = viewModelErrorHandler;
-            this.displayService = displayService;
+            this.dialogService = dialogService;
             this.countryService = countryService;
             this.validationService = validationService;
             this.emailService = emailService;
             this.localizer = localizer;
+            this.activityIndicatorService = activityIndicatorService;
 
             this.EnableBusyRefCount = false;
             this.ViewModelError = ViewModelError.None;
@@ -75,8 +79,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             this.Languages = new ObservableCollection<LanguageViewModel>
             {
-                new LanguageViewModel(new CultureInfo("en")),
-                new LanguageViewModel(new CultureInfo("de")),
+                new LanguageViewModel(new CultureInfo("en")), new LanguageViewModel(new CultureInfo("de"))
             };
             this.language = this.Languages.First();
 
@@ -99,10 +102,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public LanguageViewModel Language
         {
-            get
-            {
-                return this.language;
-            }
+            get => this.language;
             set
             {
                 this.language = value;
@@ -138,7 +138,8 @@ namespace SuperdevMauiDemoApp.ViewModels
         public int UserId
         {
             get => this.User?.Id ?? 0;
-            set => this.SetProperty(this.User, value, nameof(this.UserId), nameof(this.User.Id)); // Sync property value based on specified string
+            set => this.SetProperty(this.User, value, nameof(this.UserId),
+                nameof(this.User.Id)); // Sync property value based on specified string
         }
 
         public string UserName
@@ -156,64 +157,53 @@ namespace SuperdevMauiDemoApp.ViewModels
         public ObservableCollection<CountryViewModel> Countries
         {
             get => this.countries;
-            private set => this.SetProperty(ref this.countries, value, nameof(this.Countries));
+            private set => this.SetProperty(ref this.countries, value);
         }
 
         public CountryViewModel Country
         {
             get => this.country;
-            set
-            {
-                this.country = value;
-                this.RaisePropertyChanged(nameof(this.Country));
-            }
+            set => this.SetProperty(ref this.country, value);
         }
 
-        public ICommand NavigateToPageCommand
-        {
-            get
-            {
-                return this.navigateToPageCommand ??
-                       (this.navigateToPageCommand = new Command<string>(async (s) => await this.OnNavigateToPage(s)));
-            }
-        }
+        public ICommand NavigateToPageCommand =>
+            this.navigateToPageCommand ??= new Command<string>(async (s) => await this.OnNavigateToPage(s));
 
         private async Task OnNavigateToPage(string pageName)
         {
             try
             {
+                this.activityIndicatorService.ShowLoadingPage("Loading...");
+                await Task.Delay(5000);
                 await this.navigationService.PushAsync(pageName);
             }
             catch (Exception ex)
             {
-                await this.displayService.DisplayAlert("Exception", $"Could not navigate to page {pageName}: {ex.Message}");
+                var viewModelError = this.viewModelErrorHandler.FromException(ex);
+                await this.dialogService.DisplayAlertAsync(viewModelError, "OK", "Cancel");
+            }
+            finally
+            {
+                this.activityIndicatorService.HideLoadingPage();
             }
         }
 
         public ICommand ShowActivityIndicatorCommand
         {
-            get
-            {
-                return this.showActivityIndicatorCommand ??
-                       (this.showActivityIndicatorCommand = new Command(async () => await this.OnShowActivityIndicator()));
-            }
+            get => this.showActivityIndicatorCommand ??= new Command(async () => await this.OnShowActivityIndicator());
         }
 
         private async Task OnShowActivityIndicator()
         {
-            //this.activityIndicatorService.ShowLoadingPage("Loading...");
+            this.activityIndicatorService.ShowLoadingPage("Loading...");
             await Task.Delay(3000);
-            //this.activityIndicatorService.HideLoadingPage();
+            this.activityIndicatorService.HideLoadingPage();
         }
 
         public string Notes
         {
             get => this.notes;
-            set
-            {
-                this.notes = value;
-                this.RaisePropertyChanged(nameof(this.Notes));
-            }
+            set => this.SetProperty(ref this.notes, value);
         }
 
         public string LogContent
@@ -225,28 +215,19 @@ namespace SuperdevMauiDemoApp.ViewModels
         public string AdminEmailAddress
         {
             get => this.adminEmailAddress;
-            set
-            {
-                this.adminEmailAddress = value;
-                this.RaisePropertyChanged(nameof(this.AdminEmailAddress));
-            }
+            set => this.SetProperty(ref this.adminEmailAddress, value);
         }
 
-        public ICommand NormalPressCommand
-        {
-            get
-            {
-                return this.normalPressCommand ??
-                       (this.normalPressCommand = new Command<string>(async (message) => await this.displayService.DisplayAlert("NormalPressCommand", message)));
-            }
-        }
+        public ICommand NormalPressCommand =>
+            this.normalPressCommand ??
+            (this.normalPressCommand =
+                new Command<string>(async (message) => await this.dialogService.DisplayAlertAsync("NormalPressCommand", message, "OK")));
 
-        public ICommand LongPressCommand
-        {
-            get => this.longPressCommand ??= new Command<string>(async (message) => await this.displayService.DisplayAlert("LongPressCommand", message));
-        }
+        public ICommand LongPressCommand => this.longPressCommand ??=
+            new Command<string>(async (message) => await this.dialogService.DisplayAlertAsync("LongPressCommand", message, "OK"));
 
         public ICommand DumpResourcesCommand => new Command(this.OnDumpResources);
+
         private async void OnDumpResources()
         {
             try
@@ -263,7 +244,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
             catch (Exception ex)
             {
-                await this.displayService.DisplayAlert("Email Error", $"Failed to send mail: {ex}");
+                await this.dialogService.DisplayAlertAsync("Email Error", $"Failed to send mail: {ex}", "OK");
             }
         }
 
@@ -277,7 +258,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
             catch (Exception ex)
             {
-                await this.displayService.DisplayAlert("Email Error", $"Failed to send mail: {ex}");
+                await this.dialogService.DisplayAlertAsync("Email Error", $"Failed to send mail: {ex}", "OK");
             }
         }
 
@@ -316,15 +297,10 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public ICommand SaveProfileButtonCommand
-        {
-            get
-            {
-                return this.saveProfileButtonCommand ??= new AsyncRelayCommand(
-                    execute: this.OnSaveProfile,
-                    canExecute: () => this.CanExecuteSaveProfileButtonCommand);
-            }
-        }
+        public ICommand SaveProfileButtonCommand =>
+            this.saveProfileButtonCommand ??= new AsyncRelayCommand(
+                this.OnSaveProfile,
+                () => this.CanExecuteSaveProfileButtonCommand);
 
         private async Task OnSaveProfile()
         {
@@ -347,12 +323,10 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public bool CanExecuteLoadDataButtonCommand => this.IsNotBusy && !this.IsSaving;
 
-        public IAsyncRelayCommand LoadDataButtonCommand
-        {
-            get => this.loadDataButtonCommand ??= new AsyncRelayCommand(
-                execute: this.LoadData,
-                canExecute: () => this.CanExecuteLoadDataButtonCommand);
-        }
+        public IAsyncRelayCommand LoadDataButtonCommand =>
+            this.loadDataButtonCommand ??= new AsyncRelayCommand(
+                this.LoadData,
+                () => this.CanExecuteLoadDataButtonCommand);
 
         private async Task LoadData()
         {
@@ -361,14 +335,10 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             try
             {
-                //this.activityIndicatorService.ShowLoadingPage("Test loading message...");
+                this.activityIndicatorService.ShowLoadingPage("Test loading message...");
                 await Task.Delay(3000);
 
-                this.User = new UserDto
-                {
-                    Id = 1,
-                    UserName = "thomasgalliker"
-                };
+                this.User = new UserDto { Id = 1, UserName = "thomasgalliker" };
                 this.UserId = 2;
 
                 this.numberOfLoads++;
@@ -385,7 +355,9 @@ namespace SuperdevMauiDemoApp.ViewModels
 
                 // Set countries all at once
                 this.Countries.Clear();
-                this.Countries = new ObservableCollection<CountryViewModel>(countryDtos.Select(c => new CountryViewModel(c)).Prepend(defaultCountryViewModel));
+                this.Countries =
+                    new ObservableCollection<CountryViewModel>(countryDtos.Select(c => new CountryViewModel(c))
+                        .Prepend(defaultCountryViewModel));
 
                 // Set countries one after the other
                 this.Countries.Clear();
@@ -406,7 +378,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
             finally
             {
-                //this.activityIndicatorService.HideLoadingPage();
+                this.activityIndicatorService.HideLoadingPage();
             }
 
             this.IsBusy = false;
@@ -425,17 +397,15 @@ namespace SuperdevMauiDemoApp.ViewModels
                 .Show(() => $"Birthdate must be set");
 
             viewModelValidation.AddDelegateValidation(nameof(this.UserName))
-                .Validate(async () => (await this.validationService.ValidatePersonAsync(this.CreatePerson())).Errors, validationDelay: TimeSpan.FromMilliseconds(1000));
+                .Validate(async () => (await this.validationService.ValidatePersonAsync(this.CreatePerson())).Errors,
+                    TimeSpan.FromMilliseconds(1000));
 
             return viewModelValidation;
         }
 
         private PersonDto CreatePerson()
         {
-            return new PersonDto
-            {
-                UserName = this.UserName
-            };
+            return new PersonDto { UserName = this.UserName };
         }
 
         public bool IsReadonly

@@ -5,7 +5,7 @@ using Superdev.Maui.Services;
 using Application = Android.App.Application;
 using Uri = Android.Net.Uri;
 
-namespace Superdev.Maui.Platforms.Android.Services
+namespace Superdev.Maui.Platforms.Services
 {
     public class AppHandler : IAppHandler
     {

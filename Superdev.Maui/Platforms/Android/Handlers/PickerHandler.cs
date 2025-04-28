@@ -6,9 +6,9 @@ using Microsoft.Maui.Platform;
 using AppCompatAlertDialog = AndroidX.AppCompat.App.AlertDialog;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Utils;
-using Superdev.Platforms.Android.Handlers.MauiFix.Extensions;
+using Superdev.Maui.Platforms.Handlers.MauiFix.Extensions;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class PickerHandler : Microsoft.Maui.Handlers.PickerHandler
     {

@@ -11,7 +11,7 @@
         /// <param name="title">The title of the dialog.</param>
         /// <param name="message">The message content of the dialog.</param>
         /// <param name="cancel">The text for the cancel button.</param>
-        Task ShowDialogAsync(string title, string message, string cancel);
+        Task DisplayAlertAsync(string title, string message, string cancel);
 
         /// <summary>
         /// Displays a confirmation dialog with confirm and cancel options.
@@ -21,7 +21,7 @@
         /// <param name="confirm">The text for the confirm button.</param>
         /// <param name="cancel">The text for the cancel button.</param>
         /// <returns>A task that returns true if confirmed, otherwise false.</returns>
-        Task<bool> ShowDialogAsync(string title, string message, string confirm, string cancel);
+        Task<bool> DisplayAlertAsync(string title, string message, string confirm, string cancel);
 
         /// <summary>
         /// Displays a destructive action dialog with destructive and cancel options.
@@ -31,7 +31,7 @@
         /// <param name="destructiveButton">The text for the destructive action button.</param>
         /// <param name="cancelButton">The text for the cancel button.</param>
         /// <returns>A task that returns true if destructive action is confirmed, otherwise false.</returns>
-        Task<bool> ShowDestructiveDialogAsync(string title, string message, string destructiveButton, string cancelButton);
+        Task<bool> DisplayDestructiveAlertAsync(string title, string message, string destructiveButton, string cancelButton);
 
         /// <summary>
         /// Displays an action sheet allowing the user to select from multiple options.

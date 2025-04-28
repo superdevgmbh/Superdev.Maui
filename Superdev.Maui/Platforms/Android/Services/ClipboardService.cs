@@ -2,7 +2,7 @@
 using Android.Content;
 using Superdev.Maui.Services;
 
-namespace Superdev.Maui.Platforms.Android.Services
+namespace Superdev.Maui.Platforms.Services
 {
     public class ClipboardService : IClipboardService
     {

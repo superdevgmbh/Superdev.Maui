@@ -9,7 +9,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using View = Android.Views.View;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomEntryHandler : EntryHandler
     {

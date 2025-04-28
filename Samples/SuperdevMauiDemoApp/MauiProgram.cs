@@ -56,7 +56,6 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<PreferencesDemoViewModel>();
 
             builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
-            builder.Services.AddSingleton<IDisplayService, DisplayService>();
             builder.Services.AddSingleton<ICountryService, CountryService>();
             builder.Services.AddSingleton<IValidationService, ValidationService>();
             builder.Services.AddSingleton<IEmailService, EmailService>();

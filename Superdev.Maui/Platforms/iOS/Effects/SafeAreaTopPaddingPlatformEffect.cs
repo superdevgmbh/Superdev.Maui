@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Superdev.Maui.Effects;
 
-namespace Superdev.Maui.Platform.Effects
+namespace Superdev.Maui.Platforms.Effects
 {
     /// <summary>
     ///     Adds safe-area padding to the top of the UI element.

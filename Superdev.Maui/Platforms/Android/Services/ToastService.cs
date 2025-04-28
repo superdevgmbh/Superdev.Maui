@@ -2,7 +2,7 @@
 using Superdev.Maui.Services;
 using Application = Android.App.Application;
 
-namespace Superdev.Maui.Platforms.Android.Services
+namespace Superdev.Maui.Platforms.Services
 {
     public class ToastService : IToastService
     {

@@ -7,7 +7,7 @@ using Superdev.Maui.Effects;
 using Superdev.Maui.Extensions;
 using UIKit;
 
-namespace Superdev.Maui.Platform.Effects
+namespace Superdev.Maui.Platforms.Effects
 {
     public class SafeAreaPaddingPlatformEffect : PlatformEffect
     {

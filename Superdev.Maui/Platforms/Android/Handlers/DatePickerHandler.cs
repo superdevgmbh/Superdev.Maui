@@ -5,7 +5,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Utils;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class DatePickerHandler : Microsoft.Maui.Handlers.DatePickerHandler
     {

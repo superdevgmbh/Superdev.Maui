@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Services;
 using Superdev.Maui.Validation;
 
@@ -8,7 +9,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class EntryViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private readonly IDisplayService displayService;
+        private readonly IDialogService dialogService;
 
         private bool isReadonly;
         private string userName;
@@ -16,10 +17,10 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public EntryViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
-            IDisplayService displayService)
+            IDialogService dialogService)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
-            this.displayService = displayService;
+            this.dialogService = dialogService;
 
             _ = this.InitializeAsync();
         }
@@ -81,7 +82,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private async void OnCalloutCommand(string parameter)
         {
-            await this.displayService.DisplayAlert("CalloutCommand", $"parameter: {parameter}");
+            await this.dialogService.DisplayAlertAsync("CalloutCommand", $"parameter: {parameter}", "OK");
         }
 
         public bool IsReadonly

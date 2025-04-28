@@ -1,5 +1,5 @@
 
-namespace Superdev.Maui.Platform.Effects
+namespace Superdev.Maui.Platforms.Effects
 {
     public class EntryLineColorPlatformEffect : LineColorPlatformEffectBase
     {

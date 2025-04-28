@@ -1,14 +1,12 @@
 ﻿#if ANDROID
-using Superdev.Maui.Platforms.Android.Handlers;
-using Superdev.Maui.Platforms.Android.Services;
 #elif IOS
-using Superdev.Maui.Platforms.iOS.Handlers;
-using Superdev.Maui.Platforms.iOS.Handlers.MauiFix;
-using Superdev.Maui.Platforms.iOS.Services;
+using Superdev.Maui.Platforms.Handlers.MauiFix;
 #endif
 
 #if ANDROID || IOS
-using Superdev.Maui.Platform.Effects;
+using Superdev.Maui.Platforms.Handlers;
+using Superdev.Maui.Platforms.Effects;
+using Superdev.Maui.Platforms.Services;
 #endif
 
 using Superdev.Maui.Controls;
@@ -77,6 +75,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IDialogService, DialogService>();
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
             builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
+            builder.Services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread, MauiMainThread>();
             builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();

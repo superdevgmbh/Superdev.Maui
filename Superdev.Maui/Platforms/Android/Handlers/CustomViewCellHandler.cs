@@ -1,13 +1,10 @@
 ﻿using Android.Graphics.Drawables;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using AContext = Android.Content.Context;
-using AView = Android.Views.View;
-using AViewGroup = Android.Views.ViewGroup;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomViewCellHandler : Microsoft.Maui.Controls.Handlers.Compatibility.ViewCellRenderer
     {

@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.Maui.Handlers;
 
-namespace Superdev.Maui.Platforms.iOS.Handlers.MauiFix
+namespace Superdev.Maui.Platforms.Handlers.MauiFix
 {
     /// <summary>
     /// Workaround for https://github.com/dotnet/maui/issues/15374

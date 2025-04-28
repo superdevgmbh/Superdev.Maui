@@ -4,23 +4,24 @@ using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
     public class ListViewDemoViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private readonly IDisplayService displayService;
+        private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
         private ObservableCollection<CountryViewModel> countries;
 
         public ListViewDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
-            IDisplayService displayService,
+            IDialogService dialogService,
             ICountryService countryService)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
-            this.displayService = displayService;
+            this.dialogService = dialogService;
             this.countryService = countryService;
             this.Countries = new ObservableCollection<CountryViewModel>();
 
@@ -56,7 +57,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private async void OnSelectCountry(CountryViewModel parameter)
         {
-            await this.displayService.DisplayAlert("SelectCountryCommand", $"country: {parameter.Name ?? "null"}");
+            await this.dialogService.DisplayAlertAsync("SelectCountryCommand", $"country: {parameter.Name ?? "null"}", "OK");
         }
     }
 }

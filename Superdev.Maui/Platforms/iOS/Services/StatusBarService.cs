@@ -5,7 +5,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Services;
 using UIKit;
 
-namespace Superdev.Maui.Platforms.iOS.Services
+namespace Superdev.Maui.Platforms.Services
 {
     public class StatusBarService : IStatusBarService
     {

@@ -1,5 +1,7 @@
 ﻿using Superdev.Maui;
+using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Translations;
 using SuperdevMauiDemoApp.Views;
 
@@ -29,18 +31,18 @@ namespace SuperdevMauiDemoApp
         private static void RegisterViewModelErrors(IViewModelErrorRegistry viewModelErrorRegistry)
         {
             viewModelErrorRegistry.SetDefaultFactory(
-                _ => new ViewModelError(
+                ex => new ViewModelError(
                     "rectangle_magenta_192",
-                    "Strings.ViewModelError_DefaultError_Title",
-                    "Strings.ViewModelError_DefaultError_Text",
-                    "Strings.ViewModelError_RetryButtonText"));
+                    ex.Message,
+                    $"{ex}",
+                    "Retry"));
 
             viewModelErrorRegistry.RegisterException(ex => ex is HttpRequestException,
                 () => new ViewModelError(
                     "rectangle_magenta_192",
                     "Strings.ErrorMessage_ApiClientError_Title",
                     "Strings.ErrorMessage_ApiClientError_Body",
-                    "Strings.ViewModelError_RetryButtonText"));
+                    "Retry"));
         }
     }
 }

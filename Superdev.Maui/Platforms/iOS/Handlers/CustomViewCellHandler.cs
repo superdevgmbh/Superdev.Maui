@@ -3,7 +3,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using UIKit;
 
-namespace Superdev.Maui.Platforms.iOS.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomViewCellHandler : ViewCellRenderer
     {

@@ -5,7 +5,7 @@ using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using DatePicker = Microsoft.Maui.Controls.DatePicker;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class NullableDatePickerHandler : CustomDatePickerHandler
     {

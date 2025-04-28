@@ -1,6 +1,6 @@
 using Microsoft.Maui.Platform;
 
-namespace Superdev.Platforms.Android.Handlers.MauiFix.Extensions
+namespace Superdev.Maui.Platforms.Handlers.MauiFix.Extensions
 {
     public static class PickerExtensions
     {

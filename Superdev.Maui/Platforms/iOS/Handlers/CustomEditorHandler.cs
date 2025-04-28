@@ -1,6 +1,6 @@
 using Microsoft.Maui.Handlers;
 
-namespace Superdev.Maui.Platforms.iOS.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomEditorHandler : EditorHandler
     {

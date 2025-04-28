@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 using Superdev.Maui.Validation;
@@ -12,7 +13,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class PickersViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private readonly IDisplayService displayService;
+        private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
         private string selectedString;
         private ObservableCollection<CountryViewModel> countries;
@@ -23,11 +24,11 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public PickersViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
-            IDisplayService displayService,
+            IDialogService dialogService,
             ICountryService countryService)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
-            this.displayService = displayService;
+            this.dialogService = dialogService;
             this.countryService = countryService;
 
             this.StringValues = new ObservableCollection<string>
@@ -88,7 +89,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.selectedString, value))
                 {
-                    this.displayService.DisplayAlert("SelectedString", $"value={value}");
+                    this.dialogService.DisplayAlertAsync("SelectedString", $"value={value}", "OK");
                 }
             }
         }
@@ -127,11 +128,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public ICommand ToggleBirthdateCommand
         {
-            get
-            {
-                return this.toggleBirthdateCommand ??
-                       (this.toggleBirthdateCommand = new Command(() => this.ToggleBirthdate()));
-            }
+            get => this.toggleBirthdateCommand ??= new Command(this.ToggleBirthdate);
         }
 
         private void ToggleBirthdate()

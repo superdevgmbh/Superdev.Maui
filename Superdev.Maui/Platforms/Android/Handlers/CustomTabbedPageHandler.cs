@@ -4,11 +4,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
 using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Utils;
 using static Android.Views.ViewGroup;
-using AView = global::Android.Views.View;
 
-namespace Superdev.Maui.Platforms.Android.Handlers
+namespace Superdev.Maui.Platforms.Handlers
 {
     public partial class CustomTabbedPageHandler : TabbedViewHandler
     {
