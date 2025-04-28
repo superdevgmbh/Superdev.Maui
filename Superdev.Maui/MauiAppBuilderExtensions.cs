@@ -71,6 +71,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IAppHandler, AppHandler>();
             builder.Services.AddSingleton<IClipboardService, ClipboardService>();
             builder.Services.AddSingleton<IStatusBarService>(_ => StatusBarService.Current);
+            builder.Services.AddSingleton<IActivityIndicatorService, ActivityIndicatorService>();
 #endif
 
             builder.Services.AddSingleton<IDialogService, DialogService>();

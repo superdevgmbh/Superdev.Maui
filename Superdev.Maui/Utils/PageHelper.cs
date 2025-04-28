@@ -1,3 +1,7 @@
+using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
+using Superdev.Maui.Controls;
+
 namespace Superdev.Maui.Utils
 {
     internal static class PageHelper
@@ -81,6 +85,13 @@ namespace Superdev.Maui.Utils
                     }
                 }
             }
+        }
+
+        internal static PageHandler CreatePageHandler(Page parent, ContentPage contentPage)
+        {
+            var mauiContext = parent.Handler?.MauiContext ?? throw new NullReferenceException(nameof(IMauiContext));
+            parent.AddLogicalChild(contentPage);
+            return (PageHandler)contentPage.ToHandler(mauiContext);
         }
     }
 }

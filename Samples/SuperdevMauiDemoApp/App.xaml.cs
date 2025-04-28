@@ -13,6 +13,9 @@ namespace SuperdevMauiDemoApp
 
             CrossPlatformLibrary.Init(this, "SampleApp.Theme");
 
+            var activityIndicatorService = IPlatformApplication.Current.Services.GetService<IActivityIndicatorService>();
+            activityIndicatorService.Init(new DefaultActivityIndicatorPage());
+
             var viewModelErrorRegistry = IPlatformApplication.Current.Services.GetService<IViewModelErrorRegistry>();
             RegisterViewModelErrors(viewModelErrorRegistry);
 
