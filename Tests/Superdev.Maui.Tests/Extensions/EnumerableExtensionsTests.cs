@@ -80,19 +80,6 @@ namespace Superdev.Maui.Tests.Extensions
         }
 
         [Fact]
-        public void ShouldPrependToList()
-        {
-            // Arrange.
-            var sourceCollection = new List<int> { 1, 2, 3 };
-
-            // Act.
-            var resultCollection = sourceCollection.Prepend(99);
-
-            // Assert
-            resultCollection.Should().ContainInOrder(new List<int> { 99, 1, 2, 3 });
-        }
-
-        [Fact]
         public void ShouldFindDuplicates_AtLeastTwoDuplicates()
         {
             // Arrange.

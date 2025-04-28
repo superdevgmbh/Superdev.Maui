@@ -184,19 +184,6 @@ namespace Superdev.Maui.Extensions
         }
 
         /// <summary>
-        ///     Prepends element <paramref name="item" /> to enumerable <paramref name="source" />.
-        /// </summary>
-        internal static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T item)
-        {
-            yield return item;
-
-            foreach (var sourceItem in source)
-            {
-                yield return sourceItem;
-            }
-        }
-
-        /// <summary>
         ///     Appends element <paramref name="item" /> to enumerable <paramref name="source" />.
         /// </summary>
         public static IEnumerable<T> Add<T>(this IEnumerable<T> source, T item)
