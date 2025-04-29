@@ -18,7 +18,7 @@ namespace SuperdevMauiDemoApp
             var activityIndicatorService = IPlatformApplication.Current.Services.GetService<IActivityIndicatorService>();
             activityIndicatorService.Init(new DefaultActivityIndicatorPage());
 
-            var viewModelErrorRegistry = IPlatformApplication.Current.Services.GetService<IViewModelErrorRegistry>();
+            var viewModelErrorRegistry = IViewModelErrorRegistry.Current;
             RegisterViewModelErrors(viewModelErrorRegistry);
 
             var mainPage = IPlatformApplication.Current.Services.GetService<MainPage>();
