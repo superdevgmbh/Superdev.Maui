@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Superdev.Maui.Controls
+﻿namespace Superdev.Maui.Controls
 {
     [ContentProperty("Source")]
     public class ImageResourceExtension : IMarkupExtension
