@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+
 namespace Superdev.Maui.Converters
 {
     internal class BoolInverter : IValueConverter
@@ -16,7 +17,7 @@ namespace Superdev.Maui.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Convert back is not supported");
         }
     }
 }
