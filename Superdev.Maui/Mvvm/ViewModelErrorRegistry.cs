@@ -8,7 +8,7 @@ namespace Superdev.Maui.Mvvm
         private readonly Dictionary<Func<Exception, bool>, Func<ViewModelError>> viewModelErrorFactories =
             new Dictionary<Func<Exception, bool>, Func<ViewModelError>>();
 
-        private Func<Exception, ViewModelError> defaultViewModelErrorFactory;
+        private Func<Exception, ViewModelError> defaultViewModelErrorFactory = ex => new ViewModelError(null, ex.Message, $"{ex}");
 
         private static readonly Lazy<ViewModelErrorRegistry> Implementation = new Lazy<ViewModelErrorRegistry>(
             () => new ViewModelErrorRegistry(),
@@ -23,7 +23,7 @@ namespace Superdev.Maui.Mvvm
         /// <inheritdoc />
         public void SetDefaultFactory(Func<Exception, ViewModelError> viewModelErrorFactory)
         {
-            this.defaultViewModelErrorFactory = viewModelErrorFactory;
+            this.defaultViewModelErrorFactory = viewModelErrorFactory ?? throw new ArgumentNullException(nameof(viewModelErrorFactory));
         }
 
         /// <inheritdoc />
