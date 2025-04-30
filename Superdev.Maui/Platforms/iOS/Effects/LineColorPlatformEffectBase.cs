@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using CoreAnimation;
 using CoreGraphics;
 using Microsoft.Maui.Controls.Platform;
@@ -67,7 +65,7 @@ namespace Superdev.Maui.Platforms.Effects
             {
                 var lineY = Math.Min(visualElement.Height - 10, visualElement.Height * 0.87);
                 lineLayer.Frame = new CGRect(0f, lineY, visualElement.Width, 1f);
-                this.Log($"visualElement: H:{visualElement.Height} W:{visualElement.Width} --> lineLayer.Frame: Y:{lineLayer.Frame.Y}");
+                this.Log($"{this.Element.GetType().Name}: H:{visualElement.Height} W:{visualElement.Width} --> lineLayer.Frame: Y:{lineLayer.Frame.Y}");
 
                 var lineColor = LineColorEffect.GetLineColor(this.Element);
                 if (lineColor != null)

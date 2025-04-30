@@ -297,6 +297,8 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 
     <Style
@@ -469,6 +471,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 
     <Style
@@ -533,7 +537,7 @@
     <Style
         BasedOn="{StaticResource NullableDatePickerStyle}"
         TargetType="controls:NullableDatePicker" />
-    <!--
+
     <Style
         x:Key="TimePickerStyle"
         TargetType="TimePicker">
@@ -550,7 +554,7 @@
     <Style
         BasedOn="{StaticResource TimePickerStyle}"
         TargetType="TimePicker" />
-
+    <!--
     <Style
         x:Key="ExtendedTimePickerStyle"
         BasedOn="{StaticResource TimePickerStyle}"

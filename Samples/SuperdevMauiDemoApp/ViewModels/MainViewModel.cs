@@ -174,7 +174,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             try
             {
                 this.activityIndicatorService.ShowLoadingPage("Loading...");
-                await Task.Delay(5000);
+                // await Task.Delay(5000);
                 await this.navigationService.PushAsync(pageName);
             }
             catch (Exception ex)

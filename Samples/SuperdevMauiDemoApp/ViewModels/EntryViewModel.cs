@@ -56,7 +56,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             try
             {
                 // Demo dynamic adjustment of MaxLength binding
-                this.UserNameMaxLength = Math.Max(3, ++this.UserNameMaxLength);
+                this.UserNameMaxLength = Math.Max(15, ++this.UserNameMaxLength);
             }
             catch (Exception ex)
             {

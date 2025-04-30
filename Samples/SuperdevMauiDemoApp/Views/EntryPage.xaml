@@ -15,10 +15,10 @@
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="CustomEntry" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
@@ -56,30 +56,9 @@
                                 Margin="0"
                                 s:LineColorEffect.ApplyLineColor="True"
                                 s:LineColorEffect.LineColor="Red"
-                                BackgroundColor="LightGoldenrodYellow"
                                 FontSize="{DynamicResource Theme.FontSize.H1}"
                                 Placeholder="CustomEntry with Huge FontSize"
                                 Text="" />
-
-                            <s:CustomEntry
-                                Padding="10,20,30,40"
-                                BackgroundColor="LightSkyBlue"
-                                BorderColor="Green"
-                                BorderWidth="3"
-                                CornerRadius="8"
-                                Placeholder="CustomEntry with BorderColor, BorderThickness and CornerRadius"
-                                Text="" />
-
-                            <!--<s:CustomEntry
-                                BackgroundColor="LightGoldenrodYellow"
-                                HideBorder="True"
-                                Placeholder="CustomEntry with HideBorder=&quot;True&quot;"
-                                Text="" />
-                            <s:CustomEntry
-                                BackgroundColor="LightGoldenrodYellow"
-                                Placeholder="CustomEntry with RemovePadding=&quot;True&quot;"
-                                RemovePadding="True"
-                                Text="" />-->
 
                             <s:CustomEntry
                                 Placeholder="CustomEntry with TextContentType=&quot;FirstName&quot;"
@@ -116,9 +95,9 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="&lt;!--Toggle IsReadonly--&gt;" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>

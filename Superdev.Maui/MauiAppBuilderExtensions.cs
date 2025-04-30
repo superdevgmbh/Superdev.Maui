@@ -44,22 +44,22 @@ namespace Superdev.Maui
                     // Handlers for Android only
 #elif IOS
                     // Handlers for iOS only
-                    handlers.AddHandler<ScrollView, ScrollViewFixHandler>();
+                    handlers.AddHandler(typeof(Entry), typeof(EntryHandler));
+                    handlers.AddHandler(typeof(ScrollView), typeof(ScrollViewFixHandler));
 #endif
                 })
                 .ConfigureEffects(effects =>
                 {
                     effects.Add(typeof(TintImageEffect), typeof(TintImagePlatformEffect));
-#if IOS
-                    effects.Add(typeof(SafeAreaPaddingEffect), typeof(SafeAreaPaddingPlatformEffect));
-                    effects.Add(typeof(SafeAreaTopPaddingEffect), typeof(SafeAreaTopPaddingPlatformEffect));
-                    effects.Add(typeof(SafeAreaBottomPaddingEffect), typeof(SafeAreaBottomPaddingPlatformEffect));
-
                     effects.Add(typeof(EntryLineColorEffect), typeof(EntryLineColorPlatformEffect));
                     effects.Add(typeof(EditorLineColorEffect), typeof(EditorLineColorPlatformEffect));
                     effects.Add(typeof(PickerLineColorEffect), typeof(PickerLineColorPlatformEffect));
                     effects.Add(typeof(DatePickerLineColorEffect), typeof(DatePickerLineColorPlatformEffect));
                     effects.Add(typeof(TimePickerLineColorEffect), typeof(TimePickerLineColorPlatformEffect));
+#if IOS
+                    effects.Add(typeof(SafeAreaPaddingEffect), typeof(SafeAreaPaddingPlatformEffect));
+                    effects.Add(typeof(SafeAreaTopPaddingEffect), typeof(SafeAreaTopPaddingPlatformEffect));
+                    effects.Add(typeof(SafeAreaBottomPaddingEffect), typeof(SafeAreaBottomPaddingPlatformEffect));
 #endif
                 });
 #endif

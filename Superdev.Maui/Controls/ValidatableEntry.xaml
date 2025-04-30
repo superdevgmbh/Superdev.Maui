@@ -44,25 +44,7 @@
             TextContentType="{Binding TextContentType, Source={x:Reference Control}, Mode=OneWay}"
             HorizontalOptions="FillAndExpand"
             VerticalOptions="StartAndExpand"
-            HorizontalTextAlignment="Start">
-            <!-- <Entry.Margin> -->
-            <!--     <OnPlatform x:TypeArguments="Thickness"> -->
-            <!-- <On -->
-            <!-- Platform="Android" -->
-            <!-- Value="-4,-10,-4,-6" /> -->
-            <!-- <On -->
-            <!-- Platform="iOS" -->
-            <!-- Value="0,-10,0,-6" /> -->
-            <!--     </OnPlatform> -->
-            <!-- </Entry.Margin> -->
-            <controls:CustomEntry.Padding>
-                <OnPlatform x:TypeArguments="Thickness">
-                    <On
-                        Platform="Android"
-                        Value="4,0,4,0" />
-                </OnPlatform>
-            </controls:CustomEntry.Padding>
-        </controls:CustomEntry>
+            HorizontalTextAlignment="Start" />
 
         <!-- Trailing Icon -->
         <Image

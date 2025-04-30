@@ -2,9 +2,11 @@ namespace Superdev.Maui.Controls
 {
     public static class DialogExtensions
     {
+        public const string DoneButtonText = "DoneButtonText";
+
         public static readonly BindableProperty DoneButtonTextProperty =
             BindableProperty.CreateAttached(
-                "DoneButtonText",
+                DoneButtonText,
                 typeof(string),
                 typeof(DialogExtensions),
                 null);
