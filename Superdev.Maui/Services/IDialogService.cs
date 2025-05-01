@@ -6,6 +6,11 @@
     public interface IDialogService
     {
         /// <summary>
+        /// Gets the singleton instance of <see cref="IDialogService"/>.
+        /// </summary>
+        public static IDialogService Current { get; } = DialogService.Current;
+
+        /// <summary>
         /// Displays a simple dialog with a title, message, and a single cancel button.
         /// </summary>
         /// <param name="title">The title of the dialog.</param>

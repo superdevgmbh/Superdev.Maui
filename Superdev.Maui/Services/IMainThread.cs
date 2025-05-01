@@ -2,6 +2,11 @@
 {
     public interface IMainThread
     {
+        /// <summary>
+        /// Gets the singleton instance of <see cref="IMainThread"/>.
+        /// </summary>
+        public static IMainThread Current => MauiMainThread.Current;
+
         /// <inheritdoc cref="MainThread.IsMainThread"/>
         bool IsMainThread { get; }
 

@@ -12,15 +12,24 @@ namespace Superdev.Maui.Platforms.Services
 {
     public class ActivityIndicatorService : IActivityIndicatorService, IDisposable
     {
+        private static readonly Lazy<IActivityIndicatorService> Implementation = new Lazy<IActivityIndicatorService>(CreateActivityIndicatorService, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IActivityIndicatorService Current => Implementation.Value;
+
+        private static IActivityIndicatorService CreateActivityIndicatorService()
+        {
+            return new ActivityIndicatorService();
+        }
+
+        private ActivityIndicatorService()
+        {
+            this.mainThread = IMainThread.Current;
+        }
+
         private readonly IMainThread mainThread;
         private AView nativeView;
         private Dialog dialog;
         private ContentPage activityIndicatorPage;
-
-        public ActivityIndicatorService(IMainThread mainThread)
-        {
-            this.mainThread = mainThread;
-        }
 
         private static DisplayMetrics GetDisplayMetrics(Context context)
         {

@@ -9,6 +9,19 @@ namespace Superdev.Maui.Platforms.Services
 {
     public class ActivityIndicatorService : IActivityIndicatorService, IDisposable
     {
+        private static readonly Lazy<IActivityIndicatorService> Implementation = new Lazy<IActivityIndicatorService>(CreateActivityIndicatorService, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IActivityIndicatorService Current => Implementation.Value;
+
+        private static IActivityIndicatorService CreateActivityIndicatorService()
+        {
+            return new ActivityIndicatorService();
+        }
+
+        private ActivityIndicatorService()
+        {
+        }
+
         private UIView nativeView;
         private ContentPage activityIndicatorPage;
 

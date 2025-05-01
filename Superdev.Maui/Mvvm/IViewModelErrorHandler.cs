@@ -3,6 +3,11 @@ namespace Superdev.Maui.Mvvm
     public interface IViewModelErrorHandler
     {
         /// <summary>
+        /// Gets the singleton instance of <see cref="IViewModelErrorRegistry"/>.
+        /// </summary>
+        public static IViewModelErrorHandler Current { get; } = ViewModelErrorRegistry.Current;
+
+        /// <summary>
         /// Attempts to map <paramref name="exception"/> to one of the registered error messages.
         /// </summary>
         /// <remarks>

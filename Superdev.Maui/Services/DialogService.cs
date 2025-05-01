@@ -2,10 +2,19 @@
 {
     public class DialogService : IDialogService
     {
+        private static readonly Lazy<IDialogService> Implementation = new Lazy<IDialogService>(CreateDialogService, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IDialogService Current => Implementation.Value;
+
+        private static IDialogService CreateDialogService()
+        {
+            return new DialogService(IMainThread.Current, DeviceInfo.Current);
+        }
+
         private readonly IMainThread mainThread;
         private readonly IDeviceInfo deviceInfo;
 
-        public DialogService(
+        private DialogService(
             IMainThread mainThread,
             IDeviceInfo deviceInfo)
         {

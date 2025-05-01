@@ -15,6 +15,10 @@ namespace Superdev.Maui.Localization
             return new Localizer();
         }
 
+        private Localizer()
+        {
+        }
+
         public void SetCultureInfo(CultureInfo cultureInfo)
         {
             if (cultureInfo == null)

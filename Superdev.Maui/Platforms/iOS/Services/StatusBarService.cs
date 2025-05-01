@@ -19,6 +19,10 @@ namespace Superdev.Maui.Platforms.Services
             return new StatusBarService();
         }
 
+        private StatusBarService()
+        {
+        }
+
         public void SetHexColor(string hexColor)
         {
             var color = Color.FromArgb(hexColor);

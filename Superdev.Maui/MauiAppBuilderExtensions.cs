@@ -65,22 +65,21 @@ namespace Superdev.Maui
 #endif
 
 #if ANDROID || IOS
-            builder.Services.AddSingleton<IToastService, ToastService>();
+            builder.Services.AddSingleton<IToastService>(_ => IToastService.Current);
             builder.Services.AddSingleton<IAppHandler, AppHandler>();
-            builder.Services.AddSingleton<IClipboardService, ClipboardService>();
-            builder.Services.AddSingleton<IStatusBarService>(_ => StatusBarService.Current);
-            builder.Services.AddSingleton<IActivityIndicatorService, ActivityIndicatorService>();
+            builder.Services.AddSingleton<IStatusBarService>(_ => IStatusBarService.Current);
+            builder.Services.AddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
 #endif
 
-            builder.Services.AddSingleton<IDialogService, DialogService>();
+            builder.Services.AddSingleton<IDialogService>(_ => IDialogService.Current);
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
             builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
             builder.Services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
-            builder.Services.AddSingleton<IMainThread, MauiMainThread>();
+            builder.Services.AddSingleton<IMainThread>(_ => IMainThread.Current);
             builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();
-            builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => ViewModelErrorRegistry.Current);
-            builder.Services.AddSingleton<IViewModelErrorHandler>(_ => ViewModelErrorRegistry.Current);
+            builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => IViewModelErrorRegistry.Current);
+            builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 

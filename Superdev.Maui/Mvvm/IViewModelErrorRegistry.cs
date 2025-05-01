@@ -3,9 +3,9 @@ namespace Superdev.Maui.Mvvm
     public interface IViewModelErrorRegistry
     {
         /// <summary>
-        /// Gets the singleton instance of <see cref="IViewModelErrorRegistry"/>.
+        /// Gets the singleton instance of <see cref="IViewModelErrorHandler"/>.
         /// </summary>
-        public static IViewModelErrorRegistry Current { get; set; } = ViewModelErrorRegistry.Current;
+        public static IViewModelErrorRegistry Current { get; } = ViewModelErrorRegistry.Current;
 
         /// <summary>
         /// The default <see cref="ViewModelError"/> factory to be used as last resort

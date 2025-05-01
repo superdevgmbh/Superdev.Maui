@@ -15,7 +15,9 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Styles -->
-            <Style TargetType="NavigationPage">
+            <Style
+                ApplyToDerivedTypes="True"
+                TargetType="NavigationPage">
                 <Setter Property="BackgroundColor" Value="White" />
                 <Setter Property="BarBackgroundColor" Value="DarkBlue" />
                 <Setter Property="BarTextColor" Value="LightBlue" />

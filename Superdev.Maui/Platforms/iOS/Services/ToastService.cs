@@ -6,6 +6,19 @@ namespace Superdev.Maui.Platforms.Services
 {
     public class ToastService : IToastService
     {
+        private static readonly Lazy<IToastService> Implementation = new Lazy<IToastService>(CreateToastService, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IToastService Current => Implementation.Value;
+
+        private static IToastService CreateToastService()
+        {
+            return new ToastService();
+        }
+
+        private ToastService()
+        {
+        }
+
         private const double LongDelay = 3.5;
         private const double ShortDelay = 2.0;
 
@@ -22,7 +35,7 @@ namespace Superdev.Maui.Platforms.Services
             this.ShowAlert(message, ShortDelay);
         }
 
-        void ShowAlert(string message, double seconds)
+        private void ShowAlert(string message, double seconds)
         {
             this.alertDelay = NSTimer.CreateScheduledTimer(seconds, (obj) => { this.DismissMessage(); });
             this.alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);

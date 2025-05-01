@@ -2,6 +2,19 @@
 {
     public class MauiMainThread : IMainThread
     {
+        private static readonly Lazy<IMainThread> Implementation = new Lazy<IMainThread>(CreateMainThread, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IMainThread Current => Implementation.Value;
+
+        private static IMainThread CreateMainThread()
+        {
+            return new MauiMainThread();
+        }
+
+        private MauiMainThread()
+        {
+        }
+
         public bool IsMainThread => MainThread.IsMainThread;
 
         public void BeginInvokeOnMainThread(Action action)

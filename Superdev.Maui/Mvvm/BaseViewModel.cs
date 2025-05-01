@@ -145,9 +145,14 @@ namespace Superdev.Maui.Mvvm
         {
             this.IsRefreshing = true;
 
-            await this.OnRefreshList();
-
-            this.IsRefreshing = false;
+            try
+            {
+                await this.OnRefreshList();
+            }
+            finally
+            {
+                this.IsRefreshing = false;
+            }
         }
 
         protected virtual async Task OnRefreshList()

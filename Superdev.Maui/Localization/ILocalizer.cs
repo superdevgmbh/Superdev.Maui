@@ -10,6 +10,11 @@ namespace Superdev.Maui.Localization
     public interface ILocalizer
     {
         /// <summary>
+        /// Gets the singleton instance of <see cref="ILocalizer"/>.
+        /// </summary>
+        public static ILocalizer Current => Localizer.Current;
+
+        /// <summary>
         ///     Returns platform-specific locale settings.
         /// </summary>
         CultureInfo GetCurrentCulture();
