@@ -5,18 +5,30 @@ namespace Superdev.Maui.Tests.Mvvm
     public class ViewModelErrorRegistryTests
     {
         [Fact]
-        public void ShouldCreateFromException_ThrowsExceptionIfNotConfigured()
+        public void ShouldReturnDefaultViewModelError_IfNotConfigured()
         {
             // Arrange
-            var viewModelErrorRegistry = new ViewModelErrorRegistry();
-            var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
-            var exception = new Exception("message1");
+            IViewModelErrorHandler viewModelErrorHandler = new ViewModelErrorRegistry();
+            ViewModelError viewModelError;
 
             // Act
-            var action = () => viewModelErrorHandler.FromException(exception);
+            try
+            {
+                throw new Exception("Test exception");
+            }
+            catch (Exception ex)
+            {
+                viewModelError = viewModelErrorHandler.FromException(ex);
+            }
 
             // Assert
-            action.Should().Throw<InvalidOperationException>();
+            viewModelError.Should().NotBeNull();
+            viewModelError.Icon.Should().BeNull();
+            viewModelError.Title.Should().Be("Test exception");
+            viewModelError.Text.Should().NotBeNull();
+            viewModelError.Text.Should().Contain("System.Exception: Test exception\n");
+            viewModelError.CanRetry.Should().BeFalse();
+            viewModelError.RetryCommand.Should().BeNull();
         }
 
         [Fact]

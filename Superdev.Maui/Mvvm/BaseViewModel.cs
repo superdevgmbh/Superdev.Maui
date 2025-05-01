@@ -15,7 +15,6 @@ namespace Superdev.Maui.Mvvm
         private string icon;
         private bool isRefreshing;
         private ViewModelError viewModelError;
-        private bool isLoadingMore;
         private ViewModelValidation validation;
         private bool isInitialized;
         private bool enableBusyRefCount;
@@ -45,12 +44,6 @@ namespace Superdev.Maui.Mvvm
             set => this.SetProperty(ref this.icon, value);
         }
 
-        public bool IsLoadingMore
-        {
-            get => this.isLoadingMore;
-            set => this.SetProperty(ref this.isLoadingMore, value);
-        }
-
         /// <summary>
         /// Indicates if the viewmodel is initialized. An already initialized viewmodel cannot be uninitialized.
         /// This property participates in the <see cref="IsBusy"/> property: If IsInitialized is <c>false</c>, IsBusy is <c>true</c>.
@@ -75,10 +68,7 @@ namespace Superdev.Maui.Mvvm
                     {
                         this.RaisePropertyChanged(nameof(this.IsBusy));
                         this.RaisePropertyChanged(nameof(this.IsNotBusy));
-                        this.RaisePropertyChanged(nameof(this.HasViewModelError));
                         this.RaisePropertyChanged(nameof(this.IsContentReady));
-                        this.RaisePropertyChanged(nameof(this.HasDataAvailable));
-                        this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                         this.OnBusyChanged(isBusyAfter);
                     }
                 }
@@ -126,9 +116,7 @@ namespace Superdev.Maui.Mvvm
                 if (propertyChanged)
                 {
                     this.RaisePropertyChanged(nameof(this.IsNotBusy));
-                    this.RaisePropertyChanged(nameof(this.HasViewModelError));
                     this.RaisePropertyChanged(nameof(this.IsContentReady));
-                    this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                     this.OnBusyChanged(value);
                 }
             }
@@ -174,10 +162,7 @@ namespace Superdev.Maui.Mvvm
             {
                 if (this.SetProperty(ref this.viewModelError, value))
                 {
-                    this.RaisePropertyChanged(nameof(this.HasViewModelError));
                     this.RaisePropertyChanged(nameof(this.IsContentReady));
-                    this.RaisePropertyChanged(nameof(this.HasDataAvailable));
-                    this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                     this.OnViewModelErrorChanged();
                 }
             }
@@ -187,22 +172,12 @@ namespace Superdev.Maui.Mvvm
         {
         }
 
-        public bool HasViewModelError => this.IsNotBusy && this.ViewModelError != ViewModelError.None;
-
         public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.ViewModelError == ViewModelError.None;
-
-        /// <summary>
-        /// Indicates if the view model has payload data available.
-        /// Override this property and return a bool value to indicated if data loading returned any data.
-        /// </summary>
-        public virtual bool HasDataAvailable => true;
-
-        public bool HasNoDataAvailable => !this.HasDataAvailable && this.IsNotBusy && !this.HasViewModelError;
 
         public ViewModelValidation Validation
         {
             get => this.validation /*?? throw new InvalidOperationException($"Override {nameof(this.SetupValidation)} before accessing {nameof(this.Validation)}")*/;
-            private set => this.SetProperty(ref this.validation, value, nameof(this.Validation));
+            private set => this.SetProperty(ref this.validation, value);
         }
 
         private void SetupValidationInternal()

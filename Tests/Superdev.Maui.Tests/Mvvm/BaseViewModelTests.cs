@@ -47,7 +47,7 @@ namespace Superdev.Maui.Tests.Mvvm
             viewModel.EnableBusyRefCount = true;
 
             var propertyChangedCallbacks = new List<string>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+            viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act
             viewModel.IsBusy = true;
@@ -55,25 +55,12 @@ namespace Superdev.Maui.Tests.Mvvm
             viewModel.IsInitialized = true;
 
             // Assert
-            propertyChangedCallbacks.Should().HaveCount(16);
+            propertyChangedCallbacks.Should().HaveCount(10);
             propertyChangedCallbacks.Should().ContainInOrder(new []
             {
-                "IsBusy",
-                "IsNotBusy",
-                "HasViewModelError",
-                "IsContentReady",
-                "HasNoDataAvailable",
-                "IsBusy",
-                "IsNotBusy",
-                "HasViewModelError",
-                "IsContentReady",
-                "HasNoDataAvailable",
-                "IsInitialized",
-                "IsBusy",
-                "IsNotBusy",
-                "HasViewModelError",
-                "IsContentReady",
-                "HasNoDataAvailable"
+                "IsBusy", "IsNotBusy", "IsContentReady",
+                "IsBusy", "IsNotBusy", "IsContentReady", "IsInitialized",
+                "IsBusy", "IsNotBusy", "IsContentReady"
             });
         }
 
@@ -85,7 +72,7 @@ namespace Superdev.Maui.Tests.Mvvm
             viewModel.EnableBusyRefCount = false;
 
             var propertyChangedCallbacks = new List<string>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+            viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act
             viewModel.IsBusy = true;
@@ -93,25 +80,12 @@ namespace Superdev.Maui.Tests.Mvvm
             viewModel.IsInitialized = true;
 
             // Assert
-            propertyChangedCallbacks.Should().HaveCount(16);
+            propertyChangedCallbacks.Should().HaveCount(10);
             propertyChangedCallbacks.Should().ContainInOrder(new []
             {
-                "IsBusy",
-                "IsNotBusy",
-                "HasViewModelError",
-                "IsContentReady",
-                "HasNoDataAvailable",
-                "IsBusy",
-                "IsNotBusy",
-                "HasViewModelError",
-                "IsContentReady",
-                "HasNoDataAvailable",
-                "IsInitialized",
-                "IsBusy",
-                "IsNotBusy",
-                "HasViewModelError",
-                "IsContentReady",
-                "HasNoDataAvailable"
+                "IsBusy", "IsNotBusy", "IsContentReady",
+                "IsBusy", "IsNotBusy", "IsContentReady", "IsInitialized",
+                "IsBusy", "IsNotBusy", "IsContentReady"
             });
         }
 
