@@ -7,7 +7,7 @@ using IPreferences = Superdev.Maui.Services.IPreferences;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class PreferencesDemoViewModel : BindableBase
+    public class PreferencesDemoViewModel : BaseViewModel
     {
         private readonly SettingsProperty<EnvironmentSetting> currentEnvironment;
         private readonly IPreferences preferences;
@@ -31,6 +31,15 @@ namespace SuperdevMauiDemoApp.ViewModels
             };
 
             this.currentEnvironment = new SettingsProperty<EnvironmentSetting>(preferences, nameof(this.CurrentEnvironment), defaultEnvironmentSetting);
+
+            _ = this.LoadData();
+        }
+
+        private async Task LoadData()
+        {
+            await Task.Delay(3000);
+
+            this.IsInitialized = true;
         }
 
         public EnvironmentSetting CurrentEnvironment

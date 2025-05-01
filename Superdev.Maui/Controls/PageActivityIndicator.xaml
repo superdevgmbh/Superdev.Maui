@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Grid
+    x:Class="Superdev.Maui.Controls.PageActivityIndicator"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="Control"
+    Padding="{DynamicResource Theme.Padding.Medium}"
+    BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BackgroundColor}"
+    IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=false}">
+
+    <VerticalStackLayout
+        Spacing="{DynamicResource Theme.Spacing.Medium}"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            HorizontalOptions="Center"
+            VerticalOptions="End">
+            <ActivityIndicator
+                x:Name="ActivityIndicator"
+                IsRunning="{Binding IsBusy, Source={x:Reference Control}}"
+                Color="{Binding Color, Source={x:Reference Control}}" />
+            <!-- <Setter Property="behaviors:ActivityIndicatorViewStyleBehavior.ViewStyle" Value="Large" /> -->
+        </VerticalStackLayout>
+
+        <Label
+            Style="{Binding Source={x:Reference Control}, Path=TitleStyle}"
+            Text="{Binding Title, Source={x:Reference Control}}"
+            TextColor="{Binding Source={x:Reference ActivityIndicator}, Path=Color}" />
+
+        <Label
+            Style="{Binding Source={x:Reference Control}, Path=TextStyle}"
+            Text="{Binding Text, Source={x:Reference Control}}"
+            TextColor="{Binding Source={x:Reference ActivityIndicator}, Path=Color}" />
+    </VerticalStackLayout>
+</Grid>

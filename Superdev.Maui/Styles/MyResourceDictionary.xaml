@@ -328,7 +328,23 @@
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
     </Style>
 
-    <!-- CustomActivityIndicator Default Style -->
+    <!-- IndicatorView -->
+
+    <Style TargetType="IndicatorView">
+        <Setter Property="IndicatorColor" Value="{DynamicResource Theme.Color.PrimaryVariant}" />
+        <Setter Property="SelectedIndicatorColor" Value="{DynamicResource Theme.Color.PrimaryVariant}" />
+    </Style>
+
+    <!-- ActivityIndicator -->
+
+    <Style
+        x:Key="ActivityIndicatorStyle"
+        TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="{DynamicResource Theme.Color.Secondary}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource ActivityIndicatorStyle}"
+        TargetType="ActivityIndicator" />
 
     <Style
         x:Key="CustomActivityIndicatorLabelStyle"
@@ -356,6 +372,28 @@
     <Style
         BasedOn="{StaticResource CustomActivityIndicatorStyle}"
         TargetType="controls:CustomActivityIndicator" />
+
+    <Style
+        x:Key="PageActivityIndicatorStyle"
+        TargetType="controls:PageActivityIndicator">
+        <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
+        <Setter Property="Color" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="TitleStyle" Value="{StaticResource CustomActivityIndicatorLabelStyle}" />
+        <Setter Property="TextStyle">
+            <Setter.Value>
+                <Style
+                    BasedOn="{StaticResource LabelStyle}"
+                    TargetType="Label">
+                    <Setter Property="LineBreakMode" Value="WordWrap" />
+                    <Setter Property="HorizontalOptions" Value="Center" />
+                    <Setter Property="HorizontalTextAlignment" Value="Center" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource PageActivityIndicatorStyle}"
+        TargetType="controls:PageActivityIndicator" />
 
 
     <!-- ViewModelErrorControl Default Style -->

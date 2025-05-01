@@ -7,13 +7,27 @@ namespace Superdev.Maui.Controls
         public CustomActivityIndicator()
         {
             this.InitializeComponent();
+
             ((VisualElement)this.Control).BackgroundColor = Colors.Transparent;
 
             // Hack: OnPlatform lacks of support for DynamicResource bindings!
-            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
-            {
-                this.ActivityIndicator.SetDynamicResource(ActivityIndicator.ColorProperty, ThemeConstants.Color.Secondary);
-            }
+            // if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+            // {
+            //     this.ActivityIndicator.SetDynamicResource(ActivityIndicator.ColorProperty, ThemeConstants.Color.Secondary);
+            // }
+        }
+
+        public static readonly BindableProperty IsBusyProperty =
+            BindableProperty.Create(
+                nameof(IsBusy),
+                typeof(bool),
+                typeof(CustomActivityIndicator),
+                false);
+
+        public bool IsBusy
+        {
+            get => (bool)this.GetValue(IsBusyProperty);
+            set => this.SetValue(IsBusyProperty, value);
         }
 
         public static readonly BindableProperty CaptionProperty =
@@ -33,9 +47,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(LabelStyle),
                 typeof(Style),
-                typeof(CustomActivityIndicator),
-                default(Style),
-                BindingMode.OneWay);
+                typeof(CustomActivityIndicator));
 
         public Style LabelStyle
         {
@@ -48,8 +60,7 @@ namespace Superdev.Maui.Controls
                 nameof(BackgroundColor),
                 typeof(Color),
                 typeof(CustomActivityIndicator),
-                KnownColor.Default,
-                BindingMode.OneWay);
+                KnownColor.Default);
 
         public new Color BackgroundColor
         {
@@ -62,8 +73,7 @@ namespace Superdev.Maui.Controls
                 nameof(CornerRadius),
                 typeof(CornerRadius),
                 typeof(CustomActivityIndicator),
-                new CornerRadius(),
-                BindingMode.OneWay);
+                new CornerRadius());
 
         public CornerRadius CornerRadius
         {

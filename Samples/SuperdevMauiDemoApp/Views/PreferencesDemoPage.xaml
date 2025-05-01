@@ -3,24 +3,32 @@
     x:Class="SuperdevMauiDemoApp.Views.PreferencesDemoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
-    Title="PreferencesDemoPage"
-    x:DataType="vm:PreferencesDemoViewModel">
-    <VerticalStackLayout>
-        <Label Text="EnvironmentName:" />
-        <Label Text="{Binding CurrentEnvironment.EnvironmentName}" />
+    x:DataType="vm:PreferencesDemoViewModel"
+    Title="PreferencesDemoPage">
 
-        <Label Text="BaseUrl:" />
-        <Label Text="{Binding CurrentEnvironment.BaseUrl}" />
+    <Grid>
+        <VerticalStackLayout Grid.Row="0">
+            <Label Text="EnvironmentName:" />
+            <Label Text="{Binding CurrentEnvironment.EnvironmentName}" />
 
-        <Button
-            Command="{Binding GetCommand}"
-            Text="Get" />
-        <Button
-            Command="{Binding SetCommand}"
-            Text="Set" />
-        <Button
-            Command="{Binding ClearCommand}"
-            Text="Clear" />
-    </VerticalStackLayout>
+            <Label Text="BaseUrl:" />
+            <Label Text="{Binding CurrentEnvironment.BaseUrl}" />
+
+            <Button
+                Command="{Binding GetCommand}"
+                Text="Get" />
+            <Button
+                Command="{Binding SetCommand}"
+                Text="Set" />
+            <Button
+                Command="{Binding ClearCommand}"
+                Text="Clear" />
+        </VerticalStackLayout>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
+    </Grid>
 </ContentPage>

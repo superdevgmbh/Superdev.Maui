@@ -829,10 +829,10 @@
                 </ScrollView>
             </Grid>
 
-            <s:CustomActivityIndicator
+            <s:PageActivityIndicator
+                Title="{s:Translate LoadingText}"
                 Grid.Row="0"
-                Caption="{s:Translate LoadingText}"
-                IsVisible="{Binding IsBusy, Mode=OneWay}" />
+                IsBusy="{Binding IsBusy, Mode=OneWay}" />
 
             <s:ViewModelErrorControl
                 Grid.Row="0"

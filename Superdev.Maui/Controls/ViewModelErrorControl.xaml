@@ -10,7 +10,7 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Padding="{StaticResource Theme.Padding.Medium}"
+            Padding="{DynamicResource Theme.Padding.Medium}"
             Spacing="{DynamicResource Theme.Spacing.Medium}"
             HorizontalOptions="Center"
             VerticalOptions="Center">
@@ -31,14 +31,14 @@
                 WidthRequest="48" />
 
 
-            <VerticalStackLayout Spacing="{StaticResource Theme.Spacing.Medium}">
+            <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <controls:CustomLabel
                     IsVisible="{Binding ViewModelError.Title, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
-                    Style="{StaticResource ViewModelErrorTitleLabelStyle}"
+                    Style="{DynamicResource ViewModelErrorTitleLabelStyle}"
                     Text="{Binding ViewModelError.Title, Source={x:Reference Control}}" />
                 <controls:CustomLabel
                     IsVisible="{Binding ViewModelError.Text, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
-                    Style="{StaticResource ViewModelErrorTextLabelStyle}"
+                    Style="{DynamicResource ViewModelErrorTextLabelStyle}"
                     Text="{Binding ViewModelError.Text, Source={x:Reference Control}}" />
             </VerticalStackLayout>
         </VerticalStackLayout>

@@ -77,6 +77,7 @@ namespace Superdev.Maui.Mvvm
                         this.RaisePropertyChanged(nameof(this.IsNotBusy));
                         this.RaisePropertyChanged(nameof(this.HasViewModelError));
                         this.RaisePropertyChanged(nameof(this.IsContentReady));
+                        this.RaisePropertyChanged(nameof(this.HasDataAvailable));
                         this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                         this.OnBusyChanged(isBusyAfter);
                     }
@@ -175,6 +176,7 @@ namespace Superdev.Maui.Mvvm
                 {
                     this.RaisePropertyChanged(nameof(this.HasViewModelError));
                     this.RaisePropertyChanged(nameof(this.IsContentReady));
+                    this.RaisePropertyChanged(nameof(this.HasDataAvailable));
                     this.RaisePropertyChanged(nameof(this.HasNoDataAvailable));
                     this.OnViewModelErrorChanged();
                 }
@@ -185,9 +187,9 @@ namespace Superdev.Maui.Mvvm
         {
         }
 
-        public bool HasViewModelError => this.IsNotBusy && this.viewModelError != ViewModelError.None;
+        public bool HasViewModelError => this.IsNotBusy && this.ViewModelError != ViewModelError.None;
 
-        public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.viewModelError == ViewModelError.None;
+        public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.ViewModelError == ViewModelError.None;
 
         /// <summary>
         /// Indicates if the view model has payload data available.
