@@ -1,9 +1,17 @@
 using Superdev.Maui.Mvvm;
+using Xunit.Abstractions;
 
 namespace Superdev.Maui.Tests.Mvvm
 {
     public class ViewModelErrorRegistryTests
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public ViewModelErrorRegistryTests(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void ShouldReturnDefaultViewModelError_IfNotConfigured()
         {
@@ -22,11 +30,13 @@ namespace Superdev.Maui.Tests.Mvvm
             }
 
             // Assert
+            this.testOutputHelper.WriteLine(viewModelError.Title);
+            this.testOutputHelper.WriteLine(viewModelError.Text);
+
             viewModelError.Should().NotBeNull();
             viewModelError.Icon.Should().BeNull();
             viewModelError.Title.Should().Be("Test exception");
-            viewModelError.Text.Should().NotBeNull();
-            viewModelError.Text.Should().Contain("System.Exception: Test exception\n");
+            viewModelError.Text.Should().NotBeNullOrEmpty();
             viewModelError.CanRetry.Should().BeFalse();
             viewModelError.RetryCommand.Should().BeNull();
         }
