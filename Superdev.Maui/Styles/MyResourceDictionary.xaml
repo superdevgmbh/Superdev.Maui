@@ -329,14 +329,28 @@
     </Style>
 
     <!-- IndicatorView -->
-
-    <Style TargetType="IndicatorView">
+    <Style
+        x:Key="IndicatorViewStyle"
+        TargetType="IndicatorView">
         <Setter Property="IndicatorColor" Value="{DynamicResource Theme.Color.PrimaryVariant}" />
         <Setter Property="SelectedIndicatorColor" Value="{DynamicResource Theme.Color.PrimaryVariant}" />
     </Style>
+    <Style
+        BasedOn="{StaticResource IndicatorViewStyle}"
+        TargetType="IndicatorView" />
+
+    <!-- ListView -->
+    <Style
+        x:Key="ListViewStyle"
+        TargetType="ListView">
+        <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
+        <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource ListViewStyle}"
+        TargetType="ListView" />
 
     <!-- ActivityIndicator -->
-
     <Style
         x:Key="ActivityIndicatorStyle"
         TargetType="ActivityIndicator">
