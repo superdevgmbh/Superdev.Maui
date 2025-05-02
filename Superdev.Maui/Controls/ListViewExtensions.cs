@@ -2,10 +2,15 @@
 {
     public class ListViewExtensions
     {
+        /// <summary>
+        /// ListView.ScrollTo extension which allows to scroll to a certain item in the ListView.
+        /// You can either bind the target item directly to the ListViewExtension.ScrollTo property
+        /// or use a <see cref="ScrollToItem"/> object to also define the ScrollPosition as well as the Animated flag.
+        /// </summary>
         public static BindableProperty ScrollToProperty =
             BindableProperty.CreateAttached(
                 "ScrollTo",
-                typeof(object),
+                typeof(ScrollToItem),
                 typeof(ListViewExtensions),
                 null,
                 propertyChanged: OnScrollToPropertyChanged);
@@ -22,12 +27,34 @@
 
         private static void OnScrollToPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (!(bindable is ListView listView))
+            if (bindable is not ListView listView)
             {
                 return;
             }
 
-            listView.ScrollTo(newValue, ScrollToPosition.MakeVisible, true);
+            object item;
+            ScrollToPosition scrollToPosition;
+            bool animated;
+
+            if (newValue is ScrollToItem scrollToTarget)
+            {
+                item = scrollToTarget.Item;
+                scrollToPosition = scrollToTarget.Position;
+                animated = scrollToTarget.Animated;
+            }
+            else
+            {
+                item = newValue;
+                scrollToPosition = ScrollToPosition.Start;
+                animated = true;
+            }
+
+            if (item == null)
+            {
+                return;
+            }
+            
+            listView.ScrollTo(item, scrollToPosition, animated);
         }
     }
 }
