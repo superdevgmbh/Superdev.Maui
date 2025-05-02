@@ -1,4 +1,4 @@
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     ///     Class that provides the theme configuration that will be applied in the current App.

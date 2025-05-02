@@ -1,6 +1,4 @@
-﻿using Superdev.Maui.Styles;
-
-namespace Superdev.Maui.Controls
+﻿namespace Superdev.Maui.Controls
 {
     public partial class CustomActivityIndicator : ContentView
     {

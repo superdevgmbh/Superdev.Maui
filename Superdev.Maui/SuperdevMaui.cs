@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Superdev.Maui.Styles;
+using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
 
 namespace Superdev.Maui
@@ -7,14 +7,14 @@ namespace Superdev.Maui
     /// <summary>
     ///     Class that provides static methods and properties for configuring CrossPlatformLibrary resources.
     /// </summary>
-    public class CrossPlatformLibrary
+    public class SuperdevMaui
     {
         private static IFontConverter fontConverter = new NullFontConverter();
 
         private readonly ITheme config;
         private readonly ResourceDictionary applicationResources;
 
-        private CrossPlatformLibrary(Application app, ITheme config)
+        private SuperdevMaui(Application app, ITheme config)
         {
             this.applicationResources = app.Resources;
             this.config = config ?? GetDefaultConfiguration();
@@ -100,7 +100,7 @@ namespace Superdev.Maui
             }
 
             var stopwatch = Stopwatch.StartNew();
-            var crossPlatformLibrary = new CrossPlatformLibrary(app, theme);
+            var crossPlatformLibrary = new SuperdevMaui(app, theme);
             crossPlatformLibrary.MergeCrossPlatformLibraryDictionaries();
             Debug.WriteLine($"Init finished in {stopwatch.Elapsed.TotalMilliseconds:F0}ms");
         }

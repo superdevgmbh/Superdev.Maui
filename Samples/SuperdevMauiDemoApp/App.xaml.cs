@@ -13,7 +13,7 @@ namespace SuperdevMauiDemoApp
         {
             this.InitializeComponent();
 
-            CrossPlatformLibrary.Init(this, "SampleApp.Theme");
+            SuperdevMaui.Init(this, "SampleApp.Theme");
 
             IActivityIndicatorService.Current.Init(new DefaultActivityIndicatorPage());
 

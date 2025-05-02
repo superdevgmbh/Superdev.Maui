@@ -1,6 +1,6 @@
 ﻿using Superdev.Maui.Extensions;
 
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     public static class ResourceDictionaryExtensions
     {

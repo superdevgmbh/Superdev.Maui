@@ -1,5 +1,5 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
-using Superdev.Maui.Styles;
+using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Controls.CardView
 {

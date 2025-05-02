@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     public class FontElement : BindableObject
     {

@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
-    x:Class="Superdev.Maui.Styles.ThemeSpacingResources"
+    x:Class="Superdev.Maui.Resources.Styles.ThemeSpacingResources"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
     <x:Double x:Key="Theme.Slider.Height">27</x:Double>
     <x:Double x:Key="Theme.Button.Height">48</x:Double>
@@ -11,20 +12,20 @@
     <Thickness x:Key="Theme.Dialog.Margin">40</Thickness>
     <Thickness x:Key="Theme.Snackbar.Margin">8,0,8,16</Thickness>
     <OnIdiom
-        x:Key="Theme.Dialog.Width"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="system:Double"
+        x:Key="Theme.Dialog.Width">
         <OnIdiom.Tablet>560</OnIdiom.Tablet>
         <OnIdiom.Phone>280</OnIdiom.Phone>
     </OnIdiom>
     <OnIdiom
-        x:Key="Theme.Snackbar.Width"
-        x:TypeArguments="x:Double">
+        x:TypeArguments="system:Double"
+        x:Key="Theme.Snackbar.Width">
         <OnIdiom.Tablet>344</OnIdiom.Tablet>
         <OnIdiom.Phone>-1</OnIdiom.Phone>
     </OnIdiom>
     <OnIdiom
-        x:Key="Theme.Snackbar.HorizontalOptions"
-        x:TypeArguments="LayoutOptions">
+        x:TypeArguments="LayoutOptions"
+        x:Key="Theme.Snackbar.HorizontalOptions">
         <OnIdiom.Tablet>Center</OnIdiom.Tablet>
         <OnIdiom.Phone>FillAndExpand</OnIdiom.Phone>
     </OnIdiom>

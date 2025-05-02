@@ -1,4 +1,4 @@
-﻿namespace Superdev.Maui.Styles
+﻿namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     ///     Font configuration with named fonts, based on ideas behind https://material.io/design/typography.

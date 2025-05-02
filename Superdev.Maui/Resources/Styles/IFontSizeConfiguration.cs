@@ -1,4 +1,4 @@
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     /// Global definition for named font sizes.

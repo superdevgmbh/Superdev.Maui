@@ -1,4 +1,4 @@
-﻿namespace Superdev.Maui.Styles
+﻿namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     ///     Class that provides color theme configuration based on https://material.io/design/color.

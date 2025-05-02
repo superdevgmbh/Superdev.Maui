@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using Superdev.Maui.Styles;
+using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Converters
 {

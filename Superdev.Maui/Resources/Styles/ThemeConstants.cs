@@ -1,4 +1,4 @@
-﻿namespace Superdev.Maui.Styles
+﻿namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     ///     Static class that contains constant theme resource keys.

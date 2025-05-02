@@ -1,7 +1,7 @@
 ﻿using Superdev.Maui.Services;
 using Superdev.Maui.Utils;
 
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     public partial class ThemeFontResources : ResourceDictionary, IDisposable
     {

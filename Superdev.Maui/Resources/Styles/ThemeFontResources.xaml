@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
-    x:Class="Superdev.Maui.Styles.ThemeFontResources"
+    x:Class="Superdev.Maui.Resources.Styles.ThemeFontResources"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
     <!-- Font Families -->
     <OnPlatform
-        x:Key="Theme.FontFamily.Monospace"
-        x:TypeArguments="x:String">
+        x:TypeArguments="system:String"
+        x:Key="Theme.FontFamily.Monospace">
         <On
             Platform="Android"
             Value="monospace" />

@@ -1,6 +1,6 @@
 using Superdev.Maui.Services;
 
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     internal static class FontConverterExtensions
     {

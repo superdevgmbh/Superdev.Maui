@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
-using Superdev.Maui.Styles;
+using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Controls
 {

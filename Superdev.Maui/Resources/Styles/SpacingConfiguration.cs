@@ -1,4 +1,4 @@
-namespace Superdev.Maui.Styles
+namespace Superdev.Maui.Resources.Styles
 {
     public sealed class SpacingConfiguration : BindableObject, ISpacingConfiguration
     {
