@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
-    BackgroundColor="Transparent">
+    x:Name="Control">
     <Grid
         Padding="50"
         ColumnDefinitions="Auto"
@@ -12,17 +12,8 @@
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
-        <Border
-            Grid.Row="0"
-            BackgroundColor="Gray"
-            StrokeThickness="0">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="16" />
-            </Border.StrokeShape>
-
-            <controls:CustomActivityIndicator
-                x:Name="ActivityIndicator"
-                IsVisible="True" />
-        </Border>
+        <controls:CustomActivityIndicator
+            x:Name="ActivityIndicator"
+            IsBusy="{Binding Source={x:Reference Control}, Path=IsVisible}" />
     </Grid>
 </ContentPage>

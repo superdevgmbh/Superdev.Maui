@@ -8,13 +8,33 @@ namespace Superdev.Maui.Controls
         {
             this.InitializeComponent();
 
-            ((VisualElement)this.Control).BackgroundColor = Colors.Transparent;
+            base.BackgroundColor = Colors.Transparent;
+        }
 
-            // Hack: OnPlatform lacks of support for DynamicResource bindings!
-            // if (DeviceInfo.Current.Platform == DevicePlatform.Android)
-            // {
-            //     this.ActivityIndicator.SetDynamicResource(ActivityIndicator.ColorProperty, ThemeConstants.Color.Secondary);
-            // }
+        public new static readonly BindableProperty BackgroundColorProperty =
+            BindableProperty.Create(
+                nameof(BackgroundColor),
+                typeof(Color),
+                typeof(CustomActivityIndicator),
+                Colors.Gray);
+
+        public new Color BackgroundColor
+        {
+            get => (Color)this.GetValue(BackgroundColorProperty);
+            set => this.SetValue(BackgroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty CornerRadiusProperty =
+            BindableProperty.Create(
+                nameof(CornerRadius),
+                typeof(CornerRadius),
+                typeof(CustomActivityIndicator),
+                default(CornerRadius));
+
+        public CornerRadius CornerRadius
+        {
+            get => (CornerRadius)this.GetValue(CornerRadiusProperty);
+            set => this.SetValue(CornerRadiusProperty, value);
         }
 
         public static readonly BindableProperty IsBusyProperty =
@@ -30,55 +50,42 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(IsBusyProperty, value);
         }
 
-        public static readonly BindableProperty CaptionProperty =
+        public static readonly BindableProperty TitleProperty =
             BindableProperty.Create(
-                nameof(Caption),
+                nameof(Title),
                 typeof(string),
                 typeof(CustomActivityIndicator),
                 null);
 
-        public string Caption
+        public string Title
         {
-            get => (string)this.GetValue(CaptionProperty);
-            set => this.SetValue(CaptionProperty, value);
+            get => (string)this.GetValue(TitleProperty);
+            set => this.SetValue(TitleProperty, value);
         }
 
-        public static readonly BindableProperty LabelStyleProperty =
+        public static readonly BindableProperty TitleStyleProperty =
             BindableProperty.Create(
-                nameof(LabelStyle),
+                nameof(TitleStyle),
                 typeof(Style),
                 typeof(CustomActivityIndicator));
 
-        public Style LabelStyle
+        public Style TitleStyle
         {
-            get => (Style)this.GetValue(LabelStyleProperty);
-            set => this.SetValue(LabelStyleProperty, value);
+            get => (Style)this.GetValue(TitleStyleProperty);
+            set => this.SetValue(TitleStyleProperty, value);
         }
 
-        public new static readonly BindableProperty BackgroundColorProperty =
+        public static readonly BindableProperty ActivityIndicatorStyleProperty =
             BindableProperty.Create(
-                nameof(BackgroundColor),
-                typeof(Color),
-                typeof(CustomActivityIndicator),
-                KnownColor.Default);
+                nameof(ActivityIndicatorStyle),
+                typeof(Style),
+                typeof(CustomActivityIndicator));
 
-        public new Color BackgroundColor
+        public Style ActivityIndicatorStyle
         {
-            get => (Color)this.GetValue(BackgroundColorProperty);
-            set => this.SetValue(BackgroundColorProperty, value);
+            get => (Style)this.GetValue(ActivityIndicatorStyleProperty);
+            set => this.SetValue(ActivityIndicatorStyleProperty, value);
         }
 
-        public static readonly BindableProperty CornerRadiusProperty =
-            BindableProperty.Create(
-                nameof(CornerRadius),
-                typeof(CornerRadius),
-                typeof(CustomActivityIndicator),
-                new CornerRadius());
-
-        public CornerRadius CornerRadius
-        {
-            get => (CornerRadius)this.GetValue(CornerRadiusProperty);
-            set => this.SetValue(CornerRadiusProperty, value);
-        }
     }
 }

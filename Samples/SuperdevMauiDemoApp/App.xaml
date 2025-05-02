@@ -4,14 +4,14 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui">
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles;assembly=Superdev.Maui">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Converters.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-                <s:MyResourceDictionary />
+                <styles:SuperdevMauiStyles />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Styles -->
@@ -37,8 +37,7 @@
 
             <s:ColorConfiguration
                 x:Key="ColorConfiguration"
-                Background="{StaticResource WindowBackground}"
-                CardViewBackgroundColor="{StaticResource WindowBackgroundTable}"
+                CardViewBackgroundColor="{StaticResource CardViewBackgroundColor}"
                 CardViewHeaderBackgroundColor="{StaticResource LabelSectionBackground}"
                 CardViewHeaderTextColor="#6D6D72"
                 Error="#ff1744"

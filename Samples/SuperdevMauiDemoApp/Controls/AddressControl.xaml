@@ -17,7 +17,7 @@
                 <controls:HeaderDivider />
                 <Grid
                     Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                    BackgroundColor="{StaticResource WindowBackground}"
+                    BackgroundColor="{StaticResource CardViewBackgroundColor}"
                     ColumnDefinitions="*,*"
                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
                     RowDefinitions="Auto,Auto,Auto">

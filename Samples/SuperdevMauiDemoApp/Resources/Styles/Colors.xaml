@@ -13,7 +13,7 @@
 
     <OnPlatform
         x:TypeArguments="Color"
-        x:Key="WindowBackgroundTable">
+        x:Key="PageBackgroundColor">
         <On
             Platform="Android"
             Value="#F5F5F5" />
@@ -24,7 +24,7 @@
 
     <OnPlatform
         x:TypeArguments="Color"
-        x:Key="WindowBackground">
+        x:Key="CardViewBackgroundColor">
         <On
             Platform="Android"
             Value="#F5F5F5" />

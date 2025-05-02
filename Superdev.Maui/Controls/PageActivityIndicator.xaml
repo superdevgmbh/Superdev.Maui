@@ -14,25 +14,25 @@
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
+        <!-- ActivityIndicator -->
         <VerticalStackLayout
             Padding="{DynamicResource Theme.Padding.Medium}"
             HorizontalOptions="Center"
             VerticalOptions="End">
             <ActivityIndicator
-                x:Name="ActivityIndicator"
                 IsRunning="{Binding IsBusy, Source={x:Reference Control}}"
-                Color="{Binding Color, Source={x:Reference Control}}" />
+                Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}" />
             <!-- <Setter Property="behaviors:ActivityIndicatorViewStyleBehavior.ViewStyle" Value="Large" /> -->
         </VerticalStackLayout>
 
+        <!-- Title -->
         <Label
             Style="{Binding Source={x:Reference Control}, Path=TitleStyle}"
-            Text="{Binding Title, Source={x:Reference Control}}"
-            TextColor="{Binding Source={x:Reference ActivityIndicator}, Path=Color}" />
+            Text="{Binding Title, Source={x:Reference Control}}" />
 
+        <!-- Text -->
         <Label
             Style="{Binding Source={x:Reference Control}, Path=TextStyle}"
-            Text="{Binding Text, Source={x:Reference Control}}"
-            TextColor="{Binding Source={x:Reference ActivityIndicator}, Path=Color}" />
+            Text="{Binding Text, Source={x:Reference Control}}" />
     </VerticalStackLayout>
 </Grid>

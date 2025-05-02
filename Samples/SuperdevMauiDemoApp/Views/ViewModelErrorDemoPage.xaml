@@ -7,7 +7,7 @@
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:ViewModelErrorDemoViewModel"
     Title="ViewModelErrorDemoPage"
-    BackgroundColor="{DynamicResource WindowBackgroundTable}">
+    BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <Grid>
         <ScrollView Grid.Row="0">
@@ -23,7 +23,7 @@
 
         <s:CustomActivityIndicator
             Grid.Row="0"
-            IsVisible="{Binding IsBusy}" />
+            IsBusy="{Binding IsBusy}" />
 
         <s:ViewModelErrorControl
             Grid.Row="0"

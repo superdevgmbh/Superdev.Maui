@@ -2,101 +2,18 @@
 <?xaml-comp compile="true" ?>
 
 <ResourceDictionary
-    x:Class="Superdev.Maui.Styles.MyResourceDictionary"
+    x:Class="Superdev.Maui.Resources.Styles.SuperdevMauiStyles"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
-    xmlns:converters="clr-namespace:Superdev.Maui.Converters;assembly=Superdev.Maui"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects;assembly=Superdev.Maui">
+    xmlns:behaviors="clr-namespace:Superdev.Maui.Behaviors"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:converters="clr-namespace:Superdev.Maui.Converters"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects">
 
-    <!-- Colors -->
-    <OnPlatform
-        x:TypeArguments="Color"
-        x:Key="WindowBackgroundTable">
-        <On
-            Platform="Android"
-            Value="#F5F5F5" />
-        <On
-            Platform="iOS"
-            Value="#EFEFF4" />
-    </OnPlatform>
-    <OnPlatform
-        x:TypeArguments="Color"
-        x:Key="WindowBackground">
-        <On
-            Platform="Android"
-            Value="#F5F5F5" />
-        <On
-            Platform="iOS"
-            Value="White" />
-    </OnPlatform>
-
-    <Color x:Key="ListSeparator">#C8C7CC</Color>
-
-    <OnPlatform
-        x:TypeArguments="x:Double"
-        x:Key="Theme.DividerLine.Small">
-        <On
-            Platform="Android"
-            Value="0.1" />
-        <On
-            Platform="iOS"
-            Value="0.5" />
-    </OnPlatform>
-
-    <OnPlatform
-        x:TypeArguments="x:Double"
-        x:Key="Theme.DividerLine.Medium">
-        <On
-            Platform="Android"
-            Value="1" />
-        <On
-            Platform="iOS"
-            Value="1" />
-    </OnPlatform>
-
-    <OnPlatform
-        x:TypeArguments="Thickness"
-        x:Key="CardPadding">
-        <On
-            Platform="Android"
-            Value="8, 8, 8, 16" />
-        <On
-            Platform="iOS"
-            Value="0, 0, 0, 16" />
-    </OnPlatform>
-    <OnPlatform
-        x:TypeArguments="x:Double"
-        x:Key="CardSpacing">
-        <On
-            Platform="Android"
-            Value="16" />
-        <On
-            Platform="iOS"
-            Value="0" />
-    </OnPlatform>
-
-    <OnPlatform
-        x:TypeArguments="x:Double"
-        x:Key="CustomListItemTextStyleSize">
-        <On
-            Platform="Android"
-            Value="16" />
-        <On
-            Platform="iOS"
-            Value="16" />
-    </OnPlatform>
-
-    <OnPlatform
-        x:TypeArguments="x:Double"
-        x:Key="CustomListItemDetailTextStyleSize">
-        <On
-            Platform="Android"
-            Value="13" />
-        <On
-            Platform="iOS"
-            Value="13" />
-    </OnPlatform>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="Spacing.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <!-- Converters -->
     <converters:DebugConverter x:Key="DebugConverter" />
@@ -125,6 +42,20 @@
 
     <!-- Styles -->
     <x:Double x:Key="MinimumHeight.Input">48</x:Double>
+
+    <!-- Pages -->
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackgroundColor}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{DynamicResource Theme.Color.Primary}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackgroundColor}" />
+        <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
+    </Style>
 
     <!-- MultiStateToggleButton Base Style -->
     <!--<Style
@@ -343,6 +274,7 @@
     <Style
         x:Key="ListViewStyle"
         TargetType="ListView">
+        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
         <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
     </Style>
@@ -361,7 +293,7 @@
         TargetType="ActivityIndicator" />
 
     <Style
-        x:Key="CustomActivityIndicatorLabelStyle"
+        x:Key="ActivityIndicatorTitleLabelStyle"
         BasedOn="{StaticResource LabelStyle}"
         TargetType="Label">
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
@@ -377,11 +309,12 @@
         x:Key="CustomActivityIndicatorStyle"
         TargetType="controls:CustomActivityIndicator">
         <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="ActivityIndicatorStyle" Value="{StaticResource ActivityIndicatorStyle}" />
         <Setter Property="CornerRadius" Value="{DynamicResource Theme.Spacing.Large}" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="LabelStyle" Value="{StaticResource CustomActivityIndicatorLabelStyle}" />
+        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource CustomActivityIndicatorStyle}"
@@ -391,8 +324,16 @@
         x:Key="PageActivityIndicatorStyle"
         TargetType="controls:PageActivityIndicator">
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="Color" Value="{DynamicResource Theme.Color.Secondary}" />
-        <Setter Property="TitleStyle" Value="{StaticResource CustomActivityIndicatorLabelStyle}" />
+        <Setter Property="ActivityIndicatorStyle">
+            <Setter.Value>
+                <Style
+                    BasedOn="{StaticResource ActivityIndicatorStyle}"
+                    TargetType="ActivityIndicator">
+                    <Setter Property="behaviors:ActivityIndicatorViewStyleBehavior.ViewStyle" Value="Large" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
         <Setter Property="TextStyle">
             <Setter.Value>
                 <Style
@@ -410,8 +351,7 @@
         TargetType="controls:PageActivityIndicator" />
 
 
-    <!-- ViewModelErrorControl Default Style -->
-
+    <!-- ViewModelErrorControl -->
     <Style
         x:Key="ViewModelErrorTitleLabelStyle"
         BasedOn="{StaticResource LabelStyle}"

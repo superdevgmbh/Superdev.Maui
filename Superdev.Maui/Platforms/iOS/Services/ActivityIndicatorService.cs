@@ -1,6 +1,4 @@
-﻿using CoreGraphics;
-using Microsoft.Maui.Handlers;
-using Superdev.Maui.Controls;
+﻿using Superdev.Maui.Controls;
 using Superdev.Maui.Services;
 using Superdev.Maui.Utils;
 using UIKit;
@@ -66,7 +64,7 @@ namespace Superdev.Maui.Platforms.Services
 
             if (this.activityIndicatorPage is IActivityIndicatorPage activityIndicatorPage)
             {
-                activityIndicatorPage.SetCaption(text);
+                activityIndicatorPage.SetTitle(text);
             }
 
             if (this.nativeView != null)

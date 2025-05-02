@@ -48,7 +48,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isSaving;
         private ObservableCollection<ResourceViewModel> themeResources;
         private ICommand navigateToPageCommand;
-        private ICommand showActivityIndicatorCommand;
         private LanguageViewModel language;
 
         public MainViewModel(
@@ -188,18 +187,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public ICommand ShowActivityIndicatorCommand
-        {
-            get => this.showActivityIndicatorCommand ??= new Command(async () => await this.OnShowActivityIndicator());
-        }
-
-        private async Task OnShowActivityIndicator()
-        {
-            this.activityIndicatorService.ShowLoadingPage("Loading...");
-            await Task.Delay(3000);
-            this.activityIndicatorService.HideLoadingPage();
-        }
-
         public string Notes
         {
             get => this.notes;
@@ -209,7 +196,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public string LogContent
         {
             get => this.logContent;
-            set => this.SetProperty(ref this.logContent, value, nameof(this.LogContent));
+            set => this.SetProperty(ref this.logContent, value);
         }
 
         public string AdminEmailAddress
@@ -323,10 +310,12 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public bool CanExecuteLoadDataButtonCommand => this.IsNotBusy && !this.IsSaving;
 
-        public IAsyncRelayCommand LoadDataButtonCommand =>
-            this.loadDataButtonCommand ??= new AsyncRelayCommand(
-                this.LoadData,
-                () => this.CanExecuteLoadDataButtonCommand);
+        public IAsyncRelayCommand LoadDataButtonCommand
+        {
+            get => this.loadDataButtonCommand ??= new AsyncRelayCommand(
+                    execute: this.LoadData,
+                    canExecute: () => this.CanExecuteLoadDataButtonCommand);
+        }
 
         private async Task LoadData()
         {

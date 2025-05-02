@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.ActivityIndicatorDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:ActivityIndicatorDemoViewModel"
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="ActivityIndicatorDemoPage">
+
+    <Grid>
+        <ScrollView
+            Grid.Row="0"
+            Padding="{DynamicResource Theme.Padding.Medium}">
+            <StackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <Button
+                    Command="{Binding BusyCommand}"
+                    Text="PageActivityIndicator.IsBusy" />
+                <Button
+                    Command="{Binding ContentBusyCommand}"
+                    Text="CustomActivityIndicator.IsBusy" />
+                <Button
+                    Command="{Binding ServiceBusyCommand}"
+                    Text="IActivityIndicatorService.ShowLoadingPage" />
+
+                <s:CustomActivityIndicator
+                    IsBusy="{Binding IsContentBusy}"
+                    Title="CustomActivityIndicator Title" />
+            </StackLayout>
+        </ScrollView>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}"
+            Text="PageActivityIndicator Text"
+            Title="PageActivityIndicator Title" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>

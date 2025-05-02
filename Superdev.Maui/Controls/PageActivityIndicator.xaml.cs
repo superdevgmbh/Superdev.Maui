@@ -68,17 +68,16 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(TextStyleProperty, value);
         }
 
-        public static readonly BindableProperty ColorProperty =
+        public static readonly BindableProperty ActivityIndicatorStyleProperty =
             BindableProperty.Create(
-                nameof(Color),
-                typeof(Color),
-                typeof(PageActivityIndicator),
-                KnownColor.Default);
+                nameof(ActivityIndicatorStyle),
+                typeof(Style),
+                typeof(PageActivityIndicator));
 
-        public Color Color
+        public Style ActivityIndicatorStyle
         {
-            get => (Color)this.GetValue(ColorProperty);
-            set => this.SetValue(ColorProperty, value);
+            get => (Style)this.GetValue(ActivityIndicatorStyleProperty);
+            set => this.SetValue(ActivityIndicatorStyleProperty, value);
         }
     }
 }

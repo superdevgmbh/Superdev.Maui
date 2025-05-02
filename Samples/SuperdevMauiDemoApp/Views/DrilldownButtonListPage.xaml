@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:DrilldownButtonListViewModel"
     Title="Drilldown Buttons"
-    BackgroundColor="{DynamicResource WindowBackgroundTable}">
+    BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <ScrollView>
         <Grid>

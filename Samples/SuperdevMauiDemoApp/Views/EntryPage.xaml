@@ -7,7 +7,7 @@
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:EntryViewModel"
     Title="EntryPage"
-    BackgroundColor="{DynamicResource WindowBackgroundTable}">
+    BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <ScrollView>
         <Grid>

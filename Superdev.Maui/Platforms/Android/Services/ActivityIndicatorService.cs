@@ -94,7 +94,7 @@ namespace Superdev.Maui.Platforms.Services
             // Update the caption title
             if (this.activityIndicatorPage is IActivityIndicatorPage contentPage)
             {
-                contentPage.SetCaption(text);
+                contentPage.SetTitle(text);
             }
 
             if (this.dialog is { IsShowing: false })

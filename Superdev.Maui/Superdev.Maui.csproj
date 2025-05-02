@@ -27,19 +27,16 @@
 	</ItemGroup>
   
 	<ItemGroup>
-	  <Compile Update="Platforms\iOS\Effects\PickerLineColorPlatformEffect.cs">
-	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
-	  </Compile>
-	  <Compile Update="Platforms\iOS\Handlers\CustomEditorHandler.cs">
-	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
-	  </Compile>
-	  <Compile Update="Platforms\Android\Handlers\CustomPickerHandler.cs">
-	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  <Compile Update="Resources\Styles\SuperdevMauiStyles.xaml.cs">
+	    <DependentUpon>MyResourceDictionary.xaml</DependentUpon>
+	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
   
 	<ItemGroup>
-	  <Folder Include="Platforms\Android\Handlers\MauiFix\" />
+	  <MauiXaml Update="Resources\Styles\Spacing.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

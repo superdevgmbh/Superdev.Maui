@@ -7,19 +7,9 @@
             this.InitializeComponent();
         }
 
-        protected override void OnParentSet()
+        public void SetTitle(string title)
         {
-            base.OnParentSet();
-        }
-
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-        }
-
-        public void SetCaption(string text)
-        {
-            this.ActivityIndicator.Caption = text;
+            this.ActivityIndicator.Title = title;
         }
     }
 }

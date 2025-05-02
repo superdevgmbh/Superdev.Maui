@@ -7,16 +7,11 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:views="clr-namespace:SuperdevMauiDemoApp.Views"
     x:Name="Page"
-    Title="Superdev.Maui Sample App"
     s:SafeAreaPadding.Layout="Top,Bottom"
-    BackgroundColor="SlateGray">
+    Title="Superdev.Maui Sample App">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="CountryItemTemplate">
-                <itemTemplates:CountryItemTemplate />
-            </DataTemplate>
-
             <DataTemplate x:Key="ColorResourceItemTemplate">
                 <ViewCell>
                     <ViewCell.View>
@@ -165,13 +160,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand">
-
-        <Grid
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand">
+    <Grid>
+        <Grid Padding="{DynamicResource Theme.Padding.Medium}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -300,30 +290,34 @@
                                         CommandParameter="CardViewPage"
                                         Text="CardViewPage" />
                                 </Grid>
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: Drilldown Buttons--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="DrilldownButtonListPage"
-                                    Text="Drilldown Buttons" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: ListView--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="ListViewDemoPage"
-                                    Text="ListView" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: Pickers--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="PickersPage"
-                                    Text="Pickers" />
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="ActivityIndicatorDemoPage"
+                                        Text="ActivityIndicator" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="DrilldownButtonListPage"
+                                        Text="Drilldown Buttons" />
+                                </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="ListViewDemoPage"
+                                        Text="ListView" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="PickersPage"
+                                        Text="Pickers" />
+                                </Grid>
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -348,13 +342,6 @@
                                     Command="{Binding NavigateToPageCommand}"
                                     CommandParameter="MultiStateToggleButtonDemoPage"
                                     Text="MultiStateToggleButton Demo" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: ActivityIndicatorService--&gt;" />
-                                <Button
-                                    Command="{Binding ShowActivityIndicatorCommand}"
-                                    Text="ActivityIndicatorService.Show" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -823,22 +810,20 @@
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Start" />
                         <s:CustomActivityIndicator
-                            Caption="{s:Translate LoadingText}"
-                            IsVisible="{Binding IsBusy, Mode=OneWay}" />
+                            IsBusy="{Binding IsBusy}"
+                            Title="{s:Translate LoadingText}" />
                     </Grid>
                 </ScrollView>
             </Grid>
 
             <s:PageActivityIndicator
-                Title="{s:Translate LoadingText}"
                 Grid.Row="0"
-                IsBusy="{Binding IsBusy, Mode=OneWay}" />
+                IsBusy="{Binding IsBusy}"
+                Title="{s:Translate LoadingText}" />
 
             <s:ViewModelErrorControl
                 Grid.Row="0"
-                IsVisible="{Binding HasViewModelError, Mode=OneWay, FallbackValue=False}"
                 ViewModelError="{Binding ViewModelError, Mode=OneWay}" />
-
         </Grid>
-    </StackLayout>
+    </Grid>
 </ContentPage>

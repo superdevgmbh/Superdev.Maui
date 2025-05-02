@@ -2,6 +2,6 @@
 {
     public interface IActivityIndicatorPage
     {
-        void SetCaption(string text);
+        void SetTitle(string title);
     }
 }

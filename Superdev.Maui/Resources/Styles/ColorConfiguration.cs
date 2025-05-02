@@ -17,7 +17,7 @@
 
         /// <summary>
         ///     The underlying color of an app's content.
-        ///     Typically the background color of scrollable content.
+        ///     Typically, the background color of scrollable content.
         /// </summary>
         public Color Background
         {
