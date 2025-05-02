@@ -3,7 +3,7 @@
     x:Class="SuperdevMauiDemoApp.Views.ListViewDemoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:cpl="http://superdev.ch/schemas/2020/cpl"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:templates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
@@ -18,6 +18,7 @@
     <!-- TODO: Currently not used -->
 
     <ListView
+        s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
         HasUnevenRows="True"
         ItemTemplate="{StaticResource CountryItemTemplate}"
         ItemsSource="{Binding Countries}"

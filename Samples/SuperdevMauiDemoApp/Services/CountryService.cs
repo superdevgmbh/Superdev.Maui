@@ -6,7 +6,7 @@ namespace SuperdevMauiDemoApp.Services
     {
         public Task<IEnumerable<CountryDto>> GetAllAsync()
         {
-            return Task.FromResult<IEnumerable<CountryDto>>(new List<CountryDto>
+            var countryDtos = new List<CountryDto>
             {
                 new CountryDto{ Id = 1, Name = "Switzerland"},
                 new CountryDto{ Id = 2, Name = "Germany"},
@@ -17,7 +17,18 @@ namespace SuperdevMauiDemoApp.Services
                 new CountryDto{ Id = 7, Name = "French Polynesia"},
                 new CountryDto{ Id = 8, Name = "French Southern Territories (the)"},
                 new CountryDto{ Id = 9, Name = "USA"}
-            });
+            };
+
+            for (var i = 10; i < 100; i++)
+            {
+                countryDtos.Add(new CountryDto
+                {
+                    Id = i,
+                    Name = $"Country {i}"
+                });
+            }
+
+            return Task.FromResult<IEnumerable<CountryDto>>(countryDtos);
         }
     }
 }

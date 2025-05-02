@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
@@ -13,7 +14,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
+
         private ObservableCollection<CountryViewModel> countries;
+        private ScrollToItem scrollToCountry;
 
         public ListViewDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -37,7 +40,17 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 var defaultCountryViewModel = new CountryViewModel(new CountryDto { Name = null });
                 var countryDtos = await this.countryService.GetAllAsync();
-                this.Countries = countryDtos.Select(c => new CountryViewModel(c)).Prepend(defaultCountryViewModel).ToObservableCollection();
+                this.Countries = countryDtos
+                    .Select(c => new CountryViewModel(c))
+                    .Prepend(defaultCountryViewModel)
+                    .ToObservableCollection();
+
+                this.ScrollToCountry = new ScrollToItem
+                {
+                    Item = this.Countries.SingleOrDefault(c => c.Id == 50),
+                    Position = ScrollToPosition.Center,
+                    Animated = true
+                };
             }
             catch (Exception ex)
             {
@@ -58,6 +71,12 @@ namespace SuperdevMauiDemoApp.ViewModels
         private async void OnSelectCountry(CountryViewModel parameter)
         {
             await this.dialogService.DisplayAlertAsync("SelectCountryCommand", $"country: {parameter.Name ?? "null"}", "OK");
+        }
+
+        public ScrollToItem ScrollToCountry
+        {
+            get => this.scrollToCountry;
+            set => this.SetProperty(ref this.scrollToCountry, value);
         }
     }
 }

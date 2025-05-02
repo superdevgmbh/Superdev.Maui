@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.StylesDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:views="clr-namespace:SuperdevMauiDemoApp.Views"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:StylesDemoViewModel"
+    Title="Styles / Resources Demo">
+
+    <ContentPage.Resources>
+        <DataTemplate
+            x:DataType="vm:ColorResourceViewModel"
+            x:Key="ColorResourceItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    BackgroundColor="{Binding Value}"
+                    FontSize="Small"
+                    Text="{Binding Value, Converter={StaticResource ColorToHexStringConverter}}"
+                    TextColor="{Binding Value, Converter={StaticResource ColorInverter}}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:DataType="vm:FontElementResourceViewModel"
+            x:Key="FontResourceItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="{Binding Value.FontAttributes}"
+                    FontFamily="{Binding Value.FontFamily}"
+                    FontSize="{Binding Value.FontSize}"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Value, Converter={StaticResource FontElementToStringConverter}}"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:DataType="vm:ResourceViewModel"
+            x:Key="ThicknessItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding Value, Converter={StaticResource ThicknessToStringConverter}}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:DataType="vm:ResourceViewModel"
+            x:Key="GenericResourceItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding Value}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <views:ResourceItemTemplateSelector
+            x:Key="ResourceItemTemplateSelector"
+            ColorTemplate="{StaticResource ColorResourceItemTemplate}"
+            FontTemplate="{StaticResource FontResourceItemTemplate}"
+            GenericTemplate="{StaticResource GenericResourceItemTemplate}"
+            ThicknessTemplate="{StaticResource ThicknessItemTemplate}" />
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView
+            Grid.Row="0"
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            HorizontalScrollBarVisibility="Always"
+            VerticalScrollBarVisibility="Always">
+            <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <VerticalStackLayout
+                    BindableLayout.ItemTemplateSelector="{StaticResource ResourceItemTemplateSelector}"
+                    BindableLayout.ItemsSource="{Binding ThemeResources}" />
+
+                <Button
+                    Command="{Binding DumpResourcesCommand}"
+                    Text="Dump Resources" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <s:CustomActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>

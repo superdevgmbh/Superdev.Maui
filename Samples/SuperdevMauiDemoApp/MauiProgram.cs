@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using SampleApp.Services;
 using Superdev.Maui;
 using Superdev.Maui.Localization;
 using SuperdevMauiDemoApp.Services;
@@ -56,11 +55,13 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<CustomTabbedPageDemoPage>();
             builder.Services.AddTransient<PreferencesDemoPage>();
             builder.Services.AddTransient<PreferencesDemoViewModel>();
+            builder.Services.AddTransient<StylesDemoPage>();
+            builder.Services.AddTransient<StylesDemoViewModel>();
 
             builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             builder.Services.AddSingleton<ICountryService, CountryService>();
             builder.Services.AddSingleton<IValidationService, ValidationService>();
-            builder.Services.AddSingleton<IEmailService, EmailService>();
+            builder.Services.AddSingleton<IEmail>(_ => Email.Default);
 
             return builder.Build();
         }

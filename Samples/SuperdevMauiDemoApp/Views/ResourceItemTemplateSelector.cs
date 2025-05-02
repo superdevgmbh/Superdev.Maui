@@ -14,7 +14,7 @@ namespace SuperdevMauiDemoApp.Views
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (item is ResourceViewModel resource && resource.Value != null)
+            if (item is ResourceViewModel { Value: not null } resource)
             {
                 var type = resource.Value.GetType();
                 if (type == typeof(Color))

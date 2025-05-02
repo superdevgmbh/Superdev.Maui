@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Text;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using SampleApp.Services;
 using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
@@ -26,7 +24,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
         private readonly IValidationService validationService;
-        private readonly IEmailService emailService;
         private readonly ILocalizer localizer;
         private readonly IActivityIndicatorService activityIndicatorService;
 
@@ -46,7 +43,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private ObservableCollection<CountryViewModel> countries;
         private DateTime? birthdate;
         private bool isSaving;
-        private ObservableCollection<ResourceViewModel> themeResources;
         private ICommand navigateToPageCommand;
         private LanguageViewModel language;
 
@@ -57,7 +53,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             IDialogService dialogService,
             ICountryService countryService,
             IValidationService validationService,
-            IEmailService emailService,
             ILocalizer localizer,
             IActivityIndicatorService activityIndicatorService)
         {
@@ -67,7 +62,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.dialogService = dialogService;
             this.countryService = countryService;
             this.validationService = validationService;
-            this.emailService = emailService;
             this.localizer = localizer;
             this.activityIndicatorService = activityIndicatorService;
 
@@ -172,7 +166,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             try
             {
-                this.activityIndicatorService.ShowLoadingPage("Loading...");
+                this.activityIndicatorService.ShowLoadingPage("Navigating...");
                 // await Task.Delay(5000);
                 await this.navigationService.PushAsync(pageName);
             }
@@ -213,55 +207,12 @@ namespace SuperdevMauiDemoApp.ViewModels
         public ICommand LongPressCommand => this.longPressCommand ??=
             new Command<string>(async (message) => await this.dialogService.DisplayAlertAsync("LongPressCommand", message, "OK"));
 
-        public ICommand DumpResourcesCommand => new Command(this.OnDumpResources);
-
-        private async void OnDumpResources()
-        {
-            try
-            {
-                var sb = new StringBuilder();
-                foreach (var resourceViewModel in this.ThemeResources)
-                {
-                    sb.AppendLine($"{resourceViewModel.ResourceType};{resourceViewModel.Key};{resourceViewModel.Value}");
-                }
-
-                var resourcesDump = sb.ToString();
-
-                await this.emailService.SendEmail("Send Mail", resourcesDump, new List<string> { this.AdminEmailAddress });
-            }
-            catch (Exception ex)
-            {
-                await this.dialogService.DisplayAlertAsync("Email Error", $"Failed to send mail: {ex}", "OK");
-            }
-        }
-
-        public ICommand MailNavigateCommand => new Command(this.OnMailNavigate);
-
-        private async void OnMailNavigate()
-        {
-            try
-            {
-                await this.emailService.SendEmail("Send Mail", "Some text....", new List<string> { this.AdminEmailAddress });
-            }
-            catch (Exception ex)
-            {
-                await this.dialogService.DisplayAlertAsync("Email Error", $"Failed to send mail: {ex}", "OK");
-            }
-        }
-
         public ICommand PostalCodeUnfocusedCommand => new Command(this.OnPostalCodeUnfocused);
 
         private void OnPostalCodeUnfocused()
         {
             Console.WriteLine("unfocused");
         }
-
-        public ObservableCollection<ResourceViewModel> ThemeResources
-        {
-            get => this.themeResources;
-            private set => this.SetProperty(ref this.themeResources, value);
-        }
-
 
         protected override void OnBusyChanged(bool busy)
         {
@@ -352,12 +303,6 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.Countries.Clear();
                 this.Countries.AddRange(countryDtos.Select(c => new CountryViewModel(c)).Prepend(defaultCountryViewModel));
 
-                //this.ThemeResources = Application.Current.Resources.MergedDictionaries.SelectMany(md => md)
-                //    .Select(kvp => new ResourceViewModel(kvp))
-                //    .OrderBy(vm => vm.Key)
-                //    //.ThenBy(vm => vm.Key)
-                //    .ToObservableCollection();
-
                 //this.Notes = $"Test test test{Environment.NewLine}Line 2 text text text";
                 this.AdminEmailAddress = "thomas@bluewin.ch";
             }
@@ -407,5 +352,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.toggleSwitchCommand ??= new Command(() => { this.IsReadonly = !this.IsReadonly; });
         }
+
+        public int NotesMaxLength { get; set; } = 100;
     }
 }

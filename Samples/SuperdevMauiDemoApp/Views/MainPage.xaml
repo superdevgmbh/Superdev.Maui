@@ -3,162 +3,12 @@
     x:Class="SuperdevMauiDemoApp.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:itemTemplates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
-    xmlns:views="clr-namespace:SuperdevMauiDemoApp.Views"
+    xmlns:viewModels="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
+    x:DataType="viewModels:MainViewModel"
     s:SafeAreaPadding.Layout="Top,Bottom"
     Title="Superdev.Maui Sample App">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="ColorResourceItemTemplate">
-                <ViewCell>
-                    <ViewCell.View>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                Grid.Column="0"
-                                FontSize="Small"
-                                LineBreakMode="CharacterWrap"
-                                Text="{Binding ResourceType}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="1"
-                                BackgroundColor="{Binding Value}"
-                                FontSize="Small"
-                                Text="{Binding Value, Converter={StaticResource ColorToHexStringConverter}}"
-                                TextColor="{Binding Value, Converter={StaticResource ColorInverter}}"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="Center" />
-                            <Label
-                                Grid.Column="2"
-                                FontSize="Small"
-                                Text="{Binding Key}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                        </Grid>
-                    </ViewCell.View>
-                </ViewCell>
-            </DataTemplate>
-
-            <DataTemplate x:Key="FontResourceItemTemplate">
-                <ViewCell>
-                    <ViewCell.View>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                Grid.Column="0"
-                                FontSize="Small"
-                                LineBreakMode="CharacterWrap"
-                                Text="{Binding ResourceType}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="1"
-                                FontAttributes="{Binding Value.FontAttributes}"
-                                FontFamily="{Binding Value.FontFamily}"
-                                FontSize="{Binding Value.FontSize}"
-                                LineBreakMode="WordWrap"
-                                Text="{Binding Value, Converter={StaticResource FontElementToStringConverter}}"
-                                HorizontalOptions="StartAndExpand"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="2"
-                                FontSize="Small"
-                                Text="{Binding Key}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                        </Grid>
-                    </ViewCell.View>
-                </ViewCell>
-            </DataTemplate>
-
-            <DataTemplate x:Key="ThicknessItemTemplate">
-                <ViewCell>
-                    <ViewCell.View>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                Grid.Column="0"
-                                FontSize="Small"
-                                LineBreakMode="CharacterWrap"
-                                Text="{Binding ResourceType}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="1"
-                                FontSize="Small"
-                                LineBreakMode="CharacterWrap"
-                                Text="{Binding Value, Converter={StaticResource ThicknessToStringConverter}}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="2"
-                                FontSize="Small"
-                                Text="{Binding Key}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                        </Grid>
-                    </ViewCell.View>
-                </ViewCell>
-            </DataTemplate>
-
-            <DataTemplate x:Key="GenericResourceItemTemplate">
-                <ViewCell>
-                    <ViewCell.View>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                Grid.Column="0"
-                                FontSize="Small"
-                                LineBreakMode="CharacterWrap"
-                                Text="{Binding ResourceType}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="1"
-                                FontSize="Small"
-                                LineBreakMode="CharacterWrap"
-                                Text="{Binding Value}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                            <Label
-                                Grid.Column="2"
-                                FontSize="Small"
-                                Text="{Binding Key}"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
-                        </Grid>
-                    </ViewCell.View>
-                </ViewCell>
-            </DataTemplate>
-
-            <views:ResourceItemTemplateSelector
-                x:Key="ResourceItemTemplateSelector"
-                ColorTemplate="{StaticResource ColorResourceItemTemplate}"
-                FontTemplate="{StaticResource FontResourceItemTemplate}"
-                GenericTemplate="{StaticResource GenericResourceItemTemplate}"
-                ThicknessTemplate="{StaticResource ThicknessItemTemplate}" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <Grid>
         <Grid Padding="{DynamicResource Theme.Padding.Medium}">
@@ -182,12 +32,22 @@
                     <s:SafeAreaBottomPaddingEffect />
                 </Grid.Effects>
 
-                <ScrollView x:Name="ScrollView">
+                <ScrollView>
                     <Grid>
                         <StackLayout IsVisible="{Binding IsNotBusy}">
-                            <StackLayout
+                            <VerticalStackLayout
                                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                                 Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                <VerticalStackLayout.Resources>
+                                    <Style
+                                        BaseResourceKey="CustomButtonStyle"
+                                        TargetType="s:CustomButton">
+                                        <Setter Property="MinimumHeightRequest" Value="50" />
+                                        <Setter Property="HorizontalTextAlignment" Value="Start" />
+                                        <Setter Property="VerticalTextAlignment" Value="Center" />
+                                        <Setter Property="LineBreakMode" Value="WordWrap" />
+                                    </Style>
+                                </VerticalStackLayout.Resources>
 
                                 <s:ValidatablePicker
                                     ItemDisplayBinding="{Binding NativeName}"
@@ -224,14 +84,12 @@
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="AutoCompletePage"
-                                        LineBreakMode="CharacterWrap"
                                         Text="AutoCompleteView" />
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="PreferencesDemoPage"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="Preferences" />
+                                        Text="Preferences&#10;Test" />
                                 </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
@@ -247,7 +105,6 @@
                                         CommandParameter="CustomTabbedPageDemoPage"
                                         Text="CustomTabbedPage" />
                                 </Grid>
-
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
@@ -279,12 +136,12 @@
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="ViewModelErrorDemoPage"
                                         Text="ViewModelError" />
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="CardViewPage"
@@ -293,12 +150,12 @@
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="ActivityIndicatorDemoPage"
                                         Text="ActivityIndicator" />
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="DrilldownButtonListPage"
@@ -307,41 +164,62 @@
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="ListViewDemoPage"
                                         Text="ListView" />
-                                    <Button
+                                    <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="PickersPage"
                                         Text="Pickers" />
                                 </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SwitchesPage"
+                                        Text="Switches Page" />
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="ToggleViewDemoPage"
+                                        Text="ToggleView Demo" />
+                                </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="MultiStateToggleButtonDemoPage"
+                                        Text="MultiStateToggleButton Demo" />
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SearchBarDemoPage"
+                                        Text="SearchBar Demo" />
+                                </Grid>
 
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: Switches--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="SwitchesPage"
-                                    Text="Switches Page" />
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="StylesDemoPage"
+                                        Text="Styles" />
+                                    <!-- <s:CustomButton -->
+                                    <!-- Grid.Column="1" -->
+                                    <!-- Command="{Binding NavigateToPageCommand}" -->
+                                    <!-- CommandParameter="SearchBarDemoPage" -->
+                                    <!-- Text="SearchBar Demo" /> -->
+                                </Grid>
 
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: ToggleView--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="ToggleViewDemoPage"
-                                    Text="ToggleView Demo" />
 
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: MultiStateToggleButton--&gt;" />
-                                <Button
-                                    Command="{Binding NavigateToPageCommand}"
-                                    CommandParameter="MultiStateToggleButtonDemoPage"
-                                    Text="MultiStateToggleButton Demo" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -399,14 +277,11 @@
                                     Text="ValidatableEditor with Text: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam."
                                     ValidationErrors="{Binding Source={x:Reference ValidatableEditorTest2}, Path=Text, Converter={StaticResource RandomValidationErrorsConverter}}" />
                                 <s:ValidatableEditor
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
                                     MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
                                     MaxLines="3"
                                     Placeholder="ValidatableEditor with MaxLength/MaxLines"
                                     Text="{Binding Notes, Mode=TwoWay}"
-                                    ValidationErrors="{Binding Errors[Notes]}">
+                                    ValidationErrors="{Binding Validation.Errors[Notes]}">
                                     <s:ValidatableEditor.Keyboard>
                                         <Keyboard x:FactoryMethod="Create">
                                             <x:Arguments>
@@ -451,22 +326,6 @@
                                     Text="{Binding LogContent, Mode=OneWay}"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="FillAndExpand" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo HyperLinkLabel--&gt;" />
-                                <!--<s:HyperLinkLabel
-                                    NavigateCommand="{Binding MailNavigateCommand}"
-                                    Text="{Binding AdminEmailAddress, Mode=OneWay}"
-                                    TintColor="Red" />
-                                <s:HyperLinkLabel
-                                    NavigateUri="mailto:anothermail@someaddress.com"
-                                    Text="Click here: anothermail@someaddress.com" />
-                                <s:HyperLinkLabel
-                                    NavigateUri="http://www.thomasgalliker.ch"
-                                    Text="Click here to navigate to www.thomasgalliker.ch"
-                                    TextColor="Black"
-                                    TintColor="Blue" />-->
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
@@ -645,10 +504,6 @@
 
                                 <s:DividerLine />
 
-                                <Button
-                                    Command="{Binding DumpResourcesCommand}"
-                                    Text="Dump Resources" />
-
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo LongPressEffect--&gt;" />
@@ -792,14 +647,7 @@
                                     LineBreakMode="CharacterWrap"
                                     Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
 
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Debug App Resources--&gt;" />
-                                <VerticalStackLayout
-                                    BindableLayout.ItemTemplateSelector="{StaticResource ResourceItemTemplateSelector}"
-                                    BindableLayout.ItemsSource="{Binding ThemeResources}" />
-
-                            </StackLayout>
+                            </VerticalStackLayout>
 
                         </StackLayout>
 

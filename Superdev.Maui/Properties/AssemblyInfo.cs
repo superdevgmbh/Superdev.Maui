@@ -16,6 +16,6 @@ using XmlnsPrefix = Microsoft.Maui.Controls.XmlnsPrefixAttribute;
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Extensions")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Localization")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Mvvm")]
-[assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Styles")]
+[assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Resources.Styles")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Utils")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Validation")]
