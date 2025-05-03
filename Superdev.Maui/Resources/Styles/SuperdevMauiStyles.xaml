@@ -613,8 +613,8 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Caption}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Caption}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Caption}" />
-        <Setter Property="VerticalOptions" Value="StartAndExpand" />
-        <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="HorizontalTextAlignment" Value="Start" />
         <Setter Property="VerticalTextAlignment" Value="Start" />
         <Setter Property="RemovePadding" Value="True" />
@@ -628,10 +628,10 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Caption}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Caption}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Caption}" />
-        <Setter Property="VerticalOptions" Value="StartAndExpand" />
-        <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="HorizontalTextAlignment" Value="Start" />
-        <Setter Property="VerticalTextAlignment" Value="End" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
         <Setter Property="RemovePadding" Value="True" />
         <Setter Property="LineBreakMode" Value="TailTruncation" />
     </Style>
@@ -668,7 +668,10 @@
     <Style
         x:Key="ValidatableEntryStyle"
         TargetType="controls:ValidatableEntry">
+        <Setter Property="AnnotationLabelStyle" Value="{StaticResource AnnotationEntryLabelStyle}" />
         <Setter Property="EntryStyle" Value="{StaticResource EntryStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{StaticResource EntryLabelStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
     <Style
         ApplyToDerivedTypes="True"
@@ -683,6 +686,9 @@
     <!-- ValidatablePicker -->
     <Style TargetType="controls:ValidatablePicker">
         <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
 
     <!-- ValidatableDatePicker -->

@@ -37,12 +37,12 @@ namespace Superdev.Maui.Controls
             {
                 if (oldValue != null)
                 {
-                    layout.LayoutChanged -= MinimumHeight.OnLayoutChanged;
+                    layout.LayoutChanged -= OnLayoutChanged;
                 }
 
                 if (newValue != null)
                 {
-                    layout.LayoutChanged += MinimumHeight.OnLayoutChanged;
+                    layout.LayoutChanged += OnLayoutChanged;
                 }
             }
 
@@ -92,7 +92,6 @@ namespace Superdev.Maui.Controls
 
         private static void RequestMinimumHeight(object sender)
         {
-            var g = new Grid();
             var layout = sender as Layout ?? sender as VisualElement;
             if (layout == null)
             {

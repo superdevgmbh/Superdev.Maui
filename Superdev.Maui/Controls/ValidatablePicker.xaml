@@ -4,26 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     x:Name="Control"
     IsClippedToBounds="True"
-    HorizontalOptions="FillAndExpand"
-    VerticalOptions="StartAndExpand">
-
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
+    RowDefinitions="Auto,Auto,Auto"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
 
     <!-- Annotation Text -->
-    <controls:CustomLabel
+    <Label
         x:Name="AnnotationLabel"
-        x:FieldModifier="internal"
         Grid.Row="0"
         InputTransparent="True"
-        RemovePadding="True"
-        Style="{DynamicResource AnnotationEntryLabelStyle}"
+        Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
         Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
 
     <Grid
@@ -32,45 +24,32 @@
         <controls:CustomPicker
             x:Name="Picker"
             x:FieldModifier="internal"
-            Title="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
-            effects:LineColorEffect.ApplyLineColor="True"
-            effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
+            Margin="{DynamicResource ValidatableInputControlMargin}"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-            ItemDisplayBinding="{Binding ItemDisplayBinding, Source={x:Reference Control}}"
+            ItemDisplayBinding="{Binding ItemDisplayBinding, Source={x:Reference Control}, Mode=OneWay}"
             ItemsSource="{Binding ItemsSource, Source={x:Reference Control}}"
             SelectedIndex="{Binding SelectedIndex, Source={x:Reference Control}, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Source={x:Reference Control}, Mode=TwoWay}"
             Style="{Binding PickerStyle, Source={x:Reference Control}, Mode=OneWay}"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="StartAndExpand">
-            <Picker.Margin>
-                <OnPlatform x:TypeArguments="Thickness">
-                    <On
-                        Platform="Android"
-                        Value="-4,-10,-4,-6" />
-                    <On
-                        Platform="iOS"
-                        Value="0,-10,0,-6" />
-                </OnPlatform>
-            </Picker.Margin>
-        </controls:CustomPicker>
+            Title="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start" />
 
         <!-- Readonly Text -->
-        <controls:CustomLabel
+        <Label
             x:Name="ReadonlyLabel"
             x:FieldModifier="internal"
             Margin="0"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
-            RemovePadding="True"
-            Style="{DynamicResource EntryLabelStyle}"
+            Style="{Binding Source={x:Reference Control}, Path=ReadonlyLabelStyle}"
             Text="{Binding ReadonlyText, Source={x:Reference Control}, Mode=OneWay}" />
     </Grid>
 
     <!-- Validation Error Text -->
-    <controls:CustomLabel
-        x:Name="ErrorLabel"
+    <Label
+        x:Name="ValidationErrorLabel"
         Grid.Row="2"
-        IsVisible="{Binding Text, Source={x:Reference ErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
-        Style="{DynamicResource ValidationErrorLabelStyle}"
+        IsVisible="{Binding Text, Source={x:Reference ValidationErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{Binding Source={x:Reference Control}, Path=ValidationErrorLabelStyle}"
         Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource EnumerableToFirstOrDefaultConverter}}" />
 </Grid>

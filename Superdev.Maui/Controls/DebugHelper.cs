@@ -1,10 +1,13 @@
-﻿namespace Superdev.Maui.Utils
+﻿namespace Superdev.Maui.Controls
 {
     public static class DebugHelper
     {
-        public static bool ShowLayoutBounds = false;
-
-
+        public static bool ShowLayoutBounds =
+#if DEBUG
+            false;
+#else
+            false;
+#endif
 
         //[Conditional("DEBUG")]
         //internal static void DebugLayoutBounds(this ValidatableAutoCompleteView element, bool debug = true)
@@ -49,6 +52,5 @@
         //    element.TimePicker.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
         //    element.ReadonlyLabel.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
         //}
-
     }
 }

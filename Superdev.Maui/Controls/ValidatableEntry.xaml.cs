@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
-using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Controls
 {
@@ -13,9 +12,9 @@ namespace Superdev.Maui.Controls
         }
 
         [Conditional("DEBUG")]
-        private void DebugLayoutBounds(bool debug = true)
+        private void DebugLayoutBounds()
         {
-            if (!DebugHelper.ShowLayoutBounds || !debug)
+            if (!DebugHelper.ShowLayoutBounds)
             {
                 return;
             }
@@ -24,19 +23,6 @@ namespace Superdev.Maui.Controls
             this.AnnotationLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.Yellow);
             this.Entry.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
             this.ReadonlyLabel.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
-        }
-
-        public new void Focus()
-        {
-            base.Focus();
-            this.Entry.Focus();
-        }
-
-        public new void Unfocus()
-        {
-            this.Entry.Unfocus();
-            //this.Entry.SendCompleted();
-            base.Unfocus();
         }
 
         public static readonly BindableProperty TextProperty =
@@ -65,8 +51,6 @@ namespace Superdev.Maui.Controls
                 nameof(Placeholder),
                 typeof(string),
                 typeof(ValidatableEntry),
-                null,
-                BindingMode.OneWay,
                 propertyChanged: OnPlaceholderPropertyChanged);
 
         public string Placeholder
@@ -99,8 +83,7 @@ namespace Superdev.Maui.Controls
                 nameof(IsReadonly),
                 typeof(bool),
                 typeof(ValidatableEntry),
-                false,
-                BindingMode.OneWay);
+                false);
 
         public bool IsReadonly
         {
@@ -113,8 +96,7 @@ namespace Superdev.Maui.Controls
                 nameof(Keyboard),
                 typeof(Keyboard),
                 typeof(ValidatableEntry),
-                Keyboard.Default,
-                BindingMode.OneWay);
+                Keyboard.Default);
 
         public Keyboard Keyboard
         {
@@ -123,12 +105,11 @@ namespace Superdev.Maui.Controls
         }
 
         public static readonly BindableProperty IsPasswordProperty =
-         BindableProperty.Create(
-             nameof(IsPassword),
-             typeof(bool),
-             typeof(ValidatableEntry),
-             false,
-             BindingMode.OneWay);
+            BindableProperty.Create(
+                nameof(IsPassword),
+                typeof(bool),
+                typeof(ValidatableEntry),
+                false);
 
         public bool IsPassword
         {
@@ -136,13 +117,77 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(IsPasswordProperty, value);
         }
 
+        public static readonly BindableProperty IsEntryFocusedProperty =
+            BindableProperty.Create(
+                nameof(IsEntryFocused),
+                typeof(bool),
+                typeof(ValidatableEntry),
+                false,
+                BindingMode.TwoWay,
+                propertyChanged: OnIsFocusedPropertyChanged);
+
+        private static void OnIsFocusedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var validatableEntry = (ValidatableEntry)bindable;
+            if (newValue is bool isFocused && isFocused)
+            {
+                validatableEntry.Entry.Focus();
+            }
+            else
+            {
+                validatableEntry.Entry.Unfocus();
+            }
+        }
+
+        public bool IsEntryFocused
+        {
+            get => (bool)this.GetValue(IsEntryFocusedProperty);
+            set => this.SetValue(IsEntryFocusedProperty, value);
+        }
+
+        public static readonly BindableProperty AnnotationLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(AnnotationLabelStyle),
+                typeof(Style),
+                typeof(ValidatableEntry),
+                null);
+
+        public Style AnnotationLabelStyle
+        {
+            get => (Style)this.GetValue(AnnotationLabelStyleProperty);
+            set => this.SetValue(AnnotationLabelStyleProperty, value);
+        }
+
+        public static readonly BindableProperty ReadonlyLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(ReadonlyLabelStyle),
+                typeof(Style),
+                typeof(ValidatableEntry));
+
+        public Style ReadonlyLabelStyle
+        {
+            get => (Style)this.GetValue(ReadonlyLabelStyleProperty);
+            set => this.SetValue(ReadonlyLabelStyleProperty, value);
+        }
+
+        public static readonly BindableProperty ValidationErrorLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(ValidationErrorLabelStyle),
+                typeof(Style),
+                typeof(ValidatableEntry),
+                null);
+
+        public Style ValidationErrorLabelStyle
+        {
+            get => (Style)this.GetValue(ValidationErrorLabelStyleProperty);
+            set => this.SetValue(ValidationErrorLabelStyleProperty, value);
+        }
+
         public static readonly BindableProperty EntryStyleProperty =
             BindableProperty.Create(
                 nameof(EntryStyle),
                 typeof(Style),
-                typeof(ValidatableEntry),
-                default(Style),
-                BindingMode.OneWay);
+                typeof(ValidatableEntry));
 
         public Style EntryStyle
         {
@@ -155,8 +200,7 @@ namespace Superdev.Maui.Controls
                 nameof(ReturnType),
                 typeof(ReturnType),
                 typeof(ValidatableEntry),
-                default(ReturnType),
-                BindingMode.OneWay);
+                default(ReturnType));
 
         public ReturnType ReturnType
         {
@@ -164,13 +208,24 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ReturnTypeProperty, value);
         }
 
+        public static readonly BindableProperty ReturnCommandProperty =
+            BindableProperty.Create(
+                nameof(ReturnCommand),
+                typeof(ICommand),
+                typeof(ValidatableEntry));
+
+        public ICommand ReturnCommand
+        {
+            get => (ICommand)this.GetValue(ReturnCommandProperty);
+            set => this.SetValue(ReturnCommandProperty, value);
+        }
+
         public static readonly BindableProperty MaxLengthProperty =
             BindableProperty.Create(
                 nameof(MaxLength),
                 typeof(int),
                 typeof(ValidatableEntry),
-                int.MaxValue,
-                BindingMode.OneWay);
+                int.MaxValue);
 
         public int MaxLength
         {
@@ -182,9 +237,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(ValidationErrors),
                 typeof(IEnumerable<string>),
-                typeof(ValidatableEntry),
-                default(IEnumerable<string>),
-                BindingMode.OneWay);
+                typeof(ValidatableEntry));
 
         public IEnumerable<string> ValidationErrors
         {
@@ -196,9 +249,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(TrailingIcon),
                 typeof(ImageSource),
-                typeof(ValidatableEntry),
-                null,
-                BindingMode.OneWay);
+                typeof(ValidatableEntry));
 
         public ImageSource TrailingIcon
         {
@@ -210,9 +261,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(TrailingIconCommand),
                 typeof(ICommand),
-                typeof(ValidatableEntry),
-                null,
-                BindingMode.OneWay);
+                typeof(ValidatableEntry));
 
         public ICommand TrailingIconCommand
         {
@@ -224,9 +273,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(TrailingIconCommandParameter),
                 typeof(object),
-                typeof(ValidatableEntry),
-                null,
-                BindingMode.OneWay);
+                typeof(ValidatableEntry));
 
         public object TrailingIconCommandParameter
         {
@@ -239,8 +286,7 @@ namespace Superdev.Maui.Controls
                 nameof(TextContentType),
                 typeof(TextContentType),
                 typeof(ValidatableEntry),
-                default(TextContentType),
-                BindingMode.OneWay);
+                default(TextContentType));
 
         public TextContentType TextContentType
         {
@@ -271,6 +317,15 @@ namespace Superdev.Maui.Controls
             add => this.Entry.TextChanged += value;
             remove => this.Entry.TextChanged -= value;
         }
+
+        private void Entry_OnFocused(object sender, FocusEventArgs e)
+        {
+            this.IsEntryFocused = true;
+        }
+
+        private void Entry_OnUnfocused(object sender, FocusEventArgs e)
+        {
+            this.IsEntryFocused = false;
+        }
     }
 }
-
