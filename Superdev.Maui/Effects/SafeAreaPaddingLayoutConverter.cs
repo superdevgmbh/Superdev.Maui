@@ -1,20 +1,23 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
-using Microsoft.Maui.Layouts;
 using static Superdev.Maui.Effects.SafeAreaPaddingLayout;
 
 namespace Superdev.Maui.Effects
 {
     /// <inheritdoc/>
-	public class SafeAreaPaddingLayoutConverter : TypeConverter
+    public class SafeAreaPaddingLayoutConverter : TypeConverter
     {
-        private static readonly char[] CommaSeparator = new char[1] { ',' };
+        private static readonly char[] CommaSeparator = new[] { ',' };
 
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-            => sourceType == typeof(string);
+        {
+            return sourceType == typeof(string);
+        }
 
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-            => destinationType == typeof(string);
+        {
+            return destinationType == typeof(string);
+        }
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
@@ -28,7 +31,7 @@ namespace Superdev.Maui.Effects
             var strArray = strValue.Split(CommaSeparator, StringSplitOptions.RemoveEmptyEntries);
             if (strArray.Length < 1 || strArray.Length > 4)
             {
-                throw new InvalidOperationException(string.Format("Cannot convert \"{0}\" into {1}", value, typeof(SafeAreaPaddingLayout)));
+                throw new InvalidOperationException($"Cannot convert \"{value}\" into {typeof(SafeAreaPaddingLayout)}");
             }
 
             var paddingPositions = strArray.Select(s => (PaddingPosition)Enum.Parse(typeof(PaddingPosition), s, true)).ToArray();

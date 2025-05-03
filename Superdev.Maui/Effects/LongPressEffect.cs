@@ -3,11 +3,6 @@ namespace Superdev.Maui.Effects
 {
     public class LongPressEffect : RoutingEffect
     {
-        public LongPressEffect()
-            : base($"{Effects.Prefix}.{nameof(LongPressEffect)}")
-        {
-        }
-
         public static readonly BindableProperty CommandProperty =
             BindableProperty.CreateAttached(
                 "Command",
