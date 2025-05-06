@@ -17,29 +17,16 @@ namespace Superdev.Maui.Behaviors
             null,
             propertyChanged: OnEventNameChanged);
 
-        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
-            nameof(Command),
-            typeof(ICommand),
-            typeof(EventToCommandBehavior),
-            null);
-
-        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
-            nameof(CommandParameter),
-            typeof(object),
-            typeof(EventToCommandBehavior),
-            null);
-
-        public static readonly BindableProperty InputConverterProperty = BindableProperty.Create(
-            nameof(Converter),
-            typeof(IValueConverter),
-            typeof(EventToCommandBehavior),
-            null);
-
         public string EventName
         {
             get => (string)this.GetValue(EventNameProperty);
             set => this.SetValue(EventNameProperty, value);
         }
+
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            nameof(Command),
+            typeof(ICommand),
+            typeof(EventToCommandBehavior));
 
         public ICommand Command
         {
@@ -47,16 +34,26 @@ namespace Superdev.Maui.Behaviors
             set => this.SetValue(CommandProperty, value);
         }
 
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+            nameof(CommandParameter),
+            typeof(object),
+            typeof(EventToCommandBehavior));
+
         public object CommandParameter
         {
             get => this.GetValue(CommandParameterProperty);
             set => this.SetValue(CommandParameterProperty, value);
         }
 
+        public static readonly BindableProperty ConverterProperty = BindableProperty.Create(
+            nameof(Converter),
+            typeof(IValueConverter),
+            typeof(EventToCommandBehavior));
+
         public IValueConverter Converter
         {
-            get => (IValueConverter)this.GetValue(InputConverterProperty);
-            set => this.SetValue(InputConverterProperty, value);
+            get => (IValueConverter)this.GetValue(ConverterProperty);
+            set => this.SetValue(ConverterProperty, value);
         }
 
         public static readonly BindableProperty EventArgsParameterPathProperty =

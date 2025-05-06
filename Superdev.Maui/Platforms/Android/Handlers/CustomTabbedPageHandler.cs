@@ -8,11 +8,13 @@ using static Android.Views.ViewGroup;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<CustomTabbedPage, CustomTabbedPageHandler>;
+
     public partial class CustomTabbedPageHandler : TabbedViewHandler
     {
         private ILogger logger;
 
-        public static IPropertyMapper<CustomTabbedPage, CustomTabbedPageHandler> CustomMapper = new PropertyMapper<CustomTabbedPage, CustomTabbedPageHandler>(Mapper)
+        public new static readonly PM Mapper = new PM(TabbedViewHandler.Mapper)
         {
             [nameof(CustomTabbedPage.HideTabs)] = MapIsHidden,
         };
@@ -22,7 +24,8 @@ namespace Superdev.Maui.Platforms.Handlers
             customTabbedPageHandler.UpdateBottomNavigationVisibility(customTabbedPage);
         }
 
-        public CustomTabbedPageHandler() : base(CustomMapper)
+        public CustomTabbedPageHandler()
+            : base(Mapper)
         {
             this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
         }

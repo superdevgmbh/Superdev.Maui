@@ -1,9 +1,5 @@
-﻿using Android.Content;
-using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Util;
+﻿using Android.OS;
 using Android.Views;
-using AndroidX.AppCompat.Widget;
 using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
 using View = Android.Views.View;
@@ -28,7 +24,13 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomEntry.TextContentType)] = MapTextContentType,
         };
 
-        public CustomEntryHandler() : base(Mapper)
+        public CustomEntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public CustomEntryHandler()
+            : base(Mapper)
         {
         }
 

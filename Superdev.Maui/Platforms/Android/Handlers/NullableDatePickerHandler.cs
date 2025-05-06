@@ -1,22 +1,34 @@
 using Android.App;
 using Android.Content;
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using DatePicker = Microsoft.Maui.Controls.DatePicker;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
-    public class NullableDatePickerHandler : CustomDatePickerHandler
+    using PM = PropertyMapper<NullableDatePicker, NullableDatePickerHandler>;
+
+    public class NullableDatePickerHandler : DatePickerHandler
     {
+        public new static readonly PM Mapper = new PM(DatePickerHandler.Mapper)
+        {
+            [nameof(DatePicker.Format)] = UpdateFormat,
+            [nameof(DatePicker.Date)] = UpdateDate,
+            [nameof(NullableDatePicker.NullableDate)] = UpdateNullableDate,
+            [nameof(NullableDatePicker.Placeholder)] = UpdatePlaceholder,
+            [nameof(NullableDatePicker.PlaceholderColor)] = UpdatePlaceholderColor
+        };
+
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
 
-        static NullableDatePickerHandler()
+        public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
-            Mapper.AppendToMapping(DatePicker.FormatProperty.PropertyName, UpdateFormat);
-            Mapper.AppendToMapping(DatePicker.DateProperty.PropertyName, UpdateDate);
-            Mapper.AppendToMapping(NullableDatePicker.PlaceholderProperty.PropertyName, UpdatePlaceholder);
-            Mapper.AppendToMapping(NullableDatePicker.NullableDateProperty.PropertyName, UpdateNullableDate);
+        }
+
+        public NullableDatePickerHandler()
+            : base(Mapper)
+        {
         }
 
         private new NullableDatePicker VirtualView => (NullableDatePicker)base.VirtualView;
@@ -35,36 +47,32 @@ namespace Superdev.Maui.Platforms.Handlers
             return dialog;
         }
 
-        private static void UpdatePlaceholder(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdatePlaceholder(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            if (datePicker is NullableDatePicker nullableDatePicker)
+            datePickerHandler.PlatformView.Hint = nullableDatePicker.Placeholder;
+        }
+
+        private static void UpdatePlaceholderColor(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        {
+            if (nullableDatePicker.PlaceholderColor is Color placeholderColor)
             {
-                datePickerHandler.PlatformView.Hint = nullableDatePicker.Placeholder;
+                datePickerHandler.PlatformView.SetHintTextColor(placeholderColor.ToPlatform());
             }
         }
 
-        private static void UpdateFormat(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdateFormat(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            if (datePicker is NullableDatePicker nullableDatePicker)
-            {
-                SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
-            }
+            SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
         }
 
-        private static void UpdateDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdateDate(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            if (datePicker is NullableDatePicker nullableDatePicker)
-            {
-                SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
-            }
+            SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
         }
 
-        private static void UpdateNullableDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdateNullableDate(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            if (datePicker is NullableDatePicker nullableDatePicker)
-            {
-                SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
-            }
+            SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
         }
 
         protected override void HandlePositiveButtonTap(IDatePicker datePicker, DatePickerDialog dialog)

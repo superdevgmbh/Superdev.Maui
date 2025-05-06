@@ -3,17 +3,20 @@ using Superdev.Maui.Controls;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<CustomScrollView, CustomScrollViewHandler>;
+
     public class CustomScrollViewHandler : ScrollViewHandler
     {
-        public static IPropertyMapper<CustomScrollView, CustomScrollViewHandler> PropertyMapper = new PropertyMapper<CustomScrollView, CustomScrollViewHandler>(ScrollViewHandler.Mapper)
+        public new static readonly PM Mapper = new PM(ScrollViewHandler.Mapper)
         {
             [nameof(CustomScrollView.IsBounceEnabled)] = MapIsBounceEnabled,
             [nameof(CustomScrollView.IsScrollEnabled)] = MapIsScrollEnabled,
-            [nameof(CustomScrollView.IsHorizontalScollbarVisible)] = MapIsHorizontalScollbarVisible,
-            [nameof(CustomScrollView.IsVerticalScollbarVisible)] = MapIsVerticalScollbarVisible,
+            [nameof(CustomScrollView.IsHorizontalScrollbarVisible)] = MapIsHorizontalScollbarVisible,
+            [nameof(CustomScrollView.IsVerticalScrollbarVisible)] = MapIsVerticalScollbarVisible,
         };
 
-        public CustomScrollViewHandler() : base(PropertyMapper)
+        public CustomScrollViewHandler()
+            : base(Mapper)
         {
         }
 
@@ -29,12 +32,12 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void MapIsHorizontalScollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
         {
-            handler.PlatformView.ShowsHorizontalScrollIndicator = view.IsHorizontalScollbarVisible;
+            handler.PlatformView.ShowsHorizontalScrollIndicator = view.IsHorizontalScrollbarVisible;
         }
 
         private static void MapIsVerticalScollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
         {
-            handler.PlatformView.ShowsVerticalScrollIndicator = view.IsVerticalScollbarVisible;
+            handler.PlatformView.ShowsVerticalScrollIndicator = view.IsVerticalScrollbarVisible;
         }
     }
 }

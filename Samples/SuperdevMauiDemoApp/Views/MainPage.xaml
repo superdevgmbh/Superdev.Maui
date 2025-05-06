@@ -12,20 +12,14 @@
 
     <Grid>
         <Grid Padding="{DynamicResource Theme.Padding.Medium}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
             <!-- Demo: Adds safe-area padding to the top of the Grid -->
-            <Grid.Effects>
-                <s:SafeAreaTopPaddingEffect />
-            </Grid.Effects>
+            <!-- <Grid.Effects> -->
+            <!--     <s:SafeAreaTopPaddingEffect /> -->
+            <!-- </Grid.Effects> -->
 
-            <Grid IsVisible="{Binding IsContentReady}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+            <Grid
+                IsVisible="{Binding IsContentReady}"
+                RowDefinitions="*,Auto">
 
                 <!-- Demo: Adds safe-area padding to the bottom of the Grid -->
                 <Grid.Effects>
@@ -172,7 +166,7 @@
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="PickersPage"
+                                        CommandParameter="PickerDemoPage"
                                         Text="Pickers" />
                                 </Grid>
                                 <Grid
@@ -203,7 +197,6 @@
                                         CommandParameter="SearchBarDemoPage"
                                         Text="SearchBar Demo" />
                                 </Grid>
-
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
@@ -212,11 +205,25 @@
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="StylesDemoPage"
                                         Text="Styles" />
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SliderDemoPage"
+                                        Text="Slider" />
+                                </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="WebViewDemoPage"
+                                        Text="WebView" />
                                     <!-- <s:CustomButton -->
                                     <!-- Grid.Column="1" -->
                                     <!-- Command="{Binding NavigateToPageCommand}" -->
-                                    <!-- CommandParameter="SearchBarDemoPage" -->
-                                    <!-- Text="SearchBar Demo" /> -->
+                                    <!-- CommandParameter="SliderDemoPage" -->
+                                    <!-- Text="Slider" /> -->
                                 </Grid>
 
 
@@ -336,8 +343,8 @@
                                     Style="{StaticResource DemoLabelStyle}"
                                     Text="&lt;!--Demo NoBarsScrollViewer--&gt;" />
                                 <s:CustomScrollView
-                                    IsHorizontalScollbarVisible="False"
-                                    IsVerticalScollbarVisible="False"
+                                    IsHorizontalScrollbarVisible="False"
+                                    IsVerticalScrollbarVisible="False"
                                     Orientation="Horizontal">
                                     <HorizontalStackLayout>
                                         <Label

@@ -16,6 +16,15 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private AppCompatAlertDialog? dialog;
 
+        public PickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
+            : base(mapper, commandMapper)
+        {
+        }
+
+        public PickerHandler()
+        {
+        }
+
         protected override MauiPicker CreatePlatformView()
         {
             var mauiPicker = new MauiPicker(this.Context);

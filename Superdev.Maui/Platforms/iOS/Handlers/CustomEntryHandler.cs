@@ -13,7 +13,8 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomEntry.TextContentType)] = MapTextContentType
         };
 
-        public CustomEntryHandler() : base(Mapper)
+        public CustomEntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
 

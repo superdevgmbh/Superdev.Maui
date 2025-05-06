@@ -6,7 +6,7 @@ using Superdev.Maui.Platforms.iOS.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
-    using PM = PropertyMapper<CustomEntry, CustomEntryHandler>;
+    using PM = PropertyMapper<Entry, EntryHandler>;
 
     public class EntryHandler : Microsoft.Maui.Handlers.EntryHandler
     {
@@ -17,6 +17,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
         public EntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public EntryHandler()
+            : base(Mapper)
         {
         }
 

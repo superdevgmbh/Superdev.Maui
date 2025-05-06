@@ -1,31 +1,7 @@
-﻿using System.Reflection;
-
-namespace Superdev.Maui.Controls
+﻿namespace Superdev.Maui.Controls
 {
     internal static class BindingHelper
     {
-        internal static string GetDisplayMemberString(object item, string displayMemberPath)
-        {
-            return GetDisplayMember(item, displayMemberPath)?.ToString();
-        }
-
-        internal static object GetDisplayMember(object item, string displayMemberPath)
-        {
-            if (item == null)
-            {
-                return null;
-            }
-
-            var type = item.GetType();
-            var prop = type.GetRuntimeProperty(displayMemberPath);
-            if (prop == null)
-            {
-                throw new InvalidOperationException($"DisplayMemberPath={displayMemberPath} does not exist on item of type {type.Name}.");
-            }
-            var propValue = prop.GetValue(item);
-            return propValue;
-        }
-
         /// <summary>
         ///     Create UI content from a <see cref="DataTemplate" /> (or optionally a <see cref="DataTemplateSelector" />).
         /// </summary>
@@ -42,7 +18,7 @@ namespace Superdev.Maui.Controls
 
             if (template == null)
             {
-                throw new ArgumentNullException(nameof(template), $"ItemTemplate must not be null");
+                throw new ArgumentNullException(nameof(template), "ItemTemplate must not be null");
             }
 
             var content = template.CreateContent();

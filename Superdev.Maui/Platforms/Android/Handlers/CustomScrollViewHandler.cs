@@ -6,19 +6,22 @@ using Superdev.Maui.Platforms.Android.Controls;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<CustomScrollView, CustomScrollViewHandler>;
+
     public class CustomScrollViewHandler : ScrollViewHandler
     {
         private global::Android.Views.OverScrollMode originalOverScrollMode;
 
-        public static IPropertyMapper<CustomScrollView, CustomScrollViewHandler> PropertyMapper = new PropertyMapper<CustomScrollView, CustomScrollViewHandler>(ScrollViewHandler.Mapper)
+        public new static readonly PM Mapper = new PM(ScrollViewHandler.Mapper)
         {
             [nameof(CustomScrollView.IsBounceEnabled)] = MapIsBounceEnabled,
             [nameof(CustomScrollView.IsScrollEnabled)] = MapIsScrollEnabled,
-            [nameof(CustomScrollView.IsHorizontalScollbarVisible)] = MapIsHorizontalScollbarVisible,
-            [nameof(CustomScrollView.IsVerticalScollbarVisible)] = MapIsVerticalScollbarVisible,
+            [nameof(CustomScrollView.IsHorizontalScrollbarVisible)] = MapIsHorizontalScrollbarVisible,
+            [nameof(CustomScrollView.IsVerticalScrollbarVisible)] = MapIsVerticalScrollbarVisible,
         };
 
-        public CustomScrollViewHandler() : base(PropertyMapper)
+        public CustomScrollViewHandler()
+            : base(Mapper)
         {
         }
 
@@ -47,14 +50,14 @@ namespace Superdev.Maui.Platforms.Handlers
             lockableMauiScrollView.ScrollEnabled = view.IsScrollEnabled;
         }
 
-        private static void MapIsHorizontalScollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
+        private static void MapIsHorizontalScrollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
         {
-            handler.PlatformView.HorizontalScrollBarEnabled = view.IsHorizontalScollbarVisible;
+            handler.PlatformView.HorizontalScrollBarEnabled = view.IsHorizontalScrollbarVisible;
         }
 
-        private static void MapIsVerticalScollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
+        private static void MapIsVerticalScrollbarVisible(CustomScrollViewHandler handler, CustomScrollView view)
         {
-            handler.PlatformView.VerticalScrollBarEnabled = view.IsVerticalScollbarVisible;
+            handler.PlatformView.VerticalScrollBarEnabled = view.IsVerticalScrollbarVisible;
         }
     }
 }

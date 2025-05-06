@@ -3,6 +3,7 @@ namespace Superdev.Maui.Controls
     public static class DialogExtensions
     {
         public const string DoneButtonText = "DoneButtonText";
+        public const string NeutralButtonText = "NeutralButtonText";
 
         public static readonly BindableProperty DoneButtonTextProperty =
             BindableProperty.CreateAttached(
@@ -57,7 +58,7 @@ namespace Superdev.Maui.Controls
 
         public static readonly BindableProperty NeutralButtonTextProperty =
             BindableProperty.CreateAttached(
-                "NeutralButtonText",
+                NeutralButtonText,
                 typeof(string),
                 typeof(DialogExtensions),
                 null);

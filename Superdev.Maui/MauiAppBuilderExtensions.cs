@@ -36,16 +36,19 @@ namespace Superdev.Maui
                     handlers.AddHandler(typeof(CustomPicker), typeof(CustomPickerHandler));
 
                     handlers.AddHandler(typeof(DatePicker), typeof(DatePickerHandler));
-                    handlers.AddHandler(typeof(CustomDatePicker), typeof(CustomDatePickerHandler));
                     handlers.AddHandler(typeof(NullableDatePicker), typeof(NullableDatePickerHandler));
 
                     handlers.AddHandler(typeof(TimePicker), typeof(TimePickerHandler));
+
+                    handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
 #if ANDROID
                     // Handlers for Android only
+                    handlers.AddHandler(typeof(CustomSlider), typeof(CustomSliderHandler));
 #elif IOS
                     // Handlers for iOS only
                     handlers.AddHandler(typeof(Entry), typeof(EntryHandler));
                     handlers.AddHandler(typeof(ScrollView), typeof(ScrollViewFixHandler));
+                    handlers.AddHandler(typeof(NavigationPage), typeof(NavigationPageHandler));
 #endif
                 })
                 .ConfigureEffects(effects =>

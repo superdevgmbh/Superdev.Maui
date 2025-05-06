@@ -5,11 +5,23 @@ using Superdev.Maui.Platforms.iOS.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<DatePicker, DatePickerHandler>;
+
     public class DatePickerHandler : Microsoft.Maui.Handlers.DatePickerHandler
     {
-        static DatePickerHandler()
+        public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.DatePickerHandler.Mapper)
         {
-            Mapper.AppendToMapping(DialogExtensions.DoneButtonTextProperty.PropertyName, UpdateDoneButtonText);
+            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+        };
+
+        public DatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public DatePickerHandler()
+            : base(Mapper)
+        {
         }
 
         protected override MauiDatePicker CreatePlatformView()

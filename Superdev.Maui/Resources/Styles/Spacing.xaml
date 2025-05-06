@@ -3,10 +3,7 @@
 
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
-    xmlns:converters="clr-namespace:Superdev.Maui.Converters;assembly=Superdev.Maui"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects;assembly=Superdev.Maui">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!-- Spacing -->
     <OnPlatform

@@ -1,8 +1,9 @@
-using System.Linq;
 using Microsoft.Maui.Handlers;
 
 namespace Superdev.Maui.Platforms.Handlers.MauiFix
 {
+    using PM = PropertyMapper<ScrollView, ScrollViewFixHandler>;
+
     /// <summary>
     /// Workaround for https://github.com/dotnet/maui/issues/15374
     /// ScrollView does not work if content is shrinking; only if content is growing.
@@ -12,9 +13,19 @@ namespace Superdev.Maui.Platforms.Handlers.MauiFix
     /// </remarks>
     public class ScrollViewFixHandler : ScrollViewHandler
     {
-        static ScrollViewFixHandler()
+        public new static readonly PM Mapper = new PM(ScrollViewHandler.Mapper)
         {
-            Mapper.AppendToMapping(nameof(IScrollView.ContentSize), UpdateContentSize);
+            [nameof(IScrollView.ContentSize)] = UpdateContentSize,
+        };
+
+        public ScrollViewFixHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public ScrollViewFixHandler()
+            : base(Mapper)
+        {
         }
 
         private static void UpdateContentSize(IScrollViewHandler scrollViewHandler, IScrollView scrollView)

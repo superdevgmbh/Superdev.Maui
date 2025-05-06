@@ -7,7 +7,7 @@
                 nameof(IsScrollEnabled),
                 typeof(bool),
                 typeof(CustomScrollView),
-                default(bool));
+                false);
 
         /// <summary>
         /// Enables or disables the scrollability via input gestures of this ScrollView.
@@ -23,7 +23,7 @@
                 nameof(IsBounceEnabled),
                 typeof(bool),
                 typeof(CustomScrollView),
-                default(bool));
+                false);
 
         /// <summary>
         /// Enables or disables the bouncing effect.
@@ -34,30 +34,30 @@
             set => this.SetValue(IsBounceEnabledProperty, value);
         }
 
-        public static readonly BindableProperty IsHorizontalScollbarVisibleProperty =
+        public static readonly BindableProperty IsHorizontalScrollbarVisibleProperty =
             BindableProperty.Create(
-                nameof(IsHorizontalScollbarVisible),
+                nameof(IsHorizontalScrollbarVisible),
                 typeof(bool),
                 typeof(CustomScrollView),
-                default(bool));
+                false);
 
-        public bool IsHorizontalScollbarVisible
+        public bool IsHorizontalScrollbarVisible
         {
-            get => (bool)this.GetValue(IsHorizontalScollbarVisibleProperty);
-            set => this.SetValue(IsHorizontalScollbarVisibleProperty, value);
+            get => (bool)this.GetValue(IsHorizontalScrollbarVisibleProperty);
+            set => this.SetValue(IsHorizontalScrollbarVisibleProperty, value);
         }
 
-        public static readonly BindableProperty IsVerticalScollbarVisibleProperty =
+        public static readonly BindableProperty IsVerticalScrollbarVisibleProperty =
             BindableProperty.Create(
-                nameof(IsVerticalScollbarVisible),
+                nameof(IsVerticalScrollbarVisible),
                 typeof(bool),
                 typeof(CustomScrollView),
-                default(bool));
+                false);
 
-        public bool IsVerticalScollbarVisible
+        public bool IsVerticalScrollbarVisible
         {
-            get => (bool)this.GetValue(IsVerticalScollbarVisibleProperty);
-            set => this.SetValue(IsVerticalScollbarVisibleProperty, value);
+            get => (bool)this.GetValue(IsVerticalScrollbarVisibleProperty);
+            set => this.SetValue(IsVerticalScrollbarVisibleProperty, value);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Superdev.Maui.Controls
     /// <remarks>
     /// Source: https://github.com/thomasgalliker/CrossPlatformLibrary/blob/develop/CrossPlatformLibrary.Forms/Controls/NullableDatePicker.cs
     /// </remarks>
-    public class NullableDatePicker : CustomDatePicker
+    public class NullableDatePicker : DatePicker
     {
         public static readonly BindableProperty NullableDateProperty =
             BindableProperty.Create(

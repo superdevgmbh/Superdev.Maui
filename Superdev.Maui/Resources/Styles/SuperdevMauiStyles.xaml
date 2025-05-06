@@ -178,7 +178,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- LabelStyle -->
+    <!-- Label -->
     <Style
         x:Key="LabelStyle"
         TargetType="Label">
@@ -192,12 +192,17 @@
         <Setter Property="HorizontalTextAlignment" Value="Start" />
         <Setter Property="LineBreakMode" Value="TailTruncation" />
     </Style>
-
     <Style
         BasedOn="{StaticResource LabelStyle}"
         TargetType="Label" />
+
+    <!-- CustomLabel -->
     <Style
+        x:Key="CustomLabelStyle"
         BasedOn="{StaticResource LabelStyle}"
+        TargetType="controls:CustomLabel" />
+    <Style
+        BasedOn="{StaticResource CustomLabelStyle}"
         TargetType="controls:CustomLabel" />
 
     <Style
@@ -215,7 +220,7 @@
         <Setter Property="controls:MinimumHeight.Value" Value="32" />
     </Style>
 
-    <!-- EntryStyle -->
+    <!-- Entry -->
     <Style
         x:Key="EntryStyle"
         TargetType="Entry">
@@ -231,12 +236,17 @@
         <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
-
     <Style
         BasedOn="{StaticResource EntryStyle}"
         TargetType="Entry" />
+
+    <!-- CustomEntry -->
     <Style
+        x:Key="CustomEntryStyle"
         BasedOn="{StaticResource EntryStyle}"
+        TargetType="controls:CustomEntry" />
+    <Style
+        BasedOn="{StaticResource CustomEntryStyle}"
         TargetType="controls:CustomEntry" />
 
     <!-- HyperLinkLabelStyle -->
@@ -453,6 +463,7 @@
         BasedOn="{StaticResource SwitchStyle}"
         TargetType="Switch" />
 
+    <!-- Editor -->
     <Style
         x:Key="EditorStyle"
         TargetType="Editor">
@@ -474,34 +485,38 @@
         BasedOn="{StaticResource EditorStyle}"
         TargetType="controls:CustomEditor" />
 
+    <!-- Picker -->
     <Style
         x:Key="PickerStyle"
         TargetType="Picker">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-        <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
-        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
-
     <Style
         BasedOn="{StaticResource PickerStyle}"
         TargetType="Picker" />
 
+    <!-- CustomPicker -->
     <Style
         x:Key="CustomPickerStyle"
         BasedOn="{StaticResource PickerStyle}"
-        TargetType="controls:CustomPicker" />
+        TargetType="controls:CustomPicker">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+    </Style>
     <Style
         BasedOn="{StaticResource CustomPickerStyle}"
         TargetType="controls:CustomPicker" />
 
+    <!-- DatePicker -->
     <Style
         x:Key="DatePickerStyle"
         TargetType="DatePicker">
@@ -519,6 +534,7 @@
         BasedOn="{StaticResource DatePickerStyle}"
         TargetType="DatePicker" />
 
+    <!-- NullableDatePicker -->
     <Style
         x:Key="NullableDatePickerStyle"
         BasedOn="{StaticResource DatePickerStyle}"
@@ -530,6 +546,7 @@
         BasedOn="{StaticResource NullableDatePickerStyle}"
         TargetType="controls:NullableDatePicker" />
 
+    <!-- TimePicker -->
     <Style
         x:Key="TimePickerStyle"
         TargetType="TimePicker">
@@ -558,6 +575,7 @@
         BasedOn="{StaticResource ExtendedTimePickerStyle}"
         TargetType="controls:ExtendedTimePicker" />-->
 
+    <!-- SearchBar -->
     <Style
         x:Key="SearchBarStyle"
         TargetType="SearchBar">
@@ -591,6 +609,7 @@
         BasedOn="{StaticResource SearchBarStyle}"
         TargetType="SearchBar" />
 
+    <!-- Label -->
     <Style
         x:Key="SectionLabelTextStyle"
         BasedOn="{StaticResource LabelStyle}"
@@ -669,7 +688,7 @@
         x:Key="ValidatableEntryStyle"
         TargetType="controls:ValidatableEntry">
         <Setter Property="AnnotationLabelStyle" Value="{StaticResource AnnotationEntryLabelStyle}" />
-        <Setter Property="EntryStyle" Value="{StaticResource EntryStyle}" />
+        <Setter Property="EntryStyle" Value="{StaticResource CustomEntryStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{StaticResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>

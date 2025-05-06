@@ -1,19 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="SuperdevMauiDemoApp.Views.PickersPage"
+    x:Class="SuperdevMauiDemoApp.Views.PickerDemoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
-    x:DataType="vm:PickersViewModel"
-    Title="PickersPage"
-    BackgroundColor="{DynamicResource PageBackgroundColor}">
+    x:DataType="vm:PickerDemoViewModel"
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="PickerDemoPage">
 
     <ScrollView>
         <Grid>
             <StackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="CustomPicker" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!-- Picker with strings, using ItemDisplayBinding and NullString --&gt;" />
+                            <Picker
+                                ItemDisplayBinding="{Binding .}"
+                                ItemsSource="{Binding StringValues}"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}"
+                                Title="Please select" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="&lt;!-- CustomPicker with strings --&gt;" />
+                            <s:CustomPicker
+                                ItemDisplayBinding="{Binding .}"
+                                ItemsSource="{Binding StringValues}"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}"
+                                Title="Please select" />
+
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
                 <s:CardView>
                     <StackLayout>
                         <s:LabelSection Text="ValidatablePickers" />
@@ -27,16 +57,16 @@
                             <s:ValidatablePicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
-                                Placeholder="String Values"
+                                Placeholder="Please select"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatablePicker with strings, using DisplayMemberPath and NullString--&gt;" />
+                                Text="&lt;!--Demo ValidatablePicker with strings, using ItemDisplayBinding and NullString--&gt;" />
                             <s:ValidatablePicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
-                                Placeholder="String Values"
+                                Placeholder="Please select"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
 
                             <Label

@@ -4,15 +4,23 @@ using Superdev.Maui.Controls;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<CustomButton, CustomButtonHandler>;
+
     public class CustomButtonHandler : ButtonHandler
     {
-        public static PropertyMapper<CustomButton, CustomButtonHandler> PropertyMapper = new(ButtonHandler.Mapper)
+        public new static readonly PM Mapper = new PM(ButtonHandler.Mapper)
         {
             [nameof(CustomButton.HorizontalTextAlignment)] = MapHorizontalTextAlignment,
             [nameof(CustomButton.VerticalTextAlignment)] = MapVerticalTextAlignment,
         };
 
-        public CustomButtonHandler() : base(PropertyMapper)
+        public CustomButtonHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public CustomButtonHandler()
+            : base(Mapper)
         {
         }
 

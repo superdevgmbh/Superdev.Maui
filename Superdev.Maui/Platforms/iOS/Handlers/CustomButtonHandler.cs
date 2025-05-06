@@ -6,6 +6,16 @@ namespace Superdev.Maui.Platforms.Handlers
 {
     public class CustomButtonHandler : ButtonHandler
     {
+        public CustomButtonHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public CustomButtonHandler()
+            : base(Mapper)
+        {
+        }
+
         protected override void ConnectHandler(UIButton platformView)
         {
             base.ConnectHandler(platformView);

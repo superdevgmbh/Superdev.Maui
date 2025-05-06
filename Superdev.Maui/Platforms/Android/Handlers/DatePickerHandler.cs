@@ -14,6 +14,16 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private DatePickerDialog dialog;
 
+        public DatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public DatePickerHandler()
+            : base(Mapper)
+        {
+        }
+
         protected override MauiDatePicker CreatePlatformView()
         {
             var mauiDatePicker = new MauiDatePicker(this.Context)

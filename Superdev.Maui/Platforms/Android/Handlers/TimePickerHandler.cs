@@ -6,6 +6,10 @@ namespace Superdev.Maui.Platforms.Handlers
 {
     public class TimePickerHandler : Microsoft.Maui.Handlers.TimePickerHandler
     {
+        public TimePickerHandler()
+        {
+        }
+
         protected override TimePickerDialog CreateTimePickerDialog(int hours, int minutes)
         {
             var dialog = base.CreateTimePickerDialog(hours, minutes);

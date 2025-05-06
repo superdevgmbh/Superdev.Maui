@@ -1,8 +1,8 @@
 ﻿namespace SuperdevMauiDemoApp.Views
 {
-    public partial class PickersPage : ContentPage
+    public partial class PickerDemoPage : ContentPage
     {
-        public PickersPage()
+        public PickerDemoPage()
         {
             this.InitializeComponent();
         }

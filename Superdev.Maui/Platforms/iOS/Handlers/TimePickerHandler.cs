@@ -5,11 +5,23 @@ using Superdev.Maui.Platforms.iOS.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<TimePicker, TimePickerHandler>;
+
     public class TimePickerHandler : Microsoft.Maui.Handlers.TimePickerHandler
     {
-        static TimePickerHandler()
+        public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.TimePickerHandler.Mapper)
         {
-            Mapper.AppendToMapping(DialogExtensions.DoneButtonTextProperty.PropertyName, UpdateDoneButtonText);
+            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+        };
+
+        public TimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public TimePickerHandler()
+            : base(Mapper)
+        {
         }
 
         private static void UpdateDoneButtonText(ITimePickerHandler timePickerHandler, ITimePicker timePicker)

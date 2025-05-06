@@ -10,11 +10,12 @@ using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class PickersViewModel : BaseViewModel
+    public class PickerDemoViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
+
         private string selectedString;
         private ObservableCollection<CountryViewModel> countries;
         private CountryViewModel country;
@@ -22,7 +23,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private DateTime? birthdate;
         private ICommand toggleBirthdateCommand;
 
-        public PickersViewModel(
+        public PickerDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
             ICountryService countryService)
@@ -35,8 +36,10 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 null,
                 "String 1",
-                "String 10"
+                "String 2",
+                "String 3",
             };
+            this.SelectedString = null;
 
             this.Countries = new ObservableCollection<CountryViewModel>();
 
@@ -53,7 +56,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             viewModelValidation.AddValidationFor(nameof(this.Birthdate))
                 .When(() => this.Birthdate == null)
-                .Show(() => $"Birthdate must be set");
+                .Show(() => "Birthdate must be set");
 
             return viewModelValidation;
         }
@@ -89,7 +92,8 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.selectedString, value))
                 {
-                    this.dialogService.DisplayAlertAsync("SelectedString", $"value={value}", "OK");
+                    // this.logger.Debug()
+                    //this.dialogService.DisplayAlertAsync("SelectedString", $"value={value}", "OK");
                 }
             }
         }
@@ -97,7 +101,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public ObservableCollection<CountryViewModel> Countries
         {
             get => this.countries;
-            private set => this.SetProperty(ref this.countries, value, nameof(this.Countries));
+            private set => this.SetProperty(ref this.countries, value);
         }
 
         public CountryViewModel Country
@@ -109,7 +113,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public bool IsReadonly
         {
             get => this.isReadonly;
-            set => this.SetProperty(ref this.isReadonly, value, nameof(this.IsReadonly));
+            set => this.SetProperty(ref this.isReadonly, value);
         }
 
         public DateTime? Birthdate
@@ -117,7 +121,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.birthdate;
             set
             {
-                if (this.SetProperty(ref this.birthdate, value, nameof(this.Birthdate)))
+                if (this.SetProperty(ref this.birthdate, value))
                 {
                     _ = this.Validation.IsValidAsync();
                 }

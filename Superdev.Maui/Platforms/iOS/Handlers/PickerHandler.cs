@@ -5,11 +5,23 @@ using Superdev.Maui.Platforms.iOS.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<Picker, PickerHandler>;
+
     public class PickerHandler : Microsoft.Maui.Handlers.PickerHandler
     {
-        static PickerHandler()
+        public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PickerHandler.Mapper)
         {
-            Mapper.AppendToMapping(DialogExtensions.DoneButtonTextProperty.PropertyName, UpdateDoneButtonText);
+            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+        };
+
+        public PickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public PickerHandler()
+            : base(Mapper)
+        {
         }
 
         private static void UpdateDoneButtonText(IPickerHandler pickerHandler, IPicker picker)

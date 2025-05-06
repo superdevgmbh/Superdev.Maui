@@ -48,8 +48,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<ViewModelErrorDemoViewModel>();
             builder.Services.AddTransient<ActivityIndicatorDemoPage>();
             builder.Services.AddTransient<ActivityIndicatorDemoViewModel>();
-            builder.Services.AddTransient<PickersPage>();
-            builder.Services.AddTransient<PickersViewModel>();
+            builder.Services.AddTransient<PickerDemoPage>();
+            builder.Services.AddTransient<PickerDemoViewModel>();
             builder.Services.AddTransient<ListViewDemoPage>();
             builder.Services.AddTransient<ListViewDemoViewModel>();
             builder.Services.AddTransient<CustomTabbedPageDemoPage>();
@@ -57,6 +57,9 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<PreferencesDemoViewModel>();
             builder.Services.AddTransient<StylesDemoPage>();
             builder.Services.AddTransient<StylesDemoViewModel>();
+            builder.Services.AddTransient<SliderDemoPage>();
+            builder.Services.AddTransient<WebViewDemoPage>();
+            builder.Services.AddTransient<WebViewDemoViewModel>();
 
             builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             builder.Services.AddSingleton<ICountryService, CountryService>();

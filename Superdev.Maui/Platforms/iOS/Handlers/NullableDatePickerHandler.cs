@@ -1,24 +1,38 @@
 using System.Diagnostics;
+using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Superdev.Maui.Utils;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.iOS.Utils;
-using Superdev.Maui.Utils;
 using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
-    public class NullableDatePickerHandler : CustomDatePickerHandler
-    {
-        private UIDatePicker _uiDatePicker;
+    using PM = PropertyMapper<NullableDatePicker, NullableDatePickerHandler>;
 
-        static NullableDatePickerHandler()
+    public class NullableDatePickerHandler : DatePickerHandler
+    {
+        public new static readonly PM Mapper = new PM(DatePickerHandler.Mapper)
         {
-            Mapper.AppendToMapping(DatePicker.FormatProperty.PropertyName, UpdateFormat);
-            Mapper.AppendToMapping(DatePicker.DateProperty.PropertyName, UpdateDate);
-            Mapper.AppendToMapping(NullableDatePicker.NullableDateProperty.PropertyName, UpdateNullableDate);
-            Mapper.AppendToMapping(DialogExtensions.NeutralButtonTextProperty.PropertyName, UpdateNeutralButtonText);
-            Mapper.AppendToMapping(NullableDatePicker.PlaceholderProperty.PropertyName, UpdatePlaceholder);
+            [nameof(DatePicker.Format)] = UpdateFormat,
+            [nameof(DatePicker.Date)] = UpdateDate,
+            [nameof(NullableDatePicker.NullableDate)] = UpdateNullableDate,
+            [nameof(NullableDatePicker.Placeholder)] = UpdatePlaceholder,
+            [nameof(NullableDatePicker.PlaceholderColor)] = UpdatePlaceholder,
+            [nameof(DialogExtensions.NeutralButtonText)] = UpdateNeutralButtonText
+        };
+
+        private UIDatePicker uiDatePicker;
+
+        public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+            : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
+        {
+        }
+
+        public NullableDatePickerHandler()
+            : base(Mapper)
+        {
         }
 
         private new NullableDatePicker VirtualView => (NullableDatePicker)base.VirtualView;
@@ -59,15 +73,15 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void HandleDoneButton(object sender, EventArgs e)
         {
-            this.VirtualView.Date = this._uiDatePicker.Date.ToDateTime();
-            this.VirtualView.NullableDate = this._uiDatePicker.Date.ToDateTime();
+            this.VirtualView.Date = this.uiDatePicker.Date.ToDateTime();
+            this.VirtualView.NullableDate = this.uiDatePicker.Date.ToDateTime();
             SetNullableText(this.PlatformView, this.VirtualView);
             this.PlatformView.ResignFirstResponder();
         }
 
         protected override void ConnectHandler(MauiDatePicker platformView)
         {
-            this._uiDatePicker = ReflectionHelper.GetPropertyValue<UIDatePicker>(this.PlatformView, "DatePickerDialog");
+            this.uiDatePicker = ReflectionHelper.GetPropertyValue<UIDatePicker>(this.PlatformView, "DatePickerDialog");
             this.VirtualView.AddCleanUpEvent();
             base.ConnectHandler(platformView);
 
@@ -84,15 +98,24 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(MauiDatePicker platformView)
         {
-            this._uiDatePicker = null;
+            this.uiDatePicker = null;
             base.DisconnectHandler(platformView);
         }
 
-        private static void UpdatePlaceholder(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdatePlaceholder(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            if (datePickerHandler is NullableDatePickerHandler handler && datePicker is NullableDatePicker nullableDatePicker)
+            var placeholderText = nullableDatePicker.Placeholder;
+            var mauiDatePicker = nullableDatePickerHandler.PlatformView;
+
+            if (nullableDatePicker.PlaceholderColor is Color placeholderColor)
             {
-                handler.PlatformView.Placeholder = nullableDatePicker.Placeholder;
+                var foregroundColor = placeholderColor.ToPlatform();
+                var attributedPlaceholder = new NSAttributedString(placeholderText, foregroundColor: foregroundColor);
+                mauiDatePicker.AttributedPlaceholder = attributedPlaceholder;
+            }
+            else
+            {
+                mauiDatePicker.Placeholder = placeholderText;
             }
         }
 
@@ -101,12 +124,10 @@ namespace Superdev.Maui.Platforms.Handlers
             this.SetupUIToolbar(this.PlatformView);
         }
 
-        private static void UpdateNeutralButtonText(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdateNeutralButtonText(NullableDatePickerHandler nullableDatePickerHandler,
+            NullableDatePicker nullableDatePicker)
         {
-            if (datePickerHandler is NullableDatePickerHandler handler && datePicker is NullableDatePicker nullableDatePicker)
-            {
-                handler.SetupUIToolbar(handler.PlatformView);
-            }
+            nullableDatePickerHandler.SetupUIToolbar(nullableDatePickerHandler.PlatformView);
         }
 
         private static void HandleClearButton(NullableDatePicker nullableDatePicker, MauiDatePicker mauiDatePicker)
