@@ -6,8 +6,8 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:EntryViewModel"
-    Title="EntryPage"
-    BackgroundColor="{DynamicResource PageBackgroundColor}">
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="EntryPage">
 
     <ScrollView>
         <Grid>
@@ -24,7 +24,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo CustomEntry--&gt;" />
+                                Text="Demo CustomEntry" />
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -93,7 +93,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Toggle IsReadonly--&gt;" />
+                                Text="Toggle IsReadonly" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
@@ -110,7 +110,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatableEntry--&gt;" />
+                                Text="Demo ValidatableEntry" />
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -160,7 +160,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Toggle IsReadonly--&gt;" />
+                                Text="Toggle IsReadonly" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
                         </StackLayout>
                         <s:FooterDivider />

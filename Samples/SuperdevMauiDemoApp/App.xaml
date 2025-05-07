@@ -27,12 +27,12 @@
             <Style
                 x:Key="DemoLabelStyle"
                 TargetType="Label">
-                <Setter Property="TextColor" Value="Green" />
-                <Setter Property="BackgroundColor" Value="#e6ffe6" />
-                <Setter Property="FontAttributes" Value="Italic" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Magenta" />
+                <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="LineBreakMode" Value="CharacterWrap" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
             </Style>
 
             <s:ColorConfiguration

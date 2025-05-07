@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.SearchBarDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="SearchBarDemoPage">
+
+    <ScrollView>
+        <Grid>
+            <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Large}">
+                <SearchBar
+                    IsEnabled="True"
+                    Placeholder=""
+                    Text="SearchBar with Text" />
+                <SearchBar
+                    IsEnabled="False"
+                    IsReadOnly="True"
+                    Placeholder=""
+                    Text="SearchBar with Text (Readonly)" />
+                <SearchBar
+                    IsEnabled="True"
+                    Placeholder="SearchBar Placeholder"
+                    Text="" />
+                <SearchBar
+                    IsEnabled="False"
+                    IsReadOnly="True"
+                    Placeholder="SearchBar Placeholder (Readonly)"
+                    Text="" />
+                <SearchBar
+                    ios:SearchBar.SearchBarStyle="Prominent"
+                    CancelButtonColor="OrangeRed"
+                    Placeholder="SearchBarStyle Prominent"
+                    Text="" />
+                <SearchBar
+                    ios:SearchBar.SearchBarStyle="Minimal"
+                    Placeholder="SearchBarStyle Minimal"
+                    Text="" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

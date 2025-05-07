@@ -47,13 +47,13 @@
     <Style
         ApplyToDerivedTypes="True"
         TargetType="ContentPage">
-        <Setter Property="BackgroundColor" Value="{StaticResource PageBackgroundColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}" />
     </Style>
     <Style
         ApplyToDerivedTypes="True"
         TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{DynamicResource Theme.Color.Primary}" />
-        <Setter Property="BackgroundColor" Value="{StaticResource PageBackgroundColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}" />
         <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
     </Style>
 
@@ -579,8 +579,10 @@
     <Style
         x:Key="SearchBarStyle"
         TargetType="SearchBar">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="CancelButtonColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
@@ -588,16 +590,10 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                            <Setter Property="CancelButtonColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-                            <Setter Property="CancelButtonColor" Value="Transparent" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>

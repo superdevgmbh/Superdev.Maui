@@ -7,10 +7,10 @@
     Title="CustomLabel Demo">
 
     <ScrollView>
-        <StackLayout VerticalOptions="Start">
+        <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="&lt;!--Demo CustomLabel--&gt;" />
+                Text="Demo CustomLabel" />
             <Label
                 BackgroundColor="LightGray"
                 Text="Label" />
@@ -47,7 +47,7 @@
 
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="&lt;!--Demo ValidatableLabel--&gt;" />
+                Text="Demo ValidatableLabel" />
             <s:ValidatableLabel
                 BackgroundColor="Transparent"
                 Placeholder="ValidatableLabel Placeholder"
@@ -101,6 +101,6 @@
                     </Style>
                 </s:ValidatableLabel.LabelStyle>
             </s:ValidatableLabel>
-        </StackLayout>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

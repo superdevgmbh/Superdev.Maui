@@ -7,8 +7,9 @@
     xmlns:viewModels="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
     x:DataType="viewModels:MainViewModel"
-    s:SafeAreaPadding.Layout="Top,Bottom"
     Title="Superdev.Maui Sample App">
+
+    <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
 
     <Grid>
         <Grid Padding="{DynamicResource Theme.Padding.Medium}">
@@ -51,7 +52,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: TintImageEffect--&gt;" />
+                                    Text="Demo: TintImageEffect" />
                                 <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
                                     <Image
                                         s:TintImageEffect.TintColor="Blue"
@@ -219,48 +220,26 @@
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="WebViewDemoPage"
                                         Text="WebView" />
-                                    <!-- <s:CustomButton -->
-                                    <!-- Grid.Column="1" -->
-                                    <!-- Command="{Binding NavigateToPageCommand}" -->
-                                    <!-- CommandParameter="SliderDemoPage" -->
-                                    <!-- Text="Slider" /> -->
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SearchBarDemoPage"
+                                        Text="SearchBar" />
                                 </Grid>
 
-
-
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo SearchBar--&gt;" />
-                                <SearchBar
-                                    IsEnabled="True"
-                                    Placeholder=""
-                                    Text="SearchBar with Text" />
-                                <SearchBar
-                                    IsEnabled="False"
-                                    Placeholder=""
-                                    Text="SearchBar with Text (Disabled)" />
-                                <SearchBar
-                                    IsEnabled="True"
-                                    Placeholder="SearchBar Placeholder"
-                                    Text="" />
-                                <SearchBar
-                                    IsEnabled="False"
-                                    Placeholder="SearchBar Placeholder (Disabled)"
-                                    Text="" />
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: ErrorBox--&gt;" />
+                                    Text="Demo: ErrorBox" />
                                 <s:ErrorBox Text="Some error message" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: ValidationErrorBox--&gt;" />
+                                    Text="Demo: ValidationErrorBox" />
                                 <s:ValidationErrorBox Validation="{Binding Validation}" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: CustomEditor--&gt;" />
+                                    Text="Demo: CustomEditor" />
                                 <Editor
                                     MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
                                     Placeholder="Editor"
@@ -272,7 +251,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo: ValidatableEditor--&gt;" />
+                                    Text="Demo: ValidatableEditor" />
                                 <s:ValidatableEditor
                                     x:Name="ValidatableEditorTest1"
                                     Placeholder="ValidatableEditor"
@@ -324,7 +303,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo CustomEditor with hidden keyboard--&gt;" />
+                                    Text="Demo CustomEditor with hidden keyboard" />
                                 <Editor Text="{Binding LogContent, Mode=OneWay}" />
                                 <s:CustomEditor
                                     Margin="0"
@@ -336,12 +315,12 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo DividerLine--&gt;" />
+                                    Text="Demo DividerLine" />
                                 <s:DividerLine />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo NoBarsScrollViewer--&gt;" />
+                                    Text="Demo NoBarsScrollViewer" />
                                 <s:CustomScrollView
                                     IsHorizontalScrollbarVisible="False"
                                     IsVerticalScrollbarVisible="False"
@@ -364,7 +343,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo FontFamily, FontSize, FontAttributes--&gt;" />
+                                    Text="Demo FontFamily, FontSize, FontAttributes" />
                                 <StackLayout>
                                     <Label
                                         FontAttributes="None"
@@ -513,7 +492,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo LongPressEffect--&gt;" />
+                                    Text="Demo LongPressEffect" />
                                 <Grid
                                     Padding="20"
                                     BackgroundColor="LightGray">
@@ -543,7 +522,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo CustomButton (PrimaryStyle)--&gt;" />
+                                    Text="Demo CustomButton (PrimaryStyle)" />
                                 <s:CustomButton
                                     x:Name="CustomButtonPrimary"
                                     Command="{Binding SaveProfileButtonCommand}"
@@ -576,7 +555,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo CustomButton (SecondaryStyle)--&gt;" />
+                                    Text="Demo CustomButton (SecondaryStyle)" />
                                 <s:CustomButton
                                     x:Name="CustomButtonSecondary"
                                     Command="{Binding LoadDataButtonCommand}"
@@ -629,7 +608,7 @@
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
-                                    Text="&lt;!--Demo CustomButton (LineBreakMode)--&gt;" />
+                                    Text="Demo CustomButton (LineBreakMode)" />
                                 <s:CustomButton
                                     Padding="16"
                                     Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
@@ -661,7 +640,7 @@
                         <Label
                             IsVisible="{Binding IsBusy, Mode=OneWay}"
                             Style="{StaticResource DemoLabelStyle}"
-                            Text="&lt;!--Demo CustomActivityIndicator--&gt;"
+                            Text="Demo CustomActivityIndicator"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Start" />
                         <s:CustomActivityIndicator

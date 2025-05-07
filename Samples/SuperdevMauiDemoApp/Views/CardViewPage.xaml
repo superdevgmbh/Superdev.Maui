@@ -4,8 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:SuperdevMauiDemoApp.Controls"
-    Title="CardViewPage"
-    BackgroundColor="{DynamicResource PageBackgroundColor}">
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="CardViewPage">
 
     <ScrollView>
         <Grid>
@@ -14,12 +14,12 @@
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <Label
                     Style="{StaticResource DemoLabelStyle}"
-                    Text="&lt;!--Demo: AddressControl uses CardView--&gt;" />
+                    Text="Demo: AddressControl uses CardView" />
                 <controls:AddressControl BindingContext="{Binding .}" />
 
                 <Label
                     Style="{StaticResource DemoLabelStyle}"
-                    Text="&lt;!--Demo: PeriodicTaskView uses CardView--&gt;" />
+                    Text="Demo: PeriodicTaskView uses CardView" />
                 <controls:PeriodicTaskView BindingContext="{Binding PeriodicTask}" />
             </StackLayout>
         </Grid>

@@ -24,7 +24,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!-- Picker with strings, using ItemDisplayBinding and NullString --&gt;" />
+                                Text="Picker with strings, using ItemDisplayBinding and NullString " />
                             <Picker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -33,7 +33,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!-- CustomPicker with strings --&gt;" />
+                                Text="CustomPicker with strings " />
                             <s:CustomPicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -53,7 +53,7 @@
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatablePicker with strings--&gt;" />
+                                Text="Demo ValidatablePicker with strings" />
                             <s:ValidatablePicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -62,7 +62,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatablePicker with strings, using ItemDisplayBinding and NullString--&gt;" />
+                                Text="Demo ValidatablePicker with strings, using ItemDisplayBinding and NullString" />
                             <s:ValidatablePicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -71,7 +71,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatablePicker with CountryViewModels--&gt;" />
+                                Text="Demo ValidatablePicker with CountryViewModels" />
                             <s:ValidatablePicker
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
                                 ItemDisplayBinding="{Binding Name}"
@@ -91,7 +91,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Toggle IsReadonly--&gt;" />
+                                Text="Toggle IsReadonly" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
                         </StackLayout>
                         <s:FooterDivider />
@@ -108,7 +108,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo NullableDatePicker--&gt;" />
+                                Text="Demo NullableDatePicker" />
                             <s:NullableDatePicker
                                 IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
                                 NullableDate="{x:Null}"
@@ -144,7 +144,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Toggle IsEnabled--&gt;" />
+                                Text="Toggle IsEnabled" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
 
                         </StackLayout>
@@ -162,7 +162,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatableDatePicker--&gt;" />
+                                Text="Demo ValidatableDatePicker" />
                             <s:ValidatableDatePicker
                                 Date="{Binding Birthdate, Mode=TwoWay}"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
@@ -228,7 +228,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ExtendedTimePicker--&gt;" />
+                                Text="Demo ExtendedTimePicker" />
                             <!--<s:ExtendedTimePicker
                                 Format="t"
                                 IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
@@ -242,7 +242,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Toggle IsEnabled--&gt;" />
+                                Text="Toggle IsEnabled" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
 
                         </StackLayout>
@@ -261,7 +261,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="&lt;!--Demo ValidatableDateTimePicker--&gt;" />
+                                Text="Demo ValidatableDateTimePicker" />
                             <!--<s:ValidatableDateTimePicker
                                 Date="{Binding Birthdate, Mode=TwoWay}"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
