@@ -1,4 +1,3 @@
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.iOS.Utils;
@@ -24,23 +23,30 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private static void UpdateDoneButtonText(ITimePickerHandler timePickerHandler, ITimePicker timePicker)
-        {
-            if (timePickerHandler is TimePickerHandler handler)
-            {
-                var newDoneButton = UIToolbarHelper.CreateDoneButton((BindableObject)timePicker, (_, _) => { });
-                UIToolbarHelper.ReplaceDoneButton(handler.PlatformView.InputAccessoryView, newDoneButton);
-            }
-        }
+        private new TimePicker VirtualView => (TimePicker)base.VirtualView;
 
         protected override MauiTimePicker CreatePlatformView()
         {
             var mauiTimePicker = base.CreatePlatformView();
-
-            var newDoneButton = UIToolbarHelper.CreateDoneButton((BindableObject)this.VirtualView, (_, _) => { });
-            UIToolbarHelper.ReplaceDoneButton(mauiTimePicker.InputAccessoryView, newDoneButton);
-
+            this.SetupUIToolbar(mauiTimePicker);
             return mauiTimePicker;
+        }
+
+        protected virtual void SetupUIToolbar(MauiTimePicker mauiTimePicker)
+        {
+            this.UpdateDoneButton(mauiTimePicker);
+        }
+
+        protected virtual void UpdateDoneButton(MauiTimePicker mauiDatePicker)
+        {
+            var newDoneButton = UIToolbarHelper.CreateDoneButton(this.VirtualView, (_, _) => { });
+            UIToolbarHelper.ReplaceDoneButton(mauiDatePicker.InputAccessoryView, newDoneButton);
+        }
+
+        private static void UpdateDoneButtonText(TimePickerHandler timePickerHandler, TimePicker timePicker)
+        {
+            var mauiTimePicker = timePickerHandler.PlatformView;
+            timePickerHandler.UpdateDoneButton(mauiTimePicker);
         }
     }
 }

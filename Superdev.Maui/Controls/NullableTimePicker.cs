@@ -3,60 +3,29 @@
 namespace Superdev.Maui.Controls
 {
     /// <summary>
-    /// DatePicker with <see cref="NullableDate"/>.
+    /// TimePicker with <see cref="NullableTime"/>.
     /// </summary>
-    public class NullableDatePicker : DatePicker
+    public class NullableTimePicker : TimePicker
     {
-        public static readonly BindableProperty NullableDateProperty =
+        public static readonly BindableProperty NullableTimeProperty =
             BindableProperty.Create(
-                nameof(NullableDate),
-                typeof(DateTime?),
-                typeof(NullableDatePicker),
+                nameof(NullableTime),
+                typeof(TimeSpan?),
+                typeof(NullableTimePicker),
                 null,
                 BindingMode.TwoWay);
 
-        public DateTime? NullableDate
+        public TimeSpan? NullableTime
         {
-            get => (DateTime?)this.GetValue(NullableDateProperty);
-            set => this.SetValue(NullableDateProperty, value);
-        }
-
-        public static readonly BindableProperty ValidityRangeProperty =
-            BindableProperty.Create(
-                nameof(ValidityRange),
-                typeof(DateRange),
-                typeof(NullableDatePicker),
-                null,
-                BindingMode.OneWay,
-                null,
-                OnValidityRangePropertyChanged);
-
-        private static void OnValidityRangePropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            Debug.WriteLine($"OnValidityRangePropertyChanged: oldValue={oldValue}, newValue={newValue}");
-
-            if (newValue is DateRange dateRange)
-            {
-                var picker = (NullableDatePicker)bindable;
-                picker.MaximumDate = DateTime.MaxValue;
-                picker.MinimumDate = DateTime.MinValue;
-
-                picker.MaximumDate = dateRange.End;
-                picker.MinimumDate = dateRange.Start;
-            }
-        }
-
-        public DateRange ValidityRange
-        {
-            get => (DateRange)this.GetValue(ValidityRangeProperty);
-            set => this.SetValue(ValidityRangeProperty, value);
+            get => (TimeSpan?)this.GetValue(NullableTimeProperty);
+            set => this.SetValue(NullableTimeProperty, value);
         }
 
         public static readonly BindableProperty HorizontalTextAlignmentProperty =
             BindableProperty.Create(
                 nameof(HorizontalTextAlignment),
                 typeof(TextAlignment),
-                typeof(NullableDatePicker),
+                typeof(NullableTimePicker),
                 TextAlignment.Start);
 
         public TextAlignment HorizontalTextAlignment
@@ -69,7 +38,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(HasBorder),
                 typeof(bool),
-                typeof(NullableDatePicker),
+                typeof(NullableTimePicker),
                 true);
 
         public bool HasBorder
@@ -82,7 +51,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(Placeholder),
                 typeof(string),
-                typeof(NullableDatePicker));
+                typeof(NullableTimePicker));
 
         public string Placeholder
         {
@@ -94,7 +63,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(PlaceholderColor),
                 typeof(Color),
-                typeof(NullableDatePicker),
+                typeof(NullableTimePicker),
                 Colors.Transparent);
 
         public Color PlaceholderColor

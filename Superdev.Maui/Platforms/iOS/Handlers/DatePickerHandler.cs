@@ -24,6 +24,8 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        private new DatePicker VirtualView => (DatePicker)base.VirtualView;
+
         protected override MauiDatePicker CreatePlatformView()
         {
             var mauiDatePicker = base.CreatePlatformView();
@@ -38,16 +40,14 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected virtual void UpdateDoneButton(MauiDatePicker mauiDatePicker)
         {
-            var newDoneButton = UIToolbarHelper.CreateDoneButton((BindableObject)this.VirtualView, (_, _) => { });
+            var newDoneButton = UIToolbarHelper.CreateDoneButton(this.VirtualView, (_, _) => { });
             UIToolbarHelper.ReplaceDoneButton(mauiDatePicker.InputAccessoryView, newDoneButton);
         }
 
-        private static void UpdateDoneButtonText(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void UpdateDoneButtonText(DatePickerHandler datePickerHandler, DatePicker datePicker)
         {
-            if (datePickerHandler is DatePickerHandler handler)
-            {
-                handler.UpdateDoneButton(handler.PlatformView);
-            }
+            var mauiDatePicker = datePickerHandler.PlatformView;
+            datePickerHandler.UpdateDoneButton(mauiDatePicker);
         }
     }
 }

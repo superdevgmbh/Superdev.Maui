@@ -11,14 +11,14 @@
 
     <ScrollView>
         <Grid>
-            <StackLayout
+            <VerticalStackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="CustomPicker" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
@@ -40,15 +40,15 @@
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}"
                                 Title="Please select" />
 
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="ValidatablePickers" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
                             <Label
@@ -93,16 +93,16 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="Toggle IsReadonly" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="NullableDatePickers" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
@@ -147,16 +147,16 @@
                                 Text="Toggle IsEnabled" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
 
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="ValidatableDatePickers" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
@@ -213,48 +213,77 @@
                                         Text="" />
                                 </Grid>
                             </ScrollView>
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>
-                    <StackLayout>
-                        <s:LabelSection Text="ExtendedTimePickers" />
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="TimePicker" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo ExtendedTimePicker" />
-                            <!--<s:ExtendedTimePicker
-                                Format="t"
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                Text="TimePicker with Format=h\:mm" />
+                            <TimePicker
+                                Format="h\:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=h\:mm" />
+                            <s:NullableTimePicker
+                                Format="h\:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
                                 NullableTime="{x:Null}"
-                                Placeholder="ExtendedTimePicker with ShortTimePattern" />
-                            <s:ExtendedTimePicker
-                                Format="T"
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=hh:mm" />
+                            <s:NullableTimePicker
+                                Format="hh:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{x:Null}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=h:mm tt" />
+                            <s:NullableTimePicker
+                                Format="h:mm tt"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{x:Null}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=g" />
+                            <s:NullableTimePicker
+                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
+                                Format="g"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
                                 NullableTime="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="ExtendedTimePicker with LongTimePattern" />-->
+                                Placeholder="NullableTimePicker" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="Toggle IsEnabled" />
                             <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="ValidatableDatePickers" />
                         <s:HeaderDivider />
-                        <StackLayout
+                        <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
@@ -300,12 +329,12 @@
                                 </Grid>
                             </ScrollView>
 
-                        </StackLayout>
+                        </VerticalStackLayout>
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
-            </StackLayout>
+            </VerticalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

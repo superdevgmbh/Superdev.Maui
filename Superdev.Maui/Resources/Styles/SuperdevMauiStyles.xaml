@@ -563,17 +563,16 @@
     <Style
         BasedOn="{StaticResource TimePickerStyle}"
         TargetType="TimePicker" />
-    <!--
     <Style
         x:Key="ExtendedTimePickerStyle"
         BasedOn="{StaticResource TimePickerStyle}"
-        TargetType="controls:ExtendedTimePicker">
-        <Setter Property="PlaceholderTextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        TargetType="controls:NullableTimePicker">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 
     <Style
         BasedOn="{StaticResource ExtendedTimePickerStyle}"
-        TargetType="controls:ExtendedTimePicker" />-->
+        TargetType="controls:NullableTimePicker" />
 
     <!-- SearchBar -->
     <Style

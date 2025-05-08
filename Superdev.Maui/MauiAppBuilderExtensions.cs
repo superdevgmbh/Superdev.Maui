@@ -39,6 +39,7 @@ namespace Superdev.Maui
                     handlers.AddHandler(typeof(NullableDatePicker), typeof(NullableDatePickerHandler));
 
                     handlers.AddHandler(typeof(TimePicker), typeof(TimePickerHandler));
+                    handlers.AddHandler(typeof(NullableTimePicker), typeof(NullableTimePickerHandler));
 
                     handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
 #if ANDROID
