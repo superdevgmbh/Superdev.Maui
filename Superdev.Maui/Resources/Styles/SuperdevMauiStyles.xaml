@@ -318,7 +318,7 @@
     <Style
         x:Key="CustomActivityIndicatorStyle"
         TargetType="controls:CustomActivityIndicator">
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}" />
         <Setter Property="ActivityIndicatorStyle" Value="{StaticResource ActivityIndicatorStyle}" />
         <Setter Property="CornerRadius" Value="{DynamicResource Theme.Spacing.Large}" />
         <Setter Property="HorizontalOptions" Value="Center" />
@@ -529,7 +529,6 @@
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
     </Style>
-
     <Style
         BasedOn="{StaticResource DatePickerStyle}"
         TargetType="DatePicker" />
@@ -541,7 +540,6 @@
         TargetType="controls:NullableDatePicker">
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
-
     <Style
         BasedOn="{StaticResource NullableDatePickerStyle}"
         TargetType="controls:NullableDatePicker" />
@@ -559,19 +557,19 @@
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
     </Style>
-
     <Style
         BasedOn="{StaticResource TimePickerStyle}"
         TargetType="TimePicker" />
+
+    <!-- NullableTimePicker -->
     <Style
-        x:Key="ExtendedTimePickerStyle"
+        x:Key="NullableTimePickerStyle"
         BasedOn="{StaticResource TimePickerStyle}"
         TargetType="controls:NullableTimePicker">
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
-
     <Style
-        BasedOn="{StaticResource ExtendedTimePickerStyle}"
+        BasedOn="{StaticResource NullableTimePickerStyle}"
         TargetType="controls:NullableTimePicker" />
 
     <!-- SearchBar -->

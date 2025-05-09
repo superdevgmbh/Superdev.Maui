@@ -3,7 +3,6 @@
     x:Class="SuperdevMauiDemoApp.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles;assembly=Superdev.Maui">
     <Application.Resources>
@@ -15,15 +14,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Styles -->
-            <Style
-                ApplyToDerivedTypes="True"
-                TargetType="NavigationPage">
-                <Setter Property="BackgroundColor" Value="White" />
-                <Setter Property="BarBackgroundColor" Value="DarkBlue" />
-                <Setter Property="BarTextColor" Value="LightBlue" />
-                <Setter Property="ios:NavigationPage.HideNavigationBarSeparator" Value="True" />
-            </Style>
-
             <Style
                 x:Key="DemoLabelStyle"
                 TargetType="Label">
@@ -60,7 +50,7 @@
                 CardViewHeaderBackgroundColor="{StaticResource LabelSectionBackground}"
                 CardViewHeaderTextColor="#6D6D72"
                 Error="#ff1744"
-                OnPrimary="#c7a4f4"
+                OnPrimary="#FFFFFF"
                 Primary="#5714AF"
                 PrimaryVariant="#c7a4f4"
                 Secondary="#17C2BC"

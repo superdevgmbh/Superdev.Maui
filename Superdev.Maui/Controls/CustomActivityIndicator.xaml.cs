@@ -13,8 +13,7 @@
             BindableProperty.Create(
                 nameof(BackgroundColor),
                 typeof(Color),
-                typeof(CustomActivityIndicator),
-                Colors.Gray);
+                typeof(CustomActivityIndicator));
 
         public new Color BackgroundColor
         {
