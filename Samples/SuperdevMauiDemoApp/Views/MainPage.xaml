@@ -223,8 +223,8 @@
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="SearchBarDemoPage"
-                                        Text="SearchBar" />
+                                        CommandParameter="SpacingDemoPage"
+                                        Text="Spacing" />
                                 </Grid>
 
                                 <Label
