@@ -4,9 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
-    xmlns:viewModels="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
-    x:DataType="viewModels:MainViewModel"
+    x:DataType="vm:MainViewModel"
     Title="Superdev.Maui Sample App">
 
     <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
@@ -48,7 +48,7 @@
                                     ItemDisplayBinding="{Binding NativeName}"
                                     ItemsSource="{Binding Languages}"
                                     Placeholder="{s:Translate LanguageLabelText}"
-                                    SelectedItem="{Binding Path=Language, Mode=TwoWay}" />
+                                    SelectedItem="{Binding Language, Mode=TwoWay}" />
 
                                 <Label
                                     Style="{StaticResource DemoLabelStyle}"
