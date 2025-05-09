@@ -4,7 +4,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     x:Name="Control"
     HorizontalOptions="Fill"
     VerticalOptions="Start">
@@ -17,9 +16,9 @@
     <!-- Annotation Text -->
     <controls:CustomLabel
         x:Name="AnnotationLabel"
+        x:FieldModifier="internal"
         Grid.Row="0"
         Margin="0"
-        x:FieldModifier="internal"
         InputTransparent="True"
         RemovePadding="True"
         Style="{DynamicResource AnnotationEntryLabelStyle}"

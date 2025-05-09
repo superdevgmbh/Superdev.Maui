@@ -154,7 +154,6 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(SelectedValuePathProperty, value);
         }
 
-
         public static readonly BindableProperty SelectedIndexProperty =
             BindableProperty.Create(
                 nameof(SelectedIndex),

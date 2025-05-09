@@ -13,6 +13,7 @@
     <!-- Annotation Text -->
     <Label
         x:Name="AnnotationLabel"
+        x:FieldModifier="internal"
         Grid.Row="0"
         InputTransparent="True"
         Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
@@ -48,6 +49,7 @@
     <!-- Validation Error Text -->
     <Label
         x:Name="ValidationErrorLabel"
+        x:FieldModifier="internal"
         Grid.Row="2"
         IsVisible="{Binding Text, Source={x:Reference ValidationErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
         Style="{Binding Source={x:Reference Control}, Path=ValidationErrorLabelStyle}"

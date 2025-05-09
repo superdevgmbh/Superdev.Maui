@@ -58,6 +58,7 @@
     <!-- Validation Error Text -->
     <Label
         x:Name="ValidationErrorLabel"
+        x:FieldModifier="internal"
         Grid.Row="2"
         IsVisible="{Binding Text, Source={x:Reference ValidationErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
         Style="{DynamicResource ValidationErrorLabelStyle}"
