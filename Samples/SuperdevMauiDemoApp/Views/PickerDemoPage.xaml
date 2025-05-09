@@ -53,7 +53,7 @@
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo ValidatablePicker with strings" />
+                                Text="ValidatablePicker with strings" />
                             <s:ValidatablePicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -62,7 +62,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo ValidatablePicker with strings, using ItemDisplayBinding and NullString" />
+                                Text="ValidatablePicker with strings, using ItemDisplayBinding and NullString" />
                             <s:ValidatablePicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -71,22 +71,23 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo ValidatablePicker with CountryViewModels" />
+                                Text="ValidatablePicker with ItemDisplayBinding=Name" />
                             <s:ValidatablePicker
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
                                 ItemDisplayBinding="{Binding Name}"
                                 ItemsSource="{Binding Countries}"
-                                Placeholder="ValidatablePicker by Country.Name"
+                                Placeholder="ValidatablePicker"
                                 ReadonlyText="ReadonlyText"
                                 SelectedItem="{Binding Country, Mode=TwoWay}"
                                 ValidationErrors="{Binding Validation.Errors[Country]}" />
 
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="ValidatablePicker IsReadonly=true, ItemDisplayBinding=null" />
                             <s:ValidatablePicker
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                ItemDisplayBinding="{Binding Name}"
+                                IsReadonly="True"
                                 ItemsSource="{Binding Countries, Mode=OneWay}"
-                                Placeholder="{s:Translate PatentOptionLabelText}"
-                                ReadonlyText="ReadonlyText"
+                                Placeholder="ValidatablePicker"
                                 SelectedItem="{Binding Country, Mode=TwoWay}" />
 
                             <Label
@@ -108,7 +109,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo NullableDatePicker" />
+                                Text="NullableDatePicker" />
                             <s:NullableDatePicker
                                 IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
                                 NullableDate="{x:Null}"
@@ -162,7 +163,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo ValidatableDatePicker" />
+                                Text="ValidatableDatePicker" />
                             <s:ValidatableDatePicker
                                 Date="{Binding Birthdate, Mode=TwoWay}"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
@@ -290,7 +291,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Demo ValidatableDateTimePicker" />
+                                Text="ValidatableDateTimePicker" />
                             <!--<s:ValidatableDateTimePicker
                                 Date="{Binding Birthdate, Mode=TwoWay}"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"

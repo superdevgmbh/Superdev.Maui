@@ -209,10 +209,10 @@ namespace Superdev.Maui.Controls
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
                 if (readonlyText == null && this.SelectedItem is object selectedItem)
                 {
-                    if (this.ItemDisplayBinding is Binding itemDisplayBinding &&
-                        itemDisplayBinding.Path is string path && path != Binding.SelfPath)
+                    if (this.ItemDisplayBinding is Binding { Path: var path } &&
+                        path != Binding.SelfPath && path != nameof(this.ItemDisplayBinding))
                     {
-                        var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, itemDisplayBinding.Path);
+                        var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, path);
                         readonlyText = selectedItemValue?.ToString();
                     }
                     else
