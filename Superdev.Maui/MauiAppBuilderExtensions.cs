@@ -75,6 +75,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
 #endif
 
+            builder.Services.AddSingleton<IDateTime>(_ => SystemDateTime.Current);
             builder.Services.AddSingleton<IDialogService>(_ => IDialogService.Current);
             builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
             builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
