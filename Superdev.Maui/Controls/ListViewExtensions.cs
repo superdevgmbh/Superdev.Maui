@@ -10,7 +10,7 @@
         public static BindableProperty ScrollToProperty =
             BindableProperty.CreateAttached(
                 "ScrollTo",
-                typeof(ScrollToItem),
+                typeof(object),
                 typeof(ListViewExtensions),
                 null,
                 propertyChanged: OnScrollToPropertyChanged);
@@ -45,7 +45,7 @@
             else
             {
                 item = newValue;
-                scrollToPosition = ScrollToPosition.Start;
+                scrollToPosition = ScrollToPosition.MakeVisible;
                 animated = true;
             }
 
@@ -53,7 +53,7 @@
             {
                 return;
             }
-            
+
             listView.ScrollTo(item, scrollToPosition, animated);
         }
     }
