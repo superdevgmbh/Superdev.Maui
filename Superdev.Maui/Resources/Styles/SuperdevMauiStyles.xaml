@@ -673,6 +673,7 @@
 
     <!-- ValidatableEditor -->
     <Style TargetType="controls:ValidatableEditor">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="EditorStyle" Value="{DynamicResource EditorStyle}" />
     </Style>
 
@@ -680,9 +681,9 @@
     <Style
         x:Key="ValidatableEntryStyle"
         TargetType="controls:ValidatableEntry">
-        <Setter Property="AnnotationLabelStyle" Value="{StaticResource AnnotationEntryLabelStyle}" />
-        <Setter Property="EntryStyle" Value="{StaticResource CustomEntryStyle}" />
-        <Setter Property="ReadonlyLabelStyle" Value="{StaticResource EntryLabelStyle}" />
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="EntryStyle" Value="{DynamicResource CustomEntryStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
     <Style
@@ -692,13 +693,14 @@
 
     <!-- ValidatableLabel -->
     <Style TargetType="controls:ValidatableLabel">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="LabelStyle" Value="{DynamicResource EntryLabelStyle}" />
     </Style>
 
     <!-- ValidatablePicker -->
     <Style TargetType="controls:ValidatablePicker">
-        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
@@ -707,6 +709,7 @@
     <Style
         x:Key="ValidatableDatePickerStyle"
         TargetType="controls:ValidatableDatePicker">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
     </Style>
     <Style

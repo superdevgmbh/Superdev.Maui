@@ -134,6 +134,18 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ReadonlyTextProperty, value);
         }
 
+        public static readonly BindableProperty AnnotationLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(AnnotationLabelStyle),
+                typeof(Style),
+                typeof(ValidatableDatePicker));
+
+        public Style AnnotationLabelStyle
+        {
+            get => (Style)this.GetValue(AnnotationLabelStyleProperty);
+            set => this.SetValue(AnnotationLabelStyleProperty, value);
+        }
+
         public static readonly BindableProperty ValidationErrorsProperty =
             BindableProperty.Create(
                 nameof(ValidationErrors),

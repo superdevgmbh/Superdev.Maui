@@ -129,12 +129,23 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(KeyboardProperty, value);
         }
 
+        public static readonly BindableProperty AnnotationLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(AnnotationLabelStyle),
+                typeof(Style),
+                typeof(ValidatableEditor));
+
+        public Style AnnotationLabelStyle
+        {
+            get => (Style)this.GetValue(AnnotationLabelStyleProperty);
+            set => this.SetValue(AnnotationLabelStyleProperty, value);
+        }
+
         public static readonly BindableProperty EditorStyleProperty =
             BindableProperty.Create(
                 nameof(EditorStyle),
                 typeof(Style),
-                typeof(ValidatableEditor),
-                default(Style));
+                typeof(ValidatableEditor));
 
         public Style EditorStyle
         {

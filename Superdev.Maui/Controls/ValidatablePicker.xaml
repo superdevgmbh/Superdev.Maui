@@ -11,11 +11,11 @@
     VerticalOptions="Start">
 
     <!-- Annotation Text -->
-    <Label
+    <controls:CustomLabel
         x:Name="AnnotationLabel"
         x:FieldModifier="internal"
         Grid.Row="0"
-        InputTransparent="True"
+        IsVisible="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
         Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
         Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
 

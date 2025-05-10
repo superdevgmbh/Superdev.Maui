@@ -18,10 +18,8 @@
         x:Name="AnnotationLabel"
         x:FieldModifier="internal"
         Grid.Row="0"
-        Margin="0"
-        InputTransparent="True"
-        RemovePadding="True"
-        Style="{DynamicResource AnnotationEntryLabelStyle}"
+        IsVisible="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
+        Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
         Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
 
     <!-- Label -->

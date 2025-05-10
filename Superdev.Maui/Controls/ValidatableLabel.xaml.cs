@@ -74,13 +74,23 @@ namespace Superdev.Maui.Controls
             }
         }
 
+        public static readonly BindableProperty AnnotationLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(AnnotationLabelStyle),
+                typeof(Style),
+                typeof(ValidatableLabel));
+
+        public Style AnnotationLabelStyle
+        {
+            get => (Style)this.GetValue(AnnotationLabelStyleProperty);
+            set => this.SetValue(AnnotationLabelStyleProperty, value);
+        }
+
         public static readonly BindableProperty LabelStyleProperty =
             BindableProperty.Create(
                 nameof(LabelStyle),
                 typeof(Style),
-                typeof(ValidatableLabel),
-                default(Style),
-                BindingMode.OneWay);
+                typeof(ValidatableLabel));
 
         public Style LabelStyle
         {
