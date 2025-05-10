@@ -463,6 +463,30 @@
         BasedOn="{StaticResource SwitchStyle}"
         TargetType="Switch" />
 
+    <!-- CheckBox -->
+    <Style
+        x:Key="CheckBoxStyle"
+        TargetType="CheckBox">
+        <Setter Property="Color" Value="{DynamicResource Theme.Color.Primary}" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Color" Value="{DynamicResource Theme.Color.PrimaryDisabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource CheckBoxStyle}"
+        TargetType="CheckBox" />
+
     <!-- Editor -->
     <Style
         x:Key="EditorStyle"
