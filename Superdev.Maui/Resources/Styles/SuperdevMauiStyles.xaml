@@ -183,27 +183,13 @@
         x:Key="LabelStyle"
         TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
-        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
-        <Setter Property="HorizontalTextAlignment" Value="Start" />
-        <Setter Property="LineBreakMode" Value="TailTruncation" />
     </Style>
     <Style
         BasedOn="{StaticResource LabelStyle}"
         TargetType="Label" />
-
-    <!-- CustomLabel -->
-    <Style
-        x:Key="CustomLabelStyle"
-        BasedOn="{StaticResource LabelStyle}"
-        TargetType="controls:CustomLabel" />
-    <Style
-        BasedOn="{StaticResource CustomLabelStyle}"
-        TargetType="controls:CustomLabel" />
 
     <Style
         x:Key="EntryLabelStyle"
@@ -219,6 +205,15 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="controls:MinimumHeight.Value" Value="32" />
     </Style>
+
+    <!-- CustomLabel -->
+    <Style
+        x:Key="CustomLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="controls:CustomLabel" />
+    <Style
+        BasedOn="{StaticResource CustomLabelStyle}"
+        TargetType="controls:CustomLabel" />
 
     <!-- Entry -->
     <Style
