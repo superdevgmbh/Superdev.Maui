@@ -15,7 +15,7 @@
         x:Name="AnnotationLabel"
         x:FieldModifier="internal"
         Grid.Row="0"
-        IsVisible="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
+        IsVisible="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
         Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
         Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
 

@@ -3,8 +3,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
-    xmlns:converters="clr-namespace:SuperdevMauiDemoApp.Converters">
+    xmlns:converters="clr-namespace:SuperdevMauiDemoApp.Converters"
+    xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters">
 
     <!-- Converters -->
     <converters:ColorToHexStringConverter x:Key="ColorToHexStringConverter" />
@@ -13,8 +13,6 @@
     <converters:ThicknessToStringConverter x:Key="ThicknessToStringConverter" />
     <converters:RandomValidationErrorsConverter x:Key="RandomValidationErrorsConverter" />
 
-    <vc:BoolInverter x:Key="BoolInverter" />
-    <vc:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
     <vc:DateTimeConverter
         x:Key="DateTimeConverter"
         Format="g" />

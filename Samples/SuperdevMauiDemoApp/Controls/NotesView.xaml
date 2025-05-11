@@ -34,7 +34,7 @@
                 Grid.Row="1"
                 BackgroundColor="Transparent"
                 FontSize="{DynamicResource Theme.FontSize.Small}"
-                IsVisible="{Binding Notes, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
+                IsVisible="{Binding Notes, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
                 Text="{Binding NotesRemainingLength, Mode=OneWay}"
                 TextColor="{DynamicResource Theme.Color.TextColor}"
                 HorizontalOptions="EndAndExpand"

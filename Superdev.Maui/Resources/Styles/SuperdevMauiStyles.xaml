@@ -7,38 +7,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Superdev.Maui.Behaviors"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
-    xmlns:converters="clr-namespace:Superdev.Maui.Converters"
     xmlns:effects="clr-namespace:Superdev.Maui.Effects">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Converters.xaml" />
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Spacing.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
-    <!-- Converters -->
-    <converters:DebugConverter x:Key="DebugConverter" />
-    <converters:BoolInverter x:Key="BoolInverter" />
-    <converters:NullToBoolConverter x:Key="NullToTrueConverter" />
-    <converters:NullToBoolConverter
-        x:Key="NullToFalseConverter"
-        Inverted="True" />
-    <converters:EnumerableToFirstOrDefaultConverter x:Key="EnumerableToFirstOrDefaultConverter" />
-    <converters:NullableDateTimeToFormatConverter x:Key="NullableDateTimeToFormatConverter" />
-    <converters:PropertyErrorsToColorConverter x:Key="PropertyErrorsToColorConverter" />
-    <converters:ValidationErrorsToStringConverter x:Key="ValidationErrorsToStringConverter" />
-    <converters:StringIsNullOrEmptyToBoolConverter x:Key="StringIsNullOrEmptyToTrueConverter" />
-    <converters:StringIsNullOrEmptyToBoolConverter
-        x:Key="StringIsNullOrEmptyToFalseConverter"
-        IsInverted="True" />
-
-    <converters:ViewModelErrorIsVisibleConverter
-        x:Key="ViewModelErrorIsVisibleConverter"
-        IsInverted="False" />
-    <converters:IsNullToBoolConverter x:Key="IsNullToBoolConverter" />
-    <converters:IsNullToBoolConverter
-        x:Key="IsNotNullToBoolConverter"
-        IsInverted="True" />
-    <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
 
     <!-- Styles -->
     <x:Double x:Key="MinimumHeight.Input">48</x:Double>
