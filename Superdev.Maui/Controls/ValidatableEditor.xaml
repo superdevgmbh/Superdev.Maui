@@ -61,6 +61,6 @@
         x:FieldModifier="internal"
         Grid.Row="2"
         IsVisible="{Binding Text, Source={x:Reference ValidationErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
-        Style="{DynamicResource ValidationErrorLabelStyle}"
+        Style="{Binding Source={x:Reference Control}, Path=ValidationErrorLabelStyle}"
         Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource EnumerableToFirstOrDefaultConverter}}" />
 </Grid>

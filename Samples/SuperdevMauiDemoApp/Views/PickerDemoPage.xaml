@@ -282,46 +282,47 @@
 
                 <s:CardView>
                     <VerticalStackLayout>
-                        <s:LabelSection Text="ValidatableDatePickers" />
+                        <s:LabelSection Text="ValidatableDateTimePickers" />
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
 
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="ValidatableDateTimePicker with Date=PatentStartDate" />
+                            <s:ValidatableDateTimePicker
+                                s:DialogExtensions.NegativeButtonText="{s:Translate ClearButtonText}"
+                                Date="{Binding PatentStartDate, Mode=TwoWay}"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="ValidatableDateTimePicker"
+                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                ValidationErrors="{Binding Validation.Errors[PatentStartDate]}"
+                                ValidityRange="{Binding PatentValidityRange}" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableDateTimePicker" />
-                            <!--<s:ValidatableDateTimePicker
-                                Date="{Binding Birthdate, Mode=TwoWay}"
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="Birthdate with ValidatableDateTimePicker"
-                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
-                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
+                                Text="ValidatableDateTimePicker with Date=&quot;null&quot; and static ReadonlyText" />
                             <s:ValidatableDateTimePicker
                                 Date="{x:Null}"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="ValidatableDateTimePicker with Date=&quot;null&quot;"
+                                Placeholder="ValidatableDateTimePicker"
                                 ReadonlyText="ReadonlyText"
-                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />-->
+                                ValidationErrors="{Binding Validation.Errors[PatentStartDate]}" />
 
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="ValidatableDateTimePicker compared to ValidatableEntry" />
                             <ScrollView Orientation="Horizontal">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <!--<s:ValidatableDateTimePicker
+                                <Grid ColumnDefinitions="*,*">
+                                    <s:ValidatableDateTimePicker
+                                        Grid.Column="0"
                                         BackgroundColor="Aquamarine"
                                         Date="{x:Null}"
                                         IsReadonly="{Binding IsReadonly, Mode=OneWay}"
                                         Placeholder="ValidatableDateTimePicker"
-                                        Time="{x:Null}" />-->
+                                        Time="{x:Null}" />
                                     <s:ValidatableEntry
-                                        Grid.Row="0"
                                         Grid.Column="1"
                                         BackgroundColor="LightGoldenrodYellow"
                                         IsReadonly="{Binding IsReadonly, Mode=OneWay}"
@@ -329,12 +330,10 @@
                                         Text="" />
                                 </Grid>
                             </ScrollView>
-
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>
                 </s:CardView>
-
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

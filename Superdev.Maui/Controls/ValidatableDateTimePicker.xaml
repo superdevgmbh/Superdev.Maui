@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Grid
-    x:Class="Superdev.Maui.Controls.ValidatableDatePicker"
+    x:Class="Superdev.Maui.Controls.ValidatableDateTimePicker"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
@@ -29,10 +29,14 @@
     <!-- DatePicker -->
     <Grid
         Grid.Row="1"
+        ColumnDefinitions="140,*"
         IsClippedToBounds="True">
+
+        <!-- TODO: Format -->
         <controls:NullableDatePicker
             x:Name="DatePicker"
             x:FieldModifier="internal"
+            Grid.Column="0"
             Margin="{DynamicResource ValidatableInputControlMargin}"
             effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
@@ -44,11 +48,27 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start" />
 
+        <!-- TODO: Format -->
+        <controls:NullableTimePicker
+            x:Name="TimePicker"
+            x:FieldModifier="internal"
+            Grid.Column="1"
+            Margin="{DynamicResource ValidatableInputControlMargin}"
+            effects:LineColorEffect.ApplyLineColor="True"
+            effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
+            Format="{Binding Time, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource NullableDateTimeToFormatConverter}}"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+            NullableTime="{Binding Time, Source={x:Reference Control}, Mode=TwoWay}"
+            Style="{Binding TimePickerStyle, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start" />
+
         <!-- Readonly Text -->
         <Label
             x:Name="ReadonlyLabel"
             x:FieldModifier="internal"
-            Margin="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
             Style="{DynamicResource EntryLabelStyle}"
             Text="{Binding ReadonlyText, Source={x:Reference Control}, Mode=OneWay}" />

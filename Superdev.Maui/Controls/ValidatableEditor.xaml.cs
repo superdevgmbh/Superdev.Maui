@@ -11,19 +11,6 @@ namespace Superdev.Maui.Controls
             this.DebugLayoutBounds();
         }
 
-        [Conditional("DEBUG")]
-        private void DebugLayoutBounds(bool debug = true)
-        {
-            if (!DebugHelper.ShowLayoutBounds || !debug)
-            {
-                return;
-            }
-
-            this.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentBright");
-            this.AnnotationLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.Yellow);
-            this.Editor.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
-        }
-
         public new void Focus()
         {
             base.Focus();
@@ -181,13 +168,23 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(MaxLinesProperty, value);
         }
 
+        public static readonly BindableProperty ValidationErrorLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(ValidationErrorLabelStyle),
+                typeof(Style),
+                typeof(ValidatableEditor));
+
+        public Style ValidationErrorLabelStyle
+        {
+            get => (Style)this.GetValue(ValidationErrorLabelStyleProperty);
+            set => this.SetValue(ValidationErrorLabelStyleProperty, value);
+        }
+
         public static readonly BindableProperty ValidationErrorsProperty =
             BindableProperty.Create(
                 nameof(ValidationErrors),
                 typeof(IEnumerable<string>),
-                typeof(ValidatableEditor),
-                default(IEnumerable<string>),
-                BindingMode.OneWay);
+                typeof(ValidatableEditor));
 
         public IEnumerable<string> ValidationErrors
         {

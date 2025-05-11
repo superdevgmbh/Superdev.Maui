@@ -15,6 +15,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
+        private readonly IDateTime dateTime;
 
         private string selectedString;
         private ObservableCollection<CountryViewModel> countries;
@@ -22,15 +23,19 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isReadonly;
         private DateTime? birthdate;
         private ICommand toggleBirthdateCommand;
+        private DateTime? patentStartDate;
+        private DateRange patentValidityRange;
 
         public PickerDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
-            ICountryService countryService)
+            ICountryService countryService,
+            IDateTime dateTime)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
             this.countryService = countryService;
+            this.dateTime = dateTime;
 
             this.StringValues = new ObservableCollection<string>
             {
@@ -43,7 +48,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             this.Countries = new ObservableCollection<CountryViewModel>();
 
-            var referenceDate = DateTime.Now;
+            var referenceDate = dateTime.Now;
             this.BirthdateValidityRange = new DateRange(start: referenceDate.AddDays(-2), end: referenceDate.AddDays(2));
             this.Birthdate = referenceDate;
 
@@ -74,6 +79,10 @@ namespace SuperdevMauiDemoApp.ViewModels
                     .Select(c => new CountryViewModel(c))
                     .Prepend(defaultCountryViewModel)
                     .ToObservableCollection();
+
+                var today = this.dateTime.Now.Date;
+                var todayInOneMonth = today.AddMonths(1);
+                this.PatentValidityRange = new DateRange(today, todayInOneMonth);
             }
             catch (Exception ex)
             {
@@ -138,6 +147,24 @@ namespace SuperdevMauiDemoApp.ViewModels
         private void ToggleBirthdate()
         {
             this.Birthdate = this.Birthdate == null ? DateTime.Now : null;
+        }
+
+        public DateTime? PatentStartDate
+        {
+            get => this.patentStartDate;
+            set
+            {
+                if (this.SetProperty(ref this.patentStartDate, value))
+                {
+                    // this.RaisePropertyChanged(nameof(this.PatentValidityRange));
+                }
+            }
+        }
+
+        public DateRange PatentValidityRange
+        {
+            get => this.patentValidityRange;
+            private set => this.SetProperty(ref this.patentValidityRange, value);
         }
     }
 }

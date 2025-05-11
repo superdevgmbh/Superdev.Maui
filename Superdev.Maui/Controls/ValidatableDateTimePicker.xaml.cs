@@ -2,9 +2,9 @@ using System.Globalization;
 
 namespace Superdev.Maui.Controls
 {
-    public partial class ValidatableDatePicker : Grid
+    public partial class ValidatableDateTimePicker : Grid
     {
-        public ValidatableDatePicker()
+        public ValidatableDateTimePicker()
         {
             this.InitializeComponent();
             this.DebugLayoutBounds();
@@ -14,12 +14,12 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(Placeholder),
                 typeof(string),
-                typeof(ValidatableDatePicker),
+                typeof(ValidatableDateTimePicker),
                 propertyChanged: OnPlaceholderPropertyChanged);
 
         private static void OnPlaceholderPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var picker = (ValidatableDatePicker)bindable;
+            var picker = (ValidatableDateTimePicker)bindable;
             picker.OnPropertyChanged(nameof(picker.AnnotationText));
         }
 
@@ -46,7 +46,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(Date),
                 typeof(DateTime?),
-                typeof(ValidatableDatePicker),
+                typeof(ValidatableDateTimePicker),
                 defaultBindingMode: BindingMode.TwoWay,
                 propertyChanged: OnDatePropertyChanged);
 
@@ -54,9 +54,9 @@ namespace Superdev.Maui.Controls
         {
             //Debug.WriteLine($"OnDatePropertyChanged: oldValue={oldValue}, newValue={newValue}");
 
-            var validatableDatePicker = (ValidatableDatePicker)bindable;
-            validatableDatePicker.OnPropertyChanged(nameof(validatableDatePicker.AnnotationText));
-            validatableDatePicker.OnPropertyChanged(nameof(validatableDatePicker.ReadonlyText));
+            var validatableDateTimePicker = (ValidatableDateTimePicker)bindable;
+            validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.AnnotationText));
+            validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.ReadonlyText));
         }
 
         public DateTime? Date
@@ -65,11 +65,33 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(DateProperty, value);
         }
 
+        public static readonly BindableProperty TimeProperty =
+            BindableProperty.Create(
+                nameof(Time),
+                typeof(TimeSpan?),
+                typeof(ValidatableDateTimePicker),
+                null,
+                BindingMode.TwoWay,
+                null,
+                OnTimePropertyChanged);
+
+        private static void OnTimePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var validatableDateTimePicker = (ValidatableDateTimePicker)bindable;
+            validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.AnnotationText));
+        }
+
+        public TimeSpan? Time
+        {
+            get => (TimeSpan?)this.GetValue(TimeProperty);
+            set => this.SetValue(TimeProperty, value);
+        }
+
         public static readonly BindableProperty ValidityRangeProperty =
             BindableProperty.Create(
                 nameof(ValidityRange),
                 typeof(DateRange),
-                typeof(ValidatableDatePicker),
+                typeof(ValidatableDateTimePicker),
                 defaultBindingMode: BindingMode.OneWay,
                 propertyChanged: OnValidityRangePropertyChanged);
 
@@ -88,13 +110,13 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(IsReadonly),
                 typeof(bool),
-                typeof(ValidatableDatePicker),
+                typeof(ValidatableDateTimePicker),
                 false,
                 propertyChanged: OnIsReadonlyPropertyChanged);
 
         private static void OnIsReadonlyPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var picker = (ValidatableDatePicker)bindable;
+            var picker = (ValidatableDateTimePicker)bindable;
             picker.OnPropertyChanged(nameof(picker.AnnotationText));
         }
 
@@ -108,7 +130,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(ReadonlyText),
                 typeof(string),
-                typeof(ValidatableDatePicker));
+                typeof(ValidatableDateTimePicker));
 
         public string ReadonlyText
         {
@@ -117,7 +139,7 @@ namespace Superdev.Maui.Controls
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
                 if (readonlyText == null && this.Date is DateTime date)
                 {
-                    // In case ReadonlyText is null, we try to take Date+Format as ReadonlyText
+                    // In case ReadonlyText is null, we try to take Format(Date+Time) as ReadonlyText
                     var localDateTime = date.ToLocalTime();
 
                     if (this.DatePicker?.Format is string dateFormat && !string.IsNullOrEmpty(dateFormat))
@@ -139,7 +161,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(AnnotationLabelStyle),
                 typeof(Style),
-                typeof(ValidatableDatePicker));
+                typeof(ValidatableDateTimePicker));
 
         public Style AnnotationLabelStyle
         {
@@ -151,7 +173,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(DatePickerStyle),
                 typeof(Style),
-                typeof(ValidatableDatePicker));
+                typeof(ValidatableDateTimePicker));
 
         public Style DatePickerStyle
         {
@@ -159,11 +181,23 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(DatePickerStyleProperty, value);
         }
 
+        public static readonly BindableProperty TimePickerStyleProperty =
+            BindableProperty.Create(
+                nameof(TimePickerStyle),
+                typeof(Style),
+                typeof(ValidatableDateTimePicker));
+
+        public Style TimePickerStyle
+        {
+            get => (Style)this.GetValue(TimePickerStyleProperty);
+            set => this.SetValue(TimePickerStyleProperty, value);
+        }
+
         public static readonly BindableProperty ValidationErrorLabelStyleProperty =
             BindableProperty.Create(
                 nameof(ValidationErrorLabelStyle),
                 typeof(Style),
-                typeof(ValidatableDatePicker));
+                typeof(ValidatableDateTimePicker));
 
         public Style ValidationErrorLabelStyle
         {
@@ -175,7 +209,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(ValidationErrors),
                 typeof(IEnumerable<string>),
-                typeof(ValidatableDatePicker));
+                typeof(ValidatableDateTimePicker));
 
         public IEnumerable<string> ValidationErrors
         {
@@ -197,9 +231,10 @@ namespace Superdev.Maui.Controls
             }
             else if (propertyName == DialogExtensions.NeutralButtonTextProperty.PropertyName)
             {
-                // There is no way to forward attached bindable properties from ValidatableDatePicker to the
+                // There is no way to forward attached bindable properties from ValidatableDateTimePicker to the
                 // internal NullableDatePicker control. Thus, we call SetValue on the NullableDatePicker and forward the value.
                 this.DatePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, DialogExtensions.GetNeutralButtonText(this));
+                this.TimePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, DialogExtensions.GetNeutralButtonText(this));
             }
         }
     }

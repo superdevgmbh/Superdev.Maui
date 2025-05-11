@@ -45,14 +45,12 @@ namespace Superdev.Maui.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var dateTime = value as DateTime?;
-            if (dateTime != null)
+            if (value is DateTime dateTime)
             {
                 return this.DateFormat ?? CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
             }
 
-            var timeSpan = value as TimeSpan?;
-            if (timeSpan != null)
+            if (value is TimeSpan timeSpan)
             {
                 return this.TimeFormat ?? CultureInfo.CurrentUICulture.DateTimeFormat.ShortTimePattern;
             }

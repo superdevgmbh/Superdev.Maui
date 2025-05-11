@@ -666,10 +666,17 @@
     </OnPlatform>
 
     <!-- ValidatableEditor -->
-    <Style TargetType="controls:ValidatableEditor">
+    <Style
+        x:Key="ValidatableEditorStyle"
+        TargetType="controls:ValidatableEditor">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="EditorStyle" Value="{DynamicResource EditorStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableEditorStyle}"
+        TargetType="controls:ValidatableEditor" />
 
     <!-- ValidatableEntry -->
     <Style
@@ -705,11 +712,26 @@
         TargetType="controls:ValidatableDatePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
     <Style
         ApplyToDerivedTypes="True"
         BasedOn="{StaticResource ValidatableDatePickerStyle}"
         TargetType="controls:ValidatableDatePicker" />
+
+    <!-- ValidatableDateTimePicker -->
+    <Style
+        x:Key="ValidatableDateTimePickerStyle"
+        TargetType="controls:ValidatableDateTimePicker">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="TimePickerStyle" Value="{StaticResource TimePickerStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableDateTimePickerStyle}"
+        TargetType="controls:ValidatableDateTimePicker" />
 
     <!--
  <Style TargetType="controls:ValidatableAutoCompleteView">
@@ -732,14 +754,6 @@
              </Setter>
          </Style>
      </Setter>
- </Style>
-
- <Style TargetType="controls:ValidatableDatePicker">
-     <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
- </Style>
-
- <Style TargetType="controls:ValidatableDateTimePicker">
-     <Setter Property="DatePickerStyle" Value="{DynamicResource PickerStyle}" />
-     <Setter Property="TimePickerStyle" Value="{DynamicResource PickerStyle}" />
  </Style>-->
+
 </ResourceDictionary>

@@ -11,20 +11,6 @@ namespace Superdev.Maui.Controls
             this.DebugLayoutBounds();
         }
 
-        [Conditional("DEBUG")]
-        private void DebugLayoutBounds()
-        {
-            if (!DebugHelper.ShowLayoutBounds)
-            {
-                return;
-            }
-
-            this.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentBright");
-            this.AnnotationLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.Yellow);
-            this.Entry.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
-            this.ReadonlyLabel.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
-        }
-
         public static readonly BindableProperty TextProperty =
             BindableProperty.Create(
                 nameof(Text),
