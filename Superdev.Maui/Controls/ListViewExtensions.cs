@@ -57,13 +57,16 @@
                 return;
             }
 
-            if (group == null)
+            lock (listView)
             {
-                listView.ScrollTo(item, scrollToPosition, animated);
-            }
-            else
-            {
-                listView.ScrollTo(item, group, scrollToPosition, animated);
+                if (group == null)
+                {
+                    listView.ScrollTo(item, scrollToPosition, animated);
+                }
+                else
+                {
+                    listView.ScrollTo(item, group, scrollToPosition, animated);
+                }
             }
         }
 

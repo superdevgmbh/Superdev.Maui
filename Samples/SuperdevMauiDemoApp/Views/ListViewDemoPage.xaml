@@ -15,13 +15,24 @@
         </DataTemplate>
     </ContentPage.Resources>
 
-    <!-- TODO: Currently not used -->
+    <Grid>
+        <Grid
+            Grid.Row="0"
+            RowDefinitions="*,Auto">
+            <ListView
+                Grid.Row="0"
+                s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
+                HasUnevenRows="True"
+                ItemTemplate="{StaticResource CountryItemTemplate}"
+                ItemsSource="{Binding Countries}"
+                SeparatorVisibility="Default" />
+        </Grid>
+        <s:CustomActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
 
-    <ListView
-        s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
-        HasUnevenRows="True"
-        ItemTemplate="{StaticResource CountryItemTemplate}"
-        ItemsSource="{Binding Countries}"
-        SeparatorVisibility="Default" />
-
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
 </ContentPage>

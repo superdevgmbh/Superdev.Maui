@@ -59,6 +59,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.ViewModelError = this.viewModelErrorHandler.FromException(ex).WithRetry(this.LoadData);
             }
 
+            this.IsInitialized = true;
             this.IsBusy = false;
         }
 
