@@ -45,10 +45,12 @@ namespace SuperdevMauiDemoApp.ViewModels
                     .Prepend(defaultCountryViewModel)
                     .ToObservableCollection();
 
+                await Task.Delay(200); // Wait until binding from Countries to ListView has finished
+                this.ScrollToCountry = null;
                 this.ScrollToCountry = new ScrollToItem
                 {
                     Item = this.Countries.SingleOrDefault(c => c.Id == 50),
-                    Position = ScrollToPosition.Center,
+                    Position = ScrollToPosition.Start,
                     Animated = true
                 };
             }

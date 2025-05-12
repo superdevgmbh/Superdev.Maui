@@ -2,9 +2,11 @@ namespace Superdev.Maui.Controls
 {
     public class ScrollToItem : IEquatable<ScrollToItem>
     {
-        public required object Item { get; init; }
+        public object Item { get; init; }
 
-        public ScrollToPosition Position { get; init; }
+        public object Group { get; init; }
+
+        public ScrollToPosition Position { get; init; } = ScrollToPosition.MakeVisible;
 
         public bool Animated { get; init; } = true;
 
@@ -20,7 +22,7 @@ namespace Superdev.Maui.Controls
                 return true;
             }
 
-            return Equals(this.Item, other.Item) && this.Position == other.Position && this.Animated == other.Animated;
+            return Equals(this.Item, other.Item) && Equals(this.Group, other.Group) && this.Position == other.Position && this.Animated == other.Animated;
         }
 
         public override bool Equals(object obj)
@@ -45,7 +47,7 @@ namespace Superdev.Maui.Controls
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Item, (int)this.Position, this.Animated);
+            return HashCode.Combine(this.Item, this.Group, (int)this.Position, this.Animated);
         }
 
         public static bool operator ==(ScrollToItem left, ScrollToItem right)

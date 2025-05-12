@@ -33,18 +33,21 @@
             }
 
             object item;
+            object group;
             ScrollToPosition scrollToPosition;
             bool animated;
 
             if (newValue is ScrollToItem scrollToTarget)
             {
-                item = scrollToTarget.Item;
+                item = scrollToTarget.Item ?? TryGetItem(listView, scrollToTarget.Position);
+                group = scrollToTarget.Group;
                 scrollToPosition = scrollToTarget.Position;
                 animated = scrollToTarget.Animated;
             }
             else
             {
                 item = newValue;
+                group = null;
                 scrollToPosition = ScrollToPosition.MakeVisible;
                 animated = true;
             }
@@ -54,7 +57,48 @@
                 return;
             }
 
-            listView.ScrollTo(item, scrollToPosition, animated);
+            if (group == null)
+            {
+                listView.ScrollTo(item, scrollToPosition, animated);
+            }
+            else
+            {
+                listView.ScrollTo(item, group, scrollToPosition, animated);
+            }
+        }
+
+        private static object TryGetItem(ListView listView, ScrollToPosition scrollToPosition)
+        {
+            try
+            {
+                var listOfObjects = listView.ItemsSource?.Cast<object>();
+                if (listOfObjects == null)
+                {
+                    return null;
+                }
+
+                if (scrollToPosition == ScrollToPosition.Start)
+                {
+                    return listOfObjects.FirstOrDefault();
+                }
+
+                if (scrollToPosition == ScrollToPosition.Center)
+                {
+                    var centerIndex = listOfObjects.Count() / 2;
+                    return listOfObjects.ElementAtOrDefault(centerIndex);
+                }
+
+                if (scrollToPosition == ScrollToPosition.End)
+                {
+                    return listOfObjects.LastOrDefault();
+                }
+            }
+            catch
+            {
+                // Ignore
+            }
+
+            return null;
         }
     }
 }
