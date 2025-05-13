@@ -1,6 +1,6 @@
 ﻿namespace Superdev.Maui.Controls
 {
-    public class CustomEditor : Editor, IDisposable
+    public class CustomEditor : Editor
     {
         public const int MaxLinesDefault = -1;
 
@@ -28,21 +28,6 @@
         {
             get => (bool)this.GetValue(HideKeyboardProperty);
             set => this.SetValue(HideKeyboardProperty, value);
-        }
-
-        public CustomEditor()
-        {
-            this.TextChanged += this.OnTextChanged;
-        }
-
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.InvalidateMeasure();
-        }
-
-        public void Dispose()
-        {
-            this.TextChanged -= this.OnTextChanged;
         }
     }
 }

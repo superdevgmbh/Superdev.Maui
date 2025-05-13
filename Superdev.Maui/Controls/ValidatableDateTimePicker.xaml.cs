@@ -52,8 +52,6 @@ namespace Superdev.Maui.Controls
 
         private static void OnDatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            //Debug.WriteLine($"OnDatePropertyChanged: oldValue={oldValue}, newValue={newValue}");
-
             var validatableDateTimePicker = (ValidatableDateTimePicker)bindable;
             validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.AnnotationText));
             validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.ReadonlyText));
@@ -139,6 +137,11 @@ namespace Superdev.Maui.Controls
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
                 if (readonlyText == null && this.Date is DateTime date)
                 {
+                    // if (this.Time is TimeSpan time)
+                    // {
+                    //     date += time;
+                    // }
+
                     // In case ReadonlyText is null, we try to take Format(Date+Time) as ReadonlyText
                     var localDateTime = date.ToLocalTime();
 

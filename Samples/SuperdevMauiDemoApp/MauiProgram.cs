@@ -50,6 +50,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<ActivityIndicatorDemoViewModel>();
             builder.Services.AddTransient<PickerDemoPage>();
             builder.Services.AddTransient<PickerDemoViewModel>();
+            builder.Services.AddTransient<EditorDemoPage>();
+            builder.Services.AddTransient<EditorDemoViewModel>();
             builder.Services.AddTransient<ListViewDemoPage>();
             builder.Services.AddTransient<ListViewDemoViewModel>();
             builder.Services.AddTransient<CustomTabbedPageDemoPage>();

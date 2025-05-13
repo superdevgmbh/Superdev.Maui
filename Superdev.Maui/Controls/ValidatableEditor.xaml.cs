@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using Superdev.Maui.Utils;
-
-namespace Superdev.Maui.Controls
+﻿namespace Superdev.Maui.Controls
 {
     public partial class ValidatableEditor : Grid
     {
@@ -50,8 +47,6 @@ namespace Superdev.Maui.Controls
                 nameof(Placeholder),
                 typeof(string),
                 typeof(ValidatableEditor),
-                null,
-                BindingMode.OneWay,
                 propertyChanged: OnPlaceholderPropertyChanged);
 
         public string Placeholder
@@ -71,8 +66,7 @@ namespace Superdev.Maui.Controls
                 nameof(HidePlaceholder),
                 typeof(bool),
                 typeof(ValidatableEditor),
-                true,
-                BindingMode.OneWay,
+                false,
                 propertyChanged: OnHidePlaceholderPropertyChanged);
 
         public bool HidePlaceholder
@@ -107,8 +101,7 @@ namespace Superdev.Maui.Controls
                 nameof(Keyboard),
                 typeof(Keyboard),
                 typeof(ValidatableEditor),
-                Keyboard.Default,
-                BindingMode.OneWay);
+                Keyboard.Default);
 
         public Keyboard Keyboard
         {

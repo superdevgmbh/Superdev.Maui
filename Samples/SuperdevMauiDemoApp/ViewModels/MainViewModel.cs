@@ -28,14 +28,12 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IActivityIndicatorService activityIndicatorService;
 
         private CountryViewModel country;
-        private string notes;
         private string adminEmailAddress;
 
         private int numberOfLoads = 0;
         private ICommand saveProfileButtonCommand;
         private IAsyncRelayCommand loadDataButtonCommand;
         private UserDto user;
-        private string logContent;
         private ICommand toggleSwitchCommand;
         private bool isReadonly;
         private ICommand longPressCommand;
@@ -181,18 +179,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public string Notes
-        {
-            get => this.notes;
-            set => this.SetProperty(ref this.notes, value);
-        }
-
-        public string LogContent
-        {
-            get => this.logContent;
-            set => this.SetProperty(ref this.logContent, value);
-        }
-
         public string AdminEmailAddress
         {
             get => this.adminEmailAddress;
@@ -283,7 +269,6 @@ namespace SuperdevMauiDemoApp.ViewModels
 
                 this.numberOfLoads++;
 
-                this.LogContent = this.logContent + Environment.NewLine + $"{DateTime.Now:G} LoadData called";
                 if (this.numberOfLoads % 2 == 0)
                 {
                     // Simulate a data load exception
@@ -352,7 +337,5 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.toggleSwitchCommand ??= new Command(() => { this.IsReadonly = !this.IsReadonly; });
         }
-
-        public int NotesMaxLength { get; set; } = 100;
     }
 }

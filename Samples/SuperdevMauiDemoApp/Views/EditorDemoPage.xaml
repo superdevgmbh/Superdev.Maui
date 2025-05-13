@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.EditorDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:EditorDemoViewModel"
+    Title="EditorDemoPage">
+
+    <ScrollView>
+        <Grid>
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="Editor" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Editor" />
+                            <Editor
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="Editor"
+                                Text="{Binding Notes, Mode=TwoWay}" />
+                            <Editor
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="Editor"
+                                Text="{Binding Notes, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="CustomEditor" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomEditor" />
+                            <Editor
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="Editor"
+                                Text="{Binding Notes, Mode=TwoWay}" />
+                            <s:CustomEditor
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="CustomEditor"
+                                Text="{Binding Notes, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomEditor with hidden keyboard" />
+                            <Editor Text="{Binding LogContent, Mode=OneWay}" />
+                            <s:CustomEditor
+                                Margin="0"
+                                HideKeyboard="True"
+                                Keyboard="Text"
+                                Text="{Binding LogContent, Mode=OneWay}"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="ValidatableEditor" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="ValidatableEditor" />
+                            <s:ValidatableEditor
+                                x:Name="ValidatableEditorTest1"
+                                Placeholder="ValidatableEditor"
+                                Text=""
+                                ValidationErrors="{Binding Source={x:Reference ValidatableEditorTest1}, Path=Text, Converter={StaticResource RandomValidationErrorsConverter}}" />
+                            <s:ValidatableEditor
+                                x:Name="ValidatableEditorTest2"
+                                Placeholder="ValidatableEditor"
+                                Text="ValidatableEditor with Text: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam."
+                                ValidationErrors="{Binding Source={x:Reference ValidatableEditorTest2}, Path=Text, Converter={StaticResource RandomValidationErrorsConverter}}" />
+                            <s:ValidatableEditor
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                MaxLines="3"
+                                Placeholder="ValidatableEditor with MaxLength/MaxLines"
+                                Text="{Binding Notes, Mode=TwoWay}"
+                                ValidationErrors="{Binding Validation.Errors[Notes]}">
+                                <s:ValidatableEditor.Keyboard>
+                                    <Keyboard x:FactoryMethod="Create">
+                                        <x:Arguments>
+                                            <KeyboardFlags>CapitalizeSentence,Spellcheck</KeyboardFlags>
+                                        </x:Arguments>
+                                    </Keyboard>
+                                </s:ValidatableEditor.Keyboard>
+                            </s:ValidatableEditor>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <s:ValidatableEditor
+                                    Grid.Column="0"
+                                    BackgroundColor="Aquamarine"
+                                    HidePlaceholder="False"
+                                    Placeholder="ValidatableEditor"
+                                    Text="" />
+                                <s:ValidatableEntry
+                                    Grid.Column="1"
+                                    BackgroundColor="LightGoldenrodYellow"
+                                    Placeholder="ValidatableEntry"
+                                    Text="" />
+                            </Grid>
+                            <Grid />
+
+                            <!--<users:NotesView BindingContext="{Binding .}" />-->
+
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

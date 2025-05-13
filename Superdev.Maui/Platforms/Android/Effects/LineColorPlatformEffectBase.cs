@@ -45,15 +45,16 @@ namespace Superdev.Maui.Platforms.Effects
                 {
                     var lineColor = LineColorEffect.GetLineColor(this.Element);
 
+                    var androidLineColor = lineColor.ToAndroid();
+
                     if (Build.VERSION.SdkInt >= BuildVersionCodes.Q) // API 29+
                     {
-                        editText.Background.SetColorFilter(new BlendModeColorFilter(lineColor.ToAndroid(), BlendMode.SrcAtop));
+                        editText.Background.SetColorFilter(new BlendModeColorFilter(androidLineColor, BlendMode.SrcAtop));
                     }
                     else
                     {
-                        editText.Background.SetColorFilter(lineColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
+                        editText.Background.SetColorFilter(androidLineColor, PorterDuff.Mode.SrcAtop);
                     }
-
                 }
             }
             catch (Exception ex)

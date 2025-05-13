@@ -122,11 +122,18 @@
     <MauiXaml Update="Views\SearchBarDemoPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Views\EditorDemoPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Views\SearchBarDemoPage.xaml.cs">
       <DependentUpon>SearchBarDemoPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EditorDemoPage.xaml.cs">
+      <DependentUpon>EditorDemoPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

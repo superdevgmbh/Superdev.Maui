@@ -30,6 +30,7 @@
     <Grid
         Grid.Row="1"
         ColumnDefinitions="140,*"
+        ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
         IsClippedToBounds="True">
 
         <!-- TODO: Format -->
@@ -59,6 +60,7 @@
             Format="{Binding Time, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource NullableDateTimeToFormatConverter}}"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
             NullableTime="{Binding Time, Source={x:Reference Control}, Mode=TwoWay}"
+            Placeholder=""
             Style="{Binding TimePickerStyle, Source={x:Reference Control}, Mode=OneWay}"
             HorizontalOptions="Fill"
             VerticalOptions="Start" />

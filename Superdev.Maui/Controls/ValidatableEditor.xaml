@@ -7,14 +7,9 @@
     xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     x:Name="Control"
     IsClippedToBounds="True"
-    HorizontalOptions="FillAndExpand"
-    VerticalOptions="StartAndExpand">
-
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
+    RowDefinitions="Auto,Auto,Auto"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
 
     <!-- Annotation Text -->
     <controls:CustomLabel
@@ -32,6 +27,7 @@
         <controls:CustomEditor
             x:Name="Editor"
             x:FieldModifier="internal"
+            Margin="{DynamicResource ValidatableInputControlMargin}"
             effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
             Behaviors="{Binding Behaviors, Source={x:Reference Control}}"
@@ -39,8 +35,7 @@
             MaxLength="{Binding MaxLength, Source={x:Reference Control}, Mode=OneWay}"
             MaxLines="{Binding MaxLines, Source={x:Reference Control}, Mode=OneWay}"
             Placeholder="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
-            Style="{Binding EditorStyle, Source={x:Reference Control}, Mode=OneWay}"
-            Text="{Binding Text, Source={x:Reference Control}, Mode=TwoWay}">
+            Style="{Binding EditorStyle, Source={x:Reference Control}, Mode=OneWay}">
 
             <controls:CustomEditor.Margin>
                 <OnPlatform x:TypeArguments="Thickness">

@@ -170,7 +170,6 @@
         x:Key="EntryLabelStyle"
         TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
@@ -178,7 +177,7 @@
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="controls:MinimumHeight.Value" Value="32" />
+        <Setter Property="MinimumHeightRequest" Value="32" />
     </Style>
 
     <!-- CustomLabel -->
@@ -196,13 +195,14 @@
         TargetType="Entry">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
-        <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="IsSpellCheckEnabled" Value="False" />
+        <Setter Property="IsTextPredictionEnabled" Value="False" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
@@ -254,7 +254,6 @@
     <Style
         x:Key="ListViewStyle"
         TargetType="ListView">
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
         <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
     </Style>
@@ -360,7 +359,6 @@
     <Style
         x:Key="ViewModelErrorControlStyle"
         TargetType="controls:ViewModelErrorControl">
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
@@ -465,18 +463,25 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-        <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="IsSpellCheckEnabled" Value="False" />
+        <Setter Property="IsTextPredictionEnabled" Value="False" />
+        <Setter Property="AutoSize" Value="TextChanges" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
-
     <Style
         BasedOn="{StaticResource EditorStyle}"
         TargetType="Editor" />
+
+    <!-- CustomEditor -->
     <Style
+        x:Key="CustomEditorStyle"
         BasedOn="{StaticResource EditorStyle}"
+        TargetType="controls:CustomEditor" />
+    <Style
+        BasedOn="{StaticResource CustomEditorStyle}"
         TargetType="controls:CustomEditor" />
 
     <!-- Picker -->
@@ -485,13 +490,12 @@
         TargetType="Picker">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColor}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-        <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
@@ -521,7 +525,7 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
     </Style>
     <Style
         BasedOn="{StaticResource DatePickerStyle}"
@@ -549,7 +553,7 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="effects:LineColorEffect.ApplyLineColor" Value="True" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
     </Style>
     <Style
         BasedOn="{StaticResource TimePickerStyle}"
@@ -577,7 +581,7 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
-        <Setter Property="controls:MinimumHeight.Value" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -670,7 +674,7 @@
         x:Key="ValidatableEditorStyle"
         TargetType="controls:ValidatableEditor">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="EditorStyle" Value="{DynamicResource EditorStyle}" />
+        <Setter Property="EditorStyle" Value="{DynamicResource CustomEditorStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
     <Style
@@ -733,12 +737,11 @@
         BasedOn="{StaticResource ValidatableDateTimePickerStyle}"
         TargetType="controls:ValidatableDateTimePicker" />
 
-    <!--
+    <!-- TODO: MAUI Migration
  <Style TargetType="controls:ValidatableAutoCompleteView">
      <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
      <Setter Property="SuggestionListStyle">
          <Style TargetType="controls:StackedList">
-             <Setter Property="BackgroundColor" Value="Transparent" />
              <Setter Property="Margin">
                  <OnPlatform x:TypeArguments="Thickness">
                      <On
