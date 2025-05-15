@@ -32,7 +32,6 @@
             x:Name="Entry"
             x:FieldModifier="internal"
             Margin="{DynamicResource ValidatableInputControlMargin}"
-            effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
             Focused="Entry_OnFocused"
             IsPassword="{Binding IsPassword, Source={x:Reference Control}, Mode=OneWay}"

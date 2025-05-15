@@ -22,7 +22,6 @@
             <ActivityIndicator
                 IsRunning="{Binding IsBusy, Source={x:Reference Control}}"
                 Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}" />
-            <!-- <Setter Property="behaviors:ActivityIndicatorViewStyleBehavior.ViewStyle" Value="Large" /> -->
         </VerticalStackLayout>
 
         <!-- Title -->

@@ -1,10 +1,12 @@
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
     public class EditorDemoViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
+
         private string notes;
         private string logContent;
 

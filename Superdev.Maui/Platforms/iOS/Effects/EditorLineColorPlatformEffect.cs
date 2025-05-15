@@ -63,11 +63,12 @@ namespace Superdev.Maui.Platforms.Effects
 
             if (this.Element is VisualElement { Height: > 0, Width: > 0} visualElement)
             {
-                var lineY = Math.Min(visualElement.Height - 10, visualElement.Height * 0.87);
+                // var lineY = Math.Min(visualElement.Height - 10, visualElement.Height * 0.87);
+                var lineY = visualElement.Height - 1;
                 lineLayer.Frame = new CGRect(0f, lineY, visualElement.Width, 1f);
-                this.Log($"{this.Element.GetType().Name}: H:{visualElement.Height} W:{visualElement.Width} --> lineLayer.Frame: Y:{lineLayer.Frame.Y}");
+                this.Log($"{visualElement.GetType().Name}: H:{visualElement.Height} W:{visualElement.Width} --> lineLayer.Frame: Y:{lineLayer.Frame.Y}");
 
-                var lineColor = LineColorEffect.GetLineColor(this.Element);
+                var lineColor = LineColorEffect.GetLineColor(visualElement);
                 if (lineColor != null)
                 {
                     lineLayer.BorderColor = lineColor.ToCGColor();

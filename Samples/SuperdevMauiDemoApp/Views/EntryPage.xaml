@@ -20,7 +20,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -46,7 +47,6 @@
                             </Grid>
 
                             <s:CustomEntry
-                                s:LineColorEffect.ApplyLineColor="True"
                                 s:LineColorEffect.LineColor="Blue"
                                 BackgroundColor="LightGoldenrodYellow"
                                 Placeholder="CustomEntry with LineColorEffect"
@@ -54,7 +54,6 @@
 
                             <s:CustomEntry
                                 Margin="0"
-                                s:LineColorEffect.ApplyLineColor="True"
                                 s:LineColorEffect.LineColor="Red"
                                 FontSize="{DynamicResource Theme.FontSize.H1}"
                                 Placeholder="CustomEntry with Huge FontSize"
@@ -106,7 +105,8 @@
                         <s:HeaderDivider />
                         <StackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"

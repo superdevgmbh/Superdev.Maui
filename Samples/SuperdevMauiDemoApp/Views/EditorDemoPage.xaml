@@ -19,18 +19,35 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <Editor
+                                BackgroundColor="Aqua"
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="Editor"
+                                Text="{Binding Notes, Mode=TwoWay}" />
+
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Editor" />
-                            <Editor
-                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
-                                Placeholder="Editor"
-                                Text="{Binding Notes, Mode=TwoWay}" />
-                            <Editor
-                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
-                                Placeholder="Editor"
-                                Text="{Binding Notes, Mode=TwoWay}" />
+                                Text="Editor vs Entry" />
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                <Editor
+                                    Grid.Column="0"
+                                    s:LineColorEffect.LineColor="Black"
+                                    BackgroundColor="Aquamarine"
+                                    MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                    Placeholder="Editor"
+                                    Text="{Binding Notes, Mode=TwoWay}" />
+                                <Entry
+                                    Grid.Column="1"
+                                    s:LineColorEffect.LineColor="Black"
+                                    BackgroundColor="Aquamarine"
+                                    MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                    Placeholder="Entry"
+                                    Text="{Binding Notes, Mode=TwoWay}" />
+                            </Grid>
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>
@@ -42,23 +59,54 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomEditor" />
-                            <Editor
-                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
-                                Placeholder="Editor"
-                                Text="{Binding Notes, Mode=TwoWay}" />
-                            <s:CustomEditor
-                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
-                                Placeholder="CustomEditor"
-                                Text="{Binding Notes, Mode=TwoWay}" />
+                                Text="Editor vs CustomEditor" />
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                <Editor
+                                    Grid.Column="0"
+                                    MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                    Placeholder="Editor"
+                                    Text="{Binding Notes, Mode=TwoWay}" />
+                                <s:CustomEditor
+                                    Grid.Column="1"
+                                    MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                    Placeholder="CustomEditor"
+                                    Text="{Binding Notes, Mode=TwoWay}" />
+                            </Grid>
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomEditor with hidden keyboard" />
-                            <Editor Text="{Binding LogContent, Mode=OneWay}" />
+                                Text="CustomEditor with BackgroundColor=LightSkyBlue and LineColor=Blue" />
+                            <s:CustomEditor
+                                s:LineColorEffect.LineColor="Blue"
+                                BackgroundColor="LightSkyBlue"
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="CustomEditor" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomEditor with BackgroundColor=LightSkyBlue" />
+                            <s:CustomEditor
+                                s:LineColorEffect.LineColor="{x:Null}"
+                                BackgroundColor="LightSkyBlue"
+                                MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                Placeholder="CustomEditor" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomEditor with IsReadOnly=true" />
+                            <Editor
+                                IsReadOnly="True"
+                                Text="{Binding LogContent, Mode=OneWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomEditor with HideKeyboard=true" />
                             <s:CustomEditor
                                 Margin="0"
                                 HideKeyboard="True"
@@ -77,10 +125,11 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableEditor" />
+                                Text="ValidatableEditor with ValidationErrors" />
                             <s:ValidatableEditor
                                 x:Name="ValidatableEditorTest1"
                                 Placeholder="ValidatableEditor"
@@ -106,17 +155,16 @@
                                 </s:ValidatableEditor.Keyboard>
                             </s:ValidatableEditor>
 
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="ValidatableEditor vs ValidatableEntry" />
+
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
                                 <s:ValidatableEditor
                                     Grid.Column="0"
-                                    BackgroundColor="Aquamarine"
+                                    BackgroundColor="LightGoldenrodYellow"
                                     HidePlaceholder="False"
                                     Placeholder="ValidatableEditor"
                                     Text="" />

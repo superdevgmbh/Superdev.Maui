@@ -1,36 +1,34 @@
-﻿using Superdev.Maui.Controls;
+﻿using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Effects
 {
     public static class LineColorEffect
     {
-        public static readonly BindableProperty ApplyLineColorProperty =
-            BindableProperty.CreateAttached(
-                "ApplyLineColor",
-                typeof(bool),
-                typeof(LineColorEffect),
-                false,
-                propertyChanged: OnApplyLineColorChanged);
+        public static readonly BindableProperty LineColorProperty = BindableProperty.CreateAttached(
+            "LineColor",
+            typeof(Color),
+            typeof(LineColorEffect),
+            null,
+            propertyChanged: OnLineColorPropertyChanged);
 
-        public static bool GetApplyLineColor(BindableObject view)
+        public static Color GetLineColor(BindableObject view)
         {
-            return (bool)view.GetValue(ApplyLineColorProperty);
+            return (Color)view.GetValue(LineColorProperty);
         }
 
-        public static void SetApplyLineColor(BindableObject view, bool value)
+        public static void SetLineColor(BindableObject view, Color value)
         {
-            view.SetValue(ApplyLineColorProperty, value);
+            view.SetValue(LineColorProperty, value);
         }
 
-        private static void OnApplyLineColorChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnLineColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is not View view)
             {
                 return;
             }
 
-            var hasLineColor = (bool)newValue;
-            if (hasLineColor)
+            if (newValue is Color)
             {
                 if (bindable is Entry)
                 {
@@ -74,53 +72,36 @@ namespace Superdev.Maui.Effects
             }
             else
             {
-                var entryLineColorEffectToRemove = view.Effects.FirstOrDefault(e => e is EntryLineColorEffect);
+                var entryLineColorEffectToRemove = view.Effects.FirstOrDefault<EntryLineColorEffect>();
                 if (entryLineColorEffectToRemove != null)
                 {
                     view.Effects.Remove(entryLineColorEffectToRemove);
                 }
 
-                var editorLineColorEffectToRemove = view.Effects.FirstOrDefault(e => e is EditorLineColorEffect);
+                var editorLineColorEffectToRemove = view.Effects.FirstOrDefault<EditorLineColorEffect>();
                 if (editorLineColorEffectToRemove != null)
                 {
                     view.Effects.Remove(editorLineColorEffectToRemove);
                 }
 
-                var datePickerLineColorEffectToRemove = view.Effects.FirstOrDefault(e => e is DatePickerLineColorEffect);
+                var datePickerLineColorEffectToRemove = view.Effects.FirstOrDefault<DatePickerLineColorEffect>();
                 if (datePickerLineColorEffectToRemove != null)
                 {
                     view.Effects.Remove(datePickerLineColorEffectToRemove);
                 }
 
-                var timePickerLineColorEffectToRemove = view.Effects.FirstOrDefault(e => e is TimePickerLineColorEffect);
+                var timePickerLineColorEffectToRemove = view.Effects.FirstOrDefault<TimePickerLineColorEffect>();
                 if (timePickerLineColorEffectToRemove != null)
                 {
                     view.Effects.Remove(timePickerLineColorEffectToRemove);
                 }
 
-                var pickerLineColorEffectToRemove = view.Effects.FirstOrDefault(e => e is PickerLineColorEffect);
+                var pickerLineColorEffectToRemove = view.Effects.FirstOrDefault<PickerLineColorEffect>();
                 if (pickerLineColorEffectToRemove != null)
                 {
                     view.Effects.Remove(pickerLineColorEffectToRemove);
                 }
             }
-        }
-
-        public static readonly BindableProperty LineColorProperty =
-            BindableProperty.CreateAttached(
-                "LineColor",
-                typeof(Color),
-                typeof(LineColorEffect),
-                Colors.Black);
-
-        public static Color GetLineColor(BindableObject view)
-        {
-            return (Color)view.GetValue(LineColorProperty);
-        }
-
-        public static void SetLineColor(BindableObject view, Color value)
-        {
-            view.SetValue(LineColorProperty, value);
         }
     }
 }

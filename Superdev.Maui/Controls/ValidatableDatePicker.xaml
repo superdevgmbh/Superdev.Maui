@@ -34,7 +34,6 @@
             x:Name="DatePicker"
             x:FieldModifier="internal"
             Margin="{DynamicResource ValidatableInputControlMargin}"
-            effects:LineColorEffect.ApplyLineColor="True"
             effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
             NullableDate="{Binding Date, Source={x:Reference Control}, Mode=TwoWay}"

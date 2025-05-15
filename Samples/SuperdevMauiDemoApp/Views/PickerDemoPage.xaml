@@ -19,7 +19,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -49,7 +50,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="ValidatablePicker with strings" />
@@ -104,7 +106,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -158,7 +161,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -193,16 +197,9 @@
                                 ValidationErrors="{Binding Source={x:Reference ValidatableDatePickerTest2}, Path=Date, Converter={StaticResource RandomValidationErrorsConverter}}" />
 
                             <ScrollView Orientation="Horizontal">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+                                <Grid ColumnDefinitions="*,*">
                                     <s:ValidatableDatePicker
-                                        BackgroundColor="Aquamarine"
+                                        BackgroundColor="LightGoldenrodYellow"
                                         Date="{x:Null}"
                                         Placeholder="ValidatableDatePicker" />
                                     <s:ValidatableEntry
@@ -224,7 +221,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -285,7 +283,8 @@
                         <s:HeaderDivider />
                         <VerticalStackLayout
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -315,7 +314,7 @@
                                 <Grid ColumnDefinitions="*,*">
                                     <s:ValidatableDateTimePicker
                                         Grid.Column="0"
-                                        BackgroundColor="Aquamarine"
+                                        BackgroundColor="LightGoldenrodYellow"
                                         Date="{x:Null}"
                                         IsReadonly="{Binding IsReadonly, Mode=OneWay}"
                                         Placeholder="ValidatableDateTimePicker"

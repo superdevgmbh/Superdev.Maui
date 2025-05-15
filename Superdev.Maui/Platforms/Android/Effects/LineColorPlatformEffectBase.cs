@@ -1,9 +1,10 @@
 using System.ComponentModel;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
 using Superdev.Maui.Effects;
 using BlendMode = Android.Graphics.BlendMode;
 using Debug = System.Diagnostics.Debug;
@@ -44,9 +45,12 @@ namespace Superdev.Maui.Platforms.Effects
                 if (this.Control is EditText editText)
                 {
                     var lineColor = LineColorEffect.GetLineColor(this.Element);
+                    if (lineColor == null)
+                    {
+                        return;
+                    }
 
-                    var androidLineColor = lineColor.ToAndroid();
-
+                    var androidLineColor = lineColor.ToPlatform();
                     if (Build.VERSION.SdkInt >= BuildVersionCodes.Q) // API 29+
                     {
                         editText.Background.SetColorFilter(new BlendModeColorFilter(androidLineColor, BlendMode.SrcAtop));
@@ -59,7 +63,7 @@ namespace Superdev.Maui.Platforms.Effects
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Trace.WriteLine(ex.Message);
             }
         }
     }

@@ -1,4 +1,3 @@
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Superdev.Maui.Controls;
@@ -43,12 +42,9 @@ namespace Superdev.Maui.Platforms.Handlers
             this.InsertOrUpdateDoneButton(mauiTextField);
         }
 
-        private static void UpdateDoneButtonText(IEntryHandler entryHandler, IEntry entry)
+        private static void UpdateDoneButtonText(EntryHandler entryHandler, Entry entry)
         {
-            if (entryHandler is CustomEntryHandler customEntryHandler)
-            {
-                customEntryHandler.InsertOrUpdateDoneButton(customEntryHandler.PlatformView);
-            }
+            entryHandler.InsertOrUpdateDoneButton(entryHandler.PlatformView);
         }
 
         protected virtual void InsertOrUpdateDoneButton(MauiTextField mauiTextField)

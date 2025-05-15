@@ -24,6 +24,7 @@ namespace Superdev.Maui
 #if ANDROID || IOS
             builder.ConfigureMauiHandlers(handlers =>
                 {
+                    handlers.AddHandler(typeof(CustomLabel), typeof(CustomLabelHandler));
                     handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
                     handlers.AddHandler(typeof(CustomEditor), typeof(CustomEditorHandler));
 
@@ -48,6 +49,7 @@ namespace Superdev.Maui
 #elif IOS
                     // Handlers for iOS only
                     handlers.AddHandler(typeof(Entry), typeof(EntryHandler));
+                    handlers.AddHandler(typeof(Editor), typeof(EditorHandler));
                     handlers.AddHandler(typeof(ScrollView), typeof(ScrollViewFixHandler));
                     handlers.AddHandler(typeof(NavigationPage), typeof(NavigationPageHandler));
 #endif
@@ -83,6 +85,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread>(_ => IMainThread.Current);
             builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();
+            builder.Services.AddSingleton<IKeyboardService, KeyboardService>();
             builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => IViewModelErrorRegistry.Current);
             builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
 

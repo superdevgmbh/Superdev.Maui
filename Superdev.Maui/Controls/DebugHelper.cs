@@ -23,6 +23,7 @@ namespace Superdev.Maui.Controls
             validatableEntry.AnnotationLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.Yellow);
             validatableEntry.Entry.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
             validatableEntry.ReadonlyLabel.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
+            validatableEntry.ValidationErrorLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.LightPink);
         }
 
         // [Conditional("DEBUG")]
@@ -52,6 +53,7 @@ namespace Superdev.Maui.Controls
             element.AnnotationLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.Yellow);
             element.DatePicker.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
             element.ReadonlyLabel.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
+            element.ValidationErrorLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.LightPink);
         }
 
         [Conditional("DEBUG")]
@@ -67,6 +69,7 @@ namespace Superdev.Maui.Controls
             element.DatePicker.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
             element.TimePicker.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
             element.ReadonlyLabel.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
+            element.ValidationErrorLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.LightPink);
         }
 
         [Conditional("DEBUG")]
@@ -80,6 +83,7 @@ namespace Superdev.Maui.Controls
             validatableEditor.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentBright");
             validatableEditor.AnnotationLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.Yellow);
             validatableEditor.Editor.SetDynamicResource(VisualElement.BackgroundColorProperty, "Theme.Color.SemiTransparentDark");
+            validatableEditor.ValidationErrorLabel.SetValue(VisualElement.BackgroundColorProperty, Colors.LightPink);
         }
     }
 }
