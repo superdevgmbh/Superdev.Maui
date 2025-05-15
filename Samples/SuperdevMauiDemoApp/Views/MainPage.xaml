@@ -78,13 +78,13 @@
                                     <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="AutoCompletePage"
-                                        Text="AutoCompleteView" />
-                                    <s:CustomButton
-                                        Grid.Column="1"
-                                        Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="PreferencesDemoPage"
-                                        Text="Preferences&#10;Test" />
+                                        CommandParameter="ButtonDemoPage"
+                                        Text="Button" />
+                                    <!-- <s:CustomButton -->
+                                    <!-- Grid.Column="1" -->
+                                    <!-- Command="{Binding NavigateToPageCommand}" -->
+                                    <!-- CommandParameter="PreferencesDemoPage" -->
+                                    <!-- Text="Preferences&#10;Test" /> -->
                                 </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
@@ -122,11 +122,11 @@
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="EditorDemoPage"
                                         Text="Editor" />
-                                    <!-- <s:CustomButton -->
-                                    <!-- Grid.Column="1" -->
-                                    <!-- Command="{Binding NavigateToPageCommand}" -->
-                                    <!-- CommandParameter="LabelDemoPage" -->
-                                    <!-- Text="Label" /> -->
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SwitchDemoPage"
+                                        Text="Switch" />
                                 </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
@@ -239,6 +239,20 @@
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="SpacingDemoPage"
                                         Text="Spacing" />
+                                </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="AutoCompletePage"
+                                        Text="AutoCompleteView" />
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="PreferencesDemoPage"
+                                        Text="Preferences&#10;Test" />
                                 </Grid>
 
                                 <Label
@@ -457,119 +471,6 @@
                                             CommandParameter="{Binding Text, Source={x:Reference LongPressLabel}}" />
                                     </Grid.GestureRecognizers>
                                 </Grid>
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="Demo CustomButton (PrimaryStyle)" />
-                                <s:CustomButton
-                                    x:Name="CustomButtonPrimary"
-                                    Command="{Binding SaveProfileButtonCommand}"
-                                    IsEnabled="{Binding CanExecuteSaveProfileButtonCommand}"
-                                    Style="{StaticResource CustomButtonPrimaryStyle}"
-                                    Text="{s:Translate SaveButtonText}"
-                                    VerticalOptions="StartAndExpand" />
-                                <s:CustomButton
-                                    IsEnabled="True"
-                                    Style="{DynamicResource CustomButtonPrimaryStyle}"
-                                    Text="Primary (Enabled)" />
-                                <s:CustomButton
-                                    IsEnabled="False"
-                                    Style="{DynamicResource CustomButtonPrimaryStyle}"
-                                    Text="Primary (Disabled)" />
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="Micro"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding IsEnabled, StringFormat='IsEnabled={0}', Source={x:Reference CustomButtonPrimary}}" />
-                                    <Label
-                                        FontSize="Micro"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding IsSaving, StringFormat='IsSaving={0}'}" />
-                                    <Label
-                                        FontSize="Micro"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding CanExecuteSaveProfileButtonCommand, StringFormat='CanExecuteSaveProfileButtonCommand={0}'}" />
-                                </VerticalStackLayout>
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="Demo CustomButton (SecondaryStyle)" />
-                                <s:CustomButton
-                                    x:Name="CustomButtonSecondary"
-                                    Command="{Binding LoadDataButtonCommand}"
-                                    IsEnabled="{Binding CanExecuteLoadDataButtonCommand}"
-                                    Style="{DynamicResource CustomButtonSecondaryStyle}"
-                                    Text="{s:Translate LoadDataButtonText}"
-                                    VerticalOptions="StartAndExpand" />
-                                <s:CustomButton
-                                    IsEnabled="True"
-                                    Style="{DynamicResource CustomButtonSecondaryStyle}"
-                                    Text="Secondary (Enabled)" />
-                                <s:CustomButton
-                                    IsEnabled="False"
-                                    Style="{DynamicResource CustomButtonSecondaryStyle}"
-                                    Text="Secondary (Disabled)" />
-                                <s:CustomButton
-                                    IsEnabled="True"
-                                    Style="{DynamicResource CustomButtonStyle}"
-                                    Text="CustomButtonStyle (Enabled)" />
-                                <s:CustomButton
-                                    IsEnabled="False"
-                                    Style="{DynamicResource CustomButtonStyle}"
-                                    Text="CustomButtonStyle (Disabled)" />
-                                <s:CustomButton
-                                    Padding="10"
-                                    ContentLayout="Left, 20"
-                                    HeightRequest="40"
-                                    ImageSource="{s:ImageResource rectangle_magenta_192.png}"
-                                    Style="{DynamicResource CustomButtonStyle}"
-                                    Text="Button with Image" />
-                                <ImageButton
-                                    Padding="10"
-                                    Aspect="AspectFit"
-                                    HeightRequest="40"
-                                    Source="{s:ImageResource rectangle_magenta_192.png}" />
-                                <VerticalStackLayout>
-                                    <Label
-                                        FontSize="Micro"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding IsEnabled, StringFormat='IsEnabled={0}', Source={x:Reference CustomButtonSecondary}}" />
-                                    <Label
-                                        FontSize="Micro"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding IsBusy, StringFormat='IsBusy={0}'}" />
-                                    <Label
-                                        FontSize="Micro"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding CanExecuteLoadDataButtonCommand, StringFormat='CanExecuteLoadDataButtonCommand={0}'}" />
-                                </VerticalStackLayout>
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="Demo CustomButton (LineBreakMode)" />
-                                <s:CustomButton
-                                    Padding="16"
-                                    Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                                <s:CustomButton
-                                    Padding="16"
-                                    LineBreakMode="HeadTruncation"
-                                    Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                                <s:CustomButton
-                                    Padding="16"
-                                    LineBreakMode="MiddleTruncation"
-                                    Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                                <s:CustomButton
-                                    Padding="16"
-                                    LineBreakMode="TailTruncation"
-                                    Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                                <s:CustomButton
-                                    Padding="16"
-                                    LineBreakMode="WordWrap"
-                                    Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                                <s:CustomButton
-                                    Padding="16"
-                                    LineBreakMode="CharacterWrap"
-                                    Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
 
                             </VerticalStackLayout>
 

@@ -8,8 +8,8 @@
     x:DataType="vm:EditorDemoViewModel"
     Title="EditorDemoPage">
 
-    <ScrollView>
-        <Grid>
+    <Grid>
+        <ScrollView Grid.Row="0">
             <VerticalStackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
@@ -135,6 +135,16 @@
                     </VerticalStackLayout>
                 </s:CardView>
             </VerticalStackLayout>
-        </Grid>
-    </ScrollView>
+        </ScrollView>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}"
+            Text="PageActivityIndicator Text"
+            Title="PageActivityIndicator Title" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
 </ContentPage>

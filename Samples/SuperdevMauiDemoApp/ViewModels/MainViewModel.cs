@@ -30,9 +30,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private CountryViewModel country;
         private string adminEmailAddress;
 
-        private int numberOfLoads = 0;
-        private ICommand saveProfileButtonCommand;
-        private IAsyncRelayCommand loadDataButtonCommand;
+        private int numberOfLoads;
         private UserDto user;
         private ICommand toggleSwitchCommand;
         private bool isReadonly;
@@ -40,8 +38,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private ICommand normalPressCommand;
         private ObservableCollection<CountryViewModel> countries;
         private DateTime? birthdate;
-        private bool isSaving;
-        private ICommand navigateToPageCommand;
+        private IAsyncRelayCommand navigateToPageCommand;
         private LanguageViewModel language;
 
         public MainViewModel(
@@ -157,8 +154,10 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.country, value);
         }
 
-        public ICommand NavigateToPageCommand =>
-            this.navigateToPageCommand ??= new Command<string>(async (s) => await this.OnNavigateToPage(s));
+        public IAsyncRelayCommand NavigateToPageCommand
+        {
+            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.OnNavigateToPage);
+        }
 
         private async Task OnNavigateToPage(string pageName)
         {
@@ -200,58 +199,9 @@ namespace SuperdevMauiDemoApp.ViewModels
             Console.WriteLine("unfocused");
         }
 
-        protected override void OnBusyChanged(bool busy)
-        {
-            this.RaisePropertyChanged(nameof(this.CanExecuteSaveProfileButtonCommand));
-            this.RaisePropertyChanged(nameof(this.CanExecuteLoadDataButtonCommand));
-        }
-
-        public bool CanExecuteSaveProfileButtonCommand => this.IsNotBusy && !this.IsSaving;
-
-        public bool IsSaving
-        {
-            get => this.isSaving;
-            set
-            {
-                if (this.SetProperty(ref this.isSaving, value))
-                {
-                    this.RaisePropertyChanged(nameof(this.CanExecuteSaveProfileButtonCommand));
-                    this.RaisePropertyChanged(nameof(this.CanExecuteLoadDataButtonCommand));
-                }
-            }
-        }
-
-        public ICommand SaveProfileButtonCommand =>
-            this.saveProfileButtonCommand ??= new AsyncRelayCommand(
-                this.OnSaveProfile,
-                () => this.CanExecuteSaveProfileButtonCommand);
-
-        private async Task OnSaveProfile()
-        {
-            this.IsSaving = true;
-            await Task.Delay(1000);
-
-            var isValid = await this.Validation.IsValidAsync();
-            if (isValid)
-            {
-                // TODO Save...
-            }
-
-            this.IsSaving = false;
-        }
-
         protected override async Task OnRefreshList()
         {
             await Task.Delay(1000);
-        }
-
-        public bool CanExecuteLoadDataButtonCommand => this.IsNotBusy && !this.IsSaving;
-
-        public IAsyncRelayCommand LoadDataButtonCommand
-        {
-            get => this.loadDataButtonCommand ??= new AsyncRelayCommand(
-                    execute: this.LoadData,
-                    canExecute: () => this.CanExecuteLoadDataButtonCommand);
         }
 
         private async Task LoadData()
