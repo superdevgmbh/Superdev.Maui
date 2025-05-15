@@ -4,8 +4,16 @@ using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<CustomButton, CustomButtonHandler>;
+
     public class CustomButtonHandler : ButtonHandler
     {
+        public new static readonly PM Mapper = new PM(ButtonHandler.Mapper)
+        {
+            // [nameof(CustomButton.HorizontalTextAlignment)] = MapHorizontalTextAlignment, // TODO --> Check if it works without this
+            // [nameof(CustomButton.VerticalTextAlignment)] = MapVerticalTextAlignment,     // TODO --> Check if it works without this
+        };
+
         public CustomButtonHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {

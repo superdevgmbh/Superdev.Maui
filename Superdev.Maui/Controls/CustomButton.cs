@@ -55,17 +55,7 @@
                 nameof(AllCaps),
                 typeof(bool),
                 typeof(CustomButton),
-                GetDefaultAllCaps());
-
-        private static object GetDefaultAllCaps()
-        {
-            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
-            {
-                return true;
-            }
-
-            return false;
-        }
+                false);
 
         public bool AllCaps
         {

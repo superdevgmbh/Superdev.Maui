@@ -1,4 +1,5 @@
-﻿using Google.Android.Material.Button;
+﻿using AndroidX.Annotations;
+using Google.Android.Material.Button;
 using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
 
@@ -12,6 +13,7 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             [nameof(CustomButton.HorizontalTextAlignment)] = MapHorizontalTextAlignment,
             [nameof(CustomButton.VerticalTextAlignment)] = MapVerticalTextAlignment,
+            [nameof(CustomButton.AllCaps)] = MapAllCaps,
         };
 
         public CustomButtonHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -28,7 +30,8 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             base.ConnectHandler(platformView);
 
-            UpdateHorizontalTextAlignment((CustomButton)this.VirtualView, platformView);
+            var customButton = (CustomButton)this.VirtualView;
+            UpdateHorizontalTextAlignment(customButton, platformView);
         }
 
         public override void UpdateValue(string property)
@@ -74,6 +77,11 @@ namespace Superdev.Maui.Platforms.Handlers
             };
 
             platformView.Gravity = verticalFlag | horizontalFlag;
+        }
+
+        private static void MapAllCaps(CustomButtonHandler customButtonHandler, CustomButton customButton)
+        {
+            customButtonHandler.PlatformView.SetAllCaps(customButton.AllCaps);
         }
     }
 }
