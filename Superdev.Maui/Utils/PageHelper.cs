@@ -22,29 +22,35 @@ namespace Superdev.Maui.Utils
         internal static string PrintNavigationPath()
         {
             var mainPage = Application.Current.MainPage;
-            var navigation = mainPage.Navigation;
-            var pages = GetNavigationTree(navigation, mainPage).ToArray();
+            var pages = GetNavigationTree(mainPage).ToArray();
             var navigationPath = PrintNavigationPath(pages);
             return navigationPath;
         }
 
         private static string PrintNavigationPath(IEnumerable<Page> pages)
         {
-            return pages.Aggregate("", (current, page) => $"{current}/{(page?.GetType().Name ?? "")}");
+            return pages.Aggregate("", (current, page) => $"{current}/{page?.GetType().Name ?? ""}");
         }
 
-        internal static IEnumerable<Page> GetNavigationTree(INavigation navigation, Page page, bool modal = false)
+        internal static IEnumerable<Page> GetNavigationTree(Page page, bool modal = false)
         {
+            if (page == null)
+            {
+                yield break;
+            }
+
+            var navigation = page.Navigation;
+
             switch (page)
             {
                 case FlyoutPage flyoutPage:
                     yield return flyoutPage;
-                    foreach (var p in GetNavigationTree(flyoutPage.Flyout.Navigation, flyoutPage.Flyout))
+                    foreach (var p in GetNavigationTree(flyoutPage.Flyout))
                     {
                         yield return p;
                     }
 
-                    foreach (var p in GetNavigationTree(flyoutPage.Detail.Navigation, flyoutPage.Detail))
+                    foreach (var p in GetNavigationTree(flyoutPage.Detail))
                     {
                         yield return p;
                     }
@@ -53,9 +59,12 @@ namespace Superdev.Maui.Utils
 
                 case TabbedPage tabbedPage:
                     yield return tabbedPage;
-                    foreach (var p in GetNavigationTree(tabbedPage.CurrentPage.Navigation, tabbedPage.CurrentPage))
+                    foreach (var tab in tabbedPage.Children)
                     {
-                        yield return p;
+                        foreach (var p in GetNavigationTree(tab))
+                        {
+                            yield return p;
+                        }
                     }
 
                     break;
@@ -65,8 +74,12 @@ namespace Superdev.Maui.Utils
 
                     foreach (var childPage in navigationPage.InternalChildren.OfType<Page>())
                     {
-                        yield return childPage;
+                        foreach (var p in GetNavigationTree(childPage))
+                        {
+                            yield return p;
+                        }
                     }
+
                     break;
 
                 case ContentPage contentPage:
@@ -79,19 +92,12 @@ namespace Superdev.Maui.Utils
             {
                 foreach (var modalPage in navigation.ModalStack)
                 {
-                    foreach (var p in GetNavigationTree(modalPage.Navigation, modalPage, modal: true))
+                    foreach (var p in GetNavigationTree(modalPage, modal: true))
                     {
                         yield return p;
                     }
                 }
             }
-        }
-
-        internal static PageHandler CreatePageHandler(Page parent, ContentPage contentPage)
-        {
-            var mauiContext = parent.Handler?.MauiContext ?? throw new NullReferenceException(nameof(IMauiContext));
-            parent.AddLogicalChild(contentPage);
-            return (PageHandler)contentPage.ToHandler(mauiContext);
         }
     }
 }
