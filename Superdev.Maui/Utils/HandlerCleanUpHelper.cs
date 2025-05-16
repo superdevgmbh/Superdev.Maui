@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Superdev.Maui.Utils
 {
@@ -61,6 +60,7 @@ namespace Superdev.Maui.Utils
                     Trace.WriteLine(
                         $"HandlerCleanUpHelper.OnNavigatedFrom: Page \"{GetPageNameForLogging(targetPage)}\" is no longer present on the navigation stack " +
                         $"--> {elementHandler.GetType().Name}.DisconnectHandler()");
+
                     elementHandler.DisconnectHandler();
                 }
             }
