@@ -465,6 +465,7 @@
         x:Key="CheckBoxStyle"
         TargetType="CheckBox">
         <Setter Property="Color" Value="{DynamicResource Theme.Color.Primary}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
         <Setter Property="VisualStateManager.VisualStateGroups">
