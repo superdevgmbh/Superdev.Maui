@@ -130,5 +130,12 @@ namespace Superdev.Maui.Utils
                 yield return p;
             }
         }
+
+        internal static PageHandler CreatePageHandler(Page parent, ContentPage contentPage)
+        {
+            var mauiContext = parent.Handler?.MauiContext ?? throw new NullReferenceException(nameof(IMauiContext));
+            parent.AddLogicalChild(contentPage);
+            return (PageHandler)contentPage.ToHandler(mauiContext);
+        }
     }
 }
