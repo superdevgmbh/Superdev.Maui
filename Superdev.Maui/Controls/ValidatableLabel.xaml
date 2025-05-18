@@ -5,13 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
     x:Name="Control"
+    RowDefinitions="Auto,Auto"
     HorizontalOptions="Fill"
     VerticalOptions="Start">
-
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
 
     <!-- Annotation Text -->
     <controls:CustomLabel
@@ -29,6 +25,7 @@
         <controls:CustomLabel
             x:Name="ReadonlyLabel"
             x:FieldModifier="internal"
+            MinimumHeightRequest="24"
             RemovePadding="True"
             Style="{Binding LabelStyle, Source={x:Reference Control}, Mode=OneWay}"
             Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}">

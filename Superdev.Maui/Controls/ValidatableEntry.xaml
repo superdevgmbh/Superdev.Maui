@@ -7,13 +7,9 @@
     xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     x:Name="Control"
     IsClippedToBounds="True"
+    RowDefinitions="Auto,Auto,Auto"
     HorizontalOptions="Fill"
     VerticalOptions="Start">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
 
     <!-- Annotation Text -->
     <controls:CustomLabel
@@ -92,18 +88,19 @@
             x:Name="ReadonlyLabel"
             x:FieldModifier="internal"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
+            MinimumHeightRequest="26"
             Style="{Binding Source={x:Reference Control}, Path=ReadonlyLabelStyle}"
             Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}">
-            <Label.Margin>
-                <OnPlatform x:TypeArguments="Thickness">
-                    <On
-                        Platform="Android"
-                        Value="0,2,0,0" />
-                    <On
-                        Platform="iOS"
-                        Value="0,0,0,0" />
-                </OnPlatform>
-            </Label.Margin>
+            <!-- <Label.Margin> -->
+            <!--     <OnPlatform x:TypeArguments="Thickness"> -->
+            <!-- <On -->
+            <!-- Platform="Android" -->
+            <!-- Value="0,2,0,0" /> -->
+            <!-- <On -->
+            <!-- Platform="iOS" -->
+            <!-- Value="0,0,0,0" /> -->
+            <!--     </OnPlatform> -->
+            <!-- </Label.Margin> -->
         </Label>
     </Grid>
 

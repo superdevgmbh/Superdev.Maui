@@ -7,10 +7,12 @@
     Title="CustomLabel Demo">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="Demo CustomLabel" />
+                Text="CustomLabel" />
             <Label
                 BackgroundColor="LightGray"
                 Text="Label" />
@@ -47,25 +49,21 @@
 
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="Demo ValidatableLabel" />
+                Text="ValidatableLabel" />
             <s:ValidatableLabel
                 BackgroundColor="Transparent"
                 Placeholder="ValidatableLabel Placeholder"
                 Text="ValidatableLabel Text" />
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                RowDefinitions="Auto,Auto"
+                RowSpacing="{DynamicResource Theme.Spacing.Medium}">
                 <s:ValidatableLabel
                     Grid.Row="0"
                     Grid.Column="0"
-                    BackgroundColor="Aquamarine"
+                    BackgroundColor="LightGoldenrodYellow"
                     Placeholder="ValidatableLabel"
                     Text="ValidatableLabel" />
                 <s:ValidatableEntry
@@ -77,7 +75,7 @@
                 <s:ValidatableLabel
                     Grid.Row="1"
                     Grid.Column="0"
-                    BackgroundColor="Aquamarine"
+                    BackgroundColor="LightGoldenrodYellow"
                     Placeholder="ValidatableLabel"
                     Text="ValidatableLabel" />
                 <s:ValidatableEntry
@@ -85,8 +83,8 @@
                     Grid.Column="1"
                     BackgroundColor="LightGoldenrodYellow"
                     IsReadonly="True"
-                    Placeholder="ValidatableEntry"
-                    Text="ValidatableEntry IsReadonly=&quot;True&quot;" />
+                    Placeholder="ValidatableEntry IsReadonly=&quot;True&quot;"
+                    Text="ValidatableEntry" />
             </Grid>
 
             <s:ValidatableLabel

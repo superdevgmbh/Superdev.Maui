@@ -196,6 +196,18 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(TimePickerStyleProperty, value);
         }
 
+        public static readonly BindableProperty ReadonlyLabelStyleProperty =
+            BindableProperty.Create(
+                nameof(ReadonlyLabelStyle),
+                typeof(Style),
+                typeof(ValidatableDateTimePicker));
+
+        public Style ReadonlyLabelStyle
+        {
+            get => (Style)this.GetValue(ReadonlyLabelStyleProperty);
+            set => this.SetValue(ReadonlyLabelStyleProperty, value);
+        }
+
         public static readonly BindableProperty ValidationErrorLabelStyleProperty =
             BindableProperty.Create(
                 nameof(ValidationErrorLabelStyle),

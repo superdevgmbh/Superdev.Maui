@@ -17,6 +17,7 @@
 
     <!-- Styles -->
     <x:Double x:Key="MinimumHeight.Input">34</x:Double>
+    <x:Double x:Key="MinimumHeight.Readonly.Input">24</x:Double>
 
     <!-- Pages -->
     <Style
@@ -176,8 +177,6 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="MinimumHeightRequest" Value="32" />
     </Style>
 
     <!-- CustomLabel -->
@@ -714,6 +713,7 @@
         TargetType="controls:ValidatableDatePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
     <Style
@@ -728,6 +728,7 @@
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
         <Setter Property="TimePickerStyle" Value="{StaticResource TimePickerStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
     <Style

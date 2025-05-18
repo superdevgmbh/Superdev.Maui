@@ -70,7 +70,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
-            Style="{DynamicResource EntryLabelStyle}"
+            MinimumHeightRequest="26"
+            Style="{Binding Source={x:Reference Control}, Path=ReadonlyLabelStyle}"
             Text="{Binding ReadonlyText, Source={x:Reference Control}, Mode=OneWay}" />
     </Grid>
 
