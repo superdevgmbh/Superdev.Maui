@@ -34,7 +34,7 @@
                 <!-- ActivityIndicator -->
                 <ActivityIndicator
                     BackgroundColor="Transparent"
-                    IsRunning="{Binding IsBusy, Source={x:Reference Control}}"
+                    IsRunning="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=false}"
                     Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}">
                     <ActivityIndicator.WidthRequest>
                         <OnPlatform x:TypeArguments="x:Double">
