@@ -1,10 +1,13 @@
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
     public class ButtonDemoViewModel : BaseViewModel
     {
+        private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
         private IAsyncRelayCommand saveProfileButtonCommand;
@@ -12,8 +15,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isSaving;
 
         public ButtonDemoViewModel(
+            ILogger<ButtonDemoViewModel> logger,
             IViewModelErrorHandler viewModelErrorHandler)
         {
+            this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             _ = this.InitializeAsync();
@@ -45,6 +50,13 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+        protected override ViewModelValidation SetupValidation()
+        {
+            var viewModelValidation = new ViewModelValidation();
+
+            return viewModelValidation;
         }
 
         protected override void OnBusyChanged(bool busy)
@@ -90,12 +102,20 @@ namespace SuperdevMauiDemoApp.ViewModels
         private async Task OnSaveProfile()
         {
             this.IsSaving = true;
-            await Task.Delay(1000);
 
-            var isValid = await this.Validation.IsValidAsync();
-            if (isValid)
+            try
             {
-                // TODO Save...
+                await Task.Delay(3000);
+
+                // var isValid = await this.Validation.IsValidAsync();
+                // if (isValid)
+                // {
+                //     // TODO Save...
+                // }
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError(e, "OnSaveProfile failed with exception");
             }
 
             this.IsSaving = false;

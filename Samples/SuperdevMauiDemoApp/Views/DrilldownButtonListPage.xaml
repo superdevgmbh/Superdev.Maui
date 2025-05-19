@@ -7,8 +7,8 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:DrilldownButtonListViewModel"
-    Title="Drilldown Buttons"
-    BackgroundColor="{DynamicResource PageBackgroundColor}">
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="Drilldown Buttons">
 
     <ScrollView>
         <Grid>
@@ -18,51 +18,51 @@
 
                 <Label
                     Style="{StaticResource DemoLabelStyle}"
-                    Text="Demo DrilldownButton" />
+                    Text="DrilldownButton" />
                 <s:DrilldownButton
                     Command="{Binding DisplayAlertCommand}"
                     ImageSource="{s:ImageResource chevron_right_grey_192x192}"
-                    Text="{s:Translate SingleButtonText}" />
+                    Text="{s:Translate DrilldownButton}" />
 
                 <s:SpacerSection />
 
                 <s:DrilldownButton
                     Command="{Binding DisplayAlertCommand}"
                     ImageSource="{s:ImageResource chevron_right_grey_192x192}"
-                    Text="{s:Translate SingleButtonText}" />
+                    Text="{s:Translate DrilldownButton}" />
 
                 <s:CardView>
                     <StackLayout>
-                        <s:LabelSection Text="Demo DrilldownButtonList with static ItemsSource" />
+                        <s:LabelSection Text="DrilldownButtonList with static ItemsSource" />
                         <s:HeaderDivider />
                         <s:DrilldownButtonList BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
                             <s:DrilldownButtonList.ItemsSource>
                                 <objectModel:ObservableCollection x:TypeArguments="BindableObject">
                                     <s:DrilldownButtonView
-                                        Title="DrilldownButtonCell (Enabled)"
                                         Command="{Binding DisplayAlertCommand}"
                                         ImageSource="{s:ImageResource chevron_right_grey_192x192}"
-                                        IsEnabled="True" />
+                                        IsEnabled="True"
+                                        Title="DrilldownButtonCell (Enabled)" />
                                     <s:DrilldownButtonView
-                                        Title="DrilldownButtonCell (Disabled)"
                                         Command="{Binding DisplayAlertCommand}"
                                         ImageSource="{s:ImageResource chevron_right_grey_192x192}"
-                                        IsEnabled="False" />
+                                        IsEnabled="False"
+                                        Title="DrilldownButtonCell (Disabled)" />
                                     <s:DrilldownButtonView
-                                        Title="{Binding RefreshButtonText}"
                                         Command="{Binding RefreshCommand}"
                                         IsBusy="{Binding IsRefreshing, Mode=OneWay}"
-                                        IsEnabled="{Binding IsRefreshing, Converter={StaticResource BoolInverter}}" />
+                                        IsEnabled="{Binding IsRefreshing, Converter={StaticResource BoolInverter}}"
+                                        Title="{Binding RefreshButtonText}" />
                                     <s:DrilldownSwitchView
-                                        Title="{Binding ToggleSwitchButtonText}"
                                         Command="{Binding ToggleSwitchCommand}"
                                         IsEnabled="True"
-                                        IsToggled="{Binding IsToggled, Mode=TwoWay}" />
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                                        Title="{Binding ToggleSwitchButtonText}" />
                                     <s:DrilldownSwitchView
-                                        Title="Disabled DrilldownSwitchView: Lorem ipsum dolor sit a b c d e f g h i j k l m o"
                                         Command="{Binding ToggleSwitchCommand}"
                                         IsEnabled="False"
-                                        IsToggled="{Binding IsToggled, Mode=TwoWay}" />
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                                        Title="Disabled DrilldownSwitchView: Lorem ipsum dolor sit a b c d e f g h i j k l m o" />
                                 </objectModel:ObservableCollection>
                             </s:DrilldownButtonList.ItemsSource>
                         </s:DrilldownButtonList>
@@ -71,7 +71,7 @@
 
                 <s:CardView>
                     <StackLayout>
-                        <s:LabelSection Text="Demo DrilldownButtonList with dynamic ItemsSource" />
+                        <s:LabelSection Text="DrilldownButtonList with dynamic ItemsSource" />
                         <s:HeaderDivider />
 
                         <Grid
@@ -138,17 +138,17 @@
                             <s:DrilldownButtonList.ItemsSource>
                                 <objectModel:ObservableCollection x:TypeArguments="BindableObject">
                                     <s:DrilldownButtonView
-                                        Title="{s:Translate TermsAndConditionsButtonText}"
                                         Command="{Binding DisplayAlertCommand}"
                                         ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsBusy="{Binding IsNavigatingToTermsAndConditions}"
-                                        IsEnabled="{Binding IsNavigatingToTermsAndConditions, Converter={StaticResource BoolInverter}}" />
+                                        IsEnabled="{Binding IsNavigatingToTermsAndConditions, Converter={StaticResource BoolInverter}}"
+                                        Title="{s:Translate TermsAndConditionsButtonText}" />
                                     <s:DrilldownButtonView
-                                        Title="{s:Translate PrivacyPolicyButtonText}"
                                         Command="{Binding DisplayAlertCommand}"
                                         ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsBusy="{Binding IsNavigatingToPrivacyPolicy}"
-                                        IsEnabled="{Binding IsNavigatingToPrivacyPolicy, Converter={StaticResource BoolInverter}}" />
+                                        IsEnabled="{Binding IsNavigatingToPrivacyPolicy, Converter={StaticResource BoolInverter}}"
+                                        Title="{s:Translate PrivacyPolicyButtonText}" />
                                 </objectModel:ObservableCollection>
                             </s:DrilldownButtonList.ItemsSource>
                         </s:DrilldownButtonList>

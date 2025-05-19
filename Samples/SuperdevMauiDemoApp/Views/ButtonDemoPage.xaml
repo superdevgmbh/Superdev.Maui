@@ -15,6 +15,61 @@
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
                 <s:CardView>
                     <VerticalStackLayout>
+                        <s:LabelSection Text="Button" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Button" />
+                            <Button
+                                IsEnabled="True"
+                                Text="Button (Enabled)" />
+                            <Button
+                                IsEnabled="False"
+                                Text="Button (Disabled)" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Button with ButtonPrimaryStyle" />
+                            <Button
+                                Command="{Binding SaveProfileButtonCommand}"
+                                IsEnabled="{Binding CanExecuteSaveProfileButtonCommand}"
+                                Style="{StaticResource ButtonPrimaryStyle}"
+                                Text="Button" />
+                            <Button
+                                IsEnabled="True"
+                                Style="{DynamicResource ButtonPrimaryStyle}"
+                                Text="Button (Enabled)" />
+                            <Button
+                                IsEnabled="False"
+                                Style="{DynamicResource ButtonPrimaryStyle}"
+                                Text="Button (Disabled)" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Button with ButtonSecondaryStyle" />
+                            <Button
+                                Command="{Binding LoadDataButtonCommand}"
+                                IsEnabled="{Binding CanExecuteLoadDataButtonCommand}"
+                                Style="{DynamicResource ButtonSecondaryStyle}"
+                                Text="Button" />
+                            <Button
+                                IsEnabled="True"
+                                Style="{DynamicResource ButtonSecondaryStyle}"
+                                Text="Button (Enabled)" />
+                            <Button
+                                IsEnabled="False"
+                                Style="{DynamicResource ButtonSecondaryStyle}"
+                                Text="Button (Disabled)" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="CustomButton" />
                         <s:HeaderDivider />
                         <VerticalStackLayout
@@ -24,7 +79,17 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomButton (PrimaryStyle)" />
+                                Text="CustomButton" />
+                            <s:CustomButton
+                                IsEnabled="True"
+                                Text="CustomButtonStyle (Enabled)" />
+                            <s:CustomButton
+                                IsEnabled="False"
+                                Text="CustomButtonStyle (Disabled)" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomButton with CustomButtonPrimaryStyle" />
                             <s:CustomButton
                                 x:Name="CustomButtonPrimary"
                                 Command="{Binding SaveProfileButtonCommand}"
@@ -57,7 +122,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomButton (SecondaryStyle)" />
+                                Text="CustomButton with CustomButtonSecondaryStyle" />
                             <s:CustomButton
                                 x:Name="CustomButtonSecondary"
                                 Command="{Binding LoadDataButtonCommand}"
@@ -73,26 +138,7 @@
                                 IsEnabled="False"
                                 Style="{DynamicResource CustomButtonSecondaryStyle}"
                                 Text="Secondary (Disabled)" />
-                            <s:CustomButton
-                                IsEnabled="True"
-                                Style="{DynamicResource CustomButtonStyle}"
-                                Text="CustomButtonStyle (Enabled)" />
-                            <s:CustomButton
-                                IsEnabled="False"
-                                Style="{DynamicResource CustomButtonStyle}"
-                                Text="CustomButtonStyle (Disabled)" />
-                            <s:CustomButton
-                                Padding="10"
-                                ContentLayout="Left, 20"
-                                HeightRequest="40"
-                                ImageSource="{s:ImageResource rectangle_magenta_192.png}"
-                                Style="{DynamicResource CustomButtonStyle}"
-                                Text="Button with Image" />
-                            <ImageButton
-                                Padding="10"
-                                Aspect="AspectFit"
-                                HeightRequest="40"
-                                Source="{s:ImageResource rectangle_magenta_192.png}" />
+
                             <VerticalStackLayout>
                                 <Label
                                     FontSize="Micro"
@@ -110,31 +156,107 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomButton (LineBreakMode)" />
-                            <s:CustomButton
-                                Padding="16"
-                                Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                            <s:CustomButton
-                                Padding="16"
-                                LineBreakMode="HeadTruncation"
-                                Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                            <s:CustomButton
-                                Padding="16"
-                                LineBreakMode="MiddleTruncation"
-                                Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                            <s:CustomButton
-                                Padding="16"
-                                LineBreakMode="TailTruncation"
-                                Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                            <s:CustomButton
-                                Padding="16"
-                                LineBreakMode="WordWrap"
-                                Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
-                            <s:CustomButton
-                                Padding="16"
-                                LineBreakMode="CharacterWrap"
-                                Text="CustomButton with a lot of text so that we can demonstrate the LineBreakMode" />
+                                Text="CustomButton with HorizontalTextAlignment and VerticalTextAlignment" />
+                            <Grid
+                                ColumnDefinitions="*,*,*"
+                                ColumnSpacing="{DynamicResource Theme.Spacing.Small}"
+                                RowDefinitions="*,*,*"
+                                RowSpacing="{DynamicResource Theme.Spacing.Small}">
+                                <s:CustomButton
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    HeightRequest="66"
+                                    Text="(1)"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Start" />
+                                <s:CustomButton
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HeightRequest="66"
+                                    Text="(2)"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Start" />
+                                <s:CustomButton
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    HeightRequest="66"
+                                    Text="(3)"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Start" />
+                                <s:CustomButton
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    HeightRequest="66"
+                                    Text="(4)"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Center" />
+                                <s:CustomButton
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HeightRequest="66"
+                                    Text="(5)"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center" />
+                                <s:CustomButton
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    HeightRequest="66"
+                                    Text="(6)"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center" />
+                                <s:CustomButton
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    HeightRequest="66"
+                                    Text="(7)"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="End" />
+                                <s:CustomButton
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    HeightRequest="66"
+                                    Text="(8)"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="End" />
+                                <s:CustomButton
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    HeightRequest="66"
+                                    Text="(9)"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="End" />
+                            </Grid>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="ImageButton" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
 
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Button vs ImageButton" />
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                <Button
+                                    Grid.Column="0"
+                                    Padding="10"
+                                    ContentLayout="Left, 20"
+                                    HeightRequest="44"
+                                    ImageSource="{s:ImageResource rectangle_magenta_192.png}"
+                                    Text="CustomButton with Image" />
+                                <ImageButton
+                                    Grid.Column="1"
+                                    HeightRequest="44"
+                                    Source="{s:ImageResource rectangle_magenta_192.png}" />
+                            </Grid>
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>

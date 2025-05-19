@@ -17,12 +17,12 @@ namespace Superdev.Maui.Controls
         }
 
         public static readonly BindableProperty TextProperty =
-         BindableProperty.Create(
-             nameof(Text),
-             typeof(string),
-             typeof(DrilldownButton),
-             null,
-             BindingMode.OneWay);
+            BindableProperty.Create(
+                nameof(Text),
+                typeof(string),
+                typeof(DrilldownButton),
+                null,
+                BindingMode.OneWay);
 
         public string Text
         {
@@ -31,12 +31,12 @@ namespace Superdev.Maui.Controls
         }
 
         public static readonly BindableProperty CommandProperty =
-          BindableProperty.Create(
-              nameof(Command),
-              typeof(ICommand),
-              typeof(DrilldownButton),
-              null,
-              BindingMode.OneWay);
+            BindableProperty.Create(
+                nameof(Command),
+                typeof(ICommand),
+                typeof(DrilldownButton),
+                null,
+                BindingMode.OneWay);
 
         public ICommand Command
         {
@@ -73,12 +73,12 @@ namespace Superdev.Maui.Controls
         }
 
         public static readonly BindableProperty ImageSourceProperty =
-         BindableProperty.Create(
-             nameof(ImageSource),
-             typeof(ImageSource),
-             typeof(DrilldownButton),
-             null,
-             BindingMode.OneWay);
+            BindableProperty.Create(
+                nameof(ImageSource),
+                typeof(ImageSource),
+                typeof(DrilldownButton),
+                null,
+                BindingMode.OneWay);
 
         public ImageSource ImageSource
         {
@@ -86,13 +86,11 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ImageSourceProperty, value);
         }
 
-        public static readonly BindableProperty IsBusyProperty =
-            BindableProperty.Create(
-                nameof(IsBusy),
-                typeof(bool),
-                typeof(DrilldownButton),
-                false,
-                BindingMode.OneWay);
+        public static readonly BindableProperty IsBusyProperty = BindableProperty.Create(
+            nameof(IsBusy),
+            typeof(bool),
+            typeof(DrilldownButton),
+            false);
 
         public bool IsBusy
         {

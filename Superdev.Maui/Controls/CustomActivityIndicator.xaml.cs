@@ -83,6 +83,5 @@
             get => (Style)this.GetValue(ActivityIndicatorStyleProperty);
             set => this.SetValue(ActivityIndicatorStyleProperty, value);
         }
-
     }
 }

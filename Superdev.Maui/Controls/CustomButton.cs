@@ -2,31 +2,6 @@
 {
     public class CustomButton : Button
     {
-        public static readonly BindableProperty BackgroundColorPressedProperty =
-            BindableProperty.Create(
-                nameof(BackgroundColorPressed),
-                typeof(Color),
-                typeof(CustomButton),
-                Colors.White);
-
-        public Color BackgroundColorPressed
-        {
-            get => (Color)this.GetValue(BackgroundColorPressedProperty);
-            set => this.SetValue(BackgroundColorPressedProperty, value);
-        }
-
-        public static readonly BindableProperty BorderColorPressedProperty = BindableProperty.Create(
-                nameof(BorderColorPressed),
-                typeof(Color),
-                typeof(CustomButton),
-                Colors.White);
-
-        public Color BorderColorPressed
-        {
-            get => (Color)this.GetValue(BorderColorPressedProperty);
-            set => this.SetValue(BorderColorPressedProperty, value);
-        }
-
         public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
             nameof(VerticalTextAlignment),
             typeof(TextAlignment),
