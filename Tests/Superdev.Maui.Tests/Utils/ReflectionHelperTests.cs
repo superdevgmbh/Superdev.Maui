@@ -5,39 +5,39 @@ namespace Superdev.Maui.Tests.Utils
     public class ReflectionHelperTests
     {
         [Fact]
-        public void ShouldGetPropertyValue()
+        public void ShouldGetFieldValue()
         {
             // Arrange
             var obj = new MyClass(internalDateTime: null, internalString: "test value");
 
             // Act
-            var propertyValue = ReflectionHelper.GetPropertyValue<string>(obj, "InternalString");
+            var FieldValue = ReflectionHelper.GetFieldValue<string>(obj, "InternalString");
 
             // Assert
-            Assert.Equal(obj.InternalString, propertyValue);
+            Assert.Equal(obj.InternalString, FieldValue);
         }
 
         [Fact]
-        public void ShouldGetPropertyValue_FromBaseClass()
+        public void ShouldGetFieldValue_FromBaseClass()
         {
             // Arrange
             var obj = new MyClass(internalDateTime: new DateTime(2000, 1, 1), internalString: null);
 
             // Act
-            var propertyValue = ReflectionHelper.GetPropertyValue<DateTime>(obj, "InternalDateTime");
+            var FieldValue = ReflectionHelper.GetFieldValue<DateTime>(obj, "InternalDateTime");
 
             // Assert
-            Assert.Equal(obj.InternalDateTime, propertyValue);
+            Assert.Equal(obj.InternalDateTime, FieldValue);
         }
 
         [Fact]
-        public void ShouldGetPropertyValue_PropertyDoesNotExist()
+        public void ShouldGetFieldValue_FieldDoesNotExist()
         {
             // Arrange
             var obj = new MyClass(internalDateTime: null, internalString: null);
 
             // Act
-            Action action = () => ReflectionHelper.GetPropertyValue<string>(obj, "NonExistentProperty");
+            Action action = () => ReflectionHelper.GetFieldValue<string>(obj, "NonExistentField");
 
             // Assert
             Assert.Throws<ArgumentException>(action);
@@ -51,7 +51,7 @@ namespace Superdev.Maui.Tests.Utils
                 this.InternalString = internalString;
             }
 
-            internal string InternalString { get; }
+            internal readonly string InternalString;
         }
 
         public class MyBaseClass
@@ -61,7 +61,7 @@ namespace Superdev.Maui.Tests.Utils
                 this.InternalDateTime = internalDateTime;
             }
 
-            internal DateTime? InternalDateTime { get; }
+            internal DateTime? InternalDateTime;
         }
     }
 }
