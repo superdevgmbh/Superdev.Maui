@@ -5,9 +5,9 @@ namespace Superdev.Maui.Utils
     /// <summary>
     /// This helper class is used because MAUI does not call DisconnectHandler automatically.
     /// </summary>
-    internal static class HandlerCleanUpHelper
+    public static class HandlerCleanUpHelper
     {
-        internal static void AddCleanUpEvent(this IView view)
+        public static void AddCleanUpEvent(this IView view)
         {
             if (view is not Element element)
             {
