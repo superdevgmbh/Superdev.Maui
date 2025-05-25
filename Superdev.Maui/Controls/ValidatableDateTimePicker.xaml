@@ -76,7 +76,7 @@
     </Grid>
 
     <!-- Validation Error Text -->
-    <Label
+    <controls:CustomLabel
         x:Name="ValidationErrorLabel"
         x:FieldModifier="internal"
         Grid.Row="2"
