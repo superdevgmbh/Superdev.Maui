@@ -4,11 +4,13 @@ using Superdev.Maui.Platforms.Handlers.MauiFix;
 #endif
 
 #if ANDROID || IOS
-using Microsoft.Maui.Handlers;
 using Superdev.Maui.Handlers;
 using Superdev.Maui.Platforms.Handlers;
 using Superdev.Maui.Platforms.Effects;
 using Superdev.Maui.Platforms.Services;
+using DatePickerHandler = Superdev.Maui.Platforms.Handlers.DatePickerHandler;
+using PickerHandler = Superdev.Maui.Platforms.Handlers.PickerHandler;
+using TimePickerHandler = Superdev.Maui.Platforms.Handlers.TimePickerHandler;
 #endif
 
 using Superdev.Maui.Controls;
@@ -16,11 +18,7 @@ using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
-using DatePickerHandler = Superdev.Maui.Platforms.Handlers.DatePickerHandler;
-using EditorHandler = Superdev.Maui.Platforms.Handlers.EditorHandler;
-using EntryHandler = Superdev.Maui.Platforms.Handlers.EntryHandler;
-using PickerHandler = Superdev.Maui.Platforms.Handlers.PickerHandler;
-using TimePickerHandler = Superdev.Maui.Platforms.Handlers.TimePickerHandler;
+
 
 namespace Superdev.Maui
 {

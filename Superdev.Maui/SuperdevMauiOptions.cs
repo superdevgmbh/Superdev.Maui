@@ -5,7 +5,8 @@ namespace Superdev.Maui
         /// <summary>
         /// Sets <see cref="Layout.IgnoreSafeArea" /> to <c>true</c> for all layouts.
         /// This is the workaround discussed in this MAUI issue: https://github.com/dotnet/maui/issues/12417.
+        /// Default: <c>true</c>
         /// </summary>
-        public bool IgnoreSafeArea { get; set; }
+        public bool IgnoreSafeArea { get; set; } = true;
     }
 }
