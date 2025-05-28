@@ -1,7 +1,12 @@
-﻿namespace Superdev.Maui.Controls
+﻿using System.Diagnostics;
+using Superdev.Maui.Utils.Threading;
+
+namespace Superdev.Maui.Controls
 {
-    public class ListViewExtensions
+    public static class ListViewExtensions
     {
+        private static readonly AsyncLock ScrollToLock = new AsyncLock();
+
         /// <summary>
         /// ListView.ScrollTo extension which allows to scroll to a certain item in the ListView.
         /// You can either bind the target item directly to the ListViewExtension.ScrollTo property
@@ -25,7 +30,7 @@
             view.SetValue(ScrollToProperty, value);
         }
 
-        private static void OnScrollToPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static async void OnScrollToPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is not ListView listView)
             {
@@ -57,8 +62,10 @@
                 return;
             }
 
-            lock (listView)
+            using (await ScrollToLock.LockAsync())
             {
+                Debug.WriteLine($"OnScrollToPropertyChanged: scrollToPosition={scrollToPosition}");
+
                 if (group == null)
                 {
                     listView.ScrollTo(item, scrollToPosition, animated);
@@ -67,6 +74,8 @@
                 {
                     listView.ScrollTo(item, group, scrollToPosition, animated);
                 }
+
+                await Task.Delay(200);
             }
         }
 

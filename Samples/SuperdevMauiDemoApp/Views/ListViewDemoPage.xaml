@@ -18,10 +18,15 @@
     <Grid>
         <Grid
             Grid.Row="0"
-            RowDefinitions="*,Auto">
-            <ListView
+            RowDefinitions="Auto,*">
+            <Button
                 Grid.Row="0"
+                Command="{Binding ScrollToPositionTestCommand}"
+                Text="Scroll to position" />
+            <ListView
+                Grid.Row="1"
                 s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
+                CachingStrategy="RecycleElementAndDataTemplate"
                 HasUnevenRows="True"
                 ItemTemplate="{StaticResource CountryItemTemplate}"
                 ItemsSource="{Binding Countries}"

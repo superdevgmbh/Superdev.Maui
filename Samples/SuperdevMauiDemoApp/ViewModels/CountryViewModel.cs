@@ -1,4 +1,5 @@
-﻿using Superdev.Maui.Mvvm;
+﻿using System.Windows.Input;
+using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Model;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -22,6 +23,8 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.isSelected;
             set => this.SetProperty(ref this.isSelected, value, nameof(this.IsSelected));
         }
+
+        public ICommand DeleteCommand { get; set; }
 
         public override string ToString()
         {

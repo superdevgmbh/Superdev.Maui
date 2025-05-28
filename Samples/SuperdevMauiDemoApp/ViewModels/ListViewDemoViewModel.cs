@@ -50,7 +50,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.ScrollToCountry = new ScrollToItem
                 {
                     Item = this.Countries.SingleOrDefault(c => c.Id == 50),
-                    Position = ScrollToPosition.Start,
+                    Position = ScrollToPosition.Center,
                     Animated = true
                 };
             }
@@ -80,6 +80,22 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.scrollToCountry;
             set => this.SetProperty(ref this.scrollToCountry, value);
+        }
+
+        public ICommand ScrollToPositionTestCommand => new Command(this.ScrollToPositionTest);
+
+        private void ScrollToPositionTest()
+        {
+            var nextPosition = this.ScrollToCountry.Position == ScrollToPosition.Start
+                ? ScrollToPosition.End
+                : ScrollToPosition.Start;
+
+            this.ScrollToCountry = new ScrollToItem
+            {
+                Item = null,
+                Position = nextPosition,
+                Animated = true
+            };
         }
     }
 }
