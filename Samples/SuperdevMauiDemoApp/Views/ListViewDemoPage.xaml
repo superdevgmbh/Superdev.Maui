@@ -26,11 +26,10 @@
             <ListView
                 Grid.Row="1"
                 s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
-                CachingStrategy="RecycleElementAndDataTemplate"
+                CachingStrategy="RecycleElement"
                 HasUnevenRows="True"
                 ItemTemplate="{StaticResource CountryItemTemplate}"
-                ItemsSource="{Binding Countries}"
-                SeparatorVisibility="Default" />
+                ItemsSource="{Binding Countries}" />
         </Grid>
         <s:CustomActivityIndicator
             Grid.Row="0"

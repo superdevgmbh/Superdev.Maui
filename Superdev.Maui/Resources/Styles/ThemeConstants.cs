@@ -32,6 +32,7 @@
             public const string SemiTransparentDark = "Theme.Color.SemiTransparentDark";
         }
 
+        // TODO: Rename to Theme.Button.TextColorm etc
         public static class CustomButtonStyle
         {
             public const string TextColor = "CustomButtonStyle.TextColor";

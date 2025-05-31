@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
-    Title="CustomLabel Demo">
+    Title="LabelDemoPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -12,25 +12,44 @@
             Spacing="{DynamicResource Theme.Spacing.Medium}">
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="CustomLabel" />
-            <Label
-                BackgroundColor="LightGray"
                 Text="Label" />
-            <s:CustomLabel
-                BackgroundColor="LightGray"
+            <Label Text="Label" />
+
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="Label with FormattedString (Span)" />
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Span text with" />
+                        <Span Text=" " />
+                        <Span
+                            Style="{StaticResource HyperlinkSpanStyle}"
+                            Text="HyperlinkSpanStyle" />
+                        <Span Text="." />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
                 Text="CustomLabel" />
+            <s:CustomLabel Text="CustomLabel" />
             <s:CustomLabel
-                BackgroundColor="LightCyan"
                 Lines="3"
                 Text="CustomLabel with Lines=&quot;3&quot;" />
             <s:CustomLabel
-                BackgroundColor="LightGreen"
+                BackgroundColor="Black"
+                FontSize="20"
                 RemovePadding="True"
-                Text="CustomLabel with RemovePadding=&quot;True&quot;" />
+                Text="CustomLabel with RemovePadding=&quot;True&quot;"
+                TextColor="White" />
             <s:CustomLabel
-                BackgroundColor="LightGreen"
+                BackgroundColor="Black"
+                FontSize="20"
                 RemovePadding="False"
-                Text="CustomLabel with RemovePadding=&quot;False&quot;" />
+                Text="CustomLabel with RemovePadding=&quot;False&quot;"
+                TextColor="White" />
             <s:CustomLabel
                 BackgroundColor="LightGoldenrodYellow"
                 JustifyText="True"

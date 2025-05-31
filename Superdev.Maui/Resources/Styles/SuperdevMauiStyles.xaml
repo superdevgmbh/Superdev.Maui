@@ -6,8 +6,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Superdev.Maui.Behaviors"
+    xmlns:cardView="clr-namespace:Superdev.Maui.Controls.CardView"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
-    xmlns:effects="clr-namespace:Superdev.Maui.Effects">
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Converters.xaml" />
@@ -19,19 +21,35 @@
     <x:Double x:Key="MinimumHeight.Input">34</x:Double>
     <x:Double x:Key="MinimumHeight.Readonly.Input">24</x:Double>
 
-    <!-- Pages -->
+    <!-- Page -->
     <Style
         ApplyToDerivedTypes="True"
-        TargetType="ContentPage">
+        TargetType="Page">
         <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}" />
     </Style>
+
+    <!-- NavigationPage -->
     <Style
         ApplyToDerivedTypes="True"
         TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{DynamicResource Theme.Color.Primary}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}" />
         <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
+        <Setter Property="IconColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
     </Style>
+
+    <!-- TabbedPage -->
+    <Style
+        x:Key="TabbedPageStyle"
+        TargetType="TabbedPage">
+        <Setter Property="BarBackgroundColor" Value="{DynamicResource Gray100}" />
+        <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="UnselectedTabColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="SelectedTabColor" Value="{DynamicResource Theme.Color.Primary}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource TabbedPageStyle}"
+        TargetType="TabbedPage" />
 
     <!-- MultiStateToggleButton Base Style -->
     <!--<Style
@@ -268,6 +286,18 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     <Style
         BasedOn="{StaticResource LabelStyle}"
@@ -294,6 +324,19 @@
         BasedOn="{StaticResource CustomLabelStyle}"
         TargetType="controls:CustomLabel" />
 
+    <!-- Span -->
+    <Style
+        x:Key="SpanStyle"
+        TargetType="Span">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource SpanStyle}"
+        TargetType="Span" />
+
     <!-- Entry -->
     <Style
         x:Key="EntryStyle"
@@ -308,7 +351,20 @@
         <Setter Property="IsSpellCheckEnabled" Value="False" />
         <Setter Property="IsTextPredictionEnabled" Value="False" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     <Style
         BasedOn="{StaticResource EntryStyle}"
@@ -338,7 +394,20 @@
         <Setter Property="IsTextPredictionEnabled" Value="False" />
         <Setter Property="AutoSize" Value="TextChanges" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     <Style
         BasedOn="{StaticResource EditorStyle}"
@@ -388,10 +457,14 @@
     <Style
         x:Key="ListViewStyle"
         TargetType="ListView">
+        <Setter Property="SeparatorVisibility" Value="Default" />
         <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
         <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="ios:ListView.SeparatorStyle" Value="FullWidth" />
+        <Setter Property="ios:ListView.RowAnimationsEnabled" Value="False" />
     </Style>
     <Style
+        ApplyToDerivedTypes="True"
         BasedOn="{StaticResource ListViewStyle}"
         TargetType="ListView" />
 
@@ -602,7 +675,21 @@
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                            <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     <Style
         BasedOn="{StaticResource PickerStyle}"
@@ -630,6 +717,19 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     <Style
         BasedOn="{StaticResource DatePickerStyle}"
@@ -657,6 +757,19 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     <Style
         BasedOn="{StaticResource TimePickerStyle}"
@@ -685,6 +798,7 @@
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -843,25 +957,144 @@
         TargetType="controls:ValidatableDateTimePicker" />
 
     <!-- TODO: MAUI Migration
- <Style TargetType="controls:ValidatableAutoCompleteView">
-     <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
-     <Setter Property="SuggestionListStyle">
-         <Style TargetType="controls:StackedList">
-             <Setter Property="Margin">
-                 <OnPlatform x:TypeArguments="Thickness">
-                     <On
-                         Platform="iOS"
-                         Value="0" />
-                     <On
-                         Platform="Android"
-                         Value="4,0,4,0" />
-                     <On
-                         Platform="UWP"
-                         Value="0" />
-                 </OnPlatform>
-             </Setter>
-         </Style>
-     </Setter>
- </Style>-->
+     <Style TargetType="controls:ValidatableAutoCompleteView">
+         <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
+         <Setter Property="SuggestionListStyle">
+             <Style TargetType="controls:StackedList">
+                 <Setter Property="Margin">
+                     <OnPlatform x:TypeArguments="Thickness">
+                         <On
+                             Platform="iOS"
+                             Value="0" />
+                         <On
+                             Platform="Android"
+                             Value="4,0,4,0" />
+                         <On
+                             Platform="UWP"
+                             Value="0" />
+                     </OnPlatform>
+                 </Setter>
+             </Style>
+         </Setter>
+     </Style>-->
+
+    <!-- ProgressBar -->
+    <Style
+        x:Key="ProgressBarStyle"
+        TargetType="ProgressBar">
+        <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ProgressBarStyle}"
+        TargetType="ProgressBar" />
+
+    <!-- RadioButton -->
+    <Style
+        x:Key="RadioButtonStyle"
+        TargetType="RadioButton">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource RadioButtonStyle}"
+        TargetType="RadioButton" />
+
+    <Style
+        x:Key="RadioButtonEntryStyle"
+        TargetType="RadioButton">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+    </Style>
+
+    <!-- RefreshView -->
+    <Style
+        x:Key="RefreshViewStyle"
+        TargetType="RefreshView">
+        <Setter Property="RefreshColor" Value="{DynamicResource Theme.Color.Secondary}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource RefreshViewStyle}"
+        TargetType="RefreshView" />
+
+    <!-- SwipeItemBase -->
+    <Style
+        x:Key="SwipeItemBaseStyle"
+        TargetType="controls:SwipeItemBase">
+        <Setter Property="AllCaps" Value="True" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:SwipeItemBase" />
+
+    <!-- DestructiveSwipeItem -->
+    <Style
+        x:Key="DestructiveSwipeItemStyle"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:DestructiveSwipeItem">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.SwipeView.Destructive}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource DestructiveSwipeItemStyle}"
+        TargetType="controls:DestructiveSwipeItem" />
+
+    <!-- NegativeSwipeItem -->
+    <Style
+        x:Key="NegativeSwipeItemStyle"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:NegativeSwipeItem">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.SwipeView.Negative}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource NegativeSwipeItemStyle}"
+        TargetType="controls:NegativeSwipeItem" />
+
+    <!-- NeutralSwipeItem -->
+    <Style
+        x:Key="NeutralSwipeItemStyle"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:NeutralSwipeItem">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.SwipeView.Neutral}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource NeutralSwipeItemStyle}"
+        TargetType="controls:NeutralSwipeItem" />
 
 </ResourceDictionary>

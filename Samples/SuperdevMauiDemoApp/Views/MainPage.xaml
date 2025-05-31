@@ -122,6 +122,20 @@
                                     <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="ProgressBarDemoPage"
+                                        Text="ProgressBar" />
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="RadioButtonDemoPage"
+                                        Text="RadioButton" />
+                                </Grid>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <s:CustomButton
+                                        Grid.Column="0"
+                                        Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="EditorDemoPage"
                                         Text="Editor" />
                                     <s:CustomButton

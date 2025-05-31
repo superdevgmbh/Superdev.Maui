@@ -8,6 +8,12 @@ namespace Superdev.Maui.Controls
         private static readonly AsyncLock ScrollToLock = new AsyncLock();
 
         /// <summary>
+        /// The minimum duration between ScrollTo calls.
+        /// This delay is helpful to avoid exceptions if users issue ScrollTo updates with high frequency.
+        /// </summary>
+        private static TimeSpan ScrollToMinimumLockDuration = TimeSpan.FromMilliseconds(500);
+
+        /// <summary>
         /// ListView.ScrollTo extension which allows to scroll to a certain item in the ListView.
         /// You can either bind the target item directly to the ListViewExtension.ScrollTo property
         /// or use a <see cref="ScrollToItem"/> object to also define the ScrollPosition as well as the Animated flag.
@@ -75,7 +81,7 @@ namespace Superdev.Maui.Controls
                     listView.ScrollTo(item, group, scrollToPosition, animated);
                 }
 
-                await Task.Delay(200);
+                await Task.Delay(ScrollToMinimumLockDuration);
             }
         }
 

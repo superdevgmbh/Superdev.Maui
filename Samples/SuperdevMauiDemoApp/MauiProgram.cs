@@ -68,6 +68,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<WebViewDemoViewModel>();
             builder.Services.AddTransient<SearchBarDemoPage>();
             builder.Services.AddTransient<SpacingDemoPage>();
+            builder.Services.AddTransient<RadioButtonDemoPage>();
+            builder.Services.AddTransient<ProgressBarDemoPage>();
 
             builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             builder.Services.AddSingleton<ICountryService, CountryService>();

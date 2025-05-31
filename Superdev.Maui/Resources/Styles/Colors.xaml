@@ -231,4 +231,9 @@
 
     <Color x:Key="ListSeparator">#C8C7CC</Color>
 
+    <!-- SwipeView -->
+    <Color x:Key="Theme.SwipeView.Destructive">#ff3639</Color>
+    <Color x:Key="Theme.SwipeView.Negative">#ff9434</Color>
+    <Color x:Key="Theme.SwipeView.Neutral">#c8c7cd</Color>
+
 </ResourceDictionary>

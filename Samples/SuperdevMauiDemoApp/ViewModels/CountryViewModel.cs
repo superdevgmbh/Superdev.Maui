@@ -26,6 +26,8 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public ICommand DeleteCommand { get; set; }
 
+        public ICommand ItemSelectedCommand { get; set; }
+
         public override string ToString()
         {
             return $"{this.Id}) {this.Name}";

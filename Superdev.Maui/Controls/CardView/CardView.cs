@@ -9,9 +9,6 @@ namespace Superdev.Maui.Controls.CardView
         {
             this.Padding = 0;
 
-            // this.BorderColor = Colors.Transparent;
-            // this.IsClippedToBounds = true;
-
             if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
             {
                 this.Stroke = Brush.Transparent;

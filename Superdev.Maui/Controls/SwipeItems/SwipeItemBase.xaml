@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<SwipeItemView
+    x:Class="Superdev.Maui.Controls.SwipeItemBase"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
+    x:Name="Control"
+    Padding="{DynamicResource Theme.Padding.Small}"
+    WidthRequest="120"
+    HorizontalOptions="Fill"
+    VerticalOptions="Fill">
+
+    <Grid
+        RowDefinitions="*,*"
+        RowSpacing="2"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill">
+        <Image
+            Grid.Row="0"
+            Margin="0"
+            effects:TintImageEffect.TintColor="White"
+            Aspect="AspectFit"
+            HeightRequest="24"
+            Source="{Binding Source={x:Reference Control}, Path=IconImageSource}"
+            WidthRequest="24"
+            VerticalOptions="End" />
+        <controls:CustomLabel
+            Grid.Row="1"
+            Margin="0"
+            Padding="0"
+            LineBreakMode="TailTruncation"
+            MaxLines="2"
+            RemovePadding="True"
+            Text="{Binding Source={x:Reference Control}, Path=Text}"
+            TextColor="White"
+            HorizontalOptions="Center"
+            VerticalOptions="Fill"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Start" />
+    </Grid>
+</SwipeItemView>

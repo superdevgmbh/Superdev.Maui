@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.ProgressBarDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="ProgressBarDemoPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="ProgressBar" />
+            <ProgressBar Progress="0.5" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

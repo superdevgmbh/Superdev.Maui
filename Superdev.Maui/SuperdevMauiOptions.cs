@@ -4,9 +4,10 @@ namespace Superdev.Maui
     {
         /// <summary>
         /// Sets <see cref="Layout.IgnoreSafeArea" /> to <c>true</c> for all layouts.
+        /// If you ignore safe area for all layouts, it's your responsibility to add safe area padding if necessary.
         /// This is the workaround discussed in this MAUI issue: https://github.com/dotnet/maui/issues/12417.
-        /// Default: <c>true</c>
+        /// Default: <c>false</c>
         /// </summary>
-        public bool IgnoreSafeArea { get; set; } = true;
+        public bool IgnoreSafeArea { get; set; } = false;
     }
 }
