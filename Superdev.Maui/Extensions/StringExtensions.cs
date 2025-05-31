@@ -7,6 +7,9 @@ namespace Superdev.Maui.Extensions
     {
         private const string HttpPrefix = "http://";
 
+        public static readonly char[] TrimNewLineChars = "\r\n".ToCharArray();
+        public static readonly char[] TrimChars = "\r\n ".ToCharArray();
+
         /// <summary>
         ///     To the URI.
         /// </summary>
@@ -24,7 +27,7 @@ namespace Superdev.Maui.Extensions
                 return new Uri(url);
             }
 
-            return new Uri(string.Format("{0}{1}", HttpPrefix, url));
+            return new Uri($"{HttpPrefix}{url}");
         }
 
         /// <summary>
@@ -65,7 +68,7 @@ namespace Superdev.Maui.Extensions
         /// <param name="strings">The enumeration of strings to be compared against the source string.</param>
         public static bool ContainsAny(this string source, IEnumerable<string> strings)
         {
-            return strings.Any(s => source.Contains(s));
+            return strings.Any(source.Contains);
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace Superdev.Maui.Extensions
 
         public static bool StartsWithAny(this string source, IEnumerable<string> strings)
         {
-            return strings.Any(s => source.StartsWith(s));
+            return strings.Any(source.StartsWith);
         }
 
         /// <summary>
@@ -103,9 +106,6 @@ namespace Superdev.Maui.Extensions
             a[0] = char.ToUpper(a[0]);
             return new string(a);
         }
-
-        public static readonly char[] TrimNewLineChars = "\r\n".ToCharArray();
-        public static readonly char[] TrimChars = "\r\n ".ToCharArray();
 
         /// <summary>
         ///     Removes all leading and trailing occurrences of new line (\n\r) as well as white-space characters in an array from
