@@ -104,8 +104,8 @@ namespace Superdev.Maui.Extensions
             return new string(a);
         }
 
-        public static readonly char[] TrimNewLineChars = Environment.NewLine.ToCharArray();
-        public static readonly char[] TrimChars = $"{Environment.NewLine} ".ToCharArray();
+        public static readonly char[] TrimNewLineChars = "\r\n".ToCharArray();
+        public static readonly char[] TrimChars = "\r\n ".ToCharArray();
 
         /// <summary>
         ///     Removes all leading and trailing occurrences of new line (\n\r) as well as white-space characters in an array from
