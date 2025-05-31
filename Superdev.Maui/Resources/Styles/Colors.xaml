@@ -210,30 +210,31 @@
     <!-- Named Colors -->
     <OnPlatform
         x:TypeArguments="Color"
-        x:Key="PageBackgroundColor">
-        <On
-            Platform="Android"
-            Value="#F5F5F5" />
-        <On
-            Platform="iOS"
-            Value="#EFEFF4" />
-    </OnPlatform>
+        x:Key="PageBackgroundColor"
+        Default="{StaticResource Gray100}" />
+    <OnPlatform
+        x:TypeArguments="Color"
+        x:Key="ListSeparator"
+        Default="{StaticResource Gray400}" />
+
+    <!-- CardView -->
     <OnPlatform
         x:TypeArguments="Color"
         x:Key="CardViewBackgroundColor">
         <On
             Platform="Android"
-            Value="#F5F5F5" />
+            Value="{StaticResource Gray50}" />
         <On
             Platform="iOS"
-            Value="White" />
+            Value="{StaticResource White}" />
     </OnPlatform>
-
-    <Color x:Key="ListSeparator">#C8C7CC</Color>
 
     <!-- SwipeView -->
     <Color x:Key="Theme.SwipeView.Destructive">#ff3639</Color>
     <Color x:Key="Theme.SwipeView.Negative">#ff9434</Color>
-    <Color x:Key="Theme.SwipeView.Neutral">#c8c7cd</Color>
+    <OnPlatform
+        x:TypeArguments="Color"
+        x:Key="Theme.SwipeView.Neutral"
+        Default="{StaticResource Gray400}" />
 
 </ResourceDictionary>
