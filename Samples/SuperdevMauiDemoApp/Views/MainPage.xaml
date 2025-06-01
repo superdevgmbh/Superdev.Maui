@@ -150,8 +150,8 @@
                                     <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="StatusBarServicePage"
-                                        Text="StatusBarService" />
+                                        CommandParameter="ServiceDemoPage"
+                                        Text="Services" />
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"

@@ -1,18 +1,24 @@
+using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class StatusBarServiceViewModel : BaseViewModel
+    public class ServiceDemoViewModel : BaseViewModel
     {
         private readonly IStatusBarService statusBarService;
+        private readonly IGeolocationSettings geolocationSettings;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        public StatusBarServiceViewModel(
+        private IRelayCommand showGeolocationSettingsCommand;
+
+        public ServiceDemoViewModel(
             IStatusBarService statusBarService,
+            IGeolocationSettings geolocationSettings,
             IViewModelErrorHandler viewModelErrorHandler)
         {
             this.statusBarService = statusBarService;
+            this.geolocationSettings = geolocationSettings;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             _ = this.InitializeAsync();
@@ -50,6 +56,16 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+        public IRelayCommand ShowGeolocationSettingsCommand
+        {
+            get => this.showGeolocationSettingsCommand ??= new RelayCommand(this.ShowGeolocationSettings);
+        }
+
+        private void ShowGeolocationSettings()
+        {
+            this.geolocationSettings.ShowSettingsUI();
         }
     }
 }

@@ -1,8 +1,8 @@
 namespace SuperdevMauiDemoApp.Views
 {
-    public partial class StatusBarServicePage : ContentPage
+    public partial class ServiceDemoPage : ContentPage
     {
-        public StatusBarServicePage()
+        public ServiceDemoPage()
         {
             this.InitializeComponent();
         }

@@ -88,7 +88,7 @@ namespace Superdev.Maui
 
 #if ANDROID || IOS
             builder.Services.AddSingleton<IToastService>(_ => IToastService.Current);
-            builder.Services.AddSingleton<IAppHandler, AppHandler>();
+            builder.Services.AddSingleton<IGeolocationSettings, GeolocationSettings>();
             builder.Services.AddSingleton<IStatusBarService>(_ => IStatusBarService.Current);
             builder.Services.AddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
 #endif
