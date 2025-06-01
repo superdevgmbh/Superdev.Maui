@@ -797,8 +797,6 @@
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
-        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
-        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

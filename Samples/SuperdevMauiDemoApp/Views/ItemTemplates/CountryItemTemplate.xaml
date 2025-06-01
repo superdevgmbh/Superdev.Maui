@@ -9,14 +9,6 @@
     x:DataType="viewModels:CountryViewModel"
     SelectedBackgroundColor="White">
 
-    <ViewCell.ContextActions>
-        <MenuItem
-            Command="{Binding DeleteCommand}"
-            CommandParameter="{Binding .}"
-            IsDestructive="True"
-            Text="{s:Translate DeleteButtonText}" />
-    </ViewCell.ContextActions>
-
     <SwipeView>
         <SwipeView.RightItems>
             <SwipeItems>
