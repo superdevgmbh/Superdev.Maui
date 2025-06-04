@@ -1052,7 +1052,10 @@
     <Style
         x:Key="SwipeItemBaseStyle"
         TargetType="controls:SwipeItemBase">
+        <Setter Property="TintColor" Value="White" />
         <Setter Property="AllCaps" Value="True" />
+        <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Small}" />
+        <Setter Property="WidthRequest" Value="120" />
     </Style>
     <Style
         ApplyToDerivedTypes="True"

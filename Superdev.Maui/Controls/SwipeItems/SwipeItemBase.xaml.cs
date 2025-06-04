@@ -35,6 +35,19 @@
             set => this.SetValue(IconImageSourceProperty, value);
         }
 
+        public static readonly BindableProperty TintColorProperty =
+            BindableProperty.Create(
+                nameof(TintColor),
+                typeof(Color),
+                typeof(SwipeItemBase),
+                Colors.White);
+
+        public Color TintColor
+        {
+            get => (Color)this.GetValue(TintColorProperty);
+            set => this.SetValue(TintColorProperty, value);
+        }
+
         public static readonly BindableProperty AllCapsProperty =
             BindableProperty.Create(
                 nameof(AllCaps),
