@@ -22,7 +22,6 @@ trigger:
     - Docs/*
 
 variables:
-  solution: 'Superdev.Maui.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   majorVersion: 1
@@ -96,12 +95,16 @@ steps:
   displayName: 'NuGet restore'
   inputs:
     command: restore
-    projects: '$(solution)'
+    projects: |
+      Superdev.Maui/**/*.csproj
+      Tests/**/*.Tests.csproj
     
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
   inputs:
-    projects: '$(solution)'
+    projects: |
+      Superdev.Maui/**/*.csproj
+      Tests/**/*.Tests.csproj
     arguments: '--no-restore --configuration $(buildConfiguration)'
     
 - task: DotNetCoreCLI@2
@@ -132,11 +135,9 @@ steps:
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
-
     Contents: |
-     **\bin\$(BuildConfiguration)\**
-     **\bin\*.nupkg
-
+      **\bin\*.nupkg
+      **\bin\*.snupkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
      
 - task: PublishCodeCoverageResults@2
