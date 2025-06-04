@@ -17,16 +17,15 @@
                     CommandParameter="{Binding .}"
                     IconImageSource="{s:ImageResource rectangle_magenta_192}"
                     Text="Negative" />
+                <s:NeutralSwipeItem
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding .}"
+                    IconImageSource="{s:ImageResource rectangle_magenta_192}" />
                 <s:DestructiveSwipeItem
                     Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding .}"
                     IconImageSource="{s:ImageResource rectangle_magenta_192}"
                     Text="Destructive" />
-                <s:NeutralSwipeItem
-                    Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding .}"
-                    IconImageSource="{s:ImageResource rectangle_magenta_192}"
-                    Text="Neutral" />
             </SwipeItems>
         </SwipeView.RightItems>
 
