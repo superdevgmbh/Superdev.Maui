@@ -9,6 +9,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private string notes;
         private string logContent;
+        private bool hasKeyboardOffset;
 
         public EditorDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler)
@@ -47,6 +48,12 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+        public bool HasKeyboardOffset
+        {
+            get => this.hasKeyboardOffset;
+            set => this.SetProperty(ref this.hasKeyboardOffset, value);
         }
 
         public string Notes

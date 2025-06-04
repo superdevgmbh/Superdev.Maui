@@ -18,7 +18,7 @@ namespace Superdev.Maui.Controls
         /// You can either bind the target item directly to the ListViewExtension.ScrollTo property
         /// or use a <see cref="ScrollToItem"/> object to also define the ScrollPosition as well as the Animated flag.
         /// </summary>
-        public static BindableProperty ScrollToProperty =
+        public static readonly BindableProperty ScrollToProperty =
             BindableProperty.CreateAttached(
                 "ScrollTo",
                 typeof(object),

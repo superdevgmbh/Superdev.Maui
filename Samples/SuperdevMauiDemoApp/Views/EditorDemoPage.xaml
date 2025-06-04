@@ -6,6 +6,8 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:EditorDemoViewModel"
+    s:PageExtensions.HasKeyboardOffset="{Binding HasKeyboardOffset}"
+    AutomationId="EditorDemoPage"
     Title="EditorDemoPage">
 
     <Grid>
@@ -21,6 +23,7 @@
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
                             Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <CheckBox IsChecked="{Binding HasKeyboardOffset}" />
                             <Editor
                                 BackgroundColor="Aqua"
                                 MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
