@@ -17,15 +17,9 @@ namespace Superdev.Maui.Platforms.Services
         {
             return new StatusBarService();
         }
-        
+
         private StatusBarService()
         {
-        }
-
-        public void SetHexColor(string hexColor)
-        {
-            var color = Color.FromArgb(hexColor);
-            this.SetColor(color);
         }
 
         public void SetColor(Color color)
@@ -44,24 +38,26 @@ namespace Superdev.Maui.Platforms.Services
 
         public void SetStatusBarMode(StatusBarStyle statusBarStyle)
         {
-            var currentActivity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            {
+                return;
+            }
+
+            var currentActivity = Platform.CurrentActivity;
             var window = currentActivity.Window;
             var windowLightStatusBar = statusBarStyle == StatusBarStyle.Light;
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            var newUiVisibility = (int)window.DecorView.SystemUiVisibility;
+            if (windowLightStatusBar)
             {
-                var newUiVisibility = (int)window.DecorView.SystemUiVisibility;
-                if (windowLightStatusBar)
-                {
-                    newUiVisibility |= (int)SystemUiFlags.LightStatusBar;
-                }
-                else
-                {
-                    newUiVisibility &= ~(int)SystemUiFlags.LightStatusBar;
-                }
-
-                window.DecorView.SystemUiVisibility = (StatusBarVisibility)newUiVisibility;
+                newUiVisibility |= (int)SystemUiFlags.LightStatusBar;
             }
+            else
+            {
+                newUiVisibility &= ~(int)SystemUiFlags.LightStatusBar;
+            }
+
+            window.DecorView.SystemUiVisibility = (StatusBarVisibility)newUiVisibility;
         }
     }
 }

@@ -15,6 +15,15 @@
             Spacing="{DynamicResource Theme.Spacing.Medium}">
             <Label
                 Style="{StaticResource DemoLabelStyle}"
+                Text="IStatusBarService" />
+            <Button
+                Command="{Binding SetStatusBarColorCommand}"
+                Text="SetColor" />
+            <Button
+                Command="{Binding SetStatusBarModeCommand}"
+                Text="SetStatusBarMode" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
                 Text="IGeolocationSettings" />
             <Button
                 Command="{Binding ShowGeolocationSettingsCommand}"

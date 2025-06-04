@@ -12,8 +12,6 @@
             throw new NotSupportedException($"Current platform {DeviceInfo.Platform} is not supported.");
 #endif
 
-        void SetHexColor(string hexColor);
-
         void SetColor(Color color);
 
         void SetStatusBarMode(StatusBarStyle statusBarMode);

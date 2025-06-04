@@ -23,12 +23,6 @@ namespace Superdev.Maui.Platforms.Services
         {
         }
 
-        public void SetHexColor(string hexColor)
-        {
-            var color = Color.FromArgb(hexColor);
-            this.SetColor(color);
-        }
-
         public void SetColor(Color color)
         {
             var uiColor = color.ToPlatform();

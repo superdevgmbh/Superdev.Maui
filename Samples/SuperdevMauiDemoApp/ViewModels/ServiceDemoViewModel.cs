@@ -11,6 +11,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
         private IRelayCommand showGeolocationSettingsCommand;
+        private IRelayCommand setStatusBarColorCommand;
+        private IRelayCommand setStatusBarModeCommand;
+        private Color currentStatusBarColor = Colors.Red;
+        private StatusBarStyle currentStatusBarStyle = StatusBarStyle.Dark;
 
         public ServiceDemoViewModel(
             IStatusBarService statusBarService,
@@ -42,13 +46,6 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             try
             {
-                await Task.Delay(1000);
-                this.statusBarService.SetStatusBarMode(StatusBarStyle.Dark);
-                this.statusBarService.SetColor(Colors.Magenta);
-
-                await Task.Delay(1000);
-                this.statusBarService.SetStatusBarMode(StatusBarStyle.Light);
-                this.statusBarService.SetColor(Colors.DeepSkyBlue);
             }
             catch (Exception ex)
             {
@@ -56,6 +53,28 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+        public IRelayCommand SetStatusBarColorCommand
+        {
+            get => this.setStatusBarColorCommand ??= new RelayCommand(this.SetStatusBarColor);
+        }
+
+        private void SetStatusBarColor()
+        {
+            this.currentStatusBarColor = Equals(this.currentStatusBarColor, Colors.Red) ? Colors.Blue : Colors.Red;
+            this.statusBarService.SetColor(this.currentStatusBarColor);
+        }
+
+        public IRelayCommand SetStatusBarModeCommand
+        {
+            get => this.setStatusBarModeCommand ??= new RelayCommand(this.SetStatusBarMode);
+        }
+
+        private void SetStatusBarMode()
+        {
+            this.currentStatusBarStyle = this.currentStatusBarStyle == StatusBarStyle.Dark ? StatusBarStyle.Light : StatusBarStyle.Dark;
+            this.statusBarService.SetStatusBarMode(this.currentStatusBarStyle);
         }
 
         public IRelayCommand ShowGeolocationSettingsCommand
