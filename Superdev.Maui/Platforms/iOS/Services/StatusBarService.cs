@@ -43,7 +43,7 @@ namespace Superdev.Maui.Platforms.Services
             }
         }
 
-        public void SetStatusBarMode(StatusBarStyle statusBarStyle)
+        public void SetStyle(StatusBarStyle statusBarStyle)
         {
             switch (statusBarStyle)
             {

@@ -21,7 +21,7 @@
                 Text="SetColor" />
             <Button
                 Command="{Binding SetStatusBarModeCommand}"
-                Text="SetStatusBarMode" />
+                Text="SetStyle" />
             <Label
                 Style="{StaticResource DemoLabelStyle}"
                 Text="IGeolocationSettings" />

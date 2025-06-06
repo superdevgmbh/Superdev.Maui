@@ -36,7 +36,7 @@ namespace Superdev.Maui.Platforms.Services
             window.SetStatusBarColor(color);
         }
 
-        public void SetStatusBarMode(StatusBarStyle statusBarStyle)
+        public void SetStyle(StatusBarStyle statusBarStyle)
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {

@@ -14,6 +14,6 @@
 
         void SetColor(Color color);
 
-        void SetStatusBarMode(StatusBarStyle statusBarMode);
+        void SetStyle(StatusBarStyle statusBarStyle);
     }
 }

@@ -74,7 +74,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private void SetStatusBarMode()
         {
             this.currentStatusBarStyle = this.currentStatusBarStyle == StatusBarStyle.Dark ? StatusBarStyle.Light : StatusBarStyle.Dark;
-            this.statusBarService.SetStatusBarMode(this.currentStatusBarStyle);
+            this.statusBarService.SetStyle(this.currentStatusBarStyle);
         }
 
         public IRelayCommand ShowGeolocationSettingsCommand
