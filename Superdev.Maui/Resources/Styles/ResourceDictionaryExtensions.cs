@@ -17,10 +17,7 @@ namespace Superdev.Maui.Resources.Styles
         /// <exception cref="ArgumentNullException" />
         public static T ResolveTheme<T>(this ResourceDictionary resourceDictionary, string key)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentNullException.ThrowIfNull(key);
 
             var success = resourceDictionary.TryGetValue(key, out var value);
             if (success)
@@ -41,7 +38,7 @@ namespace Superdev.Maui.Resources.Styles
 
         public static void TryAddColorResource(this ResourceDictionary resourceDictionary, string key, Color color)
         {
-            if (key == null || color.IsDefault())
+            if (key == null || color == null)
             {
                 return;
             }

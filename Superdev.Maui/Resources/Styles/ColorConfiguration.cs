@@ -160,7 +160,7 @@
                 nameof(PrimaryDisabled),
                 typeof(Color),
                 typeof(Color),
-                Colors.DarkGray);
+                MaterialColors.Gray500);
 
         public static readonly BindableProperty SecondaryProperty =
             BindableProperty.Create(
@@ -181,7 +181,7 @@
                 nameof(SecondaryDisabled),
                 typeof(Color),
                 typeof(Color),
-                Colors.DarkGray);
+                MaterialColors.Gray500);
 
         public static readonly BindableProperty SurfaceProperty =
             BindableProperty.Create(

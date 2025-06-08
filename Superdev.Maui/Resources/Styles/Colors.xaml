@@ -3,7 +3,9 @@
 
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles">
 
     <!-- Material design color system -->
     <!-- https://m2.material.io/design/color/the-color-system.html -->
@@ -208,14 +210,15 @@
     <Color x:Key="White">#FFFFFF</Color>
 
     <!-- Named Colors -->
-    <OnPlatform
-        x:TypeArguments="Color"
+    <styles:ColorReference
+        x:Key="Page.BackgroundColor"
+        Value="{StaticResource Gray100}" />
+    <styles:ColorReference
         x:Key="PageBackgroundColor"
-        Default="{StaticResource Gray100}" />
-    <OnPlatform
-        x:TypeArguments="Color"
+        Value="{StaticResource Gray100}" />
+    <styles:ColorReference
         x:Key="ListSeparator"
-        Default="{StaticResource Gray400}" />
+        Value="{StaticResource Gray400}" />
 
     <!-- CardView -->
     <OnPlatform
@@ -230,11 +233,14 @@
     </OnPlatform>
 
     <!-- SwipeView -->
-    <Color x:Key="Theme.SwipeView.Destructive">#ff3639</Color>
-    <Color x:Key="Theme.SwipeView.Negative">#ff9434</Color>
-    <OnPlatform
-        x:TypeArguments="Color"
+    <styles:ColorReference
+        x:Key="Theme.SwipeView.Destructive"
+        Value="{StaticResource Red500}" />
+    <styles:ColorReference
+        x:Key="Theme.SwipeView.Negative"
+        Value="{StaticResource Orange500}" />
+    <styles:ColorReference
         x:Key="Theme.SwipeView.Neutral"
-        Default="{StaticResource Gray400}" />
+        Value="{StaticResource Gray400}" />
 
 </ResourceDictionary>

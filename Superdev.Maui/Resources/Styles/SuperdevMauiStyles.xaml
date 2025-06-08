@@ -55,15 +55,15 @@
     <!--<Style
         x:Key="MultiStateToggleButtonStyle"
         TargetType="controls:MultiStateToggleButton">
-        <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Enabled}" />
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Enabled}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
 
-        <Setter Property="ButtonTextColor" Value="{DynamicResource CustomButtonStyle.TextColor}" />
-        <Setter Property="ButtonBackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Enabled}" />
-        <Setter Property="SelectedButtonTextColor" Value="{DynamicResource CustomButtonStyle.TextColor}" />
-        <Setter Property="SelectedButtonBackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Disabled}" />
+        <Setter Property="ButtonTextColor" Value="{DynamicResource Theme.Button.TextColor}" />
+        <Setter Property="ButtonBackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+        <Setter Property="SelectedButtonTextColor" Value="{DynamicResource Theme.Button.TextColor}" />
+        <Setter Property="SelectedButtonBackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Disabled}" />
 
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Enabled}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="Padding" Value="0" />
@@ -80,13 +80,13 @@
     <Style
         x:Key="ButtonStyle"
         TargetType="Button">
-        <Setter Property="TextColor" Value="{DynamicResource CustomButtonStyle.TextColor}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Enabled}" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Button}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Button}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Button}" />
         <Setter Property="BorderWidth" Value="1" />
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Enabled}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Padding" Value="14,10" />
         <Setter Property="MinimumHeightRequest" Value="44" />
@@ -97,17 +97,17 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource CustomButtonStyle.TextColor.Disabled}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Disabled}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Disabled}" />
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Disabled}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver" />
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource CustomButtonStyle.TextColor.Pressed}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Pressed}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Pressed}" />
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Pressed}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -123,26 +123,26 @@
         x:Key="ButtonPrimaryStyle"
         BasedOn="{StaticResource ButtonStyle}"
         TargetType="Button">
-        <Setter Property="TextColor" Value="{DynamicResource CustomButtonPrimaryStyle.TextColor}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonPrimaryStyle.BackgroundColor.Enabled}" />
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonPrimaryStyle.BorderColor.Enabled}" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource CustomButtonPrimaryStyle.TextColor.Disabled}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonPrimaryStyle.BackgroundColor.Disabled}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonPrimaryStyle.BorderColor.Disabled}" />
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor.Disabled}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver" />
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource CustomButtonPrimaryStyle.TextColor.Pressed}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonPrimaryStyle.BackgroundColor.Pressed}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonPrimaryStyle.BorderColor.Pressed}" />
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor.Pressed}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -155,26 +155,26 @@
         x:Key="ButtonSecondaryStyle"
         BasedOn="{StaticResource ButtonStyle}"
         TargetType="Button">
-        <Setter Property="TextColor" Value="{DynamicResource CustomButtonSecondaryStyle.TextColor}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonSecondaryStyle.BackgroundColor.Enabled}" />
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonSecondaryStyle.BorderColor.Enabled}" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource CustomButtonSecondaryStyle.TextColor.Disabled}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonSecondaryStyle.BackgroundColor.Disabled}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonSecondaryStyle.BorderColor.Disabled}" />
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor.Disabled}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver" />
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource CustomButtonSecondaryStyle.TextColor.Pressed}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonSecondaryStyle.BackgroundColor.Pressed}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonSecondaryStyle.BorderColor.Pressed}" />
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor.Pressed}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -208,9 +208,9 @@
     <Style
         x:Key="ImageButtonStyle"
         TargetType="ImageButton">
-        <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Enabled}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
         <Setter Property="BorderWidth" Value="1" />
-        <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Enabled}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Padding" Value="14,10" />
         <Setter Property="MinimumHeightRequest" Value="44" />
@@ -221,22 +221,22 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Disabled}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Disabled}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver" />
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Pressed}" />
-                            <Setter Property="BorderColor" Value="{DynamicResource CustomButtonStyle.BorderColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Pressed}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
 
-        <!-- <Setter Property="BackgroundColor" Value="{DynamicResource CustomButtonStyle.BackgroundColor.Enabled}" /> -->
+        <!-- <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" /> -->
         <!-- <Setter Property="Opacity" Value="1" /> -->
         <!-- <Setter Property="BorderColor" Value="Transparent" /> -->
         <!-- <Setter Property="BorderWidth" Value="0" /> -->
@@ -267,8 +267,8 @@
         BasedOn="{StaticResource CustomButtonStyle}"
         TargetType="controls:CustomButton">
         <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor.Enabled}" />
-        <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor.Enabled}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor}" />
         <Style.Triggers>
             <!-- IsEnabled/False will automatically restore it's state if set to IsEnabled/True -->
             <Trigger TargetType="Button" Property="IsEnabled" Value="False">

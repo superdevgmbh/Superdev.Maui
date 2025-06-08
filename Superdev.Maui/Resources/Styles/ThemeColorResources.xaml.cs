@@ -14,29 +14,44 @@
 
         private void SetButtonColors(IColorConfiguration colorConfiguration)
         {
-            this[ThemeConstants.CustomButtonStyle.TextColor] = colorConfiguration.TextColor;
-            this[ThemeConstants.CustomButtonStyle.BorderColorEnabled] = colorConfiguration.TextColor;
-            this[ThemeConstants.CustomButtonStyle.BorderColorDisabled] = Colors.DarkGray;
-            this[ThemeConstants.CustomButtonStyle.BorderColorPressed] = colorConfiguration.TextColor;
-            this[ThemeConstants.CustomButtonStyle.BackgroundColorEnabled] = Colors.White;
-            this[ThemeConstants.CustomButtonStyle.BackgroundColorDisabled] = colorConfiguration.TextColorBright;
-            this[ThemeConstants.CustomButtonStyle.BackgroundColorPressed] = colorConfiguration.TextColorBright;
+            // Default button style
+            this[ThemeConstants.Button.TextColor] = colorConfiguration.TextColor;
+            this[ThemeConstants.Button.BorderColor] = colorConfiguration.TextColor;
+            this[ThemeConstants.Button.BackgroundColor] = MaterialColors.White;
 
-            this[ThemeConstants.CustomButtonPrimaryStyle.TextColor] = colorConfiguration.OnPrimary;
-            this[ThemeConstants.CustomButtonPrimaryStyle.BorderColorEnabled] = colorConfiguration.Primary;
-            this[ThemeConstants.CustomButtonPrimaryStyle.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
-            this[ThemeConstants.CustomButtonPrimaryStyle.BorderColorPressed] = colorConfiguration.Primary;
-            this[ThemeConstants.CustomButtonPrimaryStyle.BackgroundColorEnabled] = colorConfiguration.Primary;
-            this[ThemeConstants.CustomButtonPrimaryStyle.BackgroundColorDisabled] = colorConfiguration.PrimaryDisabled;
-            this[ThemeConstants.CustomButtonPrimaryStyle.BackgroundColorPressed] = colorConfiguration.PrimaryVariant;
+            this[ThemeConstants.Button.TextColorPressed] = MaterialColors.White;
+            this[ThemeConstants.Button.BorderColorPressed] = colorConfiguration.TextColor;
+            this[ThemeConstants.Button.BackgroundColorPressed] = colorConfiguration.TextColor;
 
-            this[ThemeConstants.CustomButtonSecondaryStyle.TextColor] = colorConfiguration.Secondary;
-            this[ThemeConstants.CustomButtonSecondaryStyle.BorderColorEnabled] = colorConfiguration.Secondary;
-            this[ThemeConstants.CustomButtonSecondaryStyle.BorderColorDisabled] = colorConfiguration.SecondaryDisabled;
-            this[ThemeConstants.CustomButtonSecondaryStyle.BorderColorPressed] = colorConfiguration.Secondary;
-            this[ThemeConstants.CustomButtonSecondaryStyle.BackgroundColorEnabled] = colorConfiguration.OnSecondary;
-            this[ThemeConstants.CustomButtonSecondaryStyle.BackgroundColorDisabled] = colorConfiguration.SecondaryDisabled;
-            this[ThemeConstants.CustomButtonSecondaryStyle.BackgroundColorPressed] = colorConfiguration.SecondaryVariant;
+            this[ThemeConstants.Button.TextColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this[ThemeConstants.Button.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this[ThemeConstants.Button.BackgroundColorDisabled] = MaterialColors.Gray200;
+
+            // Primary button style
+            this[ThemeConstants.Button.Primary.TextColor] = colorConfiguration.OnPrimary;
+            this[ThemeConstants.Button.Primary.BorderColor] = colorConfiguration.Primary;
+            this[ThemeConstants.Button.Primary.BackgroundColor] = colorConfiguration.Primary;
+
+            this[ThemeConstants.Button.Primary.TextColorPressed] = colorConfiguration.OnPrimary;
+            this[ThemeConstants.Button.Primary.BorderColorPressed] = colorConfiguration.Primary;
+            this[ThemeConstants.Button.Primary.BackgroundColorPressed] = colorConfiguration.PrimaryVariant;
+
+            this[ThemeConstants.Button.Primary.TextColorDisabled] = colorConfiguration.OnPrimary;
+            this[ThemeConstants.Button.Primary.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this[ThemeConstants.Button.Primary.BackgroundColorDisabled] = colorConfiguration.PrimaryDisabled;
+
+            // Secondary button style
+            this[ThemeConstants.Button.Secondary.TextColor] = colorConfiguration.Secondary;
+            this[ThemeConstants.Button.Secondary.BorderColor] = colorConfiguration.Secondary;
+            this[ThemeConstants.Button.Secondary.BackgroundColor] = colorConfiguration.OnSecondary;
+
+            this[ThemeConstants.Button.Secondary.TextColorPressed] = colorConfiguration.Secondary;
+            this[ThemeConstants.Button.Secondary.BorderColorPressed] = colorConfiguration.Secondary;
+            this[ThemeConstants.Button.Secondary.BackgroundColorPressed] = colorConfiguration.SecondaryVariant;
+
+            this[ThemeConstants.Button.Secondary.TextColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this[ThemeConstants.Button.Secondary.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this[ThemeConstants.Button.Secondary.BackgroundColorDisabled] = MaterialColors.Gray200;
         }
 
         private void SetDrilldownButtonColors(IColorConfiguration colorConfiguration)

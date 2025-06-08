@@ -25,6 +25,8 @@ namespace Superdev.Maui
             return new Theme
             {
                 ColorConfiguration = new ColorConfiguration(),
+                SpacingConfiguration = new SpacingConfiguration(),
+                FontConfiguration = new FontConfiguration()
             };
         }
 
@@ -44,10 +46,7 @@ namespace Superdev.Maui
         /// <exception cref="ArgumentNullException" />
         public static void Init(Application app)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
+            ArgumentNullException.ThrowIfNull(app);
 
             Init(app, GetDefaultConfiguration());
         }
@@ -57,55 +56,40 @@ namespace Superdev.Maui
         ///     resources based on the <see cref="ITheme" />'s properties.
         /// </summary>
         /// <param name="app">The cross-platform mobile application that is running.</param>
-        /// <param name="key">
+        /// <param name="themeKey">
         ///     The key of the <see cref="ITheme" /> object in the current app's resource
         ///     dictionary.
         /// </param>
         /// <exception cref="ArgumentNullException" />
-        public static void Init(Application app, string key)
+        public static void Init(Application app, string themeKey)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentNullException.ThrowIfNull(app);
+            ArgumentNullException.ThrowIfNull(themeKey);
 
             var stopwatch = Stopwatch.StartNew();
-            var theme = app.Resources.ResolveTheme<ITheme>(key);
+            var theme = app.Resources.ResolveTheme<ITheme>(themeKey);
             Init(app, theme);
-            Debug.WriteLine($"Init with key='{key}' finished in {stopwatch.Elapsed.TotalMilliseconds:F0}ms");
+            Debug.WriteLine($"Init with themeKey='{themeKey}' finished in {stopwatch.Elapsed.TotalMilliseconds:F0}ms");
         }
 
         /// <summary>
-        ///     Configures the current app's resources by merging pre-defined CrossPlatformLibrary resources and creating new
-        ///     resources based on the <see cref="Theme" />'s properties.
+        /// Configures the current app's resources by merging pre-defined resources and creating new
+        /// resources based on the <see cref="Theme" />'s properties.
         /// </summary>
-        /// <param name="app">The cross-platform mobile application that is running.</param>
-        /// <param name="theme">The configuration.</param>
-        /// <exception cref="ArgumentNullException" />
+        /// <param name="app">The current app.</param>
+        /// <param name="theme">The theme configuration.</param>
         public static void Init(Application app, ITheme theme)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
-            if (theme == null)
-            {
-                throw new ArgumentNullException(nameof(theme));
-            }
+            ArgumentNullException.ThrowIfNull(app);
+            ArgumentNullException.ThrowIfNull(theme);
 
             var stopwatch = Stopwatch.StartNew();
-            var crossPlatformLibrary = new SuperdevMaui(app, theme);
-            crossPlatformLibrary.MergeCrossPlatformLibraryDictionaries();
+            var superdevMaui = new SuperdevMaui(app, theme);
+            superdevMaui.MergeResources();
             Debug.WriteLine($"Init finished in {stopwatch.Elapsed.TotalMilliseconds:F0}ms");
         }
 
-        private void MergeCrossPlatformLibraryDictionaries()
+        private void MergeResources()
         {
             this.applicationResources.MergedDictionaries.Add(new ThemeColorResources(this.config.ColorConfiguration ?? new ColorConfiguration()));
             this.applicationResources.MergedDictionaries.Add(new ThemeSpacingResources(this.config.SpacingConfiguration ?? new SpacingConfiguration()));

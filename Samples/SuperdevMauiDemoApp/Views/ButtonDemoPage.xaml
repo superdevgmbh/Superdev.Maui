@@ -25,6 +25,10 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="Button" />
                             <Button
+                                Command="{Binding SaveProfileButtonCommand}"
+                                IsEnabled="{Binding CanExecuteLoadDataButtonCommand}"
+                                Text="Button" />
+                            <Button
                                 IsEnabled="True"
                                 Text="Button (Enabled)" />
                             <Button
@@ -52,8 +56,8 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="Button with ButtonSecondaryStyle" />
                             <Button
-                                Command="{Binding LoadDataButtonCommand}"
-                                IsEnabled="{Binding CanExecuteLoadDataButtonCommand}"
+                                Command="{Binding SaveProfileButtonCommand}"
+                                IsEnabled="{Binding CanExecuteSaveProfileButtonCommand}"
                                 Style="{DynamicResource ButtonSecondaryStyle}"
                                 Text="Button" />
                             <Button

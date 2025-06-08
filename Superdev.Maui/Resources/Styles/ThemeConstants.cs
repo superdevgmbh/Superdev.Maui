@@ -32,47 +32,52 @@
             public const string SemiTransparentDark = "Theme.Color.SemiTransparentDark";
         }
 
-        // TODO: Rename to Theme.Button.TextColorm etc
-        public static class CustomButtonStyle
+        public static class Button
         {
-            public const string TextColor = "CustomButtonStyle.TextColor";
-            public const string BorderColorEnabled = "CustomButtonStyle.BorderColor.Enabled";
-            public const string BorderColorDisabled = "CustomButtonStyle.BorderColor.Disabled";
-            public const string BorderColorPressed = "CustomButtonStyle.BorderColor.Pressed";
-            public const string BackgroundColorEnabled = "CustomButtonStyle.BackgroundColor.Enabled";
-            public const string BackgroundColorDisabled = "CustomButtonStyle.BackgroundColor.Disabled";
-            public const string BackgroundColorPressed = "CustomButtonStyle.BackgroundColor.Pressed";
-        }
+            public const string TextColor = "Theme.Button.TextColor";
+            public const string TextColorDisabled = "Theme.Button.TextColor.Disabled";
+            public const string TextColorPressed = "Theme.Button.TextColor.Pressed";
+            public const string BorderColor = "Theme.Button.BorderColor";
+            public const string BorderColorDisabled = "Theme.Button.BorderColor.Disabled";
+            public const string BorderColorPressed = "Theme.Button.BorderColor.Pressed";
+            public const string BackgroundColor = "Theme.Button.BackgroundColor";
+            public const string BackgroundColorDisabled = "Theme.Button.BackgroundColor.Disabled";
+            public const string BackgroundColorPressed = "Theme.Button.BackgroundColor.Pressed";
 
-        public static class CustomButtonPrimaryStyle
-        {
-            public const string TextColor = "CustomButtonPrimaryStyle.TextColor";
-            public const string BorderColorEnabled = "CustomButtonPrimaryStyle.BorderColor.Enabled";
-            public const string BorderColorDisabled = "CustomButtonPrimaryStyle.BorderColor.Disabled";
-            public const string BorderColorPressed = "CustomButtonPrimaryStyle.BorderColor.Pressed";
-            public const string BackgroundColorEnabled = "CustomButtonPrimaryStyle.BackgroundColor.Enabled";
-            public const string BackgroundColorDisabled = "CustomButtonPrimaryStyle.BackgroundColor.Disabled";
-            public const string BackgroundColorPressed = "CustomButtonPrimaryStyle.BackgroundColor.Pressed";
-        }
+            public static class Primary
+            {
+                public const string TextColor = "Theme.Button.Primary.TextColor";
+                public const string TextColorDisabled = "Theme.Button.Primary.TextColor.Disabled";
+                public const string TextColorPressed = "Theme.Button.Primary.TextColor.Pressed";
+                public const string BorderColor = "Theme.Button.Primary.BorderColor";
+                public const string BorderColorDisabled = "Theme.Button.Primary.BorderColor.Disabled";
+                public const string BorderColorPressed = "Theme.Button.Primary.BorderColor.Pressed";
+                public const string BackgroundColor = "Theme.Button.Primary.BackgroundColor";
+                public const string BackgroundColorDisabled = "Theme.Button.Primary.BackgroundColor.Disabled";
+                public const string BackgroundColorPressed = "Theme.Button.Primary.BackgroundColor.Pressed";
+            }
 
-        public static class CustomButtonSecondaryStyle
-        {
-            public const string TextColor = "CustomButtonSecondaryStyle.TextColor";
-            public const string BorderColorEnabled = "CustomButtonSecondaryStyle.BorderColor.Enabled";
-            public const string BorderColorDisabled = "CustomButtonSecondaryStyle.BorderColor.Disabled";
-            public const string BorderColorPressed = "CustomButtonSecondaryStyle.BorderColor.Pressed";
-            public const string BackgroundColorEnabled = "CustomButtonSecondaryStyle.BackgroundColor.Enabled";
-            public const string BackgroundColorDisabled = "CustomButtonSecondaryStyle.BackgroundColor.Disabled";
-            public const string BackgroundColorPressed = "CustomButtonSecondaryStyle.BackgroundColor.Pressed";
+            public static class Secondary
+            {
+                public const string TextColor = "Theme.Button.Secondary.TextColor";
+                public const string TextColorDisabled = "Theme.Button.Secondary.TextColor.Disabled";
+                public const string TextColorPressed = "Theme.Button.Secondary.TextColor.Pressed";
+                public const string BorderColor = "Theme.Button.Secondary.BorderColor";
+                public const string BorderColorDisabled = "Theme.Button.Secondary.BorderColor.Disabled";
+                public const string BorderColorPressed = "Theme.Button.Secondary.BorderColor.Pressed";
+                public const string BackgroundColor = "Theme.Button.Secondary.BackgroundColor";
+                public const string BackgroundColorDisabled = "Theme.Button.Secondary.BackgroundColor.Disabled";
+                public const string BackgroundColorPressed = "Theme.Button.Secondary.BackgroundColor.Pressed";
+            }
         }
 
         public static class DrilldownButtonStyle
         {
             public const string TextColor = "DrilldownButtonStyle.TextColor";
-            public const string BorderColorEnabled = "DrilldownButtonStyle.BorderColor.Enabled";
+            public const string BorderColorEnabled = "DrilldownButtonStyle.BorderColor";
             public const string BorderColorDisabled = "DrilldownButtonStyle.BorderColor.Disabled";
             public const string BorderColorPressed = "DrilldownButtonStyle.BorderColor.Pressed";
-            public const string BackgroundColorEnabled = "DrilldownButtonStyle.BackgroundColor.Enabled";
+            public const string BackgroundColorEnabled = "DrilldownButtonStyle.BackgroundColor";
             public const string BackgroundColorDisabled = "DrilldownButtonStyle.BackgroundColor.Disabled";
             public const string BackgroundColorPressed = "DrilldownButtonStyle.BackgroundColor.Pressed";
         }
