@@ -9,6 +9,12 @@
     BackgroundColor="{DynamicResource PageBackgroundColor}"
     Title="ServiceDemoPage">
 
+    <ContentPage.Behaviors>
+        <s:StatusBarBehavior
+            StatusBarColor="Yellow"
+            StatusBarStyle="Light" />
+    </ContentPage.Behaviors>
+
     <ScrollView>
         <VerticalStackLayout
             Padding="{DynamicResource Theme.Padding.Medium}"

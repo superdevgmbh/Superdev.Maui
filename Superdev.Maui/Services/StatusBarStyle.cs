@@ -2,6 +2,8 @@ namespace Superdev.Maui.Services
 {
     public enum StatusBarStyle
     {
+        Default,
+
         /// <summary>
         /// Status bar style 'Light' for use with bright status bar colors.
         /// </summary>

@@ -45,15 +45,15 @@ namespace Superdev.Maui.Platforms.Services
 
         public void SetStyle(StatusBarStyle statusBarStyle)
         {
-            switch (statusBarStyle)
+            var uiStatusBarStyle = statusBarStyle switch
             {
-                case StatusBarStyle.Light:
-                    UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.DarkContent, false);
-                    break;
-                case StatusBarStyle.Dark:
-                    UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
-                    break;
-            }
+                StatusBarStyle.Default => UIStatusBarStyle.Default,
+                StatusBarStyle.Light => UIStatusBarStyle.LightContent,
+                StatusBarStyle.Dark => UIStatusBarStyle.DarkContent,
+                _ => throw new NotSupportedException($"{nameof(StatusBarStyle)} {statusBarStyle} is not yet supported on iOS")
+            };
+
+            UIApplication.SharedApplication.SetStatusBarStyle(uiStatusBarStyle, false);
         }
     }
 }
