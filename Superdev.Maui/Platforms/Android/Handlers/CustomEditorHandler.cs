@@ -28,12 +28,12 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void MapBackground(CustomEditorHandler customEditorHandler, CustomEditor customEditor)
         {
-            Debug.WriteLine("MapBackground");
+            // Debug.WriteLine("MapBackground");
         }
 
         private static void MapBackgroundColor(CustomEditorHandler customEditorHandler, CustomEditor customEditor)
         {
-            Debug.WriteLine("MapBackgroundColor");
+            // Debug.WriteLine("MapBackgroundColor");
 
             var lineColor = LineColorEffect.GetLineColor(customEditor);
             if (lineColor == null)

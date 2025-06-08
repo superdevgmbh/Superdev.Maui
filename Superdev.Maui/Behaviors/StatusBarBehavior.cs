@@ -3,9 +3,6 @@ using Superdev.Maui.Services;
 
 namespace Superdev.Maui.Behaviors
 {
-    /// <summary>
-    /// <see cref="PlatformBehavior{TView,TPlatformView}"/> that controls the Status bar color
-    /// </summary>
     public class StatusBarBehavior : BehaviorBase<Page>
     {
         /// <summary>
@@ -59,13 +56,12 @@ namespace Superdev.Maui.Behaviors
         {
             base.OnAttachedTo(page);
 
-            var statusBarService = IStatusBarService.Current;
             if (this.StatusBarColor is Color statusBarColor)
             {
-                statusBarService.SetColor(statusBarColor);
+                this.statusBarService.SetColor(statusBarColor);
             }
 
-            statusBarService.SetStyle(this.StatusBarStyle);
+            this.statusBarService.SetStyle(this.StatusBarStyle);
         }
 
         protected override void OnDetachingFrom(Page page)
@@ -73,7 +69,7 @@ namespace Superdev.Maui.Behaviors
             base.OnDetachingFrom(page);
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -82,18 +78,16 @@ namespace Superdev.Maui.Behaviors
                 return;
             }
 
-            if (propertyName == StatusBarColorProperty.PropertyName) //, VisualElement.WidthProperty, VisualElement.HeightProperty)
+            if (propertyName == StatusBarColorProperty.PropertyName)
             {
-                var statusBarService = IStatusBarService.Current;
                 if (this.StatusBarColor is Color statusBarColor)
                 {
-                    statusBarService.SetColor(statusBarColor);
+                    this.statusBarService.SetColor(statusBarColor);
                 }
             }
             else if (propertyName == StatusBarStyleProperty.PropertyName)
             {
-                var statusBarService = IStatusBarService.Current;
-                statusBarService.SetStyle(this.StatusBarStyle);
+                this.statusBarService.SetStyle(this.StatusBarStyle);
             }
         }
     }
