@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 
@@ -9,7 +10,8 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private string notes;
         private string logContent;
-        private bool hasKeyboardOffset;
+        private bool hasKeyboardOffset = true;
+        private IRelayCommand toggleHasKeyboardOffsetCommand;
 
         public EditorDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler)
@@ -48,6 +50,16 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+        public IRelayCommand ToggleHasKeyboardOffsetCommand
+        {
+            get => this.toggleHasKeyboardOffsetCommand ??= new RelayCommand(this.ToggleHasKeyboardOffset);
+        }
+
+        private void ToggleHasKeyboardOffset()
+        {
+            this.HasKeyboardOffset = !this.HasKeyboardOffset;
         }
 
         public bool HasKeyboardOffset

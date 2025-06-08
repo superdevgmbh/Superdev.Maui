@@ -6,16 +6,23 @@ namespace Superdev.Maui.Services
 {
     public class KeyboardService : IKeyboardService
     {
+        private static readonly Lazy<IKeyboardService> Implementation = new Lazy<IKeyboardService>(
+            CreateKeyboardService, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IKeyboardService Current => Implementation.Value;
+
+        private static IKeyboardService CreateKeyboardService()
+        {
+            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<KeyboardService>>();
+            var platformElementConfiguration = Application.Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
+            return new KeyboardService(logger, platformElementConfiguration);
+        }
+
         private readonly ILogger logger;
         private readonly IPlatformElementConfiguration<Microsoft.Maui.Controls.PlatformConfiguration.Android, Application> platformElementConfiguration;
         private readonly object lockObj = new object();
         private readonly HashSet<string> windowSoftInputModeAdjusts = new HashSet<string>();
         private readonly WindowSoftInputModeAdjust? originalWindowSoftInputModeAdjust;
-
-        public KeyboardService(ILogger<KeyboardService> logger)
-            : this(logger, Application.Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>())
-        {
-        }
 
         internal KeyboardService(
             ILogger<KeyboardService> logger,
@@ -23,7 +30,6 @@ namespace Superdev.Maui.Services
         {
             this.logger = logger;
             this.platformElementConfiguration = platformElementConfiguration;
-
             this.originalWindowSoftInputModeAdjust = platformElementConfiguration?.GetWindowSoftInputModeAdjust();
         }
 

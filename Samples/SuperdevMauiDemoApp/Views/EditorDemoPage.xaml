@@ -10,11 +10,38 @@
     AutomationId="EditorDemoPage"
     Title="EditorDemoPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ToggleHasKeyboardOffsetCommand}"
+            Text="{Binding HasKeyboardOffset, StringFormat='{}HKO={0}'}" />
+    </ContentPage.ToolbarItems>
+
     <Grid>
         <ScrollView Grid.Row="0">
             <VerticalStackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="HasKeyboardOffset (HKO)" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleHasKeyboardOffsetCommand}" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <CheckBox IsChecked="{Binding HasKeyboardOffset}" />
+                                <Label
+                                    Text="{Binding HasKeyboardOffset, StringFormat='{}HasKeyboardOffset={0}'}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
                 <s:CardView>
                     <VerticalStackLayout>
                         <s:LabelSection Text="Editor" />
@@ -23,7 +50,6 @@
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
                             Spacing="{DynamicResource Theme.Spacing.Medium}">
-                            <CheckBox IsChecked="{Binding HasKeyboardOffset}" />
                             <Editor
                                 BackgroundColor="Aqua"
                                 MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
@@ -55,7 +81,6 @@
                         <s:FooterDivider />
                     </VerticalStackLayout>
                 </s:CardView>
-
                 <s:CardView>
                     <VerticalStackLayout>
                         <s:LabelSection Text="CustomEditor" />
