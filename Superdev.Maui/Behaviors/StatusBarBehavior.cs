@@ -3,6 +3,14 @@ using Superdev.Maui.Services;
 
 namespace Superdev.Maui.Behaviors
 {
+    /// <summary>
+    /// StatusBarBehavior can be used to set the color and style of the status bar at the top of the page.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="StatusBarColor"/> and <see cref="StatusBarStyle"/> can only be used with static values
+    /// or StaticResource bindings. This is due to a limitation in .NET MAUI (https://github.com/dotnet/maui/issues/23578).
+    /// Use <c>StatusBar.Color</c> and <c>StatusBar.Style</c> if dynamic resource bindings (DynamicResource) is required.
+    /// </remarks>
     public class StatusBarBehavior : BehaviorBase<Page>
     {
         /// <summary>
@@ -73,7 +81,7 @@ namespace Superdev.Maui.Behaviors
         {
             base.OnPropertyChanged(propertyName);
 
-            if (this.AssociatedObject is null)
+            if (this.AssociatedObject == null)
             {
                 return;
             }

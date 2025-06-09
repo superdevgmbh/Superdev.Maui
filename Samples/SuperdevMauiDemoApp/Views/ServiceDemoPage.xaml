@@ -6,14 +6,10 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:ServiceDemoViewModel"
+    s:StatusBar.Color="{DynamicResource LightGreenA400}"
+    s:StatusBar.Style="Dark"
     BackgroundColor="{DynamicResource PageBackgroundColor}"
     Title="ServiceDemoPage">
-
-    <ContentPage.Behaviors>
-        <s:StatusBarBehavior
-            StatusBarColor="Yellow"
-            StatusBarStyle="Light" />
-    </ContentPage.Behaviors>
 
     <ScrollView>
         <VerticalStackLayout
