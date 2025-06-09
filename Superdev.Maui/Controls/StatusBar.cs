@@ -9,7 +9,6 @@ namespace Superdev.Maui.Controls
     /// </summary>
     public static class StatusBar
     {
-
         public static readonly BindableProperty ColorProperty = BindableProperty.CreateAttached(
             "Color",
             typeof(Color),
@@ -37,10 +36,14 @@ namespace Superdev.Maui.Controls
                     };
                     page.Behaviors.Add(statusBarBehavior);
                 }
+                else
+                {
+                    existingBehavior.StatusBarColor = color;
+                }
             }
             else
             {
-                if (existingBehavior != null)
+                if (existingBehavior != null && GetStyle(bindable) == StatusBarStyle.Default)
                 {
                     page.Behaviors.Remove(existingBehavior);
                 }
@@ -73,21 +76,25 @@ namespace Superdev.Maui.Controls
 
             var existingBehavior = page.Behaviors.FirstOrDefault<StatusBarBehavior>();
 
-            if (newValue is StatusBarStyle statusBarColor)
+            if (newValue is StatusBarStyle statusBarStyle)
             {
                 if (existingBehavior == null)
                 {
                     var statusBarBehavior = new StatusBarBehavior
                     {
                         StatusBarColor = GetColor(bindable),
-                        StatusBarStyle = statusBarColor
+                        StatusBarStyle = statusBarStyle
                     };
                     page.Behaviors.Add(statusBarBehavior);
+                }
+                else
+                {
+                    existingBehavior.StatusBarStyle = statusBarStyle;
                 }
             }
             else
             {
-                if (existingBehavior != null)
+                if (existingBehavior != null && GetColor(bindable) == null)
                 {
                     page.Behaviors.Remove(existingBehavior);
                 }

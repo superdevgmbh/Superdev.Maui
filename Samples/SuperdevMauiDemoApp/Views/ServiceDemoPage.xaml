@@ -6,8 +6,8 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:ServiceDemoViewModel"
-    s:StatusBar.Color="{DynamicResource LightGreenA400}"
-    s:StatusBar.Style="Dark"
+    s:StatusBar.Color="{DynamicResource LightGreen100}"
+    s:StatusBar.Style="Light"
     BackgroundColor="{DynamicResource PageBackgroundColor}"
     Title="ServiceDemoPage">
 
