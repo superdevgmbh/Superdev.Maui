@@ -87,6 +87,10 @@
             this.TryAddColorResource(ThemeConstants.Color.SecondaryVariant, colorConfiguration.SecondaryVariant);
             this.TryAddColorResource(ThemeConstants.Color.SecondaryDisabled, colorConfiguration.SecondaryDisabled);
             this.TryAddColorResource(ThemeConstants.Color.OnSecondary, colorConfiguration.OnSecondary);
+            this.TryAddColorResource(ThemeConstants.Color.Tertiary, colorConfiguration.Tertiary);
+            this.TryAddColorResource(ThemeConstants.Color.TertiaryVariant, colorConfiguration.TertiaryVariant);
+            this.TryAddColorResource(ThemeConstants.Color.TertiaryDisabled, colorConfiguration.TertiaryDisabled);
+            this.TryAddColorResource(ThemeConstants.Color.OnTertiary, colorConfiguration.OnTertiary);
             this.TryAddColorResource(ThemeConstants.Color.BACKGROUND, colorConfiguration.Background);
             this.TryAddColorResource(ThemeConstants.Color.ON_BACKGROUND, colorConfiguration.OnBackground);
             this.TryAddColorResource(ThemeConstants.Color.SURFACE, colorConfiguration.Surface);

@@ -18,8 +18,12 @@
             public const string Secondary = "Theme.Color.Secondary";
             public const string SecondaryVariant = "Theme.Color.SecondaryVariant";
             public const string SecondaryDisabled = "Theme.Color.SecondaryDisabled";
+            public const string Tertiary = "Theme.Color.Tertiary";
+            public const string TertiaryVariant = "Theme.Color.TertiaryVariant";
+            public const string TertiaryDisabled = "Theme.Color.TertiaryDisabled";
             public const string OnPrimary = "Theme.Color.OnPrimary";
             public const string OnSecondary = "Theme.Color.OnSecondary";
+            public const string OnTertiary = "Theme.Color.OnTertiary";
             public const string BACKGROUND = "Theme.Color.Background";
             public const string SURFACE = "Theme.Color.Surface";
             public const string ERROR = "Theme.Color.Error";

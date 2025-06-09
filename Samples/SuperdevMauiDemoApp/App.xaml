@@ -51,10 +51,14 @@
                 CardViewHeaderTextColor="#6D6D72"
                 Error="#ff1744"
                 OnPrimary="#FFFFFF"
+                OnSecondary="#FFFFFF"
+                OnTertiary="#FFFFFF"
                 Primary="#5714AF"
                 PrimaryVariant="#c7a4f4"
                 Secondary="#17C2BC"
                 SecondaryVariant="#a4f4f2"
+                Tertiary="{StaticResource Amber700}"
+                TertiaryVariant="{StaticResource Amber100}"
                 TextColor="DarkBlue"
                 TextColorBright="DarkGray" />
 

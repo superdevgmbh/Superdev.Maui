@@ -97,6 +97,12 @@
             typeof(Color),
             Color.FromArgb("#FFFFFF"));
 
+        public static readonly BindableProperty OnTertiaryProperty = BindableProperty.Create(
+            nameof(OnTertiary),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#FFFFFF"));
+
         public static readonly BindableProperty OnSurfaceProperty = BindableProperty.Create(
             nameof(OnSurface),
             typeof(Color),
@@ -183,6 +189,27 @@
                 typeof(Color),
                 MaterialColors.Gray500);
 
+        public static readonly BindableProperty TertiaryProperty =
+            BindableProperty.Create(
+                nameof(Tertiary),
+                typeof(Color),
+                typeof(Color),
+                MaterialColors.White);
+
+        public static readonly BindableProperty TertiaryVariantProperty =
+            BindableProperty.Create(
+                nameof(TertiaryVariant),
+                typeof(Color),
+                typeof(Color),
+                Color.FromArgb("#0400BA"));
+
+        public static readonly BindableProperty TertiaryDisabledProperty =
+            BindableProperty.Create(
+                nameof(TertiaryDisabled),
+                typeof(Color),
+                typeof(Color),
+                MaterialColors.Gray500);
+
         public static readonly BindableProperty SurfaceProperty =
             BindableProperty.Create(
                 nameof(Surface),
@@ -212,6 +239,12 @@
             }
 
             set => this.SetValue(OnSecondaryProperty, value);
+        }
+
+        public Color OnTertiary
+        {
+            get => (Color)this.GetValue(OnTertiaryProperty);
+            set => this.SetValue(OnTertiaryProperty, value);
         }
 
         /// <summary>
@@ -271,6 +304,27 @@
         {
             get => (Color)this.GetValue(SecondaryDisabledProperty);
             set => this.SetValue(SecondaryDisabledProperty, value);
+        }
+
+        public Color Tertiary
+        {
+            get => (Color)this.GetValue(TertiaryProperty);
+            set => this.SetValue(TertiaryProperty, value);
+        }
+
+        /// <summary>
+        ///     A tonal variation of <see cref="Tertiary" />.
+        /// </summary>
+        public Color TertiaryVariant
+        {
+            get => (Color)this.GetValue(TertiaryVariantProperty);
+            set => this.SetValue(TertiaryVariantProperty, value);
+        }
+
+        public Color TertiaryDisabled
+        {
+            get => (Color)this.GetValue(TertiaryDisabledProperty);
+            set => this.SetValue(TertiaryDisabledProperty, value);
         }
 
         /// <summary>

@@ -53,6 +53,8 @@
         /// </summary>
         Color OnSecondary { get; set; }
 
+        Color OnTertiary { get; set; }
+
         /// <summary>
         /// A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Surface" />
         /// </summary>
@@ -83,6 +85,18 @@
         /// Disabled color of <seealso cref="Secondary"/>.
         /// </summary>
         Color SecondaryDisabled { get; set; }
+
+        Color Tertiary { get; set; }
+
+        /// <summary>
+        /// A tonal variation of <see cref="Tertiary" />.
+        /// </summary>
+        Color TertiaryVariant { get; set; }
+
+        /// <summary>
+        /// Disabled color of <seealso cref="Tertiary"/>.
+        /// </summary>
+        Color TertiaryDisabled { get; set; }
 
         /// <summary>
         /// The color of surfaces such as cards, sheets, menus.
