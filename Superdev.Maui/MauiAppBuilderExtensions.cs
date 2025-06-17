@@ -95,11 +95,13 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
 #endif
 
+            // Microsoft.Maui
+            builder.Services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
+
             builder.Services.AddSingleton<IDateTime>(_ => SystemDateTime.Current);
             builder.Services.AddSingleton<IDialogService>(_ => IDialogService.Current);
-            builder.Services.AddSingleton<ILocalizer>(_ => Localizer.Current);
-            builder.Services.AddSingleton<IPreferences>(_ => Superdev.Maui.Services.Preferences.Current);
-            builder.Services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
+            builder.Services.AddSingleton<ILocalizer>(_ => ILocalizer.Current);
+            builder.Services.AddSingleton<IPreferences>(_ => IPreferences.Current);
             builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
             builder.Services.AddSingleton<IMainThread>(_ => IMainThread.Current);
             builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();

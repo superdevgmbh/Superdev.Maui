@@ -12,6 +12,10 @@ namespace Superdev.Maui.Services
 
         public static IPreferences Current => Implementation.Value;
 
+        private Preferences()
+        {
+        }
+
         public void Clear(string? sharedName = null)
         {
             MauiPreferences.Clear(sharedName);

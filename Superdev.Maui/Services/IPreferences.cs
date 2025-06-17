@@ -5,6 +5,11 @@ namespace Superdev.Maui.Services
     public interface IPreferences
     {
         /// <summary>
+        /// Gets the singleton instance of <see cref="IPreferences"/>.
+        /// </summary>
+        public static IPreferences Current => Preferences.Current;
+
+        /// <summary>
 		/// Checks for the existence of a given key.
 		/// </summary>
 		/// <param name="key">The key to check.</param>
