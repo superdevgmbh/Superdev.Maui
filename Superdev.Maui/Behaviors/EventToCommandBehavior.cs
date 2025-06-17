@@ -6,7 +6,7 @@ using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Behaviors
 {
-    public class EventToCommandBehavior : BehaviorBase<View>
+    public class EventToCommandBehavior : BehaviorBase<VisualElement>
     {
         private Delegate eventHandler;
 
@@ -71,13 +71,13 @@ namespace Superdev.Maui.Behaviors
             set => this.SetValue(EventArgsParameterPathProperty, value);
         }
 
-        protected override void OnAttachedTo(View bindable)
+        protected override void OnAttachedTo(VisualElement bindable)
         {
             base.OnAttachedTo(bindable);
             this.RegisterEvent(this.EventName);
         }
 
-        protected override void OnDetachingFrom(View bindable)
+        protected override void OnDetachingFrom(VisualElement bindable)
         {
             this.DeregisterEvent(this.EventName);
             base.OnDetachingFrom(bindable);
