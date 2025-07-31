@@ -7,9 +7,13 @@
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
     <!-- Colors -->
-    <Color x:Key="Primary">#ff70fc</Color>
-    <Color x:Key="Accent">#73e5c6</Color>
-    <Color x:Key="SemiMagenta">#7Fff3399</Color>
+    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="PrimaryDark">#2B0B98</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="SecondaryDarkText">#9880e5</Color>
+    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Accent">#2B0B98</Color>
 
     <OnPlatform
         x:TypeArguments="Color"
@@ -32,11 +36,5 @@
             Platform="iOS"
             Value="#EFEFF4" />
     </OnPlatform>
-
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
 
 </ResourceDictionary>

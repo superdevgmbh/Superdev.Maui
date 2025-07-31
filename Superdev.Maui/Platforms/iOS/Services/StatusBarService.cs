@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Foundation;
+﻿using Foundation;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Services;
 using UIKit;
@@ -9,8 +7,9 @@ namespace Superdev.Maui.Platforms.Services
 {
     public class StatusBarService : IStatusBarService
     {
-        private static readonly Lazy<IStatusBarService> Implementation =
-            new Lazy<IStatusBarService>(CreateStatusBar, LazyThreadSafetyMode.PublicationOnly);
+        private UIColor uiColor;
+
+        private static readonly Lazy<IStatusBarService> Implementation = new Lazy<IStatusBarService>(CreateStatusBar, LazyThreadSafetyMode.PublicationOnly);
 
         public static IStatusBarService Current => Implementation.Value;
 
@@ -21,12 +20,22 @@ namespace Superdev.Maui.Platforms.Services
 
         private StatusBarService()
         {
+            NSNotificationCenter.DefaultCenter.AddObserver(UIApplication.DidChangeStatusBarOrientationNotification, this.DidChangeStatusBarOrientationNotification);
         }
 
-        public void SetColor(Color color)
+        private void DidChangeStatusBarOrientationNotification(NSNotification obj)
         {
-            var uiColor = color.ToPlatform();
+            SetStatusBarColor(this.uiColor);
+        }
 
+        public void SetStatusBarColor(Color color)
+        {
+            var uiColor = this.uiColor = color.ToPlatform();
+            SetStatusBarColor(uiColor);
+        }
+
+        private static void SetStatusBarColor(UIColor uiColor)
+        {
             if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
             {
                 var statusBar = new UIView(UIApplication.SharedApplication.KeyWindow.WindowScene.StatusBarManager.StatusBarFrame);
@@ -41,6 +50,11 @@ namespace Superdev.Maui.Platforms.Services
                     statusBar.BackgroundColor = uiColor;
                 }
             }
+        }
+
+        public void SetNavigationBarColor(Color color)
+        {
+            // API does not exist on iOS.
         }
 
         public void SetStyle(StatusBarStyle statusBarStyle)

@@ -1,8 +1,9 @@
-﻿using Superdev.Maui;
+﻿using System.Diagnostics;
+using Superdev.Maui;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
-using SuperdevMauiDemoApp.Translations;
 using SuperdevMauiDemoApp.Views;
 
 namespace SuperdevMauiDemoApp
@@ -13,7 +14,10 @@ namespace SuperdevMauiDemoApp
         {
             this.InitializeComponent();
 
-            SuperdevMaui.Init(this, "SampleApp.Theme");
+            var themeHelper = IThemeHelper.Current;
+            themeHelper.ApplyTheme(
+                lightTheme: "SampleApp.Theme.Light",
+                darkTheme: "SampleApp.Theme.Dark");
 
             IActivityIndicatorService.Current.Init(new DefaultActivityIndicatorPage());
 
@@ -22,9 +26,14 @@ namespace SuperdevMauiDemoApp
 
             var mainPage = IPlatformApplication.Current.Services.GetService<MainPage>();
             this.MainPage = new NavigationPage(mainPage);
+        }
 
-            Application.Current.UserAppTheme = AppTheme.Light;
-            this.RequestedThemeChanged += (s, e) => { Application.Current.UserAppTheme = AppTheme.Light; };
+        protected override void OnStart()
+        {
+            var statusBarService = IStatusBarService.Current;
+            var statusBarColor = (Color)App.Current.Resources["PrimaryDark"];
+            statusBarService.SetStatusBarColor(statusBarColor);
+            statusBarService.SetStyle(StatusBarStyle.Dark);
         }
 
         private static void RegisterViewModelErrors(IViewModelErrorRegistry viewModelErrorRegistry)

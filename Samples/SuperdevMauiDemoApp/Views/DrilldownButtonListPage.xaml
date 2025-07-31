@@ -7,7 +7,6 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:DrilldownButtonListViewModel"
-    BackgroundColor="{DynamicResource PageBackgroundColor}"
     Title="Drilldown Buttons">
 
     <ScrollView>

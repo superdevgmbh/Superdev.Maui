@@ -7,7 +7,7 @@ namespace Superdev.Maui.Converters
     {
         public object NormalColor => (Color)Application.Current.Resources[ThemeConstants.Color.TextColor];
 
-        public object ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.ERROR];
+        public object ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.Error];
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

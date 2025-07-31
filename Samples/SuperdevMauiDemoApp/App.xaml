@@ -45,7 +45,7 @@
             </Style>
 
             <s:ColorConfiguration
-                x:Key="ColorConfiguration"
+                x:Key="ColorConfigurationLight"
                 CardViewBackgroundColor="{StaticResource CardViewBackgroundColor}"
                 CardViewHeaderBackgroundColor="{StaticResource LabelSectionBackground}"
                 CardViewHeaderTextColor="#6D6D72"
@@ -53,14 +53,34 @@
                 OnPrimary="#FFFFFF"
                 OnSecondary="#FFFFFF"
                 OnTertiary="#FFFFFF"
+                PageBackgroundColor="{StaticResource Gray100}"
                 Primary="#5714AF"
                 PrimaryVariant="#c7a4f4"
                 Secondary="#17C2BC"
                 SecondaryVariant="#a4f4f2"
                 Tertiary="{StaticResource Amber700}"
                 TertiaryVariant="{StaticResource Amber100}"
-                TextColor="DarkBlue"
-                TextColorBright="DarkGray" />
+                TextColor="{StaticResource Gray800}"
+                TextColorBright="{StaticResource Gray500}" />
+
+            <s:ColorConfiguration
+                x:Key="ColorConfigurationDark"
+                CardViewBackgroundColor="#000000"
+                CardViewHeaderBackgroundColor="#000000"
+                CardViewHeaderTextColor="{StaticResource Gray100}"
+                Error="#0000ff"
+                OnPrimary="#FFFFFF"
+                OnSecondary="#000000"
+                OnTertiary="#000000"
+                PageBackgroundColor="{StaticResource Gray800}"
+                Primary="#000000"
+                PrimaryVariant="#3700B3"
+                Secondary="#03DAC6"
+                SecondaryVariant="#005457"
+                Tertiary="{StaticResource Amber700}"
+                TertiaryVariant="{StaticResource Amber100}"
+                TextColor="Magenta"
+                TextColorBright="LightGray" />
 
             <s:SpacingConfiguration x:Key="SpacingConfiguration" />
 
@@ -122,8 +142,15 @@
                 FontSizes="{StaticResource FontSizeConfiguration}" />
 
             <s:Theme
-                x:Key="SampleApp.Theme"
-                ColorConfiguration="{StaticResource ColorConfiguration}"
+                x:Key="SampleApp.Theme.Dark"
+                ColorConfiguration="{StaticResource ColorConfigurationDark}"
+                FontConfiguration="{StaticResource FontConfiguration}"
+                SpacingConfiguration="{StaticResource SpacingConfiguration}" />
+
+            <s:Theme
+                x:Key="SampleApp.Theme.Light"
+                ColorConfiguration="{StaticResource ColorConfigurationLight}"
+                FontConfiguration="{StaticResource FontConfiguration}"
                 SpacingConfiguration="{StaticResource SpacingConfiguration}" />
 
         </ResourceDictionary>

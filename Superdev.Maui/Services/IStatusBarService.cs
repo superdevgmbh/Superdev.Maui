@@ -9,10 +9,18 @@
 #if ANDROID || IOS
             Superdev.Maui.Platforms.Services.StatusBarService.Current;
 #else
-            throw new NotSupportedException($"Current platform {DeviceInfo.Platform} is not supported.");
+            throw new NotSupportedException($"Current platform {DeviceInfo.Current.Platform} is not supported.");
 #endif
 
-        void SetColor(Color color);
+#if ANDROID
+        void OnStart(Android.App.Activity activity);
+
+        void OnResume();
+#endif
+
+        void SetStatusBarColor(Color color);
+
+        void SetNavigationBarColor(Color color);
 
         void SetStyle(StatusBarStyle statusBarStyle);
     }

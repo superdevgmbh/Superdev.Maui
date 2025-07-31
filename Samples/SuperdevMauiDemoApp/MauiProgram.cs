@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Superdev.Maui;
 using Superdev.Maui.Localization;
 using SuperdevMauiDemoApp.Services;
-using SuperdevMauiDemoApp.Services.Navigation;
 using SuperdevMauiDemoApp.Services.Validation;
 using SuperdevMauiDemoApp.Translations;
 using SuperdevMauiDemoApp.ViewModels;
@@ -44,6 +43,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<EntryViewModel>();
             builder.Services.AddTransient<ServiceDemoPage>();
             builder.Services.AddTransient<ServiceDemoViewModel>();
+            builder.Services.AddTransient<NavigationDemoPage>();
+            builder.Services.AddTransient<NavigationDemoViewModel>();
             builder.Services.AddTransient<ViewModelErrorDemoPage>();
             builder.Services.AddTransient<ViewModelErrorDemoViewModel>();
             builder.Services.AddTransient<ActivityIndicatorDemoPage>();
@@ -73,9 +74,9 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<BehaviorDemoPage>();
             builder.Services.AddTransient<BehaviorDemoViewModel>();
 
-            builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             builder.Services.AddSingleton<ICountryService, CountryService>();
             builder.Services.AddSingleton<IValidationService, ValidationService>();
+            builder.Services.AddSingleton<IClipboard>(_ => Clipboard.Default);
             builder.Services.AddSingleton<IEmail>(_ => Email.Default);
 
             return builder.Build();

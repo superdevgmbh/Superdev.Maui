@@ -96,8 +96,11 @@ namespace Superdev.Maui.Platforms.Services
 
         public void Dispose()
         {
-            this.activityIndicatorPage?.Handler?.DisconnectHandler();
-            this.activityIndicatorPage = null;
+            if (this.activityIndicatorPage is Page p)
+            {
+                p.Handler?.DisconnectHandler();
+                p.Handler = null;
+            }
 
             this.nativeView?.Dispose();
             this.nativeView = null;

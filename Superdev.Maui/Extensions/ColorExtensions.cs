@@ -1,4 +1,6 @@
-﻿namespace Superdev.Maui.Extensions
+﻿using Superdev.Maui.Services;
+
+namespace Superdev.Maui.Extensions
 {
     public static class ColorExtensions
     {
@@ -39,6 +41,21 @@
             var b = 255 - (int)(255 * color.Blue);
 
             return Color.FromRgb(r, g, b);
+        }
+
+        public static StatusBarStyle ToStatusBarStyle(this Color color)
+        {
+            if (color == null)
+            {
+                return StatusBarStyle.Default;
+            }
+
+            // Source: https://en.wikipedia.org/wiki/Luma_(video)
+            var y = 0.2126 * color.Red + 0.7152 * color.Green + 0.0722 * color.Blue;
+
+            return y < 128
+                ? StatusBarStyle.Dark
+                : StatusBarStyle.Light;
         }
     }
 }

@@ -31,7 +31,8 @@
                 ItemTemplate="{StaticResource CountryItemTemplate}"
                 ItemsSource="{Binding Countries}" />
         </Grid>
-        <s:CustomActivityIndicator
+
+        <s:PageActivityIndicator
             Grid.Row="0"
             IsBusy="{Binding IsBusy}" />
 

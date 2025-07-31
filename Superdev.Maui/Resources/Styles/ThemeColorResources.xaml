@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ResourceDictionary
-    x:Class="Superdev.Maui.Resources.Styles.ThemeColorResources"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-
-    <Color x:Key="Material.Button.Outlined.BorderColor">#1E000000</Color>
-
-</ResourceDictionary>

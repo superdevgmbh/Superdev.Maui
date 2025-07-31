@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage
     x:Class="SuperdevMauiDemoApp.Views.ServiceDemoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -6,9 +7,9 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:ServiceDemoViewModel"
-    s:StatusBar.Color="{DynamicResource LightGreen100}"
+    s:StatusBar.NavigationBarColor="{DynamicResource LightGreenA200}"
+    s:StatusBar.StatusBarColor="{DynamicResource LightGreenA200}"
     s:StatusBar.Style="Light"
-    BackgroundColor="{DynamicResource PageBackgroundColor}"
     Title="ServiceDemoPage">
 
     <ScrollView>
@@ -17,13 +18,59 @@
             Spacing="{DynamicResource Theme.Spacing.Medium}">
             <Label
                 Style="{StaticResource DemoLabelStyle}"
+                Text="IDeviceInfo" />
+            <s:ValidatableEntry
+                IsReadonly="True"
+                Placeholder="DeviceId"
+                Text="{Binding DeviceId, Mode=OneWay}" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
                 Text="IStatusBarService" />
             <Button
                 Command="{Binding SetStatusBarColorCommand}"
-                Text="SetColor" />
+                Text="SetStatusBarColor" />
             <Button
-                Command="{Binding SetStatusBarModeCommand}"
-                Text="SetStyle" />
+                Command="{Binding SetStatusBarStyleCommand}"
+                Text="SetStatusBarStyle" />
+            <Button
+                Command="{Binding SetNavigationBarColorCommand}"
+                Text="SetNavigationBarColor" />
+            <Button
+                Command="{Binding ResetNavigationBarColorCommand}"
+                Text="NavigationBarColor=null" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="IThemeHelper" />
+            <Grid ColumnDefinitions="*,Auto">
+                <Label
+                    Grid.Column="0"
+                    Style="{StaticResource EntryLabelStyle}"
+                    Text="{Binding UseSystemTheme, StringFormat='UseSystemTheme={0}'}" />
+                <Switch
+                    Grid.Column="1"
+                    IsToggled="{Binding UseSystemTheme}"
+                    HorizontalOptions="End" />
+            </Grid>
+            <s:ValidatablePicker
+                IsReadonly="True"
+                ItemDisplayBinding="{Binding .}"
+                ItemsSource="{Binding AppThemes}"
+                Placeholder="PlatformAppTheme"
+                SelectedItem="{Binding PlatformAppTheme, Mode=TwoWay}" />
+            <s:ValidatablePicker
+                IsReadonly="True"
+                ItemDisplayBinding="{Binding .}"
+                ItemsSource="{Binding AppThemes}"
+                Placeholder="UserAppTheme"
+                SelectedItem="{Binding UserAppTheme, Mode=TwoWay}" />
+            <s:ValidatablePicker
+                ItemDisplayBinding="{Binding .}"
+                ItemsSource="{Binding AppThemes}"
+                Placeholder="AppTheme"
+                SelectedItem="{Binding AppTheme, Mode=TwoWay}" />
+            <Button
+                Command="{Binding ResetThemeCommand}"
+                Text="Reset" />
             <Label
                 Style="{StaticResource DemoLabelStyle}"
                 Text="IGeolocationSettings" />

@@ -11,9 +11,12 @@ namespace Superdev.Maui.Services
 #if ANDROID || IOS
             Superdev.Maui.Platforms.Services.ActivityIndicatorService.Current;
 #else
-            throw new NotSupportedException($"Current platform {DeviceInfo.Platform} is not supported.");
+            throw new NotSupportedException($"Current platform {DeviceInfo.Current.Platform} is not supported.");
 #endif
 
+#if ANDROID
+        void OnResume();
+#endif
         void Init<T>(T activityIndicatorPage) where T : ContentPage, IActivityIndicatorPage;
 
         void ShowLoadingPage(string text);

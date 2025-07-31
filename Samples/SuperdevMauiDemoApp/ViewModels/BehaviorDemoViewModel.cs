@@ -9,6 +9,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IDialogService dialogService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private IAsyncRelayCommand appearingCommand;
+        private IAsyncRelayCommand buttonClickCommand;
 
         public BehaviorDemoViewModel(
             IDialogService dialogService,
@@ -53,6 +54,20 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+
+        public IAsyncRelayCommand ButtonClickCommand
+        {
+            get => this.buttonClickCommand ??= new AsyncRelayCommand(this.ButtonClickAsync);
+        }
+
+        private async Task ButtonClickAsync()
+        {
+            await this.dialogService.DisplayAlertAsync(
+                "Clicked",
+                "Clicked event has triggered ButtonClickCommand",
+                "OK");
         }
     }
 }

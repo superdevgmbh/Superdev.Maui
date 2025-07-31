@@ -1,50 +1,133 @@
 ﻿namespace Superdev.Maui.Resources.Styles
 {
-    /// <summary>
-    ///     Class that provides color theme configuration based on https://material.io/design/color.
-    /// </summary>
-    public sealed class ColorConfiguration : BindableObject, IColorConfiguration
+    public sealed class ColorConfiguration : BindableObject
     {
-        public Color SemiTransparentBright => Color.FromArgb("#7FFFFFFF");
+        private bool isInitialized;
 
-        public Color SemiTransparentDark => Color.FromArgb("#7F000000");
+        public ColorResources Resources { get; }
 
-        public static readonly BindableProperty BackgroundProperty = BindableProperty.Create(
-            nameof(Background),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#EAEAEA"));
-
-        /// <summary>
-        ///     The underlying color of an app's content.
-        ///     Typically, the background color of scrollable content.
-        /// </summary>
-        public Color Background
+        public ColorConfiguration()
         {
-            get => (Color)this.GetValue(BackgroundProperty);
-            set => this.SetValue(BackgroundProperty, value);
+            this.Resources = new ColorResources();
         }
 
-        public static readonly BindableProperty OnBackgroundProperty = BindableProperty.Create(
-            nameof(OnBackground),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#000000"));
-
-        /// <summary>
-        ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Background" />.
-        /// </summary>
-        public Color OnBackground
+        internal void Initialize()
         {
-            get => (Color)this.GetValue(OnBackgroundProperty);
-            set => this.SetValue(OnBackgroundProperty, value);
+            if (this.isInitialized)
+            {
+                return;
+            }
+
+            this.SetThemeColors(this);
+            this.SetPageColors(this);
+            this.SetButtonColors(this);
+            this.SetDrilldownButtonColors(this);
+            this.SetCardViewColors(this);
+            this.isInitialized = true;
+        }
+
+        private void SetPageColors(ColorConfiguration colorConfiguration)
+        {
+            this.Resources.SetColor(ThemeConstants.Page.BackgroundColor, colorConfiguration.PageBackgroundColor);
+        }
+
+        private void SetButtonColors(ColorConfiguration colorConfiguration)
+        {
+            // Default button style
+            this.Resources.SetColor(ThemeConstants.Button.TextColor, colorConfiguration.TextColor);
+            this.Resources.SetColor(ThemeConstants.Button.BorderColor, colorConfiguration.TextColor);
+            this.Resources.SetColor(ThemeConstants.Button.BackgroundColor, MaterialColors.White);
+
+            this.Resources.SetColor(ThemeConstants.Button.TextColorPressed, MaterialColors.White);
+            this.Resources.SetColor(ThemeConstants.Button.BorderColorPressed, colorConfiguration.TextColor);
+            this.Resources.SetColor(ThemeConstants.Button.BackgroundColorPressed, colorConfiguration.TextColor);
+
+            this.Resources.SetColor(ThemeConstants.Button.TextColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetColor(ThemeConstants.Button.BorderColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetColor(ThemeConstants.Button.BackgroundColorDisabled, MaterialColors.Gray200);
+
+            // Primary button style
+            this.Resources[ThemeConstants.Button.Primary.TextColor] = colorConfiguration.OnPrimary;
+            this.Resources[ThemeConstants.Button.Primary.BorderColor] = colorConfiguration.Primary;
+            this.Resources[ThemeConstants.Button.Primary.BackgroundColor] = colorConfiguration.Primary;
+
+            this.Resources[ThemeConstants.Button.Primary.TextColorPressed] = colorConfiguration.OnPrimary;
+            this.Resources[ThemeConstants.Button.Primary.BorderColorPressed] = colorConfiguration.Primary;
+            this.Resources[ThemeConstants.Button.Primary.BackgroundColorPressed] = colorConfiguration.PrimaryVariant;
+
+            this.Resources[ThemeConstants.Button.Primary.TextColorDisabled] = colorConfiguration.OnPrimary;
+            this.Resources[ThemeConstants.Button.Primary.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this.Resources[ThemeConstants.Button.Primary.BackgroundColorDisabled] = colorConfiguration.PrimaryDisabled;
+
+            // Secondary button style
+            this.Resources[ThemeConstants.Button.Secondary.TextColor] = colorConfiguration.Secondary;
+            this.Resources[ThemeConstants.Button.Secondary.BorderColor] = colorConfiguration.Secondary;
+            this.Resources[ThemeConstants.Button.Secondary.BackgroundColor] = colorConfiguration.OnSecondary;
+
+            this.Resources[ThemeConstants.Button.Secondary.TextColorPressed] = colorConfiguration.Secondary;
+            this.Resources[ThemeConstants.Button.Secondary.BorderColorPressed] = colorConfiguration.Secondary;
+            this.Resources[ThemeConstants.Button.Secondary.BackgroundColorPressed] = colorConfiguration.SecondaryVariant;
+
+            this.Resources[ThemeConstants.Button.Secondary.TextColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this.Resources[ThemeConstants.Button.Secondary.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this.Resources[ThemeConstants.Button.Secondary.BackgroundColorDisabled] = MaterialColors.Gray200;
+        }
+
+        private void SetDrilldownButtonColors(ColorConfiguration colorConfiguration)
+        {
+            this.Resources[ThemeConstants.DrilldownButtonStyle.TextColor] = colorConfiguration.TextColor;
+            this.Resources[ThemeConstants.DrilldownButtonStyle.BorderColorEnabled] = Colors.Transparent;
+            this.Resources[ThemeConstants.DrilldownButtonStyle.BorderColorDisabled] = Colors.Transparent;
+            this.Resources[ThemeConstants.DrilldownButtonStyle.BorderColorPressed] = Colors.Transparent;
+            this.Resources[ThemeConstants.DrilldownButtonStyle.BackgroundColorEnabled] = Colors.Transparent;
+            this.Resources[ThemeConstants.DrilldownButtonStyle.BackgroundColorDisabled] = MaterialColors.SemiTransparentBright;
+            this.Resources[ThemeConstants.DrilldownButtonStyle.BackgroundColorPressed] = MaterialColors.SemiTransparentBright;
+        }
+
+        private void SetCardViewColors(ColorConfiguration colorConfiguration)
+        {
+            this.Resources.SetColor(ThemeConstants.CardViewStyle.HeaderTextColor, colorConfiguration.CardViewHeaderTextColor);
+            this.Resources.SetColor(ThemeConstants.CardViewStyle.HeaderBackgroundColor, colorConfiguration.CardViewHeaderBackgroundColor);
+            this.Resources.SetColor(ThemeConstants.CardViewStyle.HeaderDividerColor, colorConfiguration.CardViewDividerColor);
+            this.Resources.SetColor(ThemeConstants.CardViewStyle.BackgroundColor, colorConfiguration.CardViewBackgroundColor);
+            this.Resources.SetColor(ThemeConstants.CardViewStyle.FooterTextColor, colorConfiguration.CardViewFooterTextColor);
+            this.Resources.SetColor(ThemeConstants.CardViewStyle.FooterDividerColor, colorConfiguration.CardViewDividerColor);
+        }
+
+        private void SetThemeColors(ColorConfiguration colorConfiguration)
+        {
+            this.Resources.SetColor(ThemeConstants.Color.TextColor, colorConfiguration.TextColor);
+            this.Resources.SetColor(ThemeConstants.Color.TextColorBright, colorConfiguration.TextColorBright);
+            this.Resources.SetColor(ThemeConstants.Color.Primary, colorConfiguration.Primary);
+            this.Resources.SetColor(ThemeConstants.Color.PrimaryVariant, colorConfiguration.PrimaryVariant);
+            this.Resources.SetColor(ThemeConstants.Color.PrimaryDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetColor(ThemeConstants.Color.OnPrimary, colorConfiguration.OnPrimary);
+            this.Resources.SetColor(ThemeConstants.Color.Secondary, colorConfiguration.Secondary);
+            this.Resources.SetColor(ThemeConstants.Color.SecondaryVariant, colorConfiguration.SecondaryVariant);
+            this.Resources.SetColor(ThemeConstants.Color.SecondaryDisabled, colorConfiguration.SecondaryDisabled);
+            this.Resources.SetColor(ThemeConstants.Color.OnSecondary, colorConfiguration.OnSecondary);
+            this.Resources.SetColor(ThemeConstants.Color.Tertiary, colorConfiguration.Tertiary);
+            this.Resources.SetColor(ThemeConstants.Color.TertiaryVariant, colorConfiguration.TertiaryVariant);
+            this.Resources.SetColor(ThemeConstants.Color.TertiaryDisabled, colorConfiguration.TertiaryDisabled);
+            this.Resources.SetColor(ThemeConstants.Color.OnTertiary, colorConfiguration.OnTertiary);
+            this.Resources.SetColor(ThemeConstants.Color.Error, colorConfiguration.Error);
+            this.Resources.SetColor(ThemeConstants.Color.ErrorBackground, colorConfiguration.ErrorBackground);
+
+            this.Resources.SetColor(ThemeConstants.Color.SemiTransparentBright, MaterialColors.SemiTransparentBright);
+            this.Resources.SetColor(ThemeConstants.Color.SemiTransparentDark, MaterialColors.SemiTransparentDark);
         }
 
         public static readonly BindableProperty ErrorProperty = BindableProperty.Create(
             nameof(Error),
             typeof(Color),
             typeof(Color),
-            Color.FromArgb("#B00020"));
+            Color.FromArgb("#B00020"),
+            propertyChanged: OnErrorPropertyChanged);
+
+        private static void OnErrorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.Error, newValue);
+        }
 
         /// <summary>
         ///     The color used to indicate error status.
@@ -53,21 +136,6 @@
         {
             get => (Color)this.GetValue(ErrorProperty);
             set => this.SetValue(ErrorProperty, value);
-        }
-
-        public static readonly BindableProperty OnErrorProperty = BindableProperty.Create(
-            nameof(OnError),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#FFFFFF"));
-
-        /// <summary>
-        ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Error" />.
-        /// </summary>
-        public Color OnError
-        {
-            get => (Color)this.GetValue(OnErrorProperty);
-            set => this.SetValue(OnErrorProperty, value);
         }
 
         public static readonly BindableProperty ErrorBackgroundProperty = BindableProperty.Create(
@@ -85,35 +153,35 @@
             set => this.SetValue(ErrorBackgroundProperty, value);
         }
 
-        public static readonly BindableProperty OnPrimaryProperty = BindableProperty.Create(
-            nameof(OnPrimary),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#FFFFFF"));
-
-        public static readonly BindableProperty OnSecondaryProperty = BindableProperty.Create(
-            nameof(OnSecondary),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#FFFFFF"));
-
-        public static readonly BindableProperty OnTertiaryProperty = BindableProperty.Create(
-            nameof(OnTertiary),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#FFFFFF"));
-
-        public static readonly BindableProperty OnSurfaceProperty = BindableProperty.Create(
-            nameof(OnSurface),
-            typeof(Color),
-            typeof(Color),
-            Color.FromArgb("#000000"));
-
         public static readonly BindableProperty PrimaryProperty = BindableProperty.Create(
             nameof(Primary),
             typeof(Color),
             typeof(Color),
-            Color.FromArgb("#6200EE"));
+            Color.FromArgb("#6200EE"),
+            propertyChanged: OnPrimaryPropertyChanged);
+
+        private static void OnPrimaryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.Primary, newValue);
+        }
+
+        private static void UpdateColorProperty(BindableObject bindable, string key, object newValue)
+        {
+            if (bindable is not ColorConfiguration colorConfiguration)
+            {
+                return;
+            }
+
+            if (colorConfiguration.isInitialized == false)
+            {
+                return;
+            }
+
+            if (newValue is Color color)
+            {
+                colorConfiguration.Resources.SetColor(key, color);
+            }
+        }
 
         /// <summary>
         ///     Displayed most frequently across your app.
@@ -128,7 +196,13 @@
             nameof(TextColor),
             typeof(Color),
             typeof(Color),
-            Color.FromArgb("#343434"));
+            MaterialColors.Gray800,
+            propertyChanged: OnTextColorProperty);
+
+        private static void OnTextColorProperty(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.TextColor, newValue);
+        }
 
         /// <summary>
         ///     Displayed most frequently across your app.
@@ -143,7 +217,13 @@
             nameof(TextColorBright),
             typeof(Color),
             typeof(Color),
-            Color.FromArgb("#7E8184"));
+            MaterialColors.Gray500,
+            propertyChanged: OnTextColorBrightProperty);
+
+        private static void OnTextColorBrightProperty(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.TextColorBright, newValue);
+        }
 
         /// <summary>
         ///     Displayed most frequently across your app.
@@ -154,68 +234,30 @@
             set => this.SetValue(TextColorBrightProperty, value);
         }
 
-        public static readonly BindableProperty PrimaryVariantProperty =
-            BindableProperty.Create(
-                nameof(PrimaryVariant),
-                typeof(Color),
-                typeof(Color),
-                Color.FromArgb("#6200EE"));
-
-        public static readonly BindableProperty PrimaryDisabledProperty =
-            BindableProperty.Create(
-                nameof(PrimaryDisabled),
-                typeof(Color),
-                typeof(Color),
-                MaterialColors.Gray500);
-
         public static readonly BindableProperty SecondaryProperty =
             BindableProperty.Create(
                 nameof(Secondary),
                 typeof(Color),
                 typeof(Color),
-                default(Color));
+                default(Color),
+                propertyChanged: OnSecondaryPropertyChanged);
 
-        public static readonly BindableProperty SecondaryVariantProperty =
-            BindableProperty.Create(
-                nameof(SecondaryVariant),
-                typeof(Color),
-                typeof(Color),
-                Color.FromArgb("#0400BA"));
+        private static void OnSecondaryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.Secondary, newValue);
+        }
 
-        public static readonly BindableProperty SecondaryDisabledProperty =
-            BindableProperty.Create(
-                nameof(SecondaryDisabled),
-                typeof(Color),
-                typeof(Color),
-                MaterialColors.Gray500);
+        public static readonly BindableProperty OnPrimaryProperty = BindableProperty.Create(
+            nameof(OnPrimary),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#FFFFFF"),
+            propertyChanged: OnOnPrimaryPropertyChanged);
 
-        public static readonly BindableProperty TertiaryProperty =
-            BindableProperty.Create(
-                nameof(Tertiary),
-                typeof(Color),
-                typeof(Color),
-                MaterialColors.White);
-
-        public static readonly BindableProperty TertiaryVariantProperty =
-            BindableProperty.Create(
-                nameof(TertiaryVariant),
-                typeof(Color),
-                typeof(Color),
-                Color.FromArgb("#0400BA"));
-
-        public static readonly BindableProperty TertiaryDisabledProperty =
-            BindableProperty.Create(
-                nameof(TertiaryDisabled),
-                typeof(Color),
-                typeof(Color),
-                MaterialColors.Gray500);
-
-        public static readonly BindableProperty SurfaceProperty =
-            BindableProperty.Create(
-                nameof(Surface),
-                typeof(Color),
-                typeof(Color),
-                Color.FromArgb("#FFFFFF"));
+        private static void OnOnPrimaryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.OnPrimary, newValue);
+        }
 
         /// <summary>
         ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Primary" />.
@@ -224,6 +266,18 @@
         {
             get => (Color)this.GetValue(OnPrimaryProperty);
             set => this.SetValue(OnPrimaryProperty, value);
+        }
+
+        public static readonly BindableProperty OnSecondaryProperty = BindableProperty.Create(
+            nameof(OnSecondary),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#FFFFFF"),
+            propertyChanged: OnOnSecondaryPropertyChanged);
+
+        private static void OnOnSecondaryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.OnSecondary, newValue);
         }
 
         /// <summary>
@@ -241,19 +295,34 @@
             set => this.SetValue(OnSecondaryProperty, value);
         }
 
+        public static readonly BindableProperty OnTertiaryProperty = BindableProperty.Create(
+            nameof(OnTertiary),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#FFFFFF"),
+            propertyChanged: OnOnTertiaryPropertyChanged);
+
+        private static void OnOnTertiaryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.OnTertiary, newValue);
+        }
+
         public Color OnTertiary
         {
             get => (Color)this.GetValue(OnTertiaryProperty);
             set => this.SetValue(OnTertiaryProperty, value);
         }
 
-        /// <summary>
-        ///     A color that passes accessibility guidelines for text/iconography when drawn on top of <see cref="Surface" />
-        /// </summary>
-        public Color OnSurface
+        public static readonly BindableProperty PrimaryVariantProperty = BindableProperty.Create(
+            nameof(PrimaryVariant),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#6200EE"),
+            propertyChanged: OnPrimaryVariantPropertyChanged);
+
+        private static void OnPrimaryVariantPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            get => (Color)this.GetValue(OnSurfaceProperty);
-            set => this.SetValue(OnSurfaceProperty, value);
+            UpdateColorProperty(bindable, ThemeConstants.Color.PrimaryVariant, newValue);
         }
 
         /// <summary>
@@ -263,6 +332,19 @@
         {
             get => (Color)this.GetValue(PrimaryVariantProperty);
             set => this.SetValue(PrimaryVariantProperty, value);
+        }
+
+        public static readonly BindableProperty PrimaryDisabledProperty =
+            BindableProperty.Create(
+                nameof(PrimaryDisabled),
+                typeof(Color),
+                typeof(Color),
+                MaterialColors.Gray500,
+                propertyChanged: OnPrimaryDisabledPropertyChanged);
+
+        private static void OnPrimaryDisabledPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.PrimaryDisabled, newValue);
         }
 
         public Color PrimaryDisabled
@@ -291,6 +373,18 @@
             set => this.SetValue(SecondaryProperty, value);
         }
 
+        public static readonly BindableProperty SecondaryVariantProperty = BindableProperty.Create(
+            nameof(SecondaryVariant),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#0400BA"),
+            propertyChanged: OnSecondaryVariantPropertyChanged);
+
+        private static void OnSecondaryVariantPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.SecondaryVariant, newValue);
+        }
+
         /// <summary>
         ///     A tonal variation of <see cref="Secondary" />.
         /// </summary>
@@ -300,16 +394,53 @@
             set => this.SetValue(SecondaryVariantProperty, value);
         }
 
+        public static readonly BindableProperty SecondaryDisabledProperty = BindableProperty.Create(
+            nameof(SecondaryDisabled),
+            typeof(Color),
+            typeof(Color),
+            MaterialColors.Gray500,
+            propertyChanged: OnSecondaryDisabledProperty);
+
+        private static void OnSecondaryDisabledProperty(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.SecondaryDisabled, newValue);
+        }
+
         public Color SecondaryDisabled
         {
             get => (Color)this.GetValue(SecondaryDisabledProperty);
             set => this.SetValue(SecondaryDisabledProperty, value);
         }
 
+        public static readonly BindableProperty TertiaryProperty =
+            BindableProperty.Create(
+                nameof(Tertiary),
+                typeof(Color),
+                typeof(Color),
+                MaterialColors.White,
+                propertyChanged: OnTertiaryPropertyChanged);
+
+        private static void OnTertiaryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.Tertiary, newValue);
+        }
+
         public Color Tertiary
         {
             get => (Color)this.GetValue(TertiaryProperty);
             set => this.SetValue(TertiaryProperty, value);
+        }
+
+        public static readonly BindableProperty TertiaryVariantProperty = BindableProperty.Create(
+            nameof(TertiaryVariant),
+            typeof(Color),
+            typeof(Color),
+            Color.FromArgb("#0400BA"),
+            propertyChanged: OnTertiaryVariantPropertyChanged);
+
+        private static void OnTertiaryVariantPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Color.TertiaryVariant, newValue);
         }
 
         /// <summary>
@@ -321,22 +452,41 @@
             set => this.SetValue(TertiaryVariantProperty, value);
         }
 
+        public static readonly BindableProperty TertiaryDisabledProperty = BindableProperty.Create(
+                nameof(TertiaryDisabled),
+                typeof(Color),
+                typeof(Color),
+                MaterialColors.Gray500);
+
         public Color TertiaryDisabled
         {
             get => (Color)this.GetValue(TertiaryDisabledProperty);
             set => this.SetValue(TertiaryDisabledProperty, value);
         }
 
-        /// <summary>
-        ///     The color of surfaces such as cards, sheets, menus.
-        /// </summary>
-        public Color Surface
+        #region Page
+
+        public Color PageBackgroundColor
         {
-            get => (Color)this.GetValue(SurfaceProperty);
-            set => this.SetValue(SurfaceProperty, value);
+            get => (Color)this.GetValue(PageBackgroundColorProperty);
+            set => this.SetValue(PageBackgroundColorProperty, value);
         }
 
-        #region CardView Colors
+        public static readonly BindableProperty PageBackgroundColorProperty = BindableProperty.Create(
+            nameof(PageBackgroundColor),
+            typeof(Color),
+            typeof(Color),
+            MaterialColors.Gray100,
+            propertyChanged: OnPageBackgroundColorPropertyChanged);
+
+        private static void OnPageBackgroundColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            UpdateColorProperty(bindable, ThemeConstants.Page.BackgroundColor, newValue);
+        }
+
+        #endregion
+
+        #region CardView
 
         public static readonly BindableProperty CardViewDividerColorProperty =
             BindableProperty.Create(
@@ -426,12 +576,11 @@
             set => this.SetValue(CardViewHeaderBackgroundColorProperty, value);
         }
 
-        public static readonly BindableProperty CardViewBackgroundColorProperty =
-            BindableProperty.Create(
-                nameof(CardViewBackgroundColor),
-                typeof(Color),
-                typeof(Color),
-                GetDefaultCardViewBackgroundColor());
+        public static readonly BindableProperty CardViewBackgroundColorProperty = BindableProperty.Create(
+            nameof(CardViewBackgroundColor),
+            typeof(Color),
+            typeof(Color),
+            GetDefaultCardViewBackgroundColor());
 
         private static Color GetDefaultCardViewBackgroundColor()
         {

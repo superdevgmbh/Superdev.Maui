@@ -1,4 +1,5 @@
-﻿using Superdev.Maui.Extensions;
+﻿using System.Diagnostics;
+using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Resources.Styles
 {
@@ -15,12 +16,11 @@ namespace Superdev.Maui.Resources.Styles
         /// </param>
         /// <exception cref="InvalidCastException" />
         /// <exception cref="ArgumentNullException" />
-        public static T ResolveTheme<T>(this ResourceDictionary resourceDictionary, string key)
+        public static T GetValue<T>(this ResourceDictionary resourceDictionary, string key)
         {
             ArgumentNullException.ThrowIfNull(key);
 
-            var success = resourceDictionary.TryGetValue(key, out var value);
-            if (success)
+            if (resourceDictionary.TryGetValue(key, out var value))
             {
                 if (value is T resource)
                 {
@@ -36,14 +36,21 @@ namespace Superdev.Maui.Resources.Styles
             throw new InvalidOperationException($"{typeof(T).GetFormattedName()} with key='{key}' could not be found.");
         }
 
-        public static void TryAddColorResource(this ResourceDictionary resourceDictionary, string key, Color color)
+        public static void SetColor(this ResourceDictionary resourceDictionary, string key, Color color)
         {
-            if (key == null || color == null)
+            if (resourceDictionary == null || key == null || color == null)
             {
                 return;
             }
 
-            resourceDictionary.Add(key, color);
+#if DEBUG
+            if (resourceDictionary.TryGetValue(key, out _))
+            {
+                Debug.WriteLine($"TryAddColorResource: key='{key}' already exists");
+            }
+#endif
+
+            resourceDictionary[key] = color;
         }
     }
 }

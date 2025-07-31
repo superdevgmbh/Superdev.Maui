@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.NavigationDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:NavigationDemoViewModel"
+    Title="NavigationDemoPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="Navigation" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="NavigationDemoPage"
+                Text="PushAsync" />
+            <Button
+                Command="{Binding PopCommand}"
+                Text="PopAsync" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="Modal Navigation" />
+            <Button
+                Command="{Binding NavigateToPageModalCommand}"
+                CommandParameter="NavigationDemoPage"
+                Text="PushModalAsync" />
+            <Button
+                Command="{Binding PopModalCommand}"
+                Text="PopModalAsync" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

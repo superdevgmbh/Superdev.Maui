@@ -11,7 +11,7 @@ namespace Superdev.Maui.Services
 #if ANDROID || IOS
             Superdev.Maui.Services.KeyboardService.Current;
 #else
-            throw new NotSupportedException($"Current platform {DeviceInfo.Platform} is not supported.");
+            throw new NotSupportedException($"Current platform {DeviceInfo.Current.Platform} is not supported.");
 #endif
 
         void UseWindowSoftInputModeAdjust(object target, WindowSoftInputModeAdjust windowSoftInputModeAdjust);

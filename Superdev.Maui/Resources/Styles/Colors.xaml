@@ -4,6 +4,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Superdev.Maui.Controls"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles">
 
@@ -208,14 +209,10 @@
 
     <Color x:Key="Black">#000000</Color>
     <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="SemiTransparentDark">#7F000000</Color>
+    <Color x:Key="SemiTransparentBright">#7FFFFFFF</Color>
 
     <!-- Named Colors -->
-    <styles:ColorReference
-        x:Key="Page.BackgroundColor"
-        Value="{StaticResource Gray100}" />
-    <styles:ColorReference
-        x:Key="PageBackgroundColor"
-        Value="{StaticResource Gray100}" />
     <styles:ColorReference
         x:Key="ListSeparator"
         Value="{StaticResource Gray400}" />

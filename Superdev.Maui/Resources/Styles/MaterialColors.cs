@@ -200,5 +200,7 @@ namespace Superdev.Maui.Resources.Styles
 
         public static Color Black { get; } = Color.FromArgb("#000000");
         public static Color White { get; } = Color.FromArgb("#FFFFFF");
+        public static Color SemiTransparentDark { get; } = Color.FromArgb("#7F000000");
+        public static Color SemiTransparentBright { get; } = Color.FromArgb("#7FFFFFFF");
     }
 }

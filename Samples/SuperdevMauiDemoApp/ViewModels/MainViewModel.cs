@@ -7,12 +7,12 @@ using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
 using Superdev.Maui.Validation;
-using SuperdevMauiDemoApp.Services.Navigation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -26,6 +26,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IValidationService validationService;
         private readonly ILocalizer localizer;
         private readonly IActivityIndicatorService activityIndicatorService;
+        private readonly IThemeHelper themeHelper;
 
         private CountryViewModel country;
         private string adminEmailAddress;
@@ -40,6 +41,8 @@ namespace SuperdevMauiDemoApp.ViewModels
         private DateTime? birthdate;
         private IAsyncRelayCommand navigateToPageCommand;
         private LanguageViewModel language;
+        private IRelayCommand switchThemesCommand;
+        private AppTheme appTheme;
 
         public MainViewModel(
             ILogger<MainViewModel> logger,
@@ -49,7 +52,8 @@ namespace SuperdevMauiDemoApp.ViewModels
             ICountryService countryService,
             IValidationService validationService,
             ILocalizer localizer,
-            IActivityIndicatorService activityIndicatorService)
+            IActivityIndicatorService activityIndicatorService,
+            IThemeHelper themeHelper)
         {
             this.logger = logger;
             this.navigationService = navigationService;
@@ -59,6 +63,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.validationService = validationService;
             this.localizer = localizer;
             this.activityIndicatorService = activityIndicatorService;
+            this.themeHelper = themeHelper;
 
             this.EnableBusyRefCount = false;
             this.ViewModelError = ViewModelError.None;
@@ -110,12 +115,35 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
+        public AppTheme AppTheme
+        {
+            get => this.appTheme;
+            private set
+            {
+                if (this.SetProperty(ref this.appTheme, value))
+                {
+                    this.themeHelper.AppTheme =  value;
+                }
+            }
+        }
+
+        public IRelayCommand SwitchThemesCommand
+        {
+            get => this.switchThemesCommand ??= new RelayCommand(this.OnSwitchThemes);
+        }
+
+        private void OnSwitchThemes()
+        {
+            this.AppTheme = this.AppTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
+            this.themeHelper.AppTheme = this.AppTheme;
+        }
+
         private UserDto User
         {
             get => this.user;
             set
             {
-                if (this.SetProperty(ref this.user, value, nameof(this.User)))
+                if (this.SetProperty(ref this.user, value))
                 {
                     this.RaisePropertyChanged(nameof(this.UserId));
                     this.RaisePropertyChanged(nameof(this.UserName));
@@ -126,7 +154,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public int UserId
         {
             get => this.User?.Id ?? 0;
-            set => this.SetProperty(this.User, value, nameof(this.UserId),
+            set => this.SetProperty(this.User, value,
                 nameof(this.User.Id)); // Sync property value based on specified string
         }
 
@@ -139,7 +167,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public DateTime? Birthdate
         {
             get => this.birthdate;
-            set => this.SetProperty(ref this.birthdate, value, nameof(this.Birthdate));
+            set => this.SetProperty(ref this.birthdate, value);
         }
 
         public ObservableCollection<CountryViewModel> Countries
@@ -184,13 +212,15 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.adminEmailAddress, value);
         }
 
-        public ICommand NormalPressCommand =>
-            this.normalPressCommand ??
-            (this.normalPressCommand =
-                new Command<string>(async (message) => await this.dialogService.DisplayAlertAsync("NormalPressCommand", message, "OK")));
+        public ICommand NormalPressCommand => this.normalPressCommand ??= new Command<string>(async (message) =>
+        {
+            await this.dialogService.DisplayAlertAsync("NormalPressCommand", message, "OK");
+        });
 
-        public ICommand LongPressCommand => this.longPressCommand ??=
-            new Command<string>(async (message) => await this.dialogService.DisplayAlertAsync("LongPressCommand", message, "OK"));
+        public ICommand LongPressCommand => this.longPressCommand ??= new Command<string>(async (message) =>
+        {
+            await this.dialogService.DisplayAlertAsync("LongPressCommand", message, "OK");
+        });
 
         public ICommand PostalCodeUnfocusedCommand => new Command(this.OnPostalCodeUnfocused);
 
@@ -213,6 +243,9 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 this.activityIndicatorService.ShowLoadingPage("Test loading message...");
                 await Task.Delay(3000);
+
+                this.appTheme = this.themeHelper.AppTheme;
+                this.RaisePropertyChanged(nameof(this.AppTheme));
 
                 this.User = new UserDto { Id = 1, UserName = "thomasgalliker" };
                 this.UserId = 2;

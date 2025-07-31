@@ -9,7 +9,7 @@
 #if ANDROID || IOS
             Superdev.Maui.Platforms.Services.ToastService.Current;
 #else
-            throw new NotSupportedException($"Current platform {DeviceInfo.Platform} is not supported.");
+            throw new NotSupportedException($"Current platform {DeviceInfo.Current.Platform} is not supported.");
 #endif
 
         void LongAlert(string message);

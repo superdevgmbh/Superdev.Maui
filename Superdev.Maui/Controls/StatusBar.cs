@@ -9,14 +9,14 @@ namespace Superdev.Maui.Controls
     /// </summary>
     public static class StatusBar
     {
-        public static readonly BindableProperty ColorProperty = BindableProperty.CreateAttached(
-            "Color",
+        public static readonly BindableProperty StatusBarColorProperty = BindableProperty.CreateAttached(
+            "StatusBarColor",
             typeof(Color),
             typeof(StatusBar),
             null,
-            propertyChanged: OnColorPropertyChanged);
+            propertyChanged: OnStatusBarColorPropertyChanged);
 
-        private static void OnColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnStatusBarColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is not Page page)
             {
@@ -25,39 +25,96 @@ namespace Superdev.Maui.Controls
 
             var existingBehavior = page.Behaviors.FirstOrDefault<StatusBarBehavior>();
 
-            if (newValue is Color color)
+            if (newValue is Color statusBarColor)
             {
                 if (existingBehavior == null)
                 {
                     var statusBarBehavior = new StatusBarBehavior
                     {
-                        StatusBarColor = color,
+                        StatusBarColor = statusBarColor,
+                        NavigationBarColor = GetNavigationBarColor(bindable),
                         StatusBarStyle = GetStyle(bindable)
                     };
                     page.Behaviors.Add(statusBarBehavior);
                 }
                 else
                 {
-                    existingBehavior.StatusBarColor = color;
+                    existingBehavior.StatusBarColor = statusBarColor;
                 }
             }
             else
             {
-                if (existingBehavior != null && GetStyle(bindable) == StatusBarStyle.Default)
+                if (existingBehavior != null &&
+                    GetNavigationBarColor(bindable) == null &&
+                    GetStyle(bindable) == StatusBarStyle.Default)
                 {
                     page.Behaviors.Remove(existingBehavior);
                 }
             }
         }
 
-        public static Color GetColor(BindableObject bindable)
+        public static Color GetStatusBarColor(BindableObject bindable)
         {
-            return (Color)bindable.GetValue(ColorProperty);
+            return (Color)bindable.GetValue(StatusBarColorProperty);
         }
 
-        public static void SetColor(BindableObject view, Color value)
+        public static void SetStatusBarColor(BindableObject view, Color value)
         {
-            view.SetValue(ColorProperty, value);
+            view.SetValue(StatusBarColorProperty, value);
+        }
+
+        public static readonly BindableProperty NavigationBarColorProperty = BindableProperty.CreateAttached(
+            "NavigationBarColor",
+            typeof(Color),
+            typeof(StatusBar),
+            null,
+            propertyChanged: OnNavigationBarColorPropertyChanged);
+
+        private static void OnNavigationBarColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is not Page page)
+            {
+                return;
+            }
+
+            var existingBehavior = page.Behaviors.FirstOrDefault<StatusBarBehavior>();
+
+            if (newValue is Color navigationBarColor)
+            {
+                if (existingBehavior == null)
+                {
+                    var statusBarBehavior = new StatusBarBehavior
+                    {
+                        StatusBarColor = GetStatusBarColor(bindable),
+                        NavigationBarColor = navigationBarColor,
+                        StatusBarStyle = GetStyle(bindable)
+                    };
+                    page.Behaviors.Add(statusBarBehavior);
+                }
+                else
+                {
+                    existingBehavior.StatusBarColor = navigationBarColor;
+                }
+            }
+            else
+            {
+                if (existingBehavior != null &&
+                    GetStatusBarColor(bindable) == null &&
+                    GetStyle(bindable) == StatusBarStyle.Default)
+                {
+                    page.Behaviors.Remove(existingBehavior);
+                }
+            }
+        }
+
+        public static Color GetNavigationBarColor(BindableObject bindable)
+        {
+            return (Color)bindable.GetValue(NavigationBarColorProperty);
+        }
+
+        public static void SetNavigationBarColor(BindableObject view, Color value)
+        {
+            view.SetValue(NavigationBarColorProperty, value);
         }
 
         public static readonly BindableProperty StyleProperty = BindableProperty.CreateAttached(
@@ -82,7 +139,8 @@ namespace Superdev.Maui.Controls
                 {
                     var statusBarBehavior = new StatusBarBehavior
                     {
-                        StatusBarColor = GetColor(bindable),
+                        StatusBarColor = GetStatusBarColor(bindable),
+                        NavigationBarColor = GetNavigationBarColor(bindable),
                         StatusBarStyle = statusBarStyle
                     };
                     page.Behaviors.Add(statusBarBehavior);
@@ -94,7 +152,9 @@ namespace Superdev.Maui.Controls
             }
             else
             {
-                if (existingBehavior != null && GetColor(bindable) == null)
+                if (existingBehavior != null &&
+                    GetStatusBarColor(bindable) == null &&
+                    GetNavigationBarColor(bindable) == null)
                 {
                     page.Behaviors.Remove(existingBehavior);
                 }

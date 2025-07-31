@@ -2,7 +2,7 @@ namespace Superdev.Maui.Resources.Styles
 {
     public interface ITheme
     {
-        IColorConfiguration ColorConfiguration { get; set; }
+        ColorConfiguration ColorConfiguration { get; set; }
 
         ISpacingConfiguration SpacingConfiguration { get; set; }
 

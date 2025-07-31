@@ -16,7 +16,7 @@
 
         <controls:CustomActivityIndicator
             x:Name="ActivityIndicator"
-            BackgroundColor="{DynamicResource PageBackgroundColor}"
+            BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
             IsBusy="{Binding Source={x:Reference Control}, Path=IsVisible}" />
     </Grid>
 </ContentPage>

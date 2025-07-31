@@ -13,12 +13,13 @@ using PickerHandler = Superdev.Maui.Platforms.Handlers.PickerHandler;
 using TimePickerHandler = Superdev.Maui.Platforms.Handlers.TimePickerHandler;
 #endif
 
+using Microsoft.Maui.LifecycleEvents;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
-
 
 namespace Superdev.Maui
 {
@@ -85,6 +86,16 @@ namespace Superdev.Maui
                 effects.Add(typeof(SafeAreaTopPaddingEffect), typeof(SafeAreaTopPaddingPlatformEffect));
                 effects.Add(typeof(SafeAreaBottomPaddingEffect), typeof(SafeAreaBottomPaddingPlatformEffect));
 #endif
+            })
+            .ConfigureLifecycleEvents(events =>
+            {
+#if ANDROID
+                events.AddAndroid(a => a
+                    // .OnStart(activity => IStatusBarService.Current.OnStart(activity))
+                    .OnResume(_ => IStatusBarService.Current.OnResume())
+                    .OnResume(_ => IThemeHelper.Current.OnResume())
+                    .OnResume(_ => IActivityIndicatorService.Current.OnResume()));
+#endif
             });
 #endif
 
@@ -96,7 +107,8 @@ namespace Superdev.Maui
 #endif
 
             // Microsoft.Maui
-            builder.Services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
+            builder.Services.AddSingleton<Superdev.Maui.Services.IDeviceInfo>(_ => Superdev.Maui.Services.DeviceInfo.Current);
+            builder.Services.AddSingleton<Microsoft.Maui.Devices.IDeviceInfo>(_ => Microsoft.Maui.Devices.DeviceInfo.Current);
 
             builder.Services.AddSingleton<IDateTime>(_ => SystemDateTime.Current);
             builder.Services.AddSingleton<IDialogService>(_ => IDialogService.Current);
@@ -108,6 +120,8 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IKeyboardService>(_ => IKeyboardService.Current);
             builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => IViewModelErrorRegistry.Current);
             builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
+            builder.Services.AddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
+            builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 

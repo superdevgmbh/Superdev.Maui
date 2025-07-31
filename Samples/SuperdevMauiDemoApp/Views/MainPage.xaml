@@ -9,9 +9,16 @@
     x:Name="Page"
     x:DataType="vm:MainViewModel"
     ios:Page.UseSafeArea="False"
-    Title="Superdev.Maui Sample App">
+    BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
+    Title="Test">
 
     <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding SwitchThemesCommand}"
+            Text="{Binding AppTheme, StringFormat='{}[{0}]'}" />
+    </ContentPage.ToolbarItems>
 
     <Grid>
         <Grid Padding="{DynamicResource Theme.Padding.Medium}">
@@ -57,7 +64,7 @@
                                     Text="Demo: TintImageEffect" />
                                 <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
                                     <Image
-                                        s:TintImageEffect.TintColor="Blue"
+                                        s:TintImageEffect.TintColor="{DynamicResource Theme.Color.Primary}"
                                         HeightRequest="50"
                                         Source="camera_outline_black_192"
                                         WidthRequest="50"
@@ -82,11 +89,11 @@
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="ButtonDemoPage"
                                         Text="Button" />
-                                    <!-- <s:CustomButton -->
-                                    <!-- Grid.Column="1" -->
-                                    <!-- Command="{Binding NavigateToPageCommand}" -->
-                                    <!-- CommandParameter="PreferencesDemoPage" -->
-                                    <!-- Text="Preferences&#10;Test" /> -->
+                                    <s:CustomButton
+                                        Grid.Column="1"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="SegmentedStatusIndicatorPage"
+                                        Text="SegmentedStatusIndicatorPage" />
                                 </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
@@ -155,8 +162,8 @@
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="SegmentedStatusIndicatorPage"
-                                        Text="SegmentedStatusIndicatorPage" />
+                                        CommandParameter="NavigationDemoPage"
+                                        Text="Navigation" />
                                 </Grid>
                                 <Grid
                                     ColumnDefinitions="*,*"
@@ -206,8 +213,8 @@
                                     <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="SwitchesPage"
-                                        Text="Switches Page" />
+                                        CommandParameter="______Page"
+                                        Text="(unused)" />
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
@@ -308,153 +315,6 @@
                                             WidthRequest="333" />
                                     </HorizontalStackLayout>
                                 </s:CustomScrollView>
-
-                                <Label
-                                    Style="{StaticResource DemoLabelStyle}"
-                                    Text="Demo FontFamily, FontSize, FontAttributes" />
-                                <StackLayout>
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.Micro}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.Micro" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.Small}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.Small" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.MidMedium}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.MidMedium" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.Medium}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.Medium" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.Large}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.Large" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.XLarge}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.XLarge" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.XXLarge}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.XXLarge" />
-                                    <Label
-                                        FontAttributes="None"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Default}"
-                                        FontSize="{DynamicResource Theme.FontSize.XXXLarge}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Theme.FontSize.XXXLarge" />
-
-                                    <s:DividerLine />
-
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Body1}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Body1}"
-                                        FontSize="{DynamicResource Theme.FontSize.Body1}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Body1" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Body2}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Body2}"
-                                        FontSize="{DynamicResource Theme.FontSize.Body2}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Body2" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Button}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Button}"
-                                        FontSize="{DynamicResource Theme.FontSize.Button}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Button" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Input}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Input}"
-                                        FontSize="{DynamicResource Theme.FontSize.Input}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Input" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.H1}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.H1}"
-                                        FontSize="{DynamicResource Theme.FontSize.H1}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="H1" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.H2}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.H2}"
-                                        FontSize="{DynamicResource Theme.FontSize.H2}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="H2" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.H3}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.H3}"
-                                        FontSize="{DynamicResource Theme.FontSize.H3}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="H3" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.H4}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.H4}"
-                                        FontSize="{DynamicResource Theme.FontSize.H4}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="H4" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.H5}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.H5}"
-                                        FontSize="{DynamicResource Theme.FontSize.H5}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="H5" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.H6}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.H6}"
-                                        FontSize="{DynamicResource Theme.FontSize.H6}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="H6" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Caption}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Caption}"
-                                        FontSize="{DynamicResource Theme.FontSize.Caption}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Caption" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Overline}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Overline}"
-                                        FontSize="{DynamicResource Theme.FontSize.Overline}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Overline" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Title}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Title}"
-                                        FontSize="{DynamicResource Theme.FontSize.Title}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Title" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Subtitle1}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Subtitle1}"
-                                        FontSize="{DynamicResource Theme.FontSize.Subtitle1}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Subtitle1" />
-                                    <Label
-                                        FontAttributes="{DynamicResource Theme.FontAttributes.Subtitle2}"
-                                        FontFamily="{DynamicResource Theme.FontFamily.Subtitle2}"
-                                        FontSize="{DynamicResource Theme.FontSize.Subtitle2}"
-                                        Style="{StaticResource DemoLabelStyle}"
-                                        Text="Subtitle2" />
-                                </StackLayout>
 
                                 <s:DividerLine />
 

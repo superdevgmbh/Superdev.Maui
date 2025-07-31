@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Views;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Services;
 using Superdev.Maui.Utils;
@@ -23,9 +24,11 @@ namespace Superdev.Maui.Platforms.Services
 
         private ActivityIndicatorService()
         {
+            this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<ActivityIndicatorService>>();
             this.mainThread = IMainThread.Current;
         }
 
+        private readonly ILogger logger;
         private readonly IMainThread mainThread;
         private AView nativeView;
         private Dialog dialog;
@@ -82,39 +85,64 @@ namespace Superdev.Maui.Platforms.Services
             window.SetBackgroundDrawable(new ColorDrawable(AColor.Transparent));
         }
 
-        public void ShowLoadingPage(string text)
+        public async void ShowLoadingPage(string text)
         {
-            this.activityIndicatorPage ??= new DefaultActivityIndicatorPage();
-
-            if (this.nativeView == null)
+            try
             {
-                this.RenderPage();
+                this.activityIndicatorPage ??= new DefaultActivityIndicatorPage();
+
+                if (this.nativeView == null)
+                {
+                    this.RenderPage();
+                }
+
+                // Update the caption title
+                if (this.activityIndicatorPage is IActivityIndicatorPage contentPage)
+                {
+                    contentPage.SetTitle(text);
+                }
+
+                if (this.dialog is { IsShowing: false })
+                {
+                    await this.mainThread.InvokeOnMainThreadAsync(() =>
+                    {
+                        this.dialog.Show();
+                    });
+                }
             }
-
-            // Update the caption title
-            if (this.activityIndicatorPage is IActivityIndicatorPage contentPage)
+            catch (Exception e)
             {
-                contentPage.SetTitle(text);
-            }
-
-            if (this.dialog is { IsShowing: false })
-            {
-                this.dialog.Show();
+                this.logger.LogError(e, "ShowLoadingPage failed with exception");
             }
         }
 
         public async void HideLoadingPage()
         {
-            await this.mainThread.InvokeOnMainThreadAsync(() =>
+            try
             {
-                this.dialog?.Dismiss();
-            });
+                await this.mainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    this.dialog?.Dismiss();
+                });
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError(e, "HideLoadingPage failed with exception");
+            }
+        }
+
+        public void OnResume()
+        {
+            this.Dispose();
         }
 
         public void Dispose()
         {
-            this.activityIndicatorPage?.Handler?.DisconnectHandler();
-            this.activityIndicatorPage = null;
+            if (this.activityIndicatorPage is Page p)
+            {
+                p.Handler?.DisconnectHandler();
+                p.Handler = null;
+            }
 
             this.nativeView?.Dispose();
             this.nativeView = null;

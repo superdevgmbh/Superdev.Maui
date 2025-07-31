@@ -13,6 +13,8 @@ namespace Superdev.Maui.Behaviors
     /// </remarks>
     public class StatusBarBehavior : BehaviorBase<Page>
     {
+        private readonly Queue<string> propertyChanges = new Queue<string>();
+
         /// <summary>
         /// <see cref="BindableProperty"/> that manages the StatusBarColor property.
         /// </summary>
@@ -28,6 +30,23 @@ namespace Superdev.Maui.Behaviors
         {
             get => (Color)this.GetValue(StatusBarColorProperty);
             set => this.SetValue(StatusBarColorProperty, value);
+        }
+
+        /// <summary>
+        /// <see cref="BindableProperty"/> that manages the NavigationBarColor property.
+        /// </summary>
+        public static readonly BindableProperty NavigationBarColorProperty = BindableProperty.Create(
+            nameof(NavigationBarColor),
+            typeof(Color),
+            typeof(StatusBarBehavior));
+
+        /// <summary>
+        /// Property that holds the value of the Status bar color.
+        /// </summary>
+        public Color NavigationBarColor
+        {
+            get => (Color)this.GetValue(NavigationBarColorProperty);
+            set => this.SetValue(NavigationBarColorProperty, value);
         }
 
         /// <summary>
@@ -64,16 +83,17 @@ namespace Superdev.Maui.Behaviors
         {
             base.OnAttachedTo(page);
 
-            if (this.StatusBarColor is Color statusBarColor)
+            // We replicate all property changes which occurred
+            // while the AssociatedObject was not set yet.
+            while (this.propertyChanges.TryDequeue(out var propertyName))
             {
-                this.statusBarService.SetColor(statusBarColor);
+                this.OnPropertyChanged(propertyName);
             }
-
-            this.statusBarService.SetStyle(this.StatusBarStyle);
         }
 
         protected override void OnDetachingFrom(Page page)
         {
+            this.propertyChanges.Clear();
             base.OnDetachingFrom(page);
         }
 
@@ -83,15 +103,17 @@ namespace Superdev.Maui.Behaviors
 
             if (this.AssociatedObject == null)
             {
+                this.propertyChanges.Enqueue(propertyName);
                 return;
             }
 
             if (propertyName == StatusBarColorProperty.PropertyName)
             {
-                if (this.StatusBarColor is Color statusBarColor)
-                {
-                    this.statusBarService.SetColor(statusBarColor);
-                }
+                this.statusBarService.SetStatusBarColor(this.StatusBarColor);
+            }
+            else if (propertyName == NavigationBarColorProperty.PropertyName)
+            {
+                this.statusBarService.SetNavigationBarColor(this.NavigationBarColor);
             }
             else if (propertyName == StatusBarStyleProperty.PropertyName)
             {

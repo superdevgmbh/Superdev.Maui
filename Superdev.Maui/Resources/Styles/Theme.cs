@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
@@ -8,15 +10,27 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty ColorConfigurationProperty =
             BindableProperty.Create(
                 nameof(ColorConfiguration),
-                typeof(IColorConfiguration),
-                typeof(Theme));
+                typeof(ColorConfiguration),
+                typeof(Theme),
+                null,
+                propertyChanged: OnColorConfigurationPropertyChanged);
+
+        private static void OnColorConfigurationPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is not Theme theme)
+            {
+                return;
+            }
+
+            Debug.WriteLine("OnColorConfigurationPropertyChanged");
+        }
 
         /// <summary>
         ///     Gets or sets the color configuration of the theme.
         /// </summary>
-        public IColorConfiguration ColorConfiguration
+        public ColorConfiguration ColorConfiguration
         {
-            get => (IColorConfiguration)this.GetValue(ColorConfigurationProperty);
+            get => (ColorConfiguration)this.GetValue(ColorConfigurationProperty);
             set => this.SetValue(ColorConfigurationProperty, value);
         }
 
@@ -24,7 +38,8 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(SpacingConfiguration),
                 typeof(ISpacingConfiguration),
-                typeof(Theme));
+                typeof(Theme),
+                null);
 
         /// <summary>
         ///     Gets or sets the spacing configuration of the theme.
@@ -39,7 +54,8 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(FontConfiguration),
                 typeof(IFontConfiguration),
-                typeof(Theme));
+                typeof(Theme),
+                null);
 
         /// <summary>
         ///     Gets or sets the font configuration of the theme.

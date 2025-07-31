@@ -1,16 +1,9 @@
 ﻿using Superdev.Maui.Extensions;
 using Superdev.Maui.Resources.Styles;
+using Font = Microsoft.Maui.Font;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class FontElementResourceViewModel : ResourceViewModel<FontElement>
-    {
-        public FontElementResourceViewModel(string key, FontElement value)
-            : base(key, value)
-        {
-        }
-    }
-
     public class ColorResourceViewModel : ResourceViewModel<Color>
     {
         public ColorResourceViewModel(string key, Color value)
@@ -19,10 +12,28 @@ namespace SuperdevMauiDemoApp.ViewModels
         }
     }
 
+    public class FontResourceViewModel : ResourceViewModel<FontElement>
+    {
+        public FontResourceViewModel(string key, Font value)
+            : this(key, new FontElement { FontAttributes = value.GetFontAttributes(), FontFamily = value.Family, FontSize = value.Size })
+        {
+        }
+
+        public FontResourceViewModel(string key, FontElement value)
+            : base(key, value)
+        {
+        }
+    }
+
     public class ObjectResourceViewModel : ResourceViewModel<object>
     {
         public ObjectResourceViewModel(KeyValuePair<string, object> r)
-            : base(r.Key, r.Value)
+            : this(r.Key, r.Value)
+        {
+        }
+
+        public ObjectResourceViewModel(string key, object value)
+            : base(key, value)
         {
         }
     }
