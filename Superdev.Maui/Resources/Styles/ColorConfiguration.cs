@@ -28,23 +28,23 @@
 
         private void SetPageColors(ColorConfiguration colorConfiguration)
         {
-            this.Resources.SetColor(ThemeConstants.Page.BackgroundColor, colorConfiguration.PageBackgroundColor);
+            this.Resources.SetValue(ThemeConstants.Page.BackgroundColor, colorConfiguration.PageBackgroundColor);
         }
 
         private void SetButtonColors(ColorConfiguration colorConfiguration)
         {
             // Default button style
-            this.Resources.SetColor(ThemeConstants.Button.TextColor, colorConfiguration.TextColor);
-            this.Resources.SetColor(ThemeConstants.Button.BorderColor, colorConfiguration.TextColor);
-            this.Resources.SetColor(ThemeConstants.Button.BackgroundColor, MaterialColors.White);
+            this.Resources.SetValue(ThemeConstants.Button.TextColor, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.Button.BorderColor, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.Button.BackgroundColor, MaterialColors.White);
 
-            this.Resources.SetColor(ThemeConstants.Button.TextColorPressed, MaterialColors.White);
-            this.Resources.SetColor(ThemeConstants.Button.BorderColorPressed, colorConfiguration.TextColor);
-            this.Resources.SetColor(ThemeConstants.Button.BackgroundColorPressed, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.Button.TextColorPressed, MaterialColors.White);
+            this.Resources.SetValue(ThemeConstants.Button.BorderColorPressed, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.Button.BackgroundColorPressed, colorConfiguration.TextColor);
 
-            this.Resources.SetColor(ThemeConstants.Button.TextColorDisabled, colorConfiguration.PrimaryDisabled);
-            this.Resources.SetColor(ThemeConstants.Button.BorderColorDisabled, colorConfiguration.PrimaryDisabled);
-            this.Resources.SetColor(ThemeConstants.Button.BackgroundColorDisabled, MaterialColors.Gray200);
+            this.Resources.SetValue(ThemeConstants.Button.TextColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Button.BorderColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Button.BackgroundColorDisabled, MaterialColors.Gray200);
 
             // Primary button style
             this.Resources[ThemeConstants.Button.Primary.TextColor] = colorConfiguration.OnPrimary;
@@ -86,35 +86,35 @@
 
         private void SetCardViewColors(ColorConfiguration colorConfiguration)
         {
-            this.Resources.SetColor(ThemeConstants.CardViewStyle.HeaderTextColor, colorConfiguration.CardViewHeaderTextColor);
-            this.Resources.SetColor(ThemeConstants.CardViewStyle.HeaderBackgroundColor, colorConfiguration.CardViewHeaderBackgroundColor);
-            this.Resources.SetColor(ThemeConstants.CardViewStyle.HeaderDividerColor, colorConfiguration.CardViewDividerColor);
-            this.Resources.SetColor(ThemeConstants.CardViewStyle.BackgroundColor, colorConfiguration.CardViewBackgroundColor);
-            this.Resources.SetColor(ThemeConstants.CardViewStyle.FooterTextColor, colorConfiguration.CardViewFooterTextColor);
-            this.Resources.SetColor(ThemeConstants.CardViewStyle.FooterDividerColor, colorConfiguration.CardViewDividerColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderTextColor, colorConfiguration.CardViewHeaderTextColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderBackgroundColor, colorConfiguration.CardViewHeaderBackgroundColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderDividerColor, colorConfiguration.CardViewDividerColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.BackgroundColor, colorConfiguration.CardViewBackgroundColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterTextColor, colorConfiguration.CardViewFooterTextColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterDividerColor, colorConfiguration.CardViewDividerColor);
         }
 
         private void SetThemeColors(ColorConfiguration colorConfiguration)
         {
-            this.Resources.SetColor(ThemeConstants.Color.TextColor, colorConfiguration.TextColor);
-            this.Resources.SetColor(ThemeConstants.Color.TextColorBright, colorConfiguration.TextColorBright);
-            this.Resources.SetColor(ThemeConstants.Color.Primary, colorConfiguration.Primary);
-            this.Resources.SetColor(ThemeConstants.Color.PrimaryVariant, colorConfiguration.PrimaryVariant);
-            this.Resources.SetColor(ThemeConstants.Color.PrimaryDisabled, colorConfiguration.PrimaryDisabled);
-            this.Resources.SetColor(ThemeConstants.Color.OnPrimary, colorConfiguration.OnPrimary);
-            this.Resources.SetColor(ThemeConstants.Color.Secondary, colorConfiguration.Secondary);
-            this.Resources.SetColor(ThemeConstants.Color.SecondaryVariant, colorConfiguration.SecondaryVariant);
-            this.Resources.SetColor(ThemeConstants.Color.SecondaryDisabled, colorConfiguration.SecondaryDisabled);
-            this.Resources.SetColor(ThemeConstants.Color.OnSecondary, colorConfiguration.OnSecondary);
-            this.Resources.SetColor(ThemeConstants.Color.Tertiary, colorConfiguration.Tertiary);
-            this.Resources.SetColor(ThemeConstants.Color.TertiaryVariant, colorConfiguration.TertiaryVariant);
-            this.Resources.SetColor(ThemeConstants.Color.TertiaryDisabled, colorConfiguration.TertiaryDisabled);
-            this.Resources.SetColor(ThemeConstants.Color.OnTertiary, colorConfiguration.OnTertiary);
-            this.Resources.SetColor(ThemeConstants.Color.Error, colorConfiguration.Error);
-            this.Resources.SetColor(ThemeConstants.Color.ErrorBackground, colorConfiguration.ErrorBackground);
+            this.Resources.SetValue(ThemeConstants.Color.TextColor, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.Color.TextColorBright, colorConfiguration.TextColorBright);
+            this.Resources.SetValue(ThemeConstants.Color.Primary, colorConfiguration.Primary);
+            this.Resources.SetValue(ThemeConstants.Color.PrimaryVariant, colorConfiguration.PrimaryVariant);
+            this.Resources.SetValue(ThemeConstants.Color.PrimaryDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Color.OnPrimary, colorConfiguration.OnPrimary);
+            this.Resources.SetValue(ThemeConstants.Color.Secondary, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Color.SecondaryVariant, colorConfiguration.SecondaryVariant);
+            this.Resources.SetValue(ThemeConstants.Color.SecondaryDisabled, colorConfiguration.SecondaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Color.OnSecondary, colorConfiguration.OnSecondary);
+            this.Resources.SetValue(ThemeConstants.Color.Tertiary, colorConfiguration.Tertiary);
+            this.Resources.SetValue(ThemeConstants.Color.TertiaryVariant, colorConfiguration.TertiaryVariant);
+            this.Resources.SetValue(ThemeConstants.Color.TertiaryDisabled, colorConfiguration.TertiaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Color.OnTertiary, colorConfiguration.OnTertiary);
+            this.Resources.SetValue(ThemeConstants.Color.Error, colorConfiguration.Error);
+            this.Resources.SetValue(ThemeConstants.Color.ErrorBackground, colorConfiguration.ErrorBackground);
 
-            this.Resources.SetColor(ThemeConstants.Color.SemiTransparentBright, MaterialColors.SemiTransparentBright);
-            this.Resources.SetColor(ThemeConstants.Color.SemiTransparentDark, MaterialColors.SemiTransparentDark);
+            this.Resources.SetValue(ThemeConstants.Color.SemiTransparentBright, MaterialColors.SemiTransparentBright);
+            this.Resources.SetValue(ThemeConstants.Color.SemiTransparentDark, MaterialColors.SemiTransparentDark);
         }
 
         public static readonly BindableProperty ErrorProperty = BindableProperty.Create(
@@ -179,7 +179,11 @@
 
             if (newValue is Color color)
             {
-                colorConfiguration.Resources.SetColor(key, color);
+                colorConfiguration.Resources.SetValue(key, color);
+            }
+            else
+            {
+                colorConfiguration.Resources.Remove(key);
             }
         }
 

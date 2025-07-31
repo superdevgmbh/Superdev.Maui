@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
-    x:Class="Superdev.Maui.Resources.Styles.ThemeFontResources"
+    x:Class="Superdev.Maui.Resources.Styles.FontResources"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!-- Font Families -->
     <OnPlatform
-        x:TypeArguments="system:String"
+        x:TypeArguments="x:String"
         x:Key="Theme.FontFamily.Monospace">
         <On
             Platform="Android"
@@ -16,6 +15,5 @@
             Platform="iOS"
             Value="Courier New" />
     </OnPlatform>
-
 
 </ResourceDictionary>

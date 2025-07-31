@@ -5,6 +5,19 @@
     /// </summary>
     public class NullFontConverter : IFontConverter
     {
+        private static readonly Lazy<IFontConverter> Implementation = new Lazy<IFontConverter>(CreateLocalizer, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IFontConverter Current => Implementation.Value;
+
+        private static IFontConverter CreateLocalizer()
+        {
+            return new NullFontConverter();
+        }
+
+        private NullFontConverter()
+        {
+        }
+
         public event EventHandler FontScalingChanged;
 
         public double GetScaledFontSize(double fontSize)

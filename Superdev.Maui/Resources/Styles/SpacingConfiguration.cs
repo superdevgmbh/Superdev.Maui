@@ -1,10 +1,48 @@
 namespace Superdev.Maui.Resources.Styles
 {
-    public sealed class SpacingConfiguration : BindableObject, ISpacingConfiguration
+    public sealed class SpacingConfiguration : BindableObject
     {
         private const double SmallSpacingDefault = 4d;
         private const double MediumSpacingDefault = 8d;
         private const double LargeSpacingDefault = 16d;
+
+        private bool isInitialized;
+
+        public SpacingResources Resources { get; }
+
+        public SpacingConfiguration()
+        {
+            this.Resources = new SpacingResources();
+        }
+
+        internal void Initialize()
+        {
+            if (this.isInitialized)
+            {
+                return;
+            }
+
+            this.SetSpacings(this);
+            this.SetPaddings(this);
+            this.isInitialized = true;
+        }
+
+        private void SetSpacings(SpacingConfiguration spacingConfiguration)
+        {
+            this.Resources.SetValue(ThemeConstants.Spacings.SmallSpacing, spacingConfiguration.SmallSpacing);
+            this.Resources.SetValue(ThemeConstants.Spacings.MediumSpacing, spacingConfiguration.MediumSpacing);
+            this.Resources.SetValue(ThemeConstants.Spacings.LargeSpacing, spacingConfiguration.LargeSpacing);
+            this.Resources.SetValue(ThemeConstants.Spacings.CardSpacing, spacingConfiguration.CardSpacing);
+        }
+
+        private void SetPaddings(SpacingConfiguration spacingConfiguration)
+        {
+            this.Resources.SetValue(ThemeConstants.Paddings.SmallPadding,  spacingConfiguration.SmallPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.MediumPadding,  spacingConfiguration.MediumPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.LargePadding,  spacingConfiguration.LargePadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.CardViewPadding,  spacingConfiguration.CardViewPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.CardPadding,  spacingConfiguration.CardPadding);
+        }
 
         public static readonly BindableProperty SmallSpacingProperty = BindableProperty.Create(
             nameof(SmallSpacing),

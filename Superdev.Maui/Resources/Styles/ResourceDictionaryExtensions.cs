@@ -36,9 +36,9 @@ namespace Superdev.Maui.Resources.Styles
             throw new InvalidOperationException($"{typeof(T).GetFormattedName()} with key='{key}' could not be found.");
         }
 
-        public static void SetColor(this ResourceDictionary resourceDictionary, string key, Color color)
+        public static void SetValue(this ResourceDictionary resourceDictionary, string key, object value)
         {
-            if (resourceDictionary == null || key == null || color == null)
+            if (resourceDictionary == null || key == null || value == null)
             {
                 return;
             }
@@ -46,11 +46,11 @@ namespace Superdev.Maui.Resources.Styles
 #if DEBUG
             if (resourceDictionary.TryGetValue(key, out _))
             {
-                Debug.WriteLine($"TryAddColorResource: key='{key}' already exists");
+                Debug.WriteLine($"SetValue: key='{key}' already exists");
             }
 #endif
 
-            resourceDictionary[key] = color;
+            resourceDictionary[key] = value;
         }
     }
 }

@@ -121,6 +121,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => IViewModelErrorRegistry.Current);
             builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
             builder.Services.AddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
+            builder.Services.AddSingleton<IFontConverter>(_ => IFontConverter.Current);
             builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);

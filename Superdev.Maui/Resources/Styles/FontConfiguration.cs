@@ -1,10 +1,165 @@
-﻿namespace Superdev.Maui.Resources.Styles
+﻿using Superdev.Maui.Services;
+using Superdev.Maui.Utils;
+
+namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     ///     Font configuration with named fonts, based on ideas behind https://material.io/design/typography.
     /// </summary>
-    public sealed class FontConfiguration : BindableObject, IFontConfiguration
+    public sealed class FontConfiguration : BindableObject, IDisposable
     {
+        private readonly IFontConverter fontConverter;
+
+        private bool isInitialized;
+
+        public FontResources Resources { get; }
+
+        public FontConfiguration()
+            : this(IFontConverter.Current)
+        {
+        }
+
+        public FontConfiguration(IFontConverter fontConverter)
+        {
+            this.Resources = new FontResources();
+
+            this.fontConverter = fontConverter;
+            this.fontConverter.FontScalingChanged += this.FontConverterUIContentSizeChanged;
+        }
+
+        internal void Initialize()
+        {
+            if (this.isInitialized)
+            {
+                return;
+            }
+
+            var fontSizes = this.fontConverter.GetScaledFontSizes(this.FontSizes);
+            this.SetFontSizes(fontSizes);
+            this.SetFonts(fontSizes);
+            this.isInitialized = true;
+        }
+
+        private void FontConverterUIContentSizeChanged(object sender, EventArgs e)
+        {
+            var fontSizes = this.fontConverter.GetScaledFontSizes(this.FontSizes);
+            this.SetFontSizes(fontSizes);
+            this.SetFonts(fontSizes);
+        }
+
+        private void SetFontSizes(IFontSizeConfiguration fontSizes)
+        {
+            this.Resources.SetValue(ThemeConstants.FontSize.Micro, this.fontConverter.GetScaledFontSize(fontSizes.Micro));
+            this.Resources.SetValue(ThemeConstants.FontSize.XSmall, this.fontConverter.GetScaledFontSize(fontSizes.XSmall));
+            this.Resources.SetValue(ThemeConstants.FontSize.Small, this.fontConverter.GetScaledFontSize(fontSizes.Small));
+            this.Resources.SetValue(ThemeConstants.FontSize.MidMedium, this.fontConverter.GetScaledFontSize(fontSizes.MidMedium));
+            this.Resources.SetValue(ThemeConstants.FontSize.Medium, this.fontConverter.GetScaledFontSize(fontSizes.Medium));
+            this.Resources.SetValue(ThemeConstants.FontSize.Large, this.fontConverter.GetScaledFontSize(fontSizes.Large));
+            this.Resources.SetValue(ThemeConstants.FontSize.XLarge, this.fontConverter.GetScaledFontSize(fontSizes.XLarge));
+            this.Resources.SetValue(ThemeConstants.FontSize.XXLarge, this.fontConverter.GetScaledFontSize(fontSizes.XXLarge));
+            this.Resources.SetValue(ThemeConstants.FontSize.XXXLarge, this.fontConverter.GetScaledFontSize(fontSizes.XXXLarge));
+        }
+
+        private void SetFonts(IFontSizeConfiguration fontSizes)
+        {
+            var defaultFontFamily = TryGetFontFamily(this.Default, null);
+            var defaultFontSize = TryGetFontSize(this.Default, 0d);
+            var defaultFontAttributes = TryGetFontAttributes(this.Default);
+            this.Resources.SetValue(ThemeConstants.FontFamily.Default, defaultFontFamily);
+            this.Resources.SetValue(ThemeConstants.FontSize.Default, defaultFontSize);
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Default, defaultFontAttributes);
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Body1, TryGetFontFamily(this.Body1, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Body1, TryGetFontSize(this.Body1, fontSizes.MidMedium));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Body1, TryGetFontAttributes(this.Body1, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Body2, TryGetFontFamily(this.Body2, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Body2, TryGetFontSize(this.Body2, fontSizes.Small));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Body2, TryGetFontAttributes(this.Body2, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Button, TryGetFontFamily(this.Button, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Button, TryGetFontSize(this.Button, fontSizes.Medium));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Button, TryGetFontAttributes(this.Button, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Input, TryGetFontFamily(this.Input, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Input, TryGetFontSize(this.Input, fontSizes.Medium));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Input, TryGetFontAttributes(this.Input, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Caption, TryGetFontFamily(this.Caption, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Caption, TryGetFontSize(this.Caption, fontSizes.XSmall));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Caption, TryGetFontAttributes(this.Caption, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.H1, TryGetFontFamily(this.H1, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.H1, TryGetFontSize(this.H1, 96d));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.H1, TryGetFontAttributes(this.H1, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.H2, TryGetFontFamily(this.H2, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.H2, TryGetFontSize(this.H2, 60d));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.H2, TryGetFontAttributes(this.H2, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.H3, TryGetFontFamily(this.H3, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.H3, TryGetFontSize(this.H3, 48d));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.H3, TryGetFontAttributes(this.H3, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.H4, TryGetFontFamily(this.H4, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.H4, TryGetFontSize(this.H4, 34d));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.H4, TryGetFontAttributes(this.H4, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.H5, TryGetFontFamily(this.H5, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.H5, TryGetFontSize(this.H5, 24d));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.H5, TryGetFontAttributes(this.H5, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.H6, TryGetFontFamily(this.H6, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.H6, TryGetFontSize(this.H6, 20d));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.H6, TryGetFontAttributes(this.H6, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Overline, TryGetFontFamily(this.Overline, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Overline, TryGetFontSize(this.Overline, fontSizes.Micro));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Overline, TryGetFontAttributes(this.Overline, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Title, TryGetFontFamily(this.Title, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Title, TryGetFontSize(this.Title, fontSizes.Medium));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Title, TryGetFontAttributes(this.Title, FontAttributes.Bold));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Subtitle1, TryGetFontFamily(this.Subtitle1, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Subtitle1, TryGetFontSize(this.Subtitle1, fontSizes.MidMedium));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Subtitle1, TryGetFontAttributes(this.Subtitle1, FontAttributes.Bold));
+
+            this.Resources.SetValue(ThemeConstants.FontFamily.Subtitle2, TryGetFontFamily(this.Subtitle2, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.FontSize.Subtitle2, TryGetFontSize(this.Subtitle2, fontSizes.Small));
+            this.Resources.SetValue(ThemeConstants.FontAttributes.Subtitle2, TryGetFontAttributes(this.Subtitle2, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontFamily, TryGetFontFamily(this.SectionLabel, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontSize, TryGetFontSize(this.SectionLabel, PlatformHelper.OnPlatformValue((Device.iOS, () => 13d), (Device.Android, () => 18d))));
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontAttributes, TryGetFontAttributes(this.SectionLabel, defaultFontAttributes));
+
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterFontFamily, TryGetFontFamily(this.FooterSection, defaultFontFamily));
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterFontSize, TryGetFontSize(this.FooterSection, fontSizes.XSmall));
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterFontAttributes, TryGetFontAttributes(this.FooterSection, defaultFontAttributes));
+        }
+
+        private static string TryGetFontFamily(FontElement fontElement, string @default)
+        {
+            var fontFamily = fontElement?.FontFamily;
+            return fontFamily ?? @default;
+        }
+
+        private static double TryGetFontSize(FontElement fontElement, double @default)
+        {
+            var fontSize = fontElement?.FontSize;
+            if (fontSize != null && fontSize > 0)
+            {
+                return fontElement.FontSize;
+            }
+
+            return @default;
+        }
+
+        private static FontAttributes TryGetFontAttributes(FontElement fontElement, FontAttributes @default = FontAttributes.None)
+        {
+            return fontElement?.FontAttributes ?? @default;
+        }
+
         public static readonly BindableProperty FontSizesProperty =
             BindableProperty.Create(
                 nameof(FontSizes),
@@ -298,6 +453,12 @@
         {
             get => (FontElement)this.GetValue(Subtitle2Property);
             set => this.SetValue(Subtitle2Property, value);
+        }
+
+        public void Dispose()
+        {
+            this.fontConverter.FontScalingChanged -= this.FontConverterUIContentSizeChanged;
+            this.fontConverter?.Dispose();
         }
     }
 }

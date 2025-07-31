@@ -4,8 +4,8 @@ namespace Superdev.Maui.Resources.Styles
     {
         ColorConfiguration ColorConfiguration { get; set; }
 
-        ISpacingConfiguration SpacingConfiguration { get; set; }
+        SpacingConfiguration SpacingConfiguration { get; set; }
 
-        IFontConfiguration FontConfiguration { get; set; }
+        FontConfiguration FontConfiguration { get; set; }
     }
 }

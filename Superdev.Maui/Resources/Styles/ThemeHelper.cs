@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Superdev.Maui.Services;
 using Preferences = Superdev.Maui.Services.Preferences;
@@ -21,13 +20,15 @@ namespace Superdev.Maui.Resources.Styles
         {
             var logger = IPlatformApplication.Current.Services.GetService<ILogger<ThemeHelper>>();
             var preferences = Preferences.Current;
-            return new ThemeHelper(logger, preferences);
+            var fontConverter = IFontConverter.Current;
+            return new ThemeHelper(logger, preferences, fontConverter);
         }
 
         public static IThemeHelper Current => Implementation.Value;
 
         private readonly ILogger logger;
         private readonly IPreferences preferences;
+        private readonly IFontConverter fontConverter;
 
         private readonly object eventLock = new object();
 
@@ -39,25 +40,16 @@ namespace Superdev.Maui.Resources.Styles
         private AppTheme? appTheme;
         private AppTheme? lastUsedTheme;
 
-        private IFontConverter fontConverter = new NullFontConverter();
-
         private ThemeHelper(
             ILogger<ThemeHelper> logger,
-            IPreferences preferences)
+            IPreferences preferences,
+            IFontConverter fontConverter)
         {
             this.logger = logger;
             this.preferences = preferences;
+            this.fontConverter = fontConverter;
 
             this.Initialize();
-        }
-
-        /// <summary>
-        ///     Sets the <seealso cref="IFontConverter" /> which is used to scale font sizes.
-        /// </summary>
-        /// <param name="converter"></param>
-        public void SetFontConverter(IFontConverter converter)
-        {
-            this.fontConverter = converter ?? throw new ArgumentNullException(nameof(converter));
         }
 
         /// <summary>
@@ -459,27 +451,38 @@ namespace Superdev.Maui.Resources.Styles
                     return;
                 }
 
-                if (!mergedDictionaries.OfType<ThemeSpacingResources>().Any())
+                // Update ColorResources
+                var colorResources = mergedDictionaries.FirstOrDefault<ColorResources>();
+                if (colorResources != null)
                 {
-                    mergedDictionaries.Add(new ThemeSpacingResources(theme.SpacingConfiguration));
+                    mergedDictionaries.Remove(colorResources);
                 }
 
-                if (!mergedDictionaries.OfType<ThemeFontResources>().Any())
-                {
-                    mergedDictionaries.Add(new ThemeFontResources(theme.FontConfiguration, this.fontConverter));
-                }
-
-                var existingColorResources = mergedDictionaries.FirstOrDefault<ColorResources>();
-                if (existingColorResources != null)
-                {
-                    mergedDictionaries.Remove(existingColorResources);
-                }
-
-                var colorConfiguration = theme.ColorConfiguration;
+                var colorConfiguration = theme.ColorConfiguration ?? new ColorConfiguration();
                 colorConfiguration.Initialize();
-                var colorResources = colorConfiguration.Resources;
+                mergedDictionaries.Add(colorConfiguration.Resources);
 
-                mergedDictionaries.Add(colorResources);
+                // Update ColorResources
+                var spacingResources = mergedDictionaries.FirstOrDefault<SpacingResources>();
+                if (spacingResources != null)
+                {
+                    mergedDictionaries.Remove(spacingResources);
+                }
+
+                var spacingConfiguration = theme.SpacingConfiguration ?? new SpacingConfiguration();
+                spacingConfiguration.Initialize();
+                mergedDictionaries.Add(spacingConfiguration.Resources);
+
+                // Update FontResources
+                var fontResources = mergedDictionaries.FirstOrDefault<FontResources>();
+                if (fontResources != null)
+                {
+                    mergedDictionaries.Remove(fontResources);
+                }
+
+                var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
+                fontConfiguration.Initialize();
+                mergedDictionaries.Add(fontConfiguration.Resources);
 
                 // Apply theme resources from the appropriate dictionary first
                 // var sourceDict = theme == AppTheme.Dark ? darkDict : lightDict;

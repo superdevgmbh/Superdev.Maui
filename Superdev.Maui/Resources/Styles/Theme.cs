@@ -37,32 +37,34 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty SpacingConfigurationProperty =
             BindableProperty.Create(
                 nameof(SpacingConfiguration),
-                typeof(ISpacingConfiguration),
+                typeof(SpacingConfiguration),
                 typeof(Theme),
                 null);
 
         /// <summary>
         ///     Gets or sets the spacing configuration of the theme.
         /// </summary>
-        public ISpacingConfiguration SpacingConfiguration
+        public SpacingConfiguration SpacingConfiguration
         {
-            get => (ISpacingConfiguration)this.GetValue(SpacingConfigurationProperty);
+            get => (SpacingConfiguration)this.GetValue(SpacingConfigurationProperty);
             set => this.SetValue(SpacingConfigurationProperty, value);
         }
 
         public static readonly BindableProperty FontConfigurationProperty =
             BindableProperty.Create(
                 nameof(FontConfiguration),
-                typeof(IFontConfiguration),
+                typeof(FontConfiguration),
                 typeof(Theme),
                 null);
+
+        // TODO: Dispose oldValue (if is not null)
 
         /// <summary>
         ///     Gets or sets the font configuration of the theme.
         /// </summary>
-        public IFontConfiguration FontConfiguration
+        public FontConfiguration FontConfiguration
         {
-            get => (IFontConfiguration)this.GetValue(FontConfigurationProperty);
+            get => (FontConfiguration)this.GetValue(FontConfigurationProperty);
             set => this.SetValue(FontConfigurationProperty, value);
         }
     }
