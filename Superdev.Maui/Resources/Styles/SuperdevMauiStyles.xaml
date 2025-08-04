@@ -6,7 +6,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Superdev.Maui.Behaviors"
-    xmlns:cardView="clr-namespace:Superdev.Maui.Controls.CardView"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
     xmlns:effects="clr-namespace:Superdev.Maui.Effects"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls">
@@ -210,7 +209,6 @@
         TargetType="controls:CustomButton" />
 
     <!-- ImageButton -->
-
     <Style
         x:Key="ImageButtonStyle"
         TargetType="ImageButton">
