@@ -3,19 +3,11 @@ using System.Windows.Input;
 
 namespace Superdev.Maui.Controls
 {
-    public partial class DrilldownSwitchCell : ViewCell
+    public partial class DrilldownSwitchCell : ContentView
     {
         public DrilldownSwitchCell()
         {
-            try
-            {
-                this.InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                throw;
-            }
+            this.InitializeComponent();
         }
 
         public static readonly BindableProperty TextProperty =

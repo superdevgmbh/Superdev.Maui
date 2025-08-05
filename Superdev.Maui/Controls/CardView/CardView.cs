@@ -20,7 +20,7 @@ namespace Superdev.Maui.Controls.CardView
             }
             else
             {
-                this.SetDynamicResource(StrokeProperty, ThemeConstants.CardViewStyle.HeaderDividerColor);
+                this.SetDynamicResource(StrokeProperty, ThemeConstants.CardViewStyle.DividerColor);
                 this.StrokeThickness = 1d;
                 this.StrokeShape = new RoundRectangle
                 {

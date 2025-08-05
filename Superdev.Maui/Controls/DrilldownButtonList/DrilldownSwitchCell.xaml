@@ -1,17 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ViewCell
+
+<ContentView
     x:Class="Superdev.Maui.Controls.DrilldownSwitchCell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
-    x:Name="Control">
+    xmlns:b="clr-namespace:Superdev.Maui.Behaviors"
+    xmlns:cardView="clr-namespace:Superdev.Maui.Controls.CardView"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Name="Control"
+    IsClippedToBounds="True">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- <RowDefinition Height="Auto" /> -->
+        </Grid.RowDefinitions>
         <controls:CustomButton
+            Grid.Row="0"
             AllCaps="False"
             Command="{Binding Command, Mode=OneWay}"
             CommandParameter="{Binding CommandParameter, Mode=OneWay}"
@@ -26,13 +31,13 @@
             HorizontalTextAlignment="Start"
             VerticalTextAlignment="Center">
 
-            <controls:CustomButton.Margin>
-                <OnPlatform x:TypeArguments="Thickness">
-                    <On
-                        Platform="Android"
-                        Value="-1" />
-                </OnPlatform>
-            </controls:CustomButton.Margin>
+            <!-- <controls:CustomButton.Margin> -->
+            <!--     <OnPlatform x:TypeArguments="Thickness"> -->
+            <!-- <On -->
+            <!-- Platform="Android" -->
+            <!-- Value="-1" /> -->
+            <!--     </OnPlatform> -->
+            <!-- </controls:CustomButton.Margin> -->
 
             <controls:CustomButton.Padding>
                 <OnPlatform x:TypeArguments="Thickness">
@@ -47,47 +52,48 @@
         </controls:CustomButton>
 
         <Switch
+            Grid.Row="0"
             HeightRequest="24"
             IsEnabled="{Binding IsEnabled, Mode=OneWay}"
             IsToggled="{Binding IsToggled, Mode=TwoWay}"
             HorizontalOptions="End"
             VerticalOptions="Center">
-            <!--<Switch.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="Toggled"
-                        Command="{Binding Command, Mode=OneWay}"
-                        CommandParameter="{Binding CommandParameter, Mode=OneWay}" />
-                </Switch.Behaviors>-->
+            <Switch.Behaviors>
+                <b:EventToCommandBehavior
+                    Command="{Binding Command, Mode=OneWay}"
+                    CommandParameter="{Binding CommandParameter, Mode=OneWay}"
+                    EventName="Toggled" />
+            </Switch.Behaviors>
 
             <!--
                 Switch inside DrilldownSwitchCell uses a custom style
                 in order to perfectly align with Theme.Color.TextColor
             -->
-            <!--<Switch.Style>
+            <Switch.Style>
                 <Style TargetType="Switch">
                     <Setter Property="Margin" Value="{OnPlatform Android='0, 0, 8, 0', iOS='0, -4, 8, 0'}" />
-                    <Setter Property="VisualStateManager.VisualStateGroups">
-                        <Setter.Value>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="OnColor" Value="{OnPlatform Android={DynamicResource Theme.Color.TextColor}}" />
-                                            <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.TextColor}}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.PrimaryDisabled}}" />
-                                            <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.PrimaryDisabled}}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </Setter.Value>
-                    </Setter>
+                    <!-- <Setter Property="VisualStateManager.VisualStateGroups"> -->
+                    <!--     <Setter.Value> -->
+                    <!--         <VisualStateGroupList> -->
+                    <!--             <VisualStateGroup x:Name="CommonStates"> -->
+                    <!--                 <VisualState x:Name="Normal"> -->
+                    <!--                     <VisualState.Setters> -->
+                    <!--                         <Setter Property="OnColor" Value="{OnPlatform Android={DynamicResource Theme.Color.TextColor}}" /> -->
+                    <!--                         <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.TextColor}}" /> -->
+                    <!--                     </VisualState.Setters> -->
+                    <!--                 </VisualState> -->
+                    <!--                 <VisualState x:Name="Disabled"> -->
+                    <!--                     <VisualState.Setters> -->
+                    <!--                         <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.PrimaryDisabled}}" /> -->
+                    <!--                         <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.PrimaryDisabled}}" /> -->
+                    <!--                     </VisualState.Setters> -->
+                    <!--                 </VisualState> -->
+                    <!--             </VisualStateGroup> -->
+                    <!--         </VisualStateGroupList> -->
+                    <!--     </Setter.Value> -->
+                    <!-- </Setter> -->
                 </Style>
-            </Switch.Style>-->
+            </Switch.Style>
         </Switch>
 
         <Grid.GestureRecognizers>
@@ -95,5 +101,7 @@
                 Command="{Binding Command, Mode=OneWay}"
                 CommandParameter="{Binding CommandParameter, Mode=OneWay}" />
         </Grid.GestureRecognizers>
+
+        <!-- <cardView:CardViewDividerLine Grid.Row="1" /> -->
     </Grid>
-</ViewCell>
+</ContentView>

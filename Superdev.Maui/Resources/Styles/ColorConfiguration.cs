@@ -75,20 +75,24 @@
 
         private void SetDrilldownButtonColors(ColorConfiguration colorConfiguration)
         {
-            this.Resources[ThemeConstants.DrilldownButtonStyle.TextColor] = colorConfiguration.TextColor;
-            this.Resources[ThemeConstants.DrilldownButtonStyle.BorderColorEnabled] = Colors.Transparent;
-            this.Resources[ThemeConstants.DrilldownButtonStyle.BorderColorDisabled] = Colors.Transparent;
-            this.Resources[ThemeConstants.DrilldownButtonStyle.BorderColorPressed] = Colors.Transparent;
-            this.Resources[ThemeConstants.DrilldownButtonStyle.BackgroundColorEnabled] = Colors.Transparent;
-            this.Resources[ThemeConstants.DrilldownButtonStyle.BackgroundColorDisabled] = MaterialColors.SemiTransparentBright;
-            this.Resources[ThemeConstants.DrilldownButtonStyle.BackgroundColorPressed] = MaterialColors.SemiTransparentBright;
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.TextColor, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BorderColor, MaterialColors.White);
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BackgroundColor, MaterialColors.White);
+
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.TextColorPressed, colorConfiguration.TextColor);
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BorderColorPressed, MaterialColors.Gray50);
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BackgroundColorPressed, MaterialColors.Gray50);
+
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.TextColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BorderColorDisabled, MaterialColors.Gray50);
+            this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BackgroundColorDisabled, MaterialColors.Gray50);
         }
 
         private void SetCardViewColors(ColorConfiguration colorConfiguration)
         {
             this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderTextColor, colorConfiguration.CardViewHeaderTextColor);
             this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderBackgroundColor, colorConfiguration.CardViewHeaderBackgroundColor);
-            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderDividerColor, colorConfiguration.CardViewDividerColor);
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.DividerColor, colorConfiguration.CardViewDividerColor);
             this.Resources.SetValue(ThemeConstants.CardViewStyle.BackgroundColor, colorConfiguration.CardViewBackgroundColor);
             this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterTextColor, colorConfiguration.CardViewFooterTextColor);
             this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterDividerColor, colorConfiguration.CardViewDividerColor);
@@ -501,6 +505,8 @@
 
         private static Color GetDefaultCardViewDividerColor()
         {
+            // return Colors.Black;
+
             if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
                 return Color.FromArgb("#ECECEC");

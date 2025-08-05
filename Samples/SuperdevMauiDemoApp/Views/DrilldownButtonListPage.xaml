@@ -11,13 +11,18 @@
 
     <ScrollView>
         <Grid>
-            <StackLayout
+            <VerticalStackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
 
                 <Label
                     Style="{StaticResource DemoLabelStyle}"
                     Text="DrilldownButton" />
+                <s:DrilldownButton
+                    Command="{Binding DisplayAlertCommand}"
+                    ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                    Text="{s:Translate DrilldownButton}" />
+
                 <s:DrilldownButton
                     Command="{Binding DisplayAlertCommand}"
                     ImageSource="{s:ImageResource chevron_right_grey_192x192}"
@@ -31,10 +36,10 @@
                     Text="{s:Translate DrilldownButton}" />
 
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="DrilldownButtonList with static ItemsSource" />
                         <s:HeaderDivider />
-                        <s:DrilldownButtonList BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                        <s:DrilldownButtonList>
                             <s:DrilldownButtonList.ItemsSource>
                                 <objectModel:ObservableCollection x:TypeArguments="BindableObject">
                                     <s:DrilldownButtonView
@@ -65,14 +70,13 @@
                                 </objectModel:ObservableCollection>
                             </s:DrilldownButtonList.ItemsSource>
                         </s:DrilldownButtonList>
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="DrilldownButtonList with dynamic ItemsSource" />
                         <s:HeaderDivider />
-
                         <Grid
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             RowSpacing="{DynamicResource Theme.Spacing.Small}">
@@ -80,49 +84,40 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <StackLayout BackgroundColor="Green">
+                            <VerticalStackLayout BackgroundColor="Green">
                                 <Label
                                     LineBreakMode="WordWrap"
                                     Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
-                            </StackLayout>
-
+                            </VerticalStackLayout>
                         </Grid>
 
-                        <s:DividerLine />
+                        <s:CardViewDividerLine />
 
-                        <s:DrilldownButtonList
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
-                            ItemsSource="{Binding DrilldownItems, Mode=OneWay}">
+                        <s:DrilldownButtonList ItemsSource="{Binding DrilldownItems, Mode=OneWay}">
                             <s:DrilldownButtonList.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout>
-                                            <Label
-                                                Text="Custom ItemTemplate"
-                                                TextColor="LightBlue" />
-                                            <Label
-                                                BackgroundColor="LightBlue"
-                                                Text="{Binding Title}" />
-                                        </StackLayout>
-                                    </ViewCell>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Text="Custom ItemTemplate"
+                                            TextColor="LightBlue" />
+                                        <Label
+                                            BackgroundColor="LightBlue"
+                                            Text="{Binding Title}" />
+                                    </VerticalStackLayout>
                                 </DataTemplate>
                             </s:DrilldownButtonList.ItemTemplate>
                         </s:DrilldownButtonList>
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
 
                 <s:CardView>
-                    <StackLayout>
+                    <VerticalStackLayout>
                         <s:LabelSection Text="{s:Translate AboutSectionText}" />
                         <s:HeaderDivider />
-
                         <Grid
                             Padding="{DynamicResource Theme.Padding.CardViewPadding}"
                             BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
                             RowSpacing="{DynamicResource Theme.Spacing.Small}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
 
                             <s:CustomLabel
                                 Grid.Row="0"
@@ -131,9 +126,9 @@
                                 Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
                         </Grid>
 
-                        <s:DividerLine />
+                        <s:CardViewDividerLine />
 
-                        <s:DrilldownButtonList BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                        <s:DrilldownButtonList>
                             <s:DrilldownButtonList.ItemsSource>
                                 <objectModel:ObservableCollection x:TypeArguments="BindableObject">
                                     <s:DrilldownButtonView
@@ -151,12 +146,10 @@
                                 </objectModel:ObservableCollection>
                             </s:DrilldownButtonList.ItemsSource>
                         </s:DrilldownButtonList>
-                        <s:DividerLine />
                         <s:FooterDivider />
-                    </StackLayout>
+                    </VerticalStackLayout>
                 </s:CardView>
-
-            </StackLayout>
+            </VerticalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

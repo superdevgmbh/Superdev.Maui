@@ -124,6 +124,9 @@
         x:Key="ButtonPrimaryStyle"
         BasedOn="{StaticResource ButtonStyle}"
         TargetType="Button">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -158,6 +161,9 @@
         x:Key="ButtonSecondaryStyle"
         BasedOn="{StaticResource ButtonStyle}"
         TargetType="Button">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -212,6 +218,8 @@
     <Style
         x:Key="ImageButtonStyle"
         TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
         <Setter Property="BorderWidth" Value="1" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Padding" Value="14,10" />
@@ -273,6 +281,33 @@
         <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor}" />
         <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor.Disabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor.Pressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
         <Style.Triggers>
             <!-- IsEnabled/False will automatically restore it's state if set to IsEnabled/True -->
             <Trigger TargetType="Button" Property="IsEnabled" Value="False">
@@ -345,6 +380,7 @@
     <Style
         x:Key="EntryStyle"
         TargetType="Entry">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
@@ -359,11 +395,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -390,6 +422,7 @@
     <Style
         x:Key="EditorStyle"
         TargetType="Editor">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
@@ -405,11 +438,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -651,17 +680,14 @@
     <Style
         x:Key="CheckBoxStyle"
         TargetType="CheckBox">
+        <Setter Property="Color" Value="{DynamicResource Theme.Color.Primary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="Color" Value="{DynamicResource Theme.Color.Primary}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Color" Value="{DynamicResource Theme.Color.PrimaryDisabled}" />
@@ -679,6 +705,8 @@
     <Style
         x:Key="PickerStyle"
         TargetType="Picker">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
@@ -690,12 +718,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                            <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -725,6 +748,7 @@
     <Style
         x:Key="DatePickerStyle"
         TargetType="DatePicker">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
@@ -735,11 +759,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -768,6 +788,7 @@
     <Style
         x:Key="TimePickerStyle"
         TargetType="TimePicker">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
@@ -778,11 +799,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -811,6 +828,7 @@
     <Style
         x:Key="SearchBarStyle"
         TargetType="SearchBar">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="CancelButtonColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
@@ -820,11 +838,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -1004,14 +1018,11 @@
     <Style
         x:Key="ProgressBarStyle"
         TargetType="ProgressBar">
+        <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.Secondary}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.Secondary}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
@@ -1030,6 +1041,7 @@
     <Style
         x:Key="RadioButtonStyle"
         TargetType="RadioButton">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
@@ -1038,11 +1050,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />

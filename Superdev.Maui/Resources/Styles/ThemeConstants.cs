@@ -78,10 +78,12 @@
         public static class DrilldownButtonStyle
         {
             public const string TextColor = "DrilldownButtonStyle.TextColor";
-            public const string BorderColorEnabled = "DrilldownButtonStyle.BorderColor";
+            public const string TextColorDisabled = "DrilldownButtonStyle.TextColor.Disabled";
+            public const string TextColorPressed = "DrilldownButtonStyle.TextColor.Pressed";
+            public const string BorderColor = "DrilldownButtonStyle.BorderColor";
             public const string BorderColorDisabled = "DrilldownButtonStyle.BorderColor.Disabled";
             public const string BorderColorPressed = "DrilldownButtonStyle.BorderColor.Pressed";
-            public const string BackgroundColorEnabled = "DrilldownButtonStyle.BackgroundColor";
+            public const string BackgroundColor = "DrilldownButtonStyle.BackgroundColor";
             public const string BackgroundColorDisabled = "DrilldownButtonStyle.BackgroundColor.Disabled";
             public const string BackgroundColorPressed = "DrilldownButtonStyle.BackgroundColor.Pressed";
         }
@@ -93,7 +95,7 @@
             public const string HeaderFontSize = "CardViewStyle.Header.FontSize";
             public const string HeaderFontAttributes = "CardViewStyle.Header.FontAttributes";
             public const string HeaderBackgroundColor = "CardViewStyle.Header.BackgroundColor";
-            public const string HeaderDividerColor = "CardViewStyle.Header.DividerColor";
+            public const string DividerColor = "CardViewStyle.DividerColor";
             public const string BackgroundColor = "CardViewStyle.BackgroundColor";
             public const string FooterDividerColor = "CardViewStyle.Footer.DividerColor";
 

@@ -11,7 +11,7 @@
         x:Key="Theme.DividerLine.Small">
         <On
             Platform="Android"
-            Value="0.1" />
+            Value="1" />
         <On
             Platform="iOS"
             Value="0.5" />

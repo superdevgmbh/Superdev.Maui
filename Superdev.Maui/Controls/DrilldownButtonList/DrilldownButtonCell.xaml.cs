@@ -4,24 +4,16 @@ using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Controls
 {
-    public partial class DrilldownButtonCell : ViewCell
+    public partial class DrilldownButtonCell : ContentView
     {
         public DrilldownButtonCell()
         {
-            try
-            {
-                this.InitializeComponent();
+            this.InitializeComponent();
 
-                // Hack: OnPlatform lacks of support for DynamicResource bindings!
-                if (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                {
-                    this.ActivityIndicator.SetDynamicResource(ActivityIndicator.ColorProperty, ThemeConstants.Color.Secondary);
-                }
-            }
-            catch (Exception ex)
+            // Hack: OnPlatform lacks of support for DynamicResource bindings!
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             {
-                Debug.WriteLine(ex);
-                throw;
+                this.ActivityIndicator.SetDynamicResource(ActivityIndicator.ColorProperty, ThemeConstants.Color.Secondary);
             }
         }
 

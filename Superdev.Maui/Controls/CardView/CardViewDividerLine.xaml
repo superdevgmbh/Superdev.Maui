@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <BoxView
-    x:Class="Superdev.Maui.Controls.HeaderDivider"
+    x:Class="Superdev.Maui.Controls.CardView.CardViewDividerLine"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Margin="0,0.2"
@@ -13,7 +13,7 @@
                 Value="1" />
             <On
                 Platform="iOS"
-                Value="0.5" />
+                Value="0.6" />
         </OnPlatform>
     </BoxView.HeightRequest>
 </BoxView>

@@ -9,7 +9,17 @@
     x:Name="Control">
 
     <VerticalStackLayout>
-        <controls:HeaderDivider />
+        <controls:HeaderDivider>
+            <controls:HeaderDivider.IsVisible>
+                <OnPlatform
+                    x:TypeArguments="x:Boolean"
+                    Default="False">
+                    <On
+                        Platform="iOS"
+                        Value="True" />
+                </OnPlatform>
+            </controls:HeaderDivider.IsVisible>
+        </controls:HeaderDivider>
         <Grid>
             <controls:CustomButton
                 AllCaps="False"

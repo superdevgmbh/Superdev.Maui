@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Superdev.Maui.Controls;
+using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
-using SuperdevMauiDemoApp.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -68,9 +67,22 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public ICommand ToggleSwitchCommand
         {
-            get
+            get => this.toggleSwitchCommand ??= new AsyncRelayCommand(this.ToggleSwitchAsync);
+        }
+
+        private async Task ToggleSwitchAsync()
+        {
+            try
             {
-                return this.toggleSwitchCommand ??= new Command(() => { this.IsToggled = !this.IsToggled; });
+                this.IsBusy = true;
+
+                await Task.Delay(2000);
+
+                this.IsToggled = !this.IsToggled;
+            }
+            finally
+            {
+                this.IsBusy = false;
             }
         }
 
@@ -87,64 +99,5 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.isNavigatingToPrivacyPolicy;
             set => this.SetProperty(ref this.isNavigatingToPrivacyPolicy, value);
         }
-    }
-
-    public abstract class DrilldownBaseViewModel : BaseViewModel, IDrilldownView
-    {
-        public DrilldownBaseViewModel(IDialogService dialogService)
-        {
-            this.Command = new Command(() => { dialogService.DisplayAlertAsync(this.Title, "Command executed", "OK"); });
-            this.IsBusy = false;
-        }
-
-        public bool IsEnabled { get; set; } = true;
-
-        public ICommand Command { get; set; }
-
-        public object CommandParameter { get; set; }
-    }
-
-    public class DrilldownSwitchViewModel : DrilldownBaseViewModel, IDrilldownSwitchView
-    {
-        private readonly IDialogService dialogService;
-        private bool isToggled;
-
-        public DrilldownSwitchViewModel(IDialogService dialogService, bool isToggled) : base(dialogService)
-        {
-            this.dialogService = dialogService;
-            this.isToggled = isToggled;
-        }
-
-        public bool IsToggled
-        {
-            get => this.isToggled;
-            set
-            {
-                if (this.SetProperty(ref this.isToggled, value, nameof(this.IsToggled)))
-                {
-                    if (this.IsNotBusy)
-                    {
-                        this.dialogService.DisplayAlertAsync(this.Title, $"IsToggled={this.IsToggled}", "OK");
-                    }
-                }
-            }
-        }
-    }
-
-    public class DrilldownButtonViewModel : DrilldownBaseViewModel, IDrilldownButtonView
-    {
-        public DrilldownButtonViewModel(IDialogService dialogService) : base(dialogService)
-        {
-        }
-    }
-
-    public class CustomDrilldownViewModel : BaseViewModel
-    {
-        public CustomDrilldownViewModel(IDialogService dialogService)
-        {
-            this.Command = new Command(() => { dialogService.DisplayAlertAsync(this.Title, "Command executed", "OK"); });
-        }
-
-        public ICommand Command { get; set; }
     }
 }

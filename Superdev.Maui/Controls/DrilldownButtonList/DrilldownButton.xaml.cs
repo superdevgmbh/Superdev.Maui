@@ -97,5 +97,18 @@ namespace Superdev.Maui.Controls
             get => (bool)this.GetValue(IsBusyProperty);
             set => this.SetValue(IsBusyProperty, value);
         }
+
+        // TODO: MAUI Migration
+        // public static readonly BindableProperty ActivityIndicatorStyleProperty =
+        //     BindableProperty.Create(
+        //         nameof(ActivityIndicatorStyle),
+        //         typeof(Style),
+        //         typeof(DrilldownButton));
+        //
+        // public Style ActivityIndicatorStyle
+        // {
+        //     get => (Style)this.GetValue(ActivityIndicatorStyleProperty);
+        //     set => this.SetValue(ActivityIndicatorStyleProperty, value);
+        // }
     }
 }
