@@ -16,7 +16,8 @@
                     BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
                     ColumnDefinitions="*,*"
                     ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
-                    RowDefinitions="Auto,Auto,Auto">
+                    RowDefinitions="Auto,Auto,Auto"
+                    RowSpacing="{DynamicResource Theme.Spacing.Medium}">
 
                     <s:ValidatableEntry
                         Grid.Row="0"

@@ -18,7 +18,9 @@
                 <controls:HeaderDivider />
                 <Grid
                     Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                    BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+                    BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                    RowSpacing="{DynamicResource Theme.Spacing.Medium}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
