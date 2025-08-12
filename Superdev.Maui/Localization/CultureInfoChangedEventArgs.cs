@@ -4,9 +4,9 @@ using Superdev.Maui.Internals;
 namespace Superdev.Maui.Localization
 {
     [Preserve(AllMembers = true)]
-    public class CultureInfoChangedEventArgs : EventArgs
+    public class LanguageChangedEventArgs : EventArgs
     {
-        public CultureInfoChangedEventArgs(CultureInfo cultureInfo)
+        public LanguageChangedEventArgs(CultureInfo cultureInfo)
         {
             this.CultureInfo = cultureInfo;
         }

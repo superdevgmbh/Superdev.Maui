@@ -41,11 +41,11 @@ namespace Superdev.Maui.Localization
             }
         }
 
-        public event EventHandler<CultureInfoChangedEventArgs> CultureInfoChangedEvent;
+        public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
 
         protected virtual void OnLocaleChanged(CultureInfo ci)
         {
-            this.CultureInfoChangedEvent?.Invoke(this, new CultureInfoChangedEventArgs(ci));
+            this.LanguageChanged?.Invoke(this, new LanguageChangedEventArgs(ci));
         }
 
         public CultureInfo GetCurrentCulture()

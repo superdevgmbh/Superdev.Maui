@@ -16,13 +16,23 @@ namespace Superdev.Maui.Localization
             this.localizer = localizer;
             this.translationProvider = translationProvider;
 
-            this.localizer.CultureInfoChangedEvent += this.OnLocaleChanged;
+            this.localizer.LanguageChanged += this.OnLanguageChanged;
         }
 
-        private void OnLocaleChanged(object sender, EventArgs e)
+        private void OnLanguageChanged(object sender, EventArgs e)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Value)));
         }
+
+        public object Value
+        {
+            get
+            {
+                return this.translationProvider.Translate(this.key);
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         ~TranslationData()
         {
@@ -39,18 +49,8 @@ namespace Superdev.Maui.Localization
         {
             if (disposing)
             {
-                this.localizer.CultureInfoChangedEvent -= this.OnLocaleChanged;
+                this.localizer.LanguageChanged -= this.OnLanguageChanged;
             }
         }
-
-        public object Value
-        {
-            get
-            {
-                return this.translationProvider.Translate(this.key);
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

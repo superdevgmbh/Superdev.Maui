@@ -30,6 +30,6 @@ namespace Superdev.Maui.Localization
         /// <summary>
         ///     Event is raised when the current culture info has changed.
         /// </summary>
-        event EventHandler<CultureInfoChangedEventArgs> CultureInfoChangedEvent;
+        event EventHandler<LanguageChangedEventArgs> LanguageChanged;
     }
 }

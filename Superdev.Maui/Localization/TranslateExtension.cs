@@ -52,7 +52,7 @@ namespace Superdev.Maui.Localization
                 CultureInfo.CurrentCulture = cultureInfo;
             }
 
-            public event EventHandler<CultureInfoChangedEventArgs> CultureInfoChangedEvent;
+            public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
         }
     }
 }
