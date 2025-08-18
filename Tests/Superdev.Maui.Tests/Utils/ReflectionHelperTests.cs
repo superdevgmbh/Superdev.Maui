@@ -43,6 +43,19 @@ namespace Superdev.Maui.Tests.Utils
             Assert.Throws<ArgumentException>(action);
         }
 
+        [Fact]
+        public void ShouldSetFieldValue()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: "test value");
+
+            // Act
+            ReflectionHelper.SetFieldValue(obj, "InternalString", "new value");
+
+            // Assert
+            Assert.Equal(obj.InternalString, "new value");
+        }
+
         public class MyClass : MyBaseClass
         {
             public MyClass(DateTime? internalDateTime, string internalString)
