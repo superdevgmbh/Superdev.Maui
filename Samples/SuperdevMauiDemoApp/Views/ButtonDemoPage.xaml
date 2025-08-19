@@ -104,7 +104,7 @@
                                 x:Name="CustomButtonPrimary"
                                 Command="{Binding SaveProfileButtonCommand}"
                                 IsEnabled="{Binding CanExecuteSaveProfileButtonCommand}"
-                                Style="{StaticResource CustomButtonPrimaryStyle}"
+                                Style="{DynamicResource CustomButtonPrimaryStyle}"
                                 Text="{s:Translate SaveButtonText}"
                                 VerticalOptions="StartAndExpand" />
                             <s:CustomButton

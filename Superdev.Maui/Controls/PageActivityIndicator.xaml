@@ -7,7 +7,7 @@
     x:Name="Control"
     Padding="{DynamicResource Theme.Padding.Medium}"
     BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BackgroundColor}"
-    IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=false}">
+    IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}">
 
     <VerticalStackLayout
         Spacing="{DynamicResource Theme.Spacing.Medium}"

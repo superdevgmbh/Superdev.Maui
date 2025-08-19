@@ -44,7 +44,7 @@
             <Grid ColumnDefinitions="*,Auto">
                 <Label
                     Grid.Column="0"
-                    Style="{StaticResource EntryLabelStyle}"
+                    Style="{DynamicResource EntryLabelStyle}"
                     Text="{Binding UseSystemTheme, StringFormat='UseSystemTheme={0}'}" />
                 <Switch
                     Grid.Column="1"
