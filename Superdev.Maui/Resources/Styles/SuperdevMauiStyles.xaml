@@ -1053,6 +1053,8 @@
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="BorderWidth" Value="0" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -1065,6 +1067,104 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+        <Setter Property="ControlTemplate">
+            <!--
+                Source: BuildDefaultTemplate method
+                https://github.com/dotnet/maui/blob/b138f16e4beba081c45e45ff54e56245b6fb44e2/src/Controls/src/Core/RadioButton/RadioButton.cs#L444
+            -->
+            <ControlTemplate>
+                <Border
+                    x:Name="TemplateRoot"
+                    Padding="6"
+                    Stroke="{TemplateBinding BorderColor}"
+                    StrokeShape="{TemplateBinding CornerRadius,
+                                                  Converter={StaticResource CornerRadiusToShape}}"
+                    StrokeThickness="{TemplateBinding BorderWidth}"
+                    HorizontalOptions="{TemplateBinding HorizontalOptions}"
+                    VerticalOptions="{TemplateBinding VerticalOptions}">
+                    <Grid
+                        Padding="2"
+                        ColumnSpacing="6"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Outer ellipse -->
+                        <Ellipse
+                            x:Name="UncheckedButton"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Aspect="Uniform"
+                            Fill="Transparent"
+                            HeightRequest="21"
+                            InputTransparent="False"
+                            Stroke="{DynamicResource Theme.Color.Secondary}"
+                            StrokeThickness="2"
+                            WidthRequest="21"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                        <!-- Inner checkmark -->
+                        <Ellipse
+                            x:Name="CheckedIndicator"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Aspect="Uniform"
+                            Fill="{DynamicResource Theme.Color.Secondary}"
+                            HeightRequest="11"
+                            InputTransparent="False"
+                            Opacity="0"
+                            Stroke="{DynamicResource Theme.Color.Secondary}"
+                            WidthRequest="11"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                        <!-- Content -->
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Grid.Column="1"
+                            Margin="{TemplateBinding Padding}"
+                            BackgroundColor="{TemplateBinding BackgroundColor}"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill" />
+                    </Grid>
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <!-- Common states -->
+                            <VisualStateGroup Name="Common">
+                                <VisualState Name="Normal" />
+                                <VisualState Name="Disabled" />
+                            </VisualStateGroup>
+
+                            <!-- Checked / Unchecked states -->
+                            <VisualStateGroup Name="CheckedStates">
+                                <VisualState Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Opacity" Value="1" />
+                                        <Setter TargetName="UncheckedButton" Property="Ellipse.Stroke" Value="{DynamicResource Theme.Color.Secondary}" />
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Stroke" Value="{DynamicResource Theme.Color.Secondary}" />
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Fill" Value="{DynamicResource Theme.Color.Secondary}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Opacity" Value="0" />
+                                        <Setter TargetName="UncheckedButton" Property="Ellipse.Stroke" Value="{DynamicResource Theme.Color.Secondary}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Border>
+            </ControlTemplate>
+        </Setter>
     </Style>
     <Style
         ApplyToDerivedTypes="True"
@@ -1073,8 +1173,8 @@
 
     <Style
         x:Key="RadioButtonEntryStyle"
+        BasedOn="{StaticResource RadioButtonStyle}"
         TargetType="RadioButton">
-        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />

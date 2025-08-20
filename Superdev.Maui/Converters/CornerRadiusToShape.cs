@@ -1,23 +1,21 @@
-﻿using System;
 using System.Globalization;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Superdev.Maui.Converters
 {
-    internal class DoubleToGridLengthConverter : IValueConverter
+    class CornerRadiusToShape : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double d)
+            return new RoundRectangle
             {
-                return new GridLength(d, GridUnitType.Absolute);
-            }
-
-            return new GridLength(0, GridUnitType.Absolute);
+                CornerRadius = (int)value,
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            throw new NotImplementedException();
         }
     }
 }

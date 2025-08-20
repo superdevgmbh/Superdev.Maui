@@ -30,4 +30,5 @@
         x:Key="IsNotNullToBoolConverter"
         IsInverted="True" />
     <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+    <converters:CornerRadiusToShape x:Key="CornerRadiusToShape" />
 </ResourceDictionary>

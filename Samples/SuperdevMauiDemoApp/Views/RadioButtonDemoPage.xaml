@@ -14,6 +14,13 @@
                 Text="RadioButton (Enabled)" />
             <VerticalStackLayout RadioButtonGroup.GroupName="GroupEnabled">
                 <RadioButton
+                    BackgroundColor="Yellow"
+                    BorderColor="Red"
+                    BorderWidth="2"
+                    CornerRadius="4"
+                    IsChecked="False"
+                    Value="0" />
+                <RadioButton
                     Content="Value 1"
                     IsChecked="True"
                     Value="1" />
