@@ -624,54 +624,60 @@
 
     <Style
         x:Key="SwitchStyle"
+        ApplyToDerivedTypes="True"
         TargetType="Switch">
-        <!--<Style.Triggers>
-            <Trigger TargetType="Switch" Property="IsToggled" Value="True">
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <Setter.Value>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.Primary}}" />
-                                        <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.Primary}}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.PrimaryDisabled}}" />
-                                        <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.PrimaryDisabled}}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger TargetType="Switch" Property="IsToggled" Value="False">
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <Setter.Value>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.PrimaryVariant}}" />
-                                        <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.PrimaryVariant}}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.PrimaryDisabled}}" />
-                                        <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.PrimaryDisabled}}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>-->
+        <Style.Triggers>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="False" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor.Disabled}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor.Disabled}" />
+            </MultiTrigger>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="False" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor}" />
+            </MultiTrigger>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="True" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor.Toggled}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor.Toggled}" />
+            </MultiTrigger>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="True" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor.Toggled.Disabled}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor.Toggled.Disabled}" />
+            </MultiTrigger>
+        </Style.Triggers>
     </Style>
+
     <Style
         BasedOn="{StaticResource SwitchStyle}"
         TargetType="Switch" />

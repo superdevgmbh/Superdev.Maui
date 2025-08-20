@@ -1,7 +1,10 @@
-﻿namespace Superdev.Maui.Resources.Styles
+﻿using Superdev.Maui.Extensions;
+
+namespace Superdev.Maui.Resources.Styles
 {
     public sealed class ColorConfiguration : BindableObject
     {
+        private static readonly DevicePlatform DevicePlatform = DeviceInfo.Current.Platform;
         private bool isInitialized;
 
         public ColorResources Resources { get; }
@@ -22,6 +25,7 @@
             this.SetPageColors(this);
             this.SetButtonColors(this);
             this.SetDrilldownButtonColors(this);
+            this.SetSwitchColors(this);
             this.SetCardViewColors(this);
             this.isInitialized = true;
         }
@@ -86,6 +90,47 @@
             this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.TextColorDisabled, colorConfiguration.PrimaryDisabled);
             this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BorderColorDisabled, MaterialColors.Gray50);
             this.Resources.SetValue(ThemeConstants.DrilldownButtonStyle.BackgroundColorDisabled, MaterialColors.Gray50);
+        }
+
+        private void SetSwitchColors(ColorConfiguration colorConfiguration)
+        {
+            var isAndroid = DevicePlatform == DevicePlatform.Android;
+            var primary = colorConfiguration.Primary;
+            var primaryGreyscale = primary.Greyscale();
+            var primaryVariant = colorConfiguration.PrimaryVariant;
+            var primaryVariantGreyscale = primaryVariant.Greyscale();
+
+            // Toggled=false, Enabled=true
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColor, isAndroid
+                ? primaryVariantGreyscale
+                : MaterialColors.White);
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColor, isAndroid
+                ? primaryGreyscale
+                : MaterialColors.White);
+
+            // Toggled=true, Enabled=true
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorToggled, isAndroid
+                ? primaryVariant
+                : primary);
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorToggled, isAndroid
+                ? primary
+                : MaterialColors.White);
+
+            // Toggled=false, Enabled=false
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorDisabled, isAndroid
+                ? primaryVariantGreyscale.Brighten(0.1f)
+                : primaryVariantGreyscale);
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorDisabled, isAndroid
+                ? primaryGreyscale.Brighten(0.3f)
+                : MaterialColors.White);
+
+            // Toggled=true, Enabled=false
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorToggledDisabled, isAndroid
+                ? primaryVariant.Brighten(0.1f)
+                : primaryVariant);
+            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorToggledDisabled, isAndroid
+                ? primary.Brighten(0.4f)
+                : MaterialColors.White);
         }
 
         private void SetCardViewColors(ColorConfiguration colorConfiguration)
@@ -461,10 +506,10 @@
         }
 
         public static readonly BindableProperty TertiaryDisabledProperty = BindableProperty.Create(
-                nameof(TertiaryDisabled),
-                typeof(Color),
-                typeof(Color),
-                MaterialColors.Gray500);
+            nameof(TertiaryDisabled),
+            typeof(Color),
+            typeof(Color),
+            MaterialColors.Gray500);
 
         public Color TertiaryDisabled
         {

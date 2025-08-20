@@ -55,6 +55,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<EditorDemoViewModel>();
             builder.Services.AddTransient<SwitchDemoPage>();
             builder.Services.AddTransient<SwitchDemoViewModel>();
+            builder.Services.AddTransient<CheckBoxDemoPage>();
+            builder.Services.AddTransient<CheckBoxDemoViewModel>();
             builder.Services.AddTransient<ButtonDemoPage>();
             builder.Services.AddTransient<ButtonDemoViewModel>();
             builder.Services.AddTransient<ListViewDemoPage>();

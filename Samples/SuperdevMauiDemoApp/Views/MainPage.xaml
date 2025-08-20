@@ -143,8 +143,8 @@
                                     <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="EditorDemoPage"
-                                        Text="Editor" />
+                                        CommandParameter="CheckBoxDemoPage"
+                                        Text="CheckBox" />
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"
@@ -213,8 +213,8 @@
                                     <s:CustomButton
                                         Grid.Column="0"
                                         Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="______Page"
-                                        Text="(unused)" />
+                                        CommandParameter="EditorDemoPage"
+                                        Text="Editor" />
                                     <s:CustomButton
                                         Grid.Column="1"
                                         Command="{Binding NavigateToPageCommand}"

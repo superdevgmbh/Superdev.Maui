@@ -88,6 +88,18 @@
             public const string BackgroundColorPressed = "DrilldownButtonStyle.BackgroundColor.Pressed";
         }
 
+        public static class SwitchStyle
+        {
+            public const string OnColor = "Theme.Switch.OnColor";
+            public const string ThumbColor = "Theme.Switch.ThumbColor";
+            public const string OnColorDisabled = "Theme.Switch.OnColor.Disabled";
+            public const string ThumbColorDisabled = "Theme.Switch.ThumbColor.Disabled";
+            public const string OnColorToggled = "Theme.Switch.OnColor.Toggled";
+            public const string ThumbColorToggled = "Theme.Switch.ThumbColor.Toggled";
+            public const string OnColorToggledDisabled = "Theme.Switch.OnColor.Toggled.Disabled";
+            public const string ThumbColorToggledDisabled = "Theme.Switch.ThumbColor.Toggled.Disabled";
+        }
+
         public static class CardViewStyle
         {
             public const string HeaderTextColor = "CardViewStyle.Header.TextColor";
