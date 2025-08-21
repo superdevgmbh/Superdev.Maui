@@ -36,6 +36,11 @@
                     ios:SearchBar.SearchBarStyle="Minimal"
                     Placeholder="SearchBarStyle Minimal"
                     Text="" />
+
+                <Entry
+                    Placeholder="Entry with Style=SearchEntryStyle"
+                    Style="{StaticResource SearchEntryStyle}"
+                    Text="" />
             </VerticalStackLayout>
         </Grid>
     </ScrollView>
