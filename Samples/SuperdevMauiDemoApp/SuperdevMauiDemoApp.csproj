@@ -29,22 +29,29 @@
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon
-      IsAppIcon="true"
+      IsAppIcon="True"
       Include="Resources\AppIcon\appicon.png"
       Condition="$(TargetFramework.Contains('-android'))"
       ForegroundScale="0.65"
-      Resize="True"
-      Color="#FFFFFF" />
+      Color="#7455DE" />
     <MauiIcon
-      IsAppIcon="true"
+      IsAppIcon="True"
       Include="Resources\AppIcon\appicon.png"
       Condition="$(TargetFramework.Contains('-ios'))"
       ForegroundScale="1.35"
-      Resize="True"
-      Color="#FFFFFF" />
+      Color="#7455DE" />
 
     <!-- Splash Screen -->
-    <MauiSplashScreen Include="Resources\Splash\splash.png" BaseSize="512,512" Resize="True" Color="#FFFFFF" />
+    <MauiSplashScreen
+      Include="Resources\Splash\splash.png"
+      Condition="$(TargetFramework.Contains('-android'))"
+      Color="#FFFFFF" />
+    <MauiSplashScreen
+      Include="Resources\Splash\splash.png"
+      Condition="$(TargetFramework.Contains('-ios'))"
+      BaseSize="256,256"
+      Resize="True"
+      Color="#FFFFFF" />
 
     <!-- Images -->
     <MauiImage Include="Resources\Images\*" />
