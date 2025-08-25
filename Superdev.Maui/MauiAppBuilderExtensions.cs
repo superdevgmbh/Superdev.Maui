@@ -105,6 +105,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IStatusBarService>(_ => IStatusBarService.Current);
             builder.Services.AddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
 #endif
+            builder.Services.AddSingleton(o);
 
             // Microsoft.Maui
             builder.Services.AddSingleton<Superdev.Maui.Services.IDeviceInfo>(_ => Superdev.Maui.Services.DeviceInfo.Current);

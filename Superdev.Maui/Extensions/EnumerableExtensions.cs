@@ -99,9 +99,9 @@ namespace Superdev.Maui.Extensions
         /// <param name="updateAction">The update action.</param>
         public static void UpdateSingle<T>(this IEnumerable<T> source, Func<T, bool> selectorFunc, Action<T> updateAction)
         {
-            Guard.ArgumentNotNull(source, nameof(source));
-            Guard.ArgumentNotNull(selectorFunc, nameof(selectorFunc));
-            Guard.ArgumentNotNull(updateAction, nameof(updateAction));
+            ArgumentNullException.ThrowIfNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(selectorFunc, nameof(selectorFunc));
+            ArgumentNullException.ThrowIfNull(updateAction, nameof(updateAction));
 
             var selected = source.Single(selectorFunc);
             updateAction(selected);

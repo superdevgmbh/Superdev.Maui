@@ -9,23 +9,24 @@ namespace Superdev.Maui.Behaviors
     /// <example>
     /// <Entry Placeholder="Entry 1">
     ///     <Entry.Behaviors>
-    ///         <behaviors:EntryUnfocusedBehavior DecorationFlags="All" />
+    ///         <behaviors:InputViewUnfocusedBehavior DecorationFlags="All" />
     /// </Entry.Behaviors >
     /// </Entry >
     ///
     /// <Entry Placeholder="Entry 2">
     ///     <Entry.Behaviors>
-    ///         <behaviors:EntryUnfocusedBehavior DecorationFlags="Trim" />
+    ///         <behaviors:InputViewUnfocusedBehavior DecorationFlags="Trim" />
     /// </Entry.Behaviors >
     /// </Entry >
     /// </example>
-    public class EntryUnfocusedBehavior : BehaviorBase<VisualElement>
+    public class InputViewUnfocusedBehavior : BehaviorBase<InputView>
     {
         public static readonly BindableProperty DecorationFlagsProperty =
             BindableProperty.Create(
                 nameof(DecorationFlags),
                 typeof(TextDecorationFlags),
-                typeof(EntryUnfocusedBehavior));
+                typeof(InputViewUnfocusedBehavior),
+                TextDecorationFlags.None);
 
         public TextDecorationFlags DecorationFlags
         {
@@ -33,35 +34,37 @@ namespace Superdev.Maui.Behaviors
             set => this.SetValue(DecorationFlagsProperty, value);
         }
 
-        protected override void OnAttachedTo(VisualElement bindable)
+        protected override void OnAttachedTo(InputView bindable)
         {
             base.OnAttachedTo(bindable);
 
-            var entry = bindable.AsEntry();
-            if (entry == null)
+            var inputView = (InputView)bindable.AsEntry() ?? bindable.AsEditor() ?? bindable;
+            if (inputView != null)
             {
-                throw new InvalidOperationException("bindable must be of type Entry or ValidatableEntry");
+                inputView.Unfocused += this.OnInputViewUnfocused;
             }
-
-            entry.Unfocused += this.OnEntryUnfocused;
+            else
+            {
+                throw new InvalidOperationException("bindable must inherit from type InputView");
+            }
         }
 
-        protected override void OnDetachingFrom(VisualElement bindable)
+        protected override void OnDetachingFrom(InputView bindable)
         {
-            var entry = bindable.AsEntry();
-            entry.Unfocused -= this.OnEntryUnfocused;
+            var inputView = (InputView)bindable.AsEntry() ?? bindable.AsEditor() ?? bindable;
+            inputView.Unfocused -= this.OnInputViewUnfocused;
 
             base.OnDetachingFrom(bindable);
         }
 
-        private void OnEntryUnfocused(object sender, EventArgs e)
+        private void OnInputViewUnfocused(object sender, EventArgs e)
         {
-            if (!(sender is Entry entry))
+            if (sender is not InputView inputView)
             {
                 return;
             }
 
-            if (entry.Text is string value &&
+            if (inputView.Text is string value &&
                 this.DecorationFlags is var flags && flags != TextDecorationFlags.None)
             {
                 if (flags.HasFlag(TextDecorationFlags.TrimWhitespaces))
@@ -71,14 +74,15 @@ namespace Superdev.Maui.Behaviors
 
                 if (flags.HasFlag(TextDecorationFlags.TrimStart))
                 {
-                    value = value.TrimStart();
+                    value = value.TrimStart(StringExtensions.TrimChars);
                 }
 
                 if (flags.HasFlag(TextDecorationFlags.TrimEnd))
                 {
-                    value = value.TrimEnd();
+                    value = value.TrimEnd(StringExtensions.TrimChars);
                 }
-                entry.Text = value;
+
+                inputView.Text = value;
             }
         }
     }

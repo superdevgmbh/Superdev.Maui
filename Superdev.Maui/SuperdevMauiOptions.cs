@@ -9,5 +9,11 @@ namespace Superdev.Maui
         /// Default: <c>false</c>
         /// </summary>
         public bool IgnoreSafeArea { get; set; } = false;
+
+        /// <summary>
+        /// When enabled, automatically clears Behaviors, Triggers, and Effects
+        /// from all UI elements once a page is no longer in use.
+        /// </summary>
+        public bool AutoCleanupPage { get; set; } = true;
     }
 }

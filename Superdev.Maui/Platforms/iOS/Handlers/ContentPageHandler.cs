@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using Foundation;
-using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
@@ -9,7 +8,7 @@ namespace Superdev.Maui.Platforms.Handlers
 {
     using PM = PropertyMapper<ContentPage, ContentPageHandler>;
 
-    public class ContentPageHandler : Microsoft.Maui.Handlers.PageHandler
+    public class ContentPageHandler : Superdev.Maui.Handlers.PageHandler
     {
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PageHandler.Mapper)
         {

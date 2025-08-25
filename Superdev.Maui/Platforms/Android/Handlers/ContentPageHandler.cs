@@ -9,7 +9,7 @@ namespace Superdev.Maui.Platforms.Handlers
 {
     using PM = PropertyMapper<ContentPage, ContentPageHandler>;
 
-    public class ContentPageHandler : PageHandler
+    public class ContentPageHandler : Superdev.Maui.Handlers.PageHandler
     {
         private readonly IKeyboardService keyboardService;
 
@@ -45,10 +45,22 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
+        // protected override void ConnectHandler(ContentViewGroup platformView)
+        // {
+        //     base.ConnectHandler(platformView);
+        //
+        //     if (this.VirtualView is ContentPage contentPage)
+        //     {
+        //         UpdateHasKeyboardOffset(this, contentPage);
+        //     }
+        // }
+
         protected override void DisconnectHandler(ContentViewGroup platformView)
         {
-            var contentPage = (ContentPage)this.VirtualView;
-            this.keyboardService.ResetWindowSoftInputModeAdjust(contentPage);
+            if (this.VirtualView is ContentPage contentPage)
+            {
+                this.keyboardService.ResetWindowSoftInputModeAdjust(contentPage);
+            }
 
             base.DisconnectHandler(platformView);
         }

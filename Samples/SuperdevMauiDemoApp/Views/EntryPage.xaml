@@ -131,7 +131,7 @@
                                     ValidationErrors="{Binding Validation.Errors[UserName]}">
                                     <s:ValidatableEntry.Behaviors>
                                         <s:MaxLengthTextBehavior MaxLength="{Binding UserNameMaxLength}" />
-                                        <s:EntryUnfocusedBehavior DecorationFlags="TrimEnd" />
+                                        <s:InputViewUnfocusedBehavior DecorationFlags="Trim" />
                                         <s:EntryCompletedBehavior TargetElementName="ValidatableEntryTest1" />
                                     </s:ValidatableEntry.Behaviors>
                                 </s:ValidatableEntry>
@@ -141,7 +141,7 @@
                                     ReturnType="Go"
                                     Text="{Binding UserName, Mode=TwoWay}">
                                     <Entry.Behaviors>
-                                        <s:EntryUnfocusedBehavior DecorationFlags="All" />
+                                        <s:InputViewUnfocusedBehavior DecorationFlags="Trim" />
                                         <s:EntryCompletedBehavior TargetElement="{x:Reference UserNameEntry}" />
                                     </Entry.Behaviors>
                                 </Entry>

@@ -25,9 +25,13 @@ namespace SuperdevMauiDemoApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-#if DEBUG
-            builder.Logging.AddDebug();
-#endif
+            builder.Services.AddLogging(b =>
+            {
+                b.ClearProviders();
+                b.SetMinimumLevel(LogLevel.Trace);
+                b.AddDebug();
+                b.AddSimpleConsole();
+            });
 
             var translationProvider = ResxSingleTranslationProvider.Current;
             translationProvider.Init(Strings.ResourceManager);

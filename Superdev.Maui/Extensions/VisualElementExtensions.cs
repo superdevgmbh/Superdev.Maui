@@ -27,6 +27,21 @@ namespace Superdev.Maui.Extensions
             return null;
         }
 
+        internal static Editor AsEditor(this VisualElement bindable)
+        {
+            if (bindable is Editor editor)
+            {
+                return editor;
+            }
+
+            if (bindable is ValidatableEditor validatableEditor)
+            {
+                return validatableEditor.Editor;
+            }
+
+            return null;
+        }
+
         internal static VisualElement AsVisualElement(this VisualElement bindable)
         {
             if (bindable is VisualElement visualElement)

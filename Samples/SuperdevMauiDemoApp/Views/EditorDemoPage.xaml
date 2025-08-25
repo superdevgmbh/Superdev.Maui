@@ -96,15 +96,24 @@
                                 ColumnDefinitions="*,*"
                                 ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
                                 <Editor
+                                    x:Name="Editor"
                                     Grid.Column="0"
                                     MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
                                     Placeholder="Editor"
-                                    Text="{Binding Notes, Mode=TwoWay}" />
+                                    Text="{Binding Notes, Mode=TwoWay}">
+                                    <Editor.Behaviors>
+                                        <s:InputViewUnfocusedBehavior DecorationFlags="TrimStartEnd" />
+                                    </Editor.Behaviors>
+                                </Editor>
                                 <s:CustomEditor
                                     Grid.Column="1"
                                     MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
                                     Placeholder="CustomEditor"
-                                    Text="{Binding Notes, Mode=TwoWay}" />
+                                    Text="{Binding Notes, Mode=TwoWay}">
+                                    <Editor.Behaviors>
+                                        <s:InputViewUnfocusedBehavior DecorationFlags="TrimStartEnd" />
+                                    </Editor.Behaviors>
+                                </s:CustomEditor>
                             </Grid>
 
                             <Label
