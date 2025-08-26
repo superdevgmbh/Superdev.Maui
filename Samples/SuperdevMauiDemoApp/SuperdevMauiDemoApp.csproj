@@ -125,20 +125,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Superdev.Maui\Superdev.Maui.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <MauiXaml Update="Views\CheckBoxDemoPage.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\CheckBoxDemoPage.xaml.cs">
-      <DependentUpon>CheckBoxDemoPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
+  
   <Target Name="PrintVariables" BeforeTargets="Build">
     <Message Importance="high" Text="----------------------"/>
     <Message Importance="high" Text="PrintVariables for $(TargetFramework)"/>

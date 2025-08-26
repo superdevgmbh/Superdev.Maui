@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.BindableItemsSource"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:converters="clr-namespace:Superdev.Maui.Converters"
+    x:Name="Control">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:IsFirstItemToBoolConverter x:Key="IsFirstItemToBoolConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Source={x:Reference Control}, Path=ItemsSource}">
+        <VerticalStackLayout.Resources>
+            <ResourceDictionary>
+                <!--  First row comes with a plain content presenter  -->
+                <ControlTemplate x:Key="FirstItemControlTemplate">
+                    <ContentPresenter />
+                </ControlTemplate>
+                <!--  All other rows have a line separator at the top of the content  -->
+                <ControlTemplate x:Key="DefaultItemControlTemplate">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{Binding Source={x:Reference Control}, Path=Spacing}" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <controls:ContentControl
+                            Grid.Row="0"
+                            IsVisible="{Binding Source={x:Reference Control}, Path=SeparatorTemplate, Converter={StaticResource IsNotNullToBoolConverter}}"
+                            ItemTemplate="{Binding Source={x:Reference Control}, Path=SeparatorTemplate}" />
+                        <ContentPresenter Grid.Row="1" />
+                    </Grid>
+                </ControlTemplate>
+            </ResourceDictionary>
+        </VerticalStackLayout.Resources>
+        <BindableLayout.ItemTemplate>
+            <DataTemplate>
+                <controls:ContentControl
+                    BindingContext="{Binding .}"
+                    ControlTemplate="{StaticResource DefaultItemControlTemplate}"
+                    ItemTemplate="{Binding Source={x:Reference Control}, Path=ItemTemplate}">
+                    <ContentView.Triggers>
+                        <DataTrigger
+                            Binding="{MultiBinding {Binding Source={x:Reference Control}, Path=ItemsSource},
+                                                   {Binding .},
+                                                   Converter={StaticResource IsFirstItemToBoolConverter}}"
+                            TargetType="ContentView"
+                            Value="True">
+                            <Setter Property="ControlTemplate" Value="{StaticResource FirstItemControlTemplate}" />
+                        </DataTrigger>
+                    </ContentView.Triggers>
+                </controls:ContentControl>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </VerticalStackLayout>
+</ContentView>

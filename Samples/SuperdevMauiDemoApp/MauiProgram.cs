@@ -79,6 +79,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<ProgressBarDemoPage>();
             builder.Services.AddTransient<BehaviorDemoPage>();
             builder.Services.AddTransient<BehaviorDemoViewModel>();
+            builder.Services.AddTransient<BindableItemsSourceDemoPage>();
+            builder.Services.AddTransient<BindableItemsSourceDemoViewModel>();
 
             builder.Services.AddSingleton<ICountryService, CountryService>();
             builder.Services.AddSingleton<IValidationService, ValidationService>();
