@@ -7,6 +7,7 @@
     xmlns:templates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
+    Title="ListView Demo"
     x:DataType="vm:ListViewDemoViewModel">
 
     <ContentPage.Resources>

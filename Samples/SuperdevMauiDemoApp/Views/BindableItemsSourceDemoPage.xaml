@@ -6,7 +6,8 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:templates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
-    x:DataType="vm:BindableItemsSourceDemoViewModel">
+    x:DataType="vm:BindableItemsSourceDemoViewModel"
+    Title="BindableItemsSource Demo">
 
     <ContentPage.Behaviors>
         <s:EventToCommandBehavior
