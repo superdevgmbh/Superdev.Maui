@@ -1,27 +1,25 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Superdev.Maui.Services
 {
     public class MauiNavigationService : INavigationService
     {
-        private readonly HashSet<Assembly> cachedAssemblies = new HashSet<Assembly>();
         private readonly ILogger logger;
-        private readonly IServiceProvider serviceProvider;
+        private readonly IPageResolver pageResolver;
 
         public MauiNavigationService(
             ILogger<MauiNavigationService> logger,
-            IServiceProvider serviceProvider)
+            IPageResolver pageResolver)
         {
             this.logger = logger;
-            this.serviceProvider = serviceProvider;
+            this.pageResolver = pageResolver;
         }
 
         public async Task PushAsync(string pageName, bool animated = true)
         {
             try
             {
-                var page = this.ResolvePage(pageName);
+                var page = this.pageResolver.ResolvePage(pageName);
                 var navigation = GetNavigation();
                 await navigation.PushAsync(page, animated);
             }
@@ -36,7 +34,7 @@ namespace Superdev.Maui.Services
         {
             try
             {
-                var page = this.ResolvePage(pageName);
+                var page = this.pageResolver.ResolvePage(pageName);
                 var navigation = GetNavigation();
                 await navigation.PushModalAsync(new NavigationPage(page), animated);
             }
@@ -45,47 +43,6 @@ namespace Superdev.Maui.Services
                 this.logger.LogError(ex, "PushModalAsync failed with exception");
                 throw;
             }
-        }
-
-        private Page ResolvePage(string pageName)
-        {
-            var pageTypes = this.FindTypesWithName(pageName);
-            if (pageTypes.Length == 0)
-            {
-                throw new PageNavigationException($"Page with name '{pageName}' not found");
-            }
-
-            if (pageTypes.Length > 1)
-            {
-                throw new PageNavigationException(
-                    $"Multiple pages found for name '{pageName}': " +
-                    $"{string.Join($"> {Environment.NewLine}", pageTypes.Select(t => t.FullName))}");
-            }
-
-            var pageType = pageTypes.Single();
-            var page = (Page)this.serviceProvider.GetRequiredService(pageType);
-
-            var viewModelName = pageName.Substring(0, pageName.LastIndexOf("Page")) + "ViewModel";
-            var viewModelTypes = this.FindTypesWithName(viewModelName);
-
-            if (viewModelTypes.Length == 0)
-            {
-                this.logger.LogInformation($"View model with name '{viewModelName}' not found");
-            }
-            else if (viewModelTypes.Length == 1)
-            {
-                var viewModelType = viewModelTypes.Single();
-                var viewModel = this.serviceProvider.GetRequiredService(viewModelType);
-                page.BindingContext = viewModel;
-            }
-            else
-            {
-                throw new PageNavigationException(
-                    $"Multiple view models found for name '{viewModelName}': " +
-                    $"{string.Join($"> {Environment.NewLine}", viewModelTypes.Select(t => t.FullName))}");
-            }
-
-            return page;
         }
 
         private static INavigation GetNavigation()
@@ -125,36 +82,6 @@ namespace Superdev.Maui.Services
                 null => null,
                 _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
             };
-        }
-
-        private Type[] FindTypesWithName(string typeName)
-        {
-            // Attempt to lookup type name in cached assemblies
-            var types = FindTypesWithName(this.cachedAssemblies, typeName);
-
-            if (types.Length == 0)
-            {
-                // If no assembly is found, scan all loaded assemblies for the type name
-                types = FindTypesWithName(AppDomain.CurrentDomain.GetAssemblies(), typeName);
-
-                // Update cache with new assemblies
-                foreach (var type in types)
-                {
-                    this.cachedAssemblies.Add(type.Assembly);
-                }
-            }
-
-            return types;
-        }
-
-        private static Type[] FindTypesWithName(IEnumerable<Assembly> assemblies, string typeName)
-        {
-            var types = assemblies.SelectMany(a => a
-                    .GetTypes()
-                    .Where(t => string.Equals(t.Name, typeName, StringComparison.InvariantCultureIgnoreCase)))
-                .ToArray();
-
-            return types;
         }
 
         public async Task PopAsync(bool animated = true)
@@ -281,7 +208,7 @@ namespace Superdev.Maui.Services
                 yield break;
             }
 
-            var page = this.ResolvePage(firstSegment);
+            var page = this.pageResolver.ResolvePage(firstSegment);
             yield return page;
 
             {
