@@ -527,6 +527,7 @@
     <Style
         x:Key="ListViewStyle"
         TargetType="ListView">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
         <Setter Property="SeparatorVisibility" Value="Default" />
         <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
         <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
