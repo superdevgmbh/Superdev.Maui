@@ -68,8 +68,8 @@
             <ActivityIndicator
                 x:Name="ActivityIndicator"
                 Margin="0,0,8,0"
-                IsRunning="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=false}"
-                IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=false}"
+                IsRunning="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}"
+                IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}"
                 WidthRequest="24"
                 HorizontalOptions="End"
                 VerticalOptions="Center" />
