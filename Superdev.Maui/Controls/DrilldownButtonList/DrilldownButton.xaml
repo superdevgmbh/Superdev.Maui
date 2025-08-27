@@ -36,14 +36,6 @@
                 HorizontalTextAlignment="Start"
                 VerticalTextAlignment="Center">
 
-                <controls:CustomButton.Margin>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On
-                            Platform="Android"
-                            Value="-1" />
-                    </OnPlatform>
-                </controls:CustomButton.Margin>
-
                 <controls:CustomButton.Padding>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On

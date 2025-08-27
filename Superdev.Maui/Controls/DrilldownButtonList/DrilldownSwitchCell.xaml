@@ -5,16 +5,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:b="clr-namespace:Superdev.Maui.Behaviors"
-    xmlns:cardView="clr-namespace:Superdev.Maui.Controls.CardView"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
     x:Name="Control"
     IsClippedToBounds="True">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <!-- <RowDefinition Height="Auto" /> -->
-        </Grid.RowDefinitions>
         <controls:CustomButton
             Grid.Row="0"
             AllCaps="False"
@@ -31,14 +26,6 @@
             HorizontalTextAlignment="Start"
             VerticalTextAlignment="Center">
 
-            <!-- <controls:CustomButton.Margin> -->
-            <!--     <OnPlatform x:TypeArguments="Thickness"> -->
-            <!-- <On -->
-            <!-- Platform="Android" -->
-            <!-- Value="-1" /> -->
-            <!--     </OnPlatform> -->
-            <!-- </controls:CustomButton.Margin> -->
-
             <controls:CustomButton.Padding>
                 <OnPlatform x:TypeArguments="Thickness">
                     <On
@@ -46,7 +33,7 @@
                         Value="8, 0, 64, 0" />
                     <On
                         Platform="iOS"
-                        Value="16, 0, 64, 0" />
+                        Value="16, 10, 64, 10" />
                 </OnPlatform>
             </controls:CustomButton.Padding>
         </controls:CustomButton>
@@ -72,26 +59,6 @@
             <Switch.Style>
                 <Style TargetType="Switch">
                     <Setter Property="Margin" Value="{OnPlatform Android='0, 0, 8, 0', iOS='0, -4, 8, 0'}" />
-                    <!-- <Setter Property="VisualStateManager.VisualStateGroups"> -->
-                    <!--     <Setter.Value> -->
-                    <!--         <VisualStateGroupList> -->
-                    <!--             <VisualStateGroup x:Name="CommonStates"> -->
-                    <!--                 <VisualState x:Name="Normal"> -->
-                    <!--                     <VisualState.Setters> -->
-                    <!--                         <Setter Property="OnColor" Value="{OnPlatform Android={DynamicResource Theme.Color.TextColor}}" /> -->
-                    <!--                         <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.TextColor}}" /> -->
-                    <!--                     </VisualState.Setters> -->
-                    <!--                 </VisualState> -->
-                    <!--                 <VisualState x:Name="Disabled"> -->
-                    <!--                     <VisualState.Setters> -->
-                    <!--                         <Setter Property="OnColor" Value="{OnPlatform iOS={DynamicResource Theme.Color.PrimaryDisabled}}" /> -->
-                    <!--                         <Setter Property="ThumbColor" Value="{OnPlatform Android={DynamicResource Theme.Color.PrimaryDisabled}}" /> -->
-                    <!--                     </VisualState.Setters> -->
-                    <!--                 </VisualState> -->
-                    <!--             </VisualStateGroup> -->
-                    <!--         </VisualStateGroupList> -->
-                    <!--     </Setter.Value> -->
-                    <!-- </Setter> -->
                 </Style>
             </Switch.Style>
         </Switch>
@@ -101,7 +68,5 @@
                 Command="{Binding Command, Mode=OneWay}"
                 CommandParameter="{Binding CommandParameter, Mode=OneWay}" />
         </Grid.GestureRecognizers>
-
-        <!-- <cardView:CardViewDividerLine Grid.Row="1" /> -->
     </Grid>
 </ContentView>

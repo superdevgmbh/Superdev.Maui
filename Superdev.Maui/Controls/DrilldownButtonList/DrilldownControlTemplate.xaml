@@ -7,10 +7,6 @@
     <ControlTemplate x:Key="DrilldownControlTemplate">
         <ContentView IsClippedToBounds="True">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <!-- <RowDefinition Height="Auto" /> -->
-                </Grid.RowDefinitions>
                 <controls:CustomButton
                     Grid.Row="0"
                     AllCaps="False"
@@ -26,14 +22,6 @@
                     VerticalOptions="Center"
                     HorizontalTextAlignment="Start"
                     VerticalTextAlignment="Center">
-
-                    <!-- <controls:CustomButton.Margin> -->
-                    <!--     <OnPlatform x:TypeArguments="Thickness"> -->
-                    <!-- <On -->
-                    <!-- Platform="Android" -->
-                    <!-- Value="-1" /> -->
-                    <!--     </OnPlatform> -->
-                    <!-- </controls:CustomButton.Margin> -->
 
                     <controls:CustomButton.Padding>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -96,8 +84,6 @@
                         Command="{Binding Command, Mode=OneWay}"
                         CommandParameter="{Binding CommandParameter, Mode=OneWay}" />
                 </Grid.GestureRecognizers>
-
-                <!-- <cardView:CardViewDividerLine Grid.Row="1" /> -->
             </Grid>
         </ContentView>
     </ControlTemplate>
