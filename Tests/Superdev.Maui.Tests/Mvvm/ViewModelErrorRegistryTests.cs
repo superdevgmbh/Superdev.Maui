@@ -1,22 +1,25 @@
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
+using Superdev.Maui.Tests.Extensions;
 using Xunit.Abstractions;
 
 namespace Superdev.Maui.Tests.Mvvm
 {
     public class ViewModelErrorRegistryTests
     {
-        private readonly ITestOutputHelper testOutputHelper;
+        private readonly AutoMocker autoMocker;
 
         public ViewModelErrorRegistryTests(ITestOutputHelper testOutputHelper)
         {
-            this.testOutputHelper = testOutputHelper;
+            this.autoMocker = new AutoMocker();
+            this.autoMocker.UseTestOutputHelperLogger<IViewModelErrorHandler>(testOutputHelper);
         }
 
         [Fact]
         public void ShouldReturnDefaultViewModelError_IfNotConfigured()
         {
             // Arrange
-            IViewModelErrorHandler viewModelErrorHandler = new ViewModelErrorRegistry();
+            IViewModelErrorHandler viewModelErrorHandler = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
             ViewModelError viewModelError;
 
             // Act
@@ -30,9 +33,6 @@ namespace Superdev.Maui.Tests.Mvvm
             }
 
             // Assert
-            this.testOutputHelper.WriteLine(viewModelError.Title);
-            this.testOutputHelper.WriteLine(viewModelError.Text);
-
             viewModelError.Should().NotBeNull();
             viewModelError.Icon.Should().BeNull();
             viewModelError.Title.Should().Be("Test exception");
@@ -45,7 +45,7 @@ namespace Superdev.Maui.Tests.Mvvm
         public void ShouldCreateFromException_UsingRegisterException()
         {
             // Arrange
-            var viewModelErrorRegistry = new ViewModelErrorRegistry();
+            var viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
             viewModelErrorRegistry.SetDefaultFactory(ex => new ViewModelError("default_icon", "default_title", "default_text"));
             viewModelErrorRegistry.RegisterException(ex => ex.Message == "message2", () => new ViewModelError("icon", "title", "text"));
 
@@ -66,11 +66,44 @@ namespace Superdev.Maui.Tests.Mvvm
         }
 
         [Fact]
+        public void ShouldCreateFromException_WithPriority()
+        {
+            // Arrange
+            IViewModelErrorRegistry viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
+            viewModelErrorRegistry.SetDefaultFactory(
+                ex => new ViewModelError("default_icon", "default_title", "default_text"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message1",
+                () => new ViewModelError("icon1", "title1", "text1"),
+                priority: 2000);
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message2",
+                () => new ViewModelError("icon2", "title2", "text2"),
+                priority: 1000);
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message3",
+                () => new ViewModelError("icon3", "title3", "text3"));
+
+            var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
+
+            var exception = new Exception("message1", new InvalidOperationException("message2", new NullReferenceException("message3")));
+
+            // Act
+            var viewModelError = viewModelErrorHandler.FromException(exception);
+
+            // Assert
+            viewModelError.Should().NotBeNull();
+            viewModelError.Icon.Should().Be("icon1");
+            viewModelError.Title.Should().Be("title1");
+            viewModelError.Text.Should().Be("text1");
+        }
+
+        [Fact]
         public async Task ShouldCreateFromException_WithRetry()
         {
             // Arrange
             var retryCount = 0;
-            IViewModelErrorRegistry viewModelErrorRegistry = new ViewModelErrorRegistry();
+            IViewModelErrorRegistry viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
             viewModelErrorRegistry.SetDefaultFactory(ex => new ViewModelError("default_icon", "default_title", "default_text", "default_retry"));
             viewModelErrorRegistry.RegisterException(ex => ex.Message == "message2", () => new ViewModelError("icon", "title", "text"));
 

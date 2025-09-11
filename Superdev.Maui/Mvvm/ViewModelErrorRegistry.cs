@@ -1,12 +1,12 @@
-using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Mvvm
 {
     public class ViewModelErrorRegistry : IViewModelErrorRegistry, IViewModelErrorHandler
     {
-        private readonly Dictionary<Func<Exception, bool>, Func<ViewModelError>> viewModelErrorFactories =
-            new Dictionary<Func<Exception, bool>, Func<ViewModelError>>();
+        private readonly ILogger logger;
+        private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories = new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
 
         private Func<Exception, ViewModelError> defaultViewModelErrorFactory = ex => new ViewModelError(null, ex.Message, $"{ex}");
 
@@ -14,8 +14,14 @@ namespace Superdev.Maui.Mvvm
             () => new ViewModelErrorRegistry(),
             LazyThreadSafetyMode.PublicationOnly);
 
-        internal ViewModelErrorRegistry()
+        private ViewModelErrorRegistry()
+            : this(IPlatformApplication.Current.Services.GetRequiredService<ILogger<IViewModelErrorHandler>>())
         {
+        }
+
+        internal ViewModelErrorRegistry(ILogger<IViewModelErrorHandler> logger)
+        {
+            this.logger = logger;
         }
 
         public static ViewModelErrorRegistry Current => Implementation.Value;
@@ -29,12 +35,14 @@ namespace Superdev.Maui.Mvvm
         /// <inheritdoc />
         public void RegisterException(Func<Exception, bool> exceptionFilter, Func<ViewModelError> viewModelErrorFactory)
         {
-            if (this.viewModelErrorFactories.ContainsKey(exceptionFilter))
-            {
-                this.viewModelErrorFactories.Remove(exceptionFilter);
-            }
+            this.RegisterException(exceptionFilter, viewModelErrorFactory, priority: 0);
+        }
 
-            this.viewModelErrorFactories.Add(exceptionFilter, viewModelErrorFactory);
+        /// <inheritdoc />
+        public void RegisterException(Func<Exception, bool> exceptionFilter, Func<ViewModelError> viewModelErrorFactory, int priority)
+        {
+            this.viewModelErrorFactories.Remove(exceptionFilter);
+            this.viewModelErrorFactories.Add(exceptionFilter, (priority, viewModelErrorFactory));
         }
 
         /// <inheritdoc />
@@ -46,11 +54,10 @@ namespace Superdev.Maui.Mvvm
 
             if (factories.Length > 0)
             {
-                Debug.WriteLineIf(factories.Length > 1, exception,
-                    $"FromException found {factories.Length} viewModelErrorFactories for exception: {Environment.NewLine}" +
-                    $"{exception}");
+                this.logger.LogDebug($"FromException found {factories.Length} {(factories.Length == 1 ? "viewModelErrorFactory": "viewModelErrorFactories")} " +
+                                     $"for exception of type {exception.GetType().GetFormattedName()}");
 
-                var viewModelErrorFactory = factories.Last().Value;
+                var viewModelErrorFactory = factories.OrderByDescending(f => f.Value.Priority).First().Value.ViewModelErrorFactory;
                 var viewModelError = viewModelErrorFactory();
                 return viewModelError;
             }
