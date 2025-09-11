@@ -36,5 +36,45 @@ namespace Superdev.Maui.Extensions
                 }
             }
         }
+
+        /// <summary>
+        /// Recursively enumerates all <see cref="Exception.InnerException"/> and
+        /// <see cref="AggregateException.InnerExceptions"/> along with their nesting depth.
+        /// </summary>
+        /// <param name="exception">The source exception.</param>
+        /// <returns>An enumerable of (Exception, int).</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static IEnumerable<(Exception Exception, int Depth)> GetInnerExceptionsWithDepth(this Exception exception)
+        {
+            return GetInnerExceptionsWithDepth(exception, 0);
+        }
+
+        private static IEnumerable<(Exception Exception, int Depth)> GetInnerExceptionsWithDepth(Exception exception, int depth)
+        {
+            if (exception == null)
+            {
+                yield break;
+            }
+
+            yield return (exception, depth);
+
+            if (exception is AggregateException aggregateException)
+            {
+                foreach (var aggregateInnerException in aggregateException.InnerExceptions)
+                {
+                    foreach (var ex in GetInnerExceptionsWithDepth(aggregateInnerException, depth + 1))
+                    {
+                        yield return ex;
+                    }
+                }
+            }
+            else if (exception.InnerException is Exception innerException)
+            {
+                foreach (var ex in GetInnerExceptionsWithDepth(innerException, depth + 1))
+                {
+                    yield return ex;
+                }
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Superdev.Maui.Tests.Mvvm
         }
 
         [Fact]
-        public void ShouldReturnDefaultViewModelError_IfNotConfigured()
+        public void ShouldCreateFromException_ReturnsDefault_IfNotConfigured()
         {
             // Arrange
             IViewModelErrorHandler viewModelErrorHandler = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
@@ -42,16 +42,48 @@ namespace Superdev.Maui.Tests.Mvvm
         }
 
         [Fact]
+        public void ShouldCreateFromException_ReturnsDefault_IfNoMatch()
+        {
+            // Arrange
+            var viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
+            viewModelErrorRegistry.SetDefaultFactory(
+                ex => new ViewModelError("default_icon", "default_title", "default_text"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message4",
+                () => new ViewModelError("icon", "title", "text"));
+
+            var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
+
+            var exception = new Exception("message1",
+                new InvalidOperationException("message2",
+                    new NullReferenceException("message3")));
+
+            // Act
+            var viewModelError = viewModelErrorHandler.FromException(exception);
+
+            // Assert
+            viewModelError.Should().NotBeNull();
+            viewModelError.Icon.Should().Be("default_icon");
+            viewModelError.Title.Should().Be("default_title");
+            viewModelError.Text.Should().Be("default_text");
+        }
+
+        [Fact]
         public void ShouldCreateFromException_UsingRegisterException()
         {
             // Arrange
             var viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
-            viewModelErrorRegistry.SetDefaultFactory(ex => new ViewModelError("default_icon", "default_title", "default_text"));
-            viewModelErrorRegistry.RegisterException(ex => ex.Message == "message2", () => new ViewModelError("icon", "title", "text"));
+            viewModelErrorRegistry.SetDefaultFactory(
+                ex => new ViewModelError("default_icon", "default_title", "default_text"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message2",
+                () => new ViewModelError("icon", "title", "text"));
 
             var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
 
-            var exception = new Exception("message1", new InvalidOperationException("message2", new NullReferenceException("message3")));
+            var exception = new Exception("message1",
+                                new InvalidOperationException("message2",
+                                    new NullReferenceException("message3")));
 
             // Act
             var viewModelError = viewModelErrorHandler.FromException(exception);
@@ -86,7 +118,9 @@ namespace Superdev.Maui.Tests.Mvvm
 
             var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
 
-            var exception = new Exception("message1", new InvalidOperationException("message2", new NullReferenceException("message3")));
+            var exception = new Exception("message1",
+                                new InvalidOperationException("message2",
+                                    new NullReferenceException("message3")));
 
             // Act
             var viewModelError = viewModelErrorHandler.FromException(exception);
@@ -96,6 +130,75 @@ namespace Superdev.Maui.Tests.Mvvm
             viewModelError.Icon.Should().Be("icon1");
             viewModelError.Title.Should().Be("title1");
             viewModelError.Text.Should().Be("text1");
+        }
+
+        [Fact]
+        public void ShouldCreateFromException_WithDepthAndPriority()
+        {
+            // Arrange
+            IViewModelErrorRegistry viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
+            viewModelErrorRegistry.SetDefaultFactory(
+                ex => new ViewModelError("default_icon", "default_title", "default_text"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message1",
+                () => new ViewModelError("icon1", "title1", "text1"),
+                priority: 1000);
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message2",
+                () => new ViewModelError("icon2", "title2", "text2"),
+                priority: 1000);
+            viewModelErrorRegistry.RegisterException(
+                ex => ex.Message == "message3",
+                () => new ViewModelError("icon3", "title3", "text3"),
+                priority: 0);
+
+            var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
+
+            var exception = new Exception("message1",
+                                new InvalidOperationException("message2",
+                                    new NullReferenceException("message3")));
+
+            // Act
+            var viewModelError = viewModelErrorHandler.FromException(exception);
+
+            // Assert
+            viewModelError.Should().NotBeNull();
+            viewModelError.Icon.Should().Be("icon2");
+            viewModelError.Title.Should().Be("title2");
+            viewModelError.Text.Should().Be("text2");
+        }
+
+        [Fact]
+        public void ShouldCreateFromException_WithDepth()
+        {
+            // Arrange
+            IViewModelErrorRegistry viewModelErrorRegistry = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
+            viewModelErrorRegistry.SetDefaultFactory(
+                ex => new ViewModelError("default_icon", "default_title", "default_text"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex is Exception,
+                () => new ViewModelError("icon1", "title1", "text1"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex is InvalidOperationException,
+                () => new ViewModelError("icon2", "title2", "text2"));
+            viewModelErrorRegistry.RegisterException(
+                ex => ex is InvalidOperationException { Message: "message3" },
+                () => new ViewModelError("icon3", "title3", "text3"));
+
+            var viewModelErrorHandler = (IViewModelErrorHandler)viewModelErrorRegistry;
+
+            var exception = new Exception("message1",
+                                new InvalidOperationException("message2",
+                                    new InvalidOperationException("message3")));
+
+            // Act
+            var viewModelError = viewModelErrorHandler.FromException(exception);
+
+            // Assert
+            viewModelError.Should().NotBeNull();
+            viewModelError.Icon.Should().Be("icon3");
+            viewModelError.Title.Should().Be("title3");
+            viewModelError.Text.Should().Be("text3");
         }
 
         [Fact]

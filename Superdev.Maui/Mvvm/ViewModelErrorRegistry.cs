@@ -6,7 +6,9 @@ namespace Superdev.Maui.Mvvm
     public class ViewModelErrorRegistry : IViewModelErrorRegistry, IViewModelErrorHandler
     {
         private readonly ILogger logger;
-        private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories = new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
+
+        private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories =
+            new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
 
         private Func<Exception, ViewModelError> defaultViewModelErrorFactory = ex => new ViewModelError(null, ex.Message, $"{ex}");
 
@@ -48,24 +50,47 @@ namespace Superdev.Maui.Mvvm
         /// <inheritdoc />
         public ViewModelError FromException(Exception exception)
         {
-            var factories = this.viewModelErrorFactories
-                .Where(f => exception.GetInnerExceptions().Any(e => f.Key(e)))
-                .ToArray();
+            var innerExceptionsWithDepth = exception.GetInnerExceptionsWithDepth().ToArray();
 
-            if (factories.Length > 0)
+            var matches = this.viewModelErrorFactories
+                .Select(factory =>
+                {
+                    var matchedExceptions = innerExceptionsWithDepth
+                        .Where(e => factory.Key(e.Exception))
+                        .ToList();
+
+                    // MatchCount: fewer matches = more specific
+                    var matchCount = matchedExceptions.Count;
+                    var hasMatches = matchCount > 0;
+                    var maxDepth = hasMatches ? matchedExceptions.Max(e => e.Depth) : 0;
+                    return (Factory: factory, HasMatch: hasMatches, Depth: maxDepth, MatchCount: matchCount);
+                })
+                .Where(x => x.HasMatch)
+                .ToList();
+
+            if (matches.Count > 0)
             {
-                this.logger.LogDebug($"FromException found {factories.Length} {(factories.Length == 1 ? "viewModelErrorFactory": "viewModelErrorFactories")} " +
-                                     $"for exception of type {exception.GetType().GetFormattedName()}");
+                // Order by Priority, then Depth, then Specificity
+                var orderedMatches = matches
+                    .OrderByDescending(x => x.Factory.Value.Priority)
+                    .ThenByDescending(x => x.Depth)
+                    .ThenBy(x => x.MatchCount)
+                    .ToArray();
 
-                var viewModelErrorFactory = factories.OrderByDescending(f => f.Value.Priority).First().Value.ViewModelErrorFactory;
-                var viewModelError = viewModelErrorFactory();
+                this.logger.LogDebug(
+                    $"FromException found {matches.Count} " +
+                    $"{(matches.Count == 1 ? "viewModelErrorFactory" : "viewModelErrorFactories")} " +
+                    $"for exception of type {exception.GetType().GetFormattedName()}" +
+                    $"{(matches.Count == 1 ? "" : $"{Environment.NewLine}{string.Join(Environment.NewLine, orderedMatches.Select(m => $"> Priority={m.Factory.Value.Priority}, Depth={m.Depth}, MatchCount={m.MatchCount}"))}")}");
+
+                var selectedMatch = orderedMatches.First();
+                var viewModelError = selectedMatch.Factory.Value.ViewModelErrorFactory();
                 return viewModelError;
             }
 
             if (this.defaultViewModelErrorFactory is Func<Exception, ViewModelError> defaultFactory)
             {
-                var viewModelError = defaultFactory(exception);
-                return viewModelError;
+                return defaultFactory(exception);
             }
 
             throw new InvalidOperationException(
