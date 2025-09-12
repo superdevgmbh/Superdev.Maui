@@ -1,8 +1,8 @@
 ﻿namespace Superdev.Maui.Controls
 {
-    public partial class SwipeItemBase : SwipeItemView
+    public abstract partial class SwipeItemBase : SwipeItemView
     {
-        public SwipeItemBase()
+        protected SwipeItemBase()
         {
             this.InitializeComponent();
         }
@@ -40,7 +40,8 @@
                 nameof(TintColor),
                 typeof(Color),
                 typeof(SwipeItemBase),
-                Colors.White);
+                Colors.White,
+                BindingMode.OneWay);
 
         public Color TintColor
         {

@@ -141,25 +141,5 @@ namespace Superdev.Maui.Mvvm
         {
             this.PropertyChanged?.Invoke(this, args);
         }
-
-        internal static string GetPropertyName(LambdaExpression expression)
-        {
-            if (!(expression.Body is MemberExpression memberExpression))
-            {
-                throw new ArgumentException("MemberExpression is expected in expression.Body", nameof(expression));
-            }
-
-            //const string vblocalPrefix = "$VB$Local_";
-            var member = memberExpression.Member;
-            ////if (
-            ////    member.MemberType == MemberTypes.Field &&
-            ////    member.Name != null &&
-            ////    member.Name.StartsWith(vblocalPrefix))
-            ////{
-            ////    return member.Name.Substring(vblocalPrefix.Length);
-            ////}
-
-            return member.Name;
-        }
     }
 }

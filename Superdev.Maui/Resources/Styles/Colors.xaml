@@ -239,5 +239,9 @@
     <styles:ColorReference
         x:Key="Theme.SwipeView.Neutral"
         Value="{StaticResource Gray400}" />
-
+    
+    <!-- ViewCell -->
+    <styles:ColorReference
+        x:Key="Theme.ViewCell.BackgroundColor"
+        Value="{StaticResource White}" />
 </ResourceDictionary>

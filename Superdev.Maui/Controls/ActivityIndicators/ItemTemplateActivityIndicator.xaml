@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Grid
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Class="Superdev.Maui.Controls.ItemTemplateActivityIndicator"
+    x:Name="Control"
+    InputTransparent="False"
+    IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}"
+    Opacity="0.8">
+
+    <controls:MaskOverlay
+        Grid.Row="0"
+        Opacity="{Binding Source={x:Reference Control}, Path=Opacity}"
+        Color="{DynamicResource Theme.ViewCell.BackgroundColor}" />
+
+    <ActivityIndicator
+        Grid.Row="0"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        MaximumHeightRequest="33"
+        MaximumWidthRequest="33"
+        IsRunning="{Binding IsBusy, Source={x:Reference Control}}" />
+</Grid>

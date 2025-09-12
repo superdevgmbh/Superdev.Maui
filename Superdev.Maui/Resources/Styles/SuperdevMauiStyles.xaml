@@ -539,6 +539,13 @@
         BasedOn="{StaticResource ListViewStyle}"
         TargetType="ListView" />
 
+    <!-- ViewCell -->
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="controls:CustomViewCell">
+        <Setter Property="SelectedBackgroundColor" Value="{DynamicResource Theme.ViewCell.BackgroundColor}" />
+    </Style>
+
     <!-- ActivityIndicator -->
     <Style
         x:Key="ActivityIndicatorStyle"

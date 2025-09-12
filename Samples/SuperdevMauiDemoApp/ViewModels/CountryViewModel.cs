@@ -1,17 +1,19 @@
-﻿using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Model;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class CountryViewModel : BindableBase
+    public class CountryViewModel : BaseViewModel
     {
         private bool isSelected;
+        private IAsyncRelayCommand deleteCommand;
 
         public CountryViewModel(CountryDto countryDto)
         {
             this.Id = countryDto.Id;
             this.Name = countryDto.Name;
+            this.IsInitialized = true;
         }
 
         public int Id { get; set; }
@@ -24,9 +26,26 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.isSelected, value, nameof(this.IsSelected));
         }
 
-        public ICommand DeleteCommand { get; set; }
+        public IAsyncRelayCommand DeleteCommand
+        {
+            get => this.deleteCommand ??= new AsyncRelayCommand(this.DeleteAsync);
+        }
 
-        public ICommand ItemSelectedCommand { get; set; }
+        private async Task DeleteAsync()
+        {
+            this.IsBusy = true;
+
+            try
+            {
+                await Task.Delay(2000);
+            }
+            finally
+            {
+                this.IsBusy = false;
+            }
+        }
+
+        public IAsyncRelayCommand ItemSelectedCommand { get; set; }
 
         public override string ToString()
         {

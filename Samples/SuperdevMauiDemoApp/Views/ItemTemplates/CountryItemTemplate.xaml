@@ -1,47 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
-<s:CustomViewCell
+<ViewCell
     x:Class="SuperdevMauiDemoApp.Views.ItemTemplates.CountryItemTemplate"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:viewModels="clr-namespace:SuperdevMauiDemoApp.ViewModels"
-    x:DataType="viewModels:CountryViewModel"
-    SelectedBackgroundColor="White">
+    x:DataType="viewModels:CountryViewModel">
 
-    <SwipeView>
-        <SwipeView.RightItems>
-            <SwipeItems>
-                <s:NegativeSwipeItem
-                    Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding .}"
-                    IconImageSource="{s:ImageResource rectangle_magenta_192}"
-                    Text="Negative" />
-                <s:NeutralSwipeItem
-                    Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding .}"
-                    IconImageSource="{s:ImageResource rectangle_magenta_192}" />
-                <s:DestructiveSwipeItem
-                    Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding .}"
-                    IconImageSource="{s:ImageResource rectangle_magenta_192}"
-                    Text="Destructive" />
-            </SwipeItems>
-        </SwipeView.RightItems>
+    <Grid>
+        <SwipeView>
+            <SwipeView.RightItems>
+                <SwipeItems>
+                    <s:NegativeSwipeItem
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding .}"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
+                        IconImageSource="{s:ImageResource rectangle_magenta_192}"
+                        Text="Negative" />
+                    <s:NeutralSwipeItem
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding .}"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
+                        IconImageSource="{s:ImageResource rectangle_magenta_192}" />
+                    <s:DestructiveSwipeItem
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding .}"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
+                        IconImageSource="{s:ImageResource rectangle_magenta_192}"
+                        Text="Destruct" />
+                </SwipeItems>
+            </SwipeView.RightItems>
 
-        <Grid
-            Padding="{DynamicResource Theme.Padding.Medium}"
-            BackgroundColor="#F5F5F5"
-            HeightRequest="66">
-            <Grid.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ItemSelectedCommand}" />
-            </Grid.GestureRecognizers>
-            <Label
-                Style="{DynamicResource EntryLabelStyle}"
-                Text="{Binding Name}"
-                HorizontalOptions="Start"
-                VerticalOptions="Center" />
-        </Grid>
+            <Grid
+                BackgroundColor="{DynamicResource Theme.ViewCell.BackgroundColor}"
+                Padding="{DynamicResource Theme.Padding.Medium}"
+                HeightRequest="66">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ItemSelectedCommand}" />
+                </Grid.GestureRecognizers>
+                <Label
+                    Style="{DynamicResource EntryLabelStyle}"
+                    Text="{Binding Name}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
+            </Grid>
+        </SwipeView>
 
-    </SwipeView>
-</s:CustomViewCell>
+        <s:ItemTemplateActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
+    </Grid>
+</ViewCell>

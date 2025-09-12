@@ -6,7 +6,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Superdev.Maui.Controls"
     xmlns:effects="clr-namespace:Superdev.Maui.Effects"
-    x:Name="Control">
+    x:Name="SwipeItemView">
 
     <VerticalStackLayout
         Spacing="2"
@@ -14,21 +14,21 @@
         VerticalOptions="Center">
         <Image
             Margin="0"
-            effects:TintImageEffect.TintColor="{Binding Source={x:Reference Control}, Path=TintColor}"
+            effects:TintImageEffect.TintColor="{Binding Source={x:Reference SwipeItemView}, Path=TintColor}"
             Aspect="AspectFit"
             HeightRequest="24"
-            Source="{Binding Source={x:Reference Control}, Path=IconImageSource}"
+            Source="{Binding Source={x:Reference SwipeItemView}, Path=IconImageSource}"
             WidthRequest="24"
             VerticalOptions="End" />
         <controls:CustomLabel
             Margin="0"
             Padding="0"
-            IsVisible="{Binding Source={x:Reference Control}, Path=Text, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+            IsVisible="{Binding Source={x:Reference SwipeItemView}, Path=Text, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
             LineBreakMode="TailTruncation"
             MaxLines="2"
             RemovePadding="True"
-            Text="{Binding Source={x:Reference Control}, Path=Text}"
-            TextColor="{Binding Source={x:Reference Control}, Path=TintColor}"
+            Text="{Binding Source={x:Reference SwipeItemView}, Path=Text}"
+            TextColor="{Binding Source={x:Reference SwipeItemView}, Path=TintColor}"
             HorizontalOptions="Center"
             VerticalOptions="Start"
             HorizontalTextAlignment="Center"
