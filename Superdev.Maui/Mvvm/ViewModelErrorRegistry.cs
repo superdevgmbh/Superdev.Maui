@@ -1,12 +1,13 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Mvvm
 {
     public class ViewModelErrorRegistry : IViewModelErrorRegistry, IViewModelErrorHandler
     {
-        private readonly Lazy<ILogger<IViewModelErrorHandler>> lazyLogger;
+        private readonly ResettableLazy<ILogger<IViewModelErrorHandler>> lazyLogger;
         private ILogger<IViewModelErrorHandler> logger => this.lazyLogger.Value;
 
         private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories = new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
@@ -19,19 +20,26 @@ namespace Superdev.Maui.Mvvm
 
         private ViewModelErrorRegistry()
         {
-            this.lazyLogger = new Lazy<ILogger<IViewModelErrorHandler>>(() =>
+            this.lazyLogger = new ResettableLazy<ILogger<IViewModelErrorHandler>>(() =>
             {
-                var serviceProvider = IPlatformApplication.Current.Services;
-                return serviceProvider.GetRequiredService<ILogger<ViewModelErrorRegistry>>();
+                try
+                {
+                    var serviceProvider = IPlatformApplication.Current.Services;
+                    return serviceProvider.GetRequiredService<ILogger<ViewModelErrorRegistry>>();
+                }
+                catch
+                {
+                    this.lazyLogger?.Reset();
+                    return new NullLogger<IViewModelErrorHandler>();
+                }
             }, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
         internal ViewModelErrorRegistry(ILogger<IViewModelErrorHandler> logger)
         {
-            this.lazyLogger = new Lazy<ILogger<IViewModelErrorHandler>>(() =>
-            {
-                return logger;
-            }, LazyThreadSafetyMode.ExecutionAndPublication);
+            this.lazyLogger = new ResettableLazy<ILogger<IViewModelErrorHandler>>(
+                () => logger,
+                LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
         public static ViewModelErrorRegistry Current => Implementation.Value;
