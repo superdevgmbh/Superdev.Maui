@@ -25,7 +25,7 @@ namespace Superdev.Maui.Mvvm
                 try
                 {
                     var serviceProvider = IPlatformApplication.Current.Services;
-                    return serviceProvider.GetRequiredService<ILogger<ViewModelErrorRegistry>>();
+                    return serviceProvider.GetRequiredService<ILogger<IViewModelErrorHandler>>();
                 }
                 catch
                 {
