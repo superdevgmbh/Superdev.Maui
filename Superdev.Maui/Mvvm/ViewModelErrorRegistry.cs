@@ -1,14 +1,15 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Mvvm
 {
     public class ViewModelErrorRegistry : IViewModelErrorRegistry, IViewModelErrorHandler
     {
-        private readonly ILogger logger;
+        private readonly Lazy<ILogger<IViewModelErrorHandler>> lazyLogger;
+        private ILogger<IViewModelErrorHandler> logger => this.lazyLogger.Value;
 
-        private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories =
-            new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
+        private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories = new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
 
         private Func<Exception, ViewModelError> defaultViewModelErrorFactory = ex => new ViewModelError(null, ex.Message, $"{ex}");
 
@@ -17,13 +18,20 @@ namespace Superdev.Maui.Mvvm
             LazyThreadSafetyMode.PublicationOnly);
 
         private ViewModelErrorRegistry()
-            : this(IPlatformApplication.Current.Services.GetRequiredService<ILogger<IViewModelErrorHandler>>())
         {
+            this.lazyLogger = new Lazy<ILogger<IViewModelErrorHandler>>(() =>
+            {
+                var serviceProvider = IPlatformApplication.Current.Services;
+                return serviceProvider.GetRequiredService<ILogger<ViewModelErrorRegistry>>();
+            }, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
         internal ViewModelErrorRegistry(ILogger<IViewModelErrorHandler> logger)
         {
-            this.logger = logger;
+            this.lazyLogger = new Lazy<ILogger<IViewModelErrorHandler>>(() =>
+            {
+                return logger;
+            }, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
         public static ViewModelErrorRegistry Current => Implementation.Value;
