@@ -23,21 +23,21 @@ namespace SuperdevMauiDemoApp.ViewModels
         public bool IsSelected
         {
             get => this.isSelected;
-            set => this.SetProperty(ref this.isSelected, value, nameof(this.IsSelected));
+            set => this.SetProperty(ref this.isSelected, value);
         }
 
         public IAsyncRelayCommand DeleteCommand
         {
-            get => this.deleteCommand ??= new AsyncRelayCommand(this.DeleteAsync);
+            get => this.deleteCommand ??= new AsyncRelayCommand<CountryViewModel>(this.DeleteAsync);
         }
 
-        private async Task DeleteAsync()
+        private async Task DeleteAsync(CountryViewModel countryViewModel)
         {
             this.IsBusy = true;
 
             try
             {
-                await Task.Delay(2000);
+                await Task.Delay(3000);
             }
             finally
             {
