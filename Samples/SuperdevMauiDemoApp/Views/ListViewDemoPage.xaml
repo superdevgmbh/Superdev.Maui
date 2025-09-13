@@ -29,8 +29,11 @@
                 s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
                 CachingStrategy="RecycleElement"
                 HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing}"
                 ItemTemplate="{StaticResource CountryItemTemplate}"
-                ItemsSource="{Binding Countries}" />
+                ItemsSource="{Binding Countries}"
+                RefreshCommand="{Binding RefreshCommand}" />
         </Grid>
 
         <s:PageActivityIndicator

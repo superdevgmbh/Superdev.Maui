@@ -32,9 +32,9 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public string RefreshButtonText => $"Refresh (count: {this.numberOfLoads})";
 
-        protected override async Task OnRefreshList()
+        protected override async Task OnRefreshing()
         {
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             this.numberOfLoads++;
             this.RaisePropertyChanged(nameof(this.RefreshButtonText));
         }

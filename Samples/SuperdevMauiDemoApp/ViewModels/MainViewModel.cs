@@ -226,12 +226,12 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void OnPostalCodeUnfocused()
         {
-            Console.WriteLine("unfocused");
+            Console.WriteLine("OnPostalCodeUnfocused");
         }
 
-        protected override async Task OnRefreshList()
+        protected override async Task OnRefreshing()
         {
-            await Task.Delay(1000);
+            await Task.Delay(2000);
         }
 
         private async Task LoadData()

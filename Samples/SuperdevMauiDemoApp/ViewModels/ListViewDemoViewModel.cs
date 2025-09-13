@@ -97,5 +97,10 @@ namespace SuperdevMauiDemoApp.ViewModels
                 Animated = true
             };
         }
+
+        protected override async Task OnRefreshing()
+        {
+            await Task.Delay(2000);
+        }
     }
 }

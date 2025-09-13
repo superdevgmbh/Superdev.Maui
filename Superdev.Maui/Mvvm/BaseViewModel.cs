@@ -128,15 +128,13 @@ namespace Superdev.Maui.Mvvm
         {
         }
 
-        public ICommand RefreshCommand => new Command(async () => await this.InternalRefreshList());
+        public ICommand RefreshCommand => new Command(this.Refresh);
 
-        private async Task InternalRefreshList()
+        private async void Refresh()
         {
-            this.IsRefreshing = true;
-
             try
             {
-                await this.OnRefreshList();
+                await this.OnRefreshing();
             }
             finally
             {
@@ -144,9 +142,9 @@ namespace Superdev.Maui.Mvvm
             }
         }
 
-        protected virtual async Task OnRefreshList()
+        protected virtual Task OnRefreshing()
         {
-            await Task.FromResult<object>(null);
+            return Task.CompletedTask;
         }
 
         public bool IsRefreshing
