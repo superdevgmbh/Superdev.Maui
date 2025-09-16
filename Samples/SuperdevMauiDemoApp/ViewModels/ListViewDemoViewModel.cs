@@ -100,7 +100,9 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         protected override async Task OnRefreshing()
         {
+            this.IsBusy = true;
             await Task.Delay(2000);
+            this.IsBusy = false;
         }
     }
 }

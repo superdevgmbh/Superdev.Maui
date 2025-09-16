@@ -38,7 +38,9 @@
 
         <s:PageActivityIndicator
             Grid.Row="0"
-            IsBusy="{Binding IsBusy}" />
+            IsBusy="{Binding IsBusy}"
+            Text="Text"
+            Title="Title" />
 
         <s:ViewModelErrorControl
             Grid.Row="0"
