@@ -15,6 +15,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         private IAsyncRelayCommand popCommand;
         private IAsyncRelayCommand navigateToPageModalCommand;
         private IAsyncRelayCommand popModalCommand;
+        private IRelayCommand toggleHasNavigationBarCommand;
+        private bool hasNavigationBar = true;
+        private IRelayCommand toggleSwipeBackEnabledCommand;
+        private bool swipeBackEnabled = true;
 
         public NavigationDemoViewModel(
             INavigationService navigationService,
@@ -125,6 +129,37 @@ namespace SuperdevMauiDemoApp.ViewModels
                 var viewModelError = this.viewModelErrorHandler.FromException(ex);
                 await this.dialogService.DisplayAlertAsync(viewModelError, "OK", "Cancel");
             }
+        }
+        public IRelayCommand ToggleHasNavigationBarCommand
+        {
+            get => this.toggleHasNavigationBarCommand ??= new RelayCommand(this.ToggleHasNavigationBar);
+        }
+
+        private void ToggleHasNavigationBar()
+        {
+            this.HasNavigationBar = !this.HasNavigationBar;
+        }
+
+        public bool HasNavigationBar
+        {
+            get => this.hasNavigationBar;
+            private set => this.SetProperty(ref this.hasNavigationBar, value);
+        }
+
+        public IRelayCommand ToggleSwipeBackEnabledCommand
+        {
+            get => this.toggleSwipeBackEnabledCommand ??= new RelayCommand(this.ToggleSwipeBackEnabled);
+        }
+
+        private void ToggleSwipeBackEnabled()
+        {
+            this.SwipeBackEnabled = !this.SwipeBackEnabled;
+        }
+
+        public bool SwipeBackEnabled
+        {
+            get => this.swipeBackEnabled;
+            private set => this.SetProperty(ref this.swipeBackEnabled, value);
         }
     }
 }

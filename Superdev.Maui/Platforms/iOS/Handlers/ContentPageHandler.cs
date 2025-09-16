@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using Foundation;
 using Superdev.Maui.Controls;
+using Superdev.Maui.Extensions;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
+using NavigationPage = Superdev.Maui.Controls.PlatformConfiguration.iOSSpecific.NavigationPage;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -12,7 +14,8 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PageHandler.Mapper)
         {
-            [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset
+            [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset,
+            [NavigationPage.SwipeBackEnabledProperty.PropertyName] = UpdateSwipeBackEnabled
         };
 
         private double? contentOriginalHeight;
@@ -106,6 +109,27 @@ namespace Superdev.Maui.Platforms.Handlers
 
                 contentPageHandler.contentOriginalHeight = null;
                 contentPageHandler.contentOriginalMargin = null;
+            }
+        }
+
+        private static void UpdateSwipeBackEnabled(ContentPageHandler contentPageHandler, ContentPage contentPage)
+        {
+            if (contentPageHandler.ViewController.NavigationController is { InteractivePopGestureRecognizer: UIGestureRecognizer gestureRecognizer })
+            {
+                var swipeBackEnabled = NavigationPage.GetSwipeBackEnabled(contentPage);
+
+                Debug.WriteLine($"UpdateSwipeBackEnabled: SwipeBackEnabled={swipeBackEnabled} for Page={contentPage.GetType().GetFormattedName()}");
+                gestureRecognizer.Enabled = swipeBackEnabled;
+            }
+        }
+
+        protected override void ConnectHandler(ContentView platformView)
+        {
+            base.ConnectHandler(platformView);
+
+            if (this.VirtualView is ContentPage contentPage)
+            {
+                UpdateSwipeBackEnabled(this, contentPage);
             }
         }
 

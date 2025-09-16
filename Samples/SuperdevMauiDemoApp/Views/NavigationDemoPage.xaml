@@ -3,9 +3,13 @@
     x:Class="SuperdevMauiDemoApp.Views.NavigationDemoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:ios="clr-namespace:Superdev.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Superdev.Maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:NavigationDemoViewModel"
+    ios:NavigationPage.SwipeBackEnabled="{Binding SwipeBackEnabled}"
+    NavigationPage.BackButtonTitle="Back"
+    NavigationPage.HasBackButton="True"
+    NavigationPage.HasNavigationBar="{Binding HasNavigationBar}"
     Title="NavigationDemoPage">
 
     <ScrollView>
@@ -32,6 +36,18 @@
             <Button
                 Command="{Binding PopModalCommand}"
                 Text="PopModalAsync" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="NavigationPage" />
+            <Button
+                Command="{Binding ToggleHasNavigationBarCommand}"
+                Text="{Binding HasNavigationBar, StringFormat='HasNavigationBar={0}'}" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="NavigationPage (iOS)" />
+            <Button
+                Command="{Binding ToggleSwipeBackEnabledCommand}"
+                Text="{Binding SwipeBackEnabled, StringFormat='SwipeBackEnabled={0} (iOS)'}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
