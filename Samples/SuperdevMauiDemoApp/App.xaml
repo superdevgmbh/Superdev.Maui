@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="SuperdevMauiDemoApp.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles;assembly=Superdev.Maui">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Converters.xaml" />
+                <styles:SuperdevMauiStyles />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Styles -->
+            <Style
+                x:Key="DemoLabelStyle"
+                TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Magenta" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+            </Style>
+
+            <Style
+                x:Key="FlatFrameStyle"
+                TargetType="Frame">
+                <Setter Property="BorderColor" Value="Black" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+
+            <Style
+                x:Key="LayoutBorderFrameStyle"
+                BasedOn="{StaticResource FlatFrameStyle}"
+                TargetType="Frame">
+                <Setter Property="BorderColor" Value="Magenta" />
+                <Setter Property="VerticalOptions" Value="Start" />
+            </Style>
+
+            <s:ColorConfiguration
+                x:Key="ColorConfigurationLight"
+                CardViewBackgroundColor="{StaticResource CardViewBackgroundColor}"
+                CardViewHeaderBackgroundColor="{StaticResource LabelSectionBackground}"
+                CardViewHeaderTextColor="#6D6D72"
+                Error="#ff1744"
+                OnPrimary="#FFFFFF"
+                OnSecondary="#FFFFFF"
+                OnTertiary="#FFFFFF"
+                PageBackgroundColor="{StaticResource Gray100}"
+                Primary="#5714AF"
+                PrimaryVariant="#c7a4f4"
+                Secondary="#17C2BC"
+                SecondaryVariant="#a4f4f2"
+                Tertiary="{StaticResource Amber700}"
+                TertiaryVariant="{StaticResource Amber100}"
+                TextColor="{StaticResource Gray800}"
+                TextColorBright="{StaticResource Gray500}" />
+
+            <s:ColorConfiguration
+                x:Key="ColorConfigurationDark"
+                CardViewBackgroundColor="#000000"
+                CardViewHeaderBackgroundColor="#000000"
+                CardViewHeaderTextColor="{StaticResource Gray100}"
+                Error="#0000ff"
+                OnPrimary="#FFFFFF"
+                OnSecondary="#000000"
+                OnTertiary="#000000"
+                PageBackgroundColor="{StaticResource Gray800}"
+                Primary="#000000"
+                PrimaryVariant="#3700B3"
+                Secondary="#03DAC6"
+                SecondaryVariant="#005457"
+                Tertiary="{StaticResource Amber700}"
+                TertiaryVariant="{StaticResource Amber100}"
+                TextColor="Magenta"
+                TextColorBright="LightGray" />
+
+            <s:SpacingConfiguration x:Key="SpacingConfiguration" />
+
+            <!-- Fonts -->
+            <OnPlatform
+                x:TypeArguments="x:String"
+                x:Key="SampleApp.FontFamily.OswaldLight">
+                <On
+                    Platform="Android"
+                    Value="Fonts/Oswald-Light.ttf#Oswald Light" />
+                <On
+                    Platform="iOS"
+                    Value="Oswald-Light" />
+            </OnPlatform>
+
+            <OnPlatform
+                x:TypeArguments="x:String"
+                x:Key="SampleApp.FontFamily.OswaldMedium">
+                <On
+                    Platform="Android"
+                    Value="Fonts/Oswald-Medium.ttf#Oswald Medium" />
+                <On
+                    Platform="iOS"
+                    Value="Oswald-Medium" />
+            </OnPlatform>
+
+            <!-- Sets the default font configuration which serves as fallback for all fonts -->
+            <s:FontElement
+                x:Key="DefaultFont"
+                FontFamily="{StaticResource SampleApp.FontFamily.OswaldMedium}" />
+
+            <!-- Overrides the all font-related properties -->
+            <s:FontElement
+                x:Key="DebugFont"
+                FontAttributes="Bold,Italic"
+                FontFamily="{StaticResource SampleApp.FontFamily.OswaldLight}"
+                FontSize="99" />
+
+            <!-- Overrides the FontAttributes property only -->
+            <s:FontElement
+                x:Key="CustomButtonFont"
+                FontAttributes="Bold" />
+
+            <!-- Create a custom FontSizeConfiguration to adjust the predefined named font sizes -->
+            <s:DefaultFontSizeConfiguration x:Key="FontSizeConfiguration">
+                <!--<themes:DefaultFontSizeConfiguration.Medium>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="28" />
+                        <On Platform="Android" Value="24" />
+                        <On Platform="UWP" Value="24" />
+                    </OnPlatform>
+                </themes:DefaultFontSizeConfiguration.Medium>-->
+            </s:DefaultFontSizeConfiguration>
+
+            <s:FontConfiguration
+                x:Key="FontConfiguration"
+                Button="{StaticResource CustomButtonFont}"
+                Default="{StaticResource DefaultFont}"
+                FontSizes="{StaticResource FontSizeConfiguration}" />
+
+            <s:Theme
+                x:Key="SampleApp.Theme.Dark"
+                ColorConfiguration="{StaticResource ColorConfigurationDark}"
+                FontConfiguration="{StaticResource FontConfiguration}"
+                SpacingConfiguration="{StaticResource SpacingConfiguration}" />
+
+            <s:Theme
+                x:Key="SampleApp.Theme.Light"
+                ColorConfiguration="{StaticResource ColorConfigurationLight}"
+                FontConfiguration="{StaticResource FontConfiguration}"
+                SpacingConfiguration="{StaticResource SpacingConfiguration}" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

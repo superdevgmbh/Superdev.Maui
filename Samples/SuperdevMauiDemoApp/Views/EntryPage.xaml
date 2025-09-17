@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.EntryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:EntryViewModel"
+    Title="EntryPage">
+
+    <ScrollView>
+        <Grid>
+            <StackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="CustomEntry" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Demo CustomEntry" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <s:CustomEntry
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Placeholder="CustomEntry"
+                                    Text="CustomEntry" />
+                                <Entry
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Placeholder="Entry"
+                                    Text="Entry" />
+                            </Grid>
+
+                            <s:CustomEntry
+                                s:LineColorEffect.LineColor="Blue"
+                                BackgroundColor="LightGoldenrodYellow"
+                                Placeholder="CustomEntry with LineColorEffect"
+                                Text="" />
+
+                            <s:CustomEntry
+                                Margin="0"
+                                s:LineColorEffect.LineColor="Red"
+                                FontSize="{DynamicResource Theme.FontSize.H1}"
+                                Placeholder="CustomEntry with Huge FontSize"
+                                Text="" />
+
+                            <s:CustomEntry
+                                Placeholder="CustomEntry with TextContentType=&quot;FirstName&quot;"
+                                TextContentType="FirstName" />
+                            <s:CustomEntry
+                                Placeholder="CustomEntry with TextContentType=&quot;LastName&quot;"
+                                TextContentType="LastName" />
+                            <s:CustomEntry
+                                Keyboard="Email"
+                                Placeholder="CustomEntry with TextContentType=&quot;Username&quot;"
+                                TextContentType="Username" />
+                            <s:CustomEntry
+                                Keyboard="Email"
+                                Placeholder="CustomEntry with TextContentType=&quot;EmailAddress&quot;"
+                                TextContentType="EmailAddress" />
+                            <s:CustomEntry
+                                Keyboard="Telephone"
+                                Placeholder="CustomEntry with TextContentType=&quot;PhoneNumber&quot;"
+                                TextContentType="PhoneNumber" />
+                            <s:CustomEntry
+                                IsPassword="True"
+                                Placeholder="CustomEntry with TextContentType=&quot;Password&quot;"
+                                TextContentType="Password" />
+                            <s:CustomEntry
+                                IsPassword="True"
+                                Placeholder="CustomEntry with TextContentType=&quot;NewPassword&quot;"
+                                TextContentType="NewPassword" />
+                            <s:CustomEntry
+                                Keyboard="Numeric"
+                                Placeholder="CustomEntry with TextContentType=&quot;OneTimeCode&quot;"
+                                TextContentType="OneTimeCode" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Toggle IsReadonly" />
+                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <StackLayout>
+                        <s:LabelSection Text="ValidatableEntry" />
+                        <s:HeaderDivider />
+                        <StackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Demo ValidatableEntry" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <s:ValidatableEntry
+                                    x:Name="UserNameEntry"
+                                    Grid.Column="0"
+                                    IsReadonly="{Binding IsReadonly}"
+                                    Placeholder="ValidatableEntry"
+                                    ReturnType="Next"
+                                    Text="{Binding UserName, Mode=TwoWay}"
+                                    TrailingIcon="{s:ImageResource rectangle_magenta_192}"
+                                    TrailingIconCommand="{Binding CalloutCommand}"
+                                    TrailingIconCommandParameter="{Binding Text, Source={x:Reference UserNameEntry}}"
+                                    ValidationErrors="{Binding Validation.Errors[UserName]}">
+                                    <s:ValidatableEntry.Behaviors>
+                                        <s:MaxLengthTextBehavior MaxLength="{Binding UserNameMaxLength}" />
+                                        <s:InputViewUnfocusedBehavior DecorationFlags="Trim" />
+                                        <s:EntryCompletedBehavior TargetElementName="ValidatableEntryTest1" />
+                                    </s:ValidatableEntry.Behaviors>
+                                </s:ValidatableEntry>
+                                <Entry
+                                    Grid.Column="1"
+                                    Placeholder="Entry"
+                                    ReturnType="Go"
+                                    Text="{Binding UserName, Mode=TwoWay}">
+                                    <Entry.Behaviors>
+                                        <s:InputViewUnfocusedBehavior DecorationFlags="Trim" />
+                                        <s:EntryCompletedBehavior TargetElement="{x:Reference UserNameEntry}" />
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Grid>
+                            <s:ValidatableEntry
+                                x:Name="ValidatableEntryTest1"
+                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
+                                Placeholder="{Binding Text, Source={x:Reference ValidatableEntryTest1}}"
+                                Text="ValidatableEntry's Placeholder sizing test" />
+                            <s:ValidatableEntry
+                                x:Name="ValidatableEntryTest2"
+                                Placeholder="ValidatableEntry with ValidationErrors"
+                                Text="ValidatableEntry with ValidationErrors"
+                                ValidationErrors="{Binding Source={x:Reference ValidatableEntryTest2}, Path=Text, Converter={StaticResource RandomValidationErrorsConverter}}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Toggle IsReadonly" />
+                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
+                        </StackLayout>
+                        <s:FooterDivider />
+                    </StackLayout>
+                </s:CardView>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

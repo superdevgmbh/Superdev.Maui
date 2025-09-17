@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="Superdev.Maui.Controls.DrilldownButtonList"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
+    x:Name="Control"
+    BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
+
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DrilldownControlTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="CustomDrilldownTemplate">
+                <ContentView ControlTemplate="{StaticResource DrilldownControlTemplate}">
+                    <controls:ContentControl
+                        BindingContext="{Binding .}"
+                        ItemTemplate="{Binding Source={x:Reference Control}, Path=ItemTemplate}" />
+                </ContentView>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DrilldownButtonCell">
+                <controls:DrilldownButtonCell />
+            </DataTemplate>
+
+            <DataTemplate x:Key="DrilldownSwitchCell">
+                <controls:DrilldownSwitchCell />
+            </DataTemplate>
+
+            <controls:DrilldownCellTemplateSelector
+                x:Key="DrilldownCellTemplateSelector"
+                CustomDrilldownCellTemplate="{StaticResource CustomDrilldownTemplate}"
+                DrilldownButtonCellTemplate="{StaticResource DrilldownButtonCell}"
+                DrilldownSwitchCellTemplate="{StaticResource DrilldownSwitchCell}" />
+        </ResourceDictionary>
+    </Grid.Resources>
+
+    <VerticalStackLayout
+        BackgroundColor="{DynamicResource CardViewStyle.DividerColor}"
+        BindableLayout.ItemTemplateSelector="{StaticResource DrilldownCellTemplateSelector}"
+        BindableLayout.ItemsSource="{Binding ItemsSource, Source={x:Reference Control}, Mode=OneWay}"
+        Spacing="1" />
+</Grid>

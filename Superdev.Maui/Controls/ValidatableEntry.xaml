@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="Superdev.Maui.Controls.ValidatableEntry"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
+    x:Name="Control"
+    IsClippedToBounds="True"
+    RowDefinitions="Auto,Auto,Auto"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
+
+    <!-- Annotation Text -->
+    <controls:CustomLabel
+        x:Name="AnnotationLabel"
+        x:FieldModifier="internal"
+        Grid.Row="0"
+        IsVisible="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
+        Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
+
+    <!-- Entry -->
+    <Grid
+        Grid.Row="1"
+        IsClippedToBounds="True">
+        <controls:CustomEntry
+            x:Name="Entry"
+            x:FieldModifier="internal"
+            Margin="{DynamicResource ValidatableInputControlMargin}"
+            effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
+            Focused="Entry_OnFocused"
+            IsPassword="{Binding IsPassword, Source={x:Reference Control}, Mode=OneWay}"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+            Keyboard="{Binding Keyboard, Source={x:Reference Control}, Mode=OneWay}"
+            MaxLength="{Binding MaxLength, Source={x:Reference Control}, Mode=OneWay}"
+            Placeholder="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
+            ReturnCommand="{Binding ReturnCommand, Source={x:Reference Control}, Mode=OneWay}"
+            ReturnType="{Binding ReturnType, Source={x:Reference Control}, Mode=OneWay}"
+            Style="{Binding EntryStyle, Source={x:Reference Control}, Mode=OneWay}"
+            Text="{Binding Text, Source={x:Reference Control}, Mode=TwoWay}"
+            TextContentType="{Binding TextContentType, Source={x:Reference Control}, Mode=OneWay}"
+            Unfocused="Entry_OnUnfocused"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start"
+            HorizontalTextAlignment="Start" />
+
+        <!-- Trailing Icon -->
+        <Grid
+            HeightRequest="24"
+            IsVisible="{Binding TrailingIcon, Source={x:Reference Control}, Converter={StaticResource IsNotNullToBoolConverter}}"
+            WidthRequest="24"
+            HorizontalOptions="End"
+            VerticalOptions="Center">
+            <Grid.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On
+                        Platform="Android"
+                        Value="4,2,2,2" />
+                    <On
+                        Platform="iOS"
+                        Value="0,0,0,0" />
+                </OnPlatform>
+            </Grid.Padding>
+            <Image
+                BackgroundColor="Transparent"
+                Source="{Binding TrailingIcon, Source={x:Reference Control}, Mode=OneWay}">
+                <Image.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On
+                            Platform="Android"
+                            Value="0,0,0,0" />
+                        <On
+                            Platform="iOS"
+                            Value="0,0,4,0" />
+                    </OnPlatform>
+                </Image.Margin>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding TrailingIconCommand, Source={x:Reference Control}, Mode=OneWay}"
+                        CommandParameter="{Binding TrailingIconCommandParameter, Source={x:Reference Control}, Mode=OneWay}" />
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>
+
+        <!-- Readonly Text -->
+        <Label
+            x:Name="ReadonlyLabel"
+            x:FieldModifier="internal"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
+            MinimumHeightRequest="26"
+            Style="{Binding Source={x:Reference Control}, Path=ReadonlyLabelStyle}"
+            Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}">
+            <!-- <Label.Margin> -->
+            <!--     <OnPlatform x:TypeArguments="Thickness"> -->
+            <!-- <On -->
+            <!-- Platform="Android" -->
+            <!-- Value="0,2,0,0" /> -->
+            <!-- <On -->
+            <!-- Platform="iOS" -->
+            <!-- Value="0,0,0,0" /> -->
+            <!--     </OnPlatform> -->
+            <!-- </Label.Margin> -->
+        </Label>
+    </Grid>
+
+    <!-- Validation Error Text -->
+    <controls:CustomLabel
+        x:Name="ValidationErrorLabel"
+        x:FieldModifier="internal"
+        Grid.Row="2"
+        IsVisible="{Binding Text, Source={x:Reference ValidationErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{Binding Source={x:Reference Control}, Path=ValidationErrorLabelStyle}"
+        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource EnumerableToFirstOrDefaultConverter}}" />
+</Grid>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:SuperdevMauiDemoApp.Converters"
+    xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters">
+
+    <!-- Converters -->
+    <converters:ColorToHexStringConverter x:Key="ColorToHexStringConverter" />
+    <converters:ColorInverter x:Key="ColorInverter" />
+    <converters:FontElementToStringConverter x:Key="FontElementToStringConverter" />
+    <converters:ThicknessToStringConverter x:Key="ThicknessToStringConverter" />
+    <converters:RandomValidationErrorsConverter x:Key="RandomValidationErrorsConverter" />
+
+    <vc:DateTimeConverter
+        x:Key="DateTimeConverter"
+        Format="g" />
+    <vc:DateTimeConverter
+        x:Key="ShortDateConverter"
+        Format="d" />
+    <vc:BoolToColorConverter
+        x:Key="BoolToBlackAndWhiteConverter"
+        FalseValue="White"
+        TrueValue="Black" />
+</ResourceDictionary>

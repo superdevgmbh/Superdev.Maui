@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+
+<ResourceDictionary
+    x:Class="Superdev.Maui.Resources.Styles.SuperdevMauiStyles"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Superdev.Maui.Behaviors"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Converters.xaml" />
+        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="Spacing.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Styles -->
+    <x:Double x:Key="MinimumHeight.Input">34</x:Double>
+    <x:Double x:Key="MinimumHeight.Readonly.Input">24</x:Double>
+
+    <!-- Page -->
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="Page">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+    </Style>
+
+    <!-- NavigationPage -->
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{DynamicResource Theme.Color.Primary}" />
+        <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
+        <Setter Property="IconColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
+    </Style>
+
+    <!-- TabbedPage -->
+    <Style
+        x:Key="TabbedPageStyle"
+        TargetType="TabbedPage">
+        <Setter Property="BarBackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+        <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="UnselectedTabColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="SelectedTabColor" Value="{DynamicResource Theme.Color.Primary}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource TabbedPageStyle}"
+        TargetType="TabbedPage" />
+
+    <!-- MultiStateToggleButton Base Style -->
+    <!--<Style
+        x:Key="MultiStateToggleButtonStyle"
+        TargetType="controls:MultiStateToggleButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
+
+        <Setter Property="ButtonTextColor" Value="{DynamicResource Theme.Button.TextColor}" />
+        <Setter Property="ButtonBackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+        <Setter Property="SelectedButtonTextColor" Value="{DynamicResource Theme.Button.TextColor}" />
+        <Setter Property="SelectedButtonBackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Disabled}" />
+
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Spacing" Value="{DynamicResource Theme.Padding.Medium}" />
+        <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        <Setter Property="VerticalOptions" Value="StartAndExpand" />
+    </Style>-->
+
+    <!--<Style
+        BasedOn="{StaticResource MultiStateToggleButtonStyle}"
+        TargetType="controls:MultiStateToggleButton" />-->
+
+    <!-- Button -->
+    <Style
+        x:Key="ButtonStyle"
+        TargetType="Button">
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Button}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Button}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Button}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.TextColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Disabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Pressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource ButtonStyle}"
+        TargetType="Button" />
+
+    <!-- Button Primary Style -->
+    <Style
+        x:Key="ButtonPrimaryStyle"
+        BasedOn="{StaticResource ButtonStyle}"
+        TargetType="Button">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor.Disabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Primary.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Primary.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Primary.BorderColor.Pressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Button Secondary Style -->
+    <Style
+        x:Key="ButtonSecondaryStyle"
+        BasedOn="{StaticResource ButtonStyle}"
+        TargetType="Button">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor.Disabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Button.Secondary.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.Secondary.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.Secondary.BorderColor.Pressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- CustomButton -->
+    <Style
+        x:Key="CustomButtonStyle"
+        BasedOn="{StaticResource ButtonStyle}"
+        TargetType="controls:CustomButton" />
+    <Style
+        BasedOn="{StaticResource CustomButtonStyle}"
+        TargetType="controls:CustomButton" />
+
+    <!-- CustomButton Primary Style -->
+    <Style
+        x:Key="CustomButtonPrimaryStyle"
+        BasedOn="{StaticResource ButtonPrimaryStyle}"
+        TargetType="controls:CustomButton" />
+
+    <!-- CustomButton Secondary Style -->
+    <Style
+        x:Key="CustomButtonSecondaryStyle"
+        BasedOn="{StaticResource ButtonSecondaryStyle}"
+        TargetType="controls:CustomButton" />
+
+    <!-- ImageButton -->
+    <Style
+        x:Key="ImageButtonStyle"
+        TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Disabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource Theme.Button.BorderColor.Pressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+
+        <!-- <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Button.BackgroundColor}" /> -->
+        <!-- <Setter Property="Opacity" Value="1" /> -->
+        <!-- <Setter Property="BorderColor" Value="Transparent" /> -->
+        <!-- <Setter Property="BorderWidth" Value="0" /> -->
+        <!-- <Setter Property="CornerRadius" Value="0" /> -->
+        <!-- <Setter Property="MinimumHeightRequest" Value="44" /> -->
+        <!-- <Setter Property="MinimumWidthRequest" Value="44" /> -->
+        <!-- <Setter Property="VisualStateManager.VisualStateGroups"> -->
+        <!--     <VisualStateGroupList> -->
+        <!--         <VisualStateGroup x:Name="CommonStates"> -->
+        <!--             <VisualState x:Name="Disabled"> -->
+        <!--                 <VisualState.Setters> -->
+        <!--                     <Setter Property="Opacity" Value="0.5" /> -->
+        <!--                 </VisualState.Setters> -->
+        <!--             </VisualState> -->
+        <!--         </VisualStateGroup> -->
+        <!--     </VisualStateGroupList> -->
+        <!-- </Setter> -->
+    </Style>
+    <Style
+        BasedOn="{StaticResource ImageButtonStyle}"
+        TargetType="ImageButton" />
+
+    <!-- DrilldownButton Style -->
+    <Style
+        x:Key="DrilldownButtonStyle"
+        BasedOn="{StaticResource CustomButtonStyle}"
+        TargetType="controls:CustomButton">
+        <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor.Disabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor.Disabled}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor.Disabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource DrilldownButtonStyle.TextColor.Pressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor.Pressed}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor.Pressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+        <Style.Triggers>
+            <!-- IsEnabled/False will automatically restore it's state if set to IsEnabled/True -->
+            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                <Setter Property="BackgroundColor" Value="{DynamicResource DrilldownButtonStyle.BackgroundColor.Disabled}" />
+                <Setter Property="BorderColor" Value="{DynamicResource DrilldownButtonStyle.BorderColor.Disabled}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Label -->
+    <Style
+        x:Key="LabelStyle"
+        TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label" />
+
+    <Style
+        x:Key="EntryLabelStyle"
+        TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <!-- CustomLabel -->
+    <Style
+        x:Key="CustomLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="controls:CustomLabel" />
+    <Style
+        BasedOn="{StaticResource CustomLabelStyle}"
+        TargetType="controls:CustomLabel" />
+
+    <!-- Span -->
+    <Style
+        x:Key="SpanStyle"
+        TargetType="Span">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource SpanStyle}"
+        TargetType="Span" />
+
+    <!-- Keyboard -->
+    <Keyboard
+        x:FactoryMethod="Create"
+        x:Key="DefaultTextKeyboard">
+        <x:Arguments>
+            <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+        </x:Arguments>
+    </Keyboard>
+
+    <!-- Entry -->
+    <Style
+        x:Key="InputViewStyle"
+        TargetType="InputView">
+        <Setter Property="IsSpellCheckEnabled" Value="False" />
+        <Setter Property="IsTextPredictionEnabled" Value="False" />
+        <Setter Property="Keyboard" Value="{DynamicResource DefaultTextKeyboard}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource InputViewStyle}"
+        TargetType="InputView" />
+
+    <Style
+        x:Key="EntryStyle"
+        BasedOn="{StaticResource InputViewStyle}"
+        TargetType="Entry">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource EntryStyle}"
+        TargetType="Entry" />
+
+    <Style
+        x:Key="SearchEntryStyle"
+        BasedOn="{StaticResource EntryStyle}"
+        TargetType="Entry">
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="ClearButtonVisibility" Value="{styles:ClearButtonVisibilityWorkaroundFor19748}" />
+        <Setter Property="ReturnType" Value="Search" />
+    </Style>
+
+    <!-- CustomEntry -->
+    <Style
+        x:Key="CustomEntryStyle"
+        BasedOn="{StaticResource EntryStyle}"
+        TargetType="controls:CustomEntry" />
+    <Style
+        BasedOn="{StaticResource CustomEntryStyle}"
+        TargetType="controls:CustomEntry" />
+
+    <!-- Editor -->
+    <Style
+        x:Key="EditorStyle"
+        BasedOn="{StaticResource InputViewStyle}"
+        TargetType="Editor">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="AutoSize" Value="TextChanges" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource EditorStyle}"
+        TargetType="Editor" />
+
+    <!-- CustomEditor -->
+    <Style
+        x:Key="CustomEditorStyle"
+        BasedOn="{StaticResource EditorStyle}"
+        TargetType="controls:CustomEditor" />
+    <Style
+        BasedOn="{StaticResource CustomEditorStyle}"
+        TargetType="controls:CustomEditor" />
+
+    <!-- HyperlinkLabelStyle -->
+    <Style
+        x:Key="HyperlinkLabelStyle"
+        TargetType="Label">
+        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextDecorations" Value="Underline" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+    </Style>
+    <Style
+        x:Key="HyperlinkSpanStyle"
+        TargetType="Span">
+        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextDecorations" Value="Underline" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+    </Style>
+
+    <!-- IndicatorView -->
+    <Style
+        x:Key="IndicatorViewStyle"
+        TargetType="IndicatorView">
+        <Setter Property="IndicatorColor" Value="{DynamicResource Theme.Color.PrimaryVariant}" />
+        <Setter Property="SelectedIndicatorColor" Value="{DynamicResource Theme.Color.PrimaryVariant}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource IndicatorViewStyle}"
+        TargetType="IndicatorView" />
+
+    <!-- ListView -->
+    <Style
+        x:Key="ListViewStyle"
+        TargetType="ListView">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+        <Setter Property="SeparatorVisibility" Value="Default" />
+        <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
+        <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="ios:ListView.SeparatorStyle" Value="FullWidth" />
+        <Setter Property="ios:ListView.RowAnimationsEnabled" Value="False" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ListViewStyle}"
+        TargetType="ListView" />
+
+    <!-- ViewCell -->
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="controls:CustomViewCell">
+        <Setter Property="SelectedBackgroundColor" Value="{DynamicResource Theme.ViewCell.BackgroundColor}" />
+    </Style>
+
+    <!-- ActivityIndicator -->
+    <Style
+        x:Key="ActivityIndicatorStyle"
+        TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="{DynamicResource Theme.Color.Secondary}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource ActivityIndicatorStyle}"
+        TargetType="ActivityIndicator" />
+
+    <Style
+        x:Key="ActivityIndicatorTitleLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Title}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Title}" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style
+        x:Key="CustomActivityIndicatorStyle"
+        TargetType="controls:CustomActivityIndicator">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+        <Setter Property="ActivityIndicatorStyle" Value="{StaticResource ActivityIndicatorStyle}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Theme.Spacing.Large}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
+        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource CustomActivityIndicatorStyle}"
+        TargetType="controls:CustomActivityIndicator" />
+
+    <Style
+        x:Key="PageActivityIndicatorStyle"
+        TargetType="controls:PageActivityIndicator">
+        <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
+        <Setter Property="ActivityIndicatorStyle">
+            <Setter.Value>
+                <Style
+                    BasedOn="{StaticResource ActivityIndicatorStyle}"
+                    TargetType="ActivityIndicator">
+                    <Setter Property="behaviors:ActivityIndicatorViewStyleBehavior.ViewStyle" Value="Large" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
+        <Setter Property="TextStyle">
+            <Setter.Value>
+                <Style
+                    BasedOn="{StaticResource LabelStyle}"
+                    TargetType="Label">
+                    <Setter Property="LineBreakMode" Value="WordWrap" />
+                    <Setter Property="HorizontalOptions" Value="Center" />
+                    <Setter Property="HorizontalTextAlignment" Value="Center" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource PageActivityIndicatorStyle}"
+        TargetType="controls:PageActivityIndicator" />
+
+    <!-- ViewModelErrorControl -->
+    <Style
+        x:Key="ViewModelErrorTitleLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Title}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Title}" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style
+        x:Key="ViewModelErrorTextLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Medium}" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style
+        x:Key="ViewModelErrorControlStyle"
+        TargetType="controls:ViewModelErrorControl">
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
+        <Setter Property="TitleLabelStyle" Value="{StaticResource ViewModelErrorTitleLabelStyle}" />
+        <Setter Property="TextLabelStyle" Value="{StaticResource ViewModelErrorTextLabelStyle}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource ViewModelErrorControlStyle}"
+        TargetType="controls:ViewModelErrorControl" />
+
+    <Style
+        x:Key="CustomListItemDetailTextStyle"
+        BaseResourceKey="ListItemDetailTextStyle"
+        TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource ListItemDetailTextStyleSize}" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+    </Style>
+
+    <Style
+        x:Key="SwitchStyle"
+        ApplyToDerivedTypes="True"
+        TargetType="Switch">
+        <Style.Triggers>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="False" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor.Disabled}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor.Disabled}" />
+            </MultiTrigger>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="False" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor}" />
+            </MultiTrigger>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="True" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor.Toggled}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor.Toggled}" />
+            </MultiTrigger>
+            <MultiTrigger TargetType="Switch">
+                <MultiTrigger.Conditions>
+                    <BindingCondition
+                        Binding="{Binding IsToggled, Source={RelativeSource Self}}"
+                        Value="True" />
+                    <BindingCondition
+                        Binding="{Binding IsEnabled, Source={RelativeSource Self}}"
+                        Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="OnColor" Value="{DynamicResource Theme.Switch.OnColor.Toggled.Disabled}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Theme.Switch.ThumbColor.Toggled.Disabled}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource SwitchStyle}"
+        TargetType="Switch" />
+
+    <!-- CheckBox -->
+    <Style
+        x:Key="CheckBoxStyle"
+        TargetType="CheckBox">
+        <Setter Property="Color" Value="{DynamicResource Theme.Color.Primary}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Color" Value="{DynamicResource Theme.Color.PrimaryDisabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource CheckBoxStyle}"
+        TargetType="CheckBox" />
+
+    <!-- Picker -->
+    <Style
+        x:Key="PickerStyle"
+        TargetType="Picker">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                            <Setter Property="TitleColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource PickerStyle}"
+        TargetType="Picker" />
+
+    <!-- CustomPicker -->
+    <Style
+        x:Key="CustomPickerStyle"
+        BasedOn="{StaticResource PickerStyle}"
+        TargetType="controls:CustomPicker">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource CustomPickerStyle}"
+        TargetType="controls:CustomPicker" />
+
+    <!-- DatePicker -->
+    <Style
+        x:Key="DatePickerStyle"
+        TargetType="DatePicker">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource DatePickerStyle}"
+        TargetType="DatePicker" />
+
+    <!-- NullableDatePicker -->
+    <Style
+        x:Key="NullableDatePickerStyle"
+        BasedOn="{StaticResource DatePickerStyle}"
+        TargetType="controls:NullableDatePicker">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource NullableDatePickerStyle}"
+        TargetType="controls:NullableDatePicker" />
+
+    <!-- TimePicker -->
+    <Style
+        x:Key="TimePickerStyle"
+        TargetType="TimePicker">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource TimePickerStyle}"
+        TargetType="TimePicker" />
+
+    <!-- NullableTimePicker -->
+    <Style
+        x:Key="NullableTimePickerStyle"
+        BasedOn="{StaticResource TimePickerStyle}"
+        TargetType="controls:NullableTimePicker">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource NullableTimePickerStyle}"
+        TargetType="controls:NullableTimePicker" />
+
+    <!-- SearchBar -->
+    <Style
+        x:Key="SearchBarStyle"
+        BasedOn="{StaticResource InputViewStyle}"
+        TargetType="SearchBar">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="CancelButtonColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        BasedOn="{StaticResource SearchBarStyle}"
+        TargetType="SearchBar" />
+
+    <!-- Label -->
+    <Style
+        x:Key="SectionLabelTextStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource CardViewStyle.Header.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource CardViewStyle.Header.FontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource CardViewStyle.Header.FontSize}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource CardViewStyle.Header.FontAttributes}" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <Style TargetType="controls:LabelSection">
+        <Setter Property="LabelStyle" Value="{DynamicResource SectionLabelTextStyle}" />
+    </Style>
+
+    <Style
+        x:Key="ValidationErrorLabelStyle"
+        TargetType="controls:CustomLabel">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Error}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Caption}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Caption}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Caption}" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
+        <Setter Property="RemovePadding" Value="True" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <Style
+        x:Key="AnnotationEntryLabelStyle"
+        TargetType="controls:CustomLabel">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Caption}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Caption}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Caption}" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
+        <Setter Property="RemovePadding" Value="True" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+    </Style>
+    <Style
+        x:Key="FooterSectionLabelStyle"
+        TargetType="controls:CustomLabel">
+        <Setter Property="TextColor" Value="{DynamicResource CardViewStyle.Footer.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource CardViewStyle.Footer.FontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource CardViewStyle.Footer.FontSize}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource CardViewStyle.Footer.FontAttributes}" />
+        <Setter Property="VerticalOptions" Value="StartAndExpand" />
+        <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
+        <Setter Property="RemovePadding" Value="True" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <!-- Validatable Controls -->
+    <OnPlatform
+        x:TypeArguments="Thickness"
+        x:Key="ValidatableInputControlMargin">
+        <On
+            Platform="Android"
+            Value="-4,-10,-4,-6" />
+    </OnPlatform>
+
+    <!-- ValidatableEditor -->
+    <Style
+        x:Key="ValidatableEditorStyle"
+        TargetType="controls:ValidatableEditor">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="EditorStyle" Value="{DynamicResource CustomEditorStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableEditorStyle}"
+        TargetType="controls:ValidatableEditor" />
+
+    <!-- ValidatableEntry -->
+    <Style
+        x:Key="ValidatableEntryStyle"
+        TargetType="controls:ValidatableEntry">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="EntryStyle" Value="{DynamicResource CustomEntryStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
+        <Setter Property="Keyboard" Value="{DynamicResource DefaultTextKeyboard}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableEntryStyle}"
+        TargetType="controls:ValidatableEntry" />
+
+    <!-- ValidatableLabel -->
+    <Style TargetType="controls:ValidatableLabel">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="LabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+    </Style>
+
+    <!-- ValidatablePicker -->
+    <Style TargetType="controls:ValidatablePicker">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
+    </Style>
+
+    <!-- ValidatableDatePicker -->
+    <Style
+        x:Key="ValidatableDatePickerStyle"
+        TargetType="controls:ValidatableDatePicker">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableDatePickerStyle}"
+        TargetType="controls:ValidatableDatePicker" />
+
+    <!-- ValidatableDateTimePicker -->
+    <Style
+        x:Key="ValidatableDateTimePickerStyle"
+        TargetType="controls:ValidatableDateTimePicker">
+        <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
+        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="TimePickerStyle" Value="{StaticResource TimePickerStyle}" />
+        <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
+        <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatableDateTimePickerStyle}"
+        TargetType="controls:ValidatableDateTimePicker" />
+
+    <!-- TODO: MAUI Migration
+     <Style TargetType="controls:ValidatableAutoCompleteView">
+         <Setter Property="EntryStyle" Value="{DynamicResource EntryStyle}" />
+         <Setter Property="SuggestionListStyle">
+             <Style TargetType="controls:StackedList">
+                 <Setter Property="Margin">
+                     <OnPlatform x:TypeArguments="Thickness">
+                         <On
+                             Platform="iOS"
+                             Value="0" />
+                         <On
+                             Platform="Android"
+                             Value="4,0,4,0" />
+                         <On
+                             Platform="UWP"
+                             Value="0" />
+                     </OnPlatform>
+                 </Setter>
+             </Style>
+         </Setter>
+     </Style>-->
+
+    <!-- ProgressBar -->
+    <Style
+        x:Key="ProgressBarStyle"
+        TargetType="ProgressBar">
+        <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="ProgressColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ProgressBarStyle}"
+        TargetType="ProgressBar" />
+
+    <!-- RadioButton -->
+    <Style
+        x:Key="RadioButtonStyle"
+        TargetType="RadioButton">
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+        <Setter Property="ControlTemplate">
+            <!--
+                Source: BuildDefaultTemplate method
+                https://github.com/dotnet/maui/blob/b138f16e4beba081c45e45ff54e56245b6fb44e2/src/Controls/src/Core/RadioButton/RadioButton.cs#L444
+            -->
+            <ControlTemplate>
+                <Border
+                    x:Name="TemplateRoot"
+                    Padding="6"
+                    Stroke="{TemplateBinding BorderColor}"
+                    StrokeThickness="{TemplateBinding BorderWidth}"
+                    HorizontalOptions="{TemplateBinding HorizontalOptions}"
+                    VerticalOptions="{TemplateBinding VerticalOptions}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="{TemplateBinding CornerRadius}" />
+                    </Border.StrokeShape>
+                    <Grid
+                        Padding="2"
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="6"
+                        RowDefinitions="Auto"
+                        RowSpacing="0">
+
+                        <!-- Outer ellipse -->
+                        <Ellipse
+                            x:Name="UncheckedButton"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Aspect="Uniform"
+                            Fill="Transparent"
+                            HeightRequest="21"
+                            InputTransparent="False"
+                            Stroke="{DynamicResource Theme.Color.Secondary}"
+                            StrokeThickness="2"
+                            WidthRequest="21"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                        <!-- Inner checkmark -->
+                        <Ellipse
+                            x:Name="CheckedIndicator"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Aspect="Uniform"
+                            Fill="{DynamicResource Theme.Color.Secondary}"
+                            HeightRequest="11"
+                            InputTransparent="False"
+                            Opacity="0"
+                            Stroke="{DynamicResource Theme.Color.Secondary}"
+                            WidthRequest="11"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                        <!-- Content -->
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Grid.Column="1"
+                            Margin="{TemplateBinding Padding}"
+                            BackgroundColor="{TemplateBinding BackgroundColor}"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill" />
+                    </Grid>
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <!-- Common states -->
+                            <VisualStateGroup Name="Common">
+                                <VisualState Name="Normal" />
+                                <VisualState Name="Disabled" />
+                            </VisualStateGroup>
+
+                            <!-- Checked / Unchecked states -->
+                            <VisualStateGroup Name="CheckedStates">
+                                <VisualState Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Opacity" Value="1" />
+                                        <Setter TargetName="UncheckedButton" Property="Ellipse.Stroke" Value="{DynamicResource Theme.Color.Secondary}" />
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Stroke" Value="{DynamicResource Theme.Color.Secondary}" />
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Fill" Value="{DynamicResource Theme.Color.Secondary}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="CheckedIndicator" Property="Ellipse.Opacity" Value="0" />
+                                        <Setter TargetName="UncheckedButton" Property="Ellipse.Stroke" Value="{DynamicResource Theme.Color.Secondary}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource RadioButtonStyle}"
+        TargetType="RadioButton" />
+
+    <Style
+        x:Key="RadioButtonEntryStyle"
+        BasedOn="{StaticResource RadioButtonStyle}"
+        TargetType="RadioButton">
+        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
+        <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
+        <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
+    </Style>
+
+    <!-- RefreshView -->
+    <Style
+        x:Key="RefreshViewStyle"
+        TargetType="RefreshView">
+        <Setter Property="RefreshColor" Value="{DynamicResource Theme.Color.Secondary}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource RefreshViewStyle}"
+        TargetType="RefreshView" />
+
+    <!-- SwipeItemBase -->
+    <Style
+        x:Key="SwipeItemBaseStyle"
+        TargetType="controls:SwipeItemBase">
+        <Setter Property="TintColor" Value="White" />
+        <Setter Property="AllCaps" Value="True" />
+        <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Small}" />
+        <Setter Property="WidthRequest" Value="120" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:SwipeItemBase" />
+
+    <!-- DestructiveSwipeItem -->
+    <Style
+        x:Key="DestructiveSwipeItemStyle"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:DestructiveSwipeItem">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.SwipeView.Destructive}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource DestructiveSwipeItemStyle}"
+        TargetType="controls:DestructiveSwipeItem" />
+
+    <!-- NegativeSwipeItem -->
+    <Style
+        x:Key="NegativeSwipeItemStyle"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:NegativeSwipeItem">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.SwipeView.Negative}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource NegativeSwipeItemStyle}"
+        TargetType="controls:NegativeSwipeItem" />
+
+    <!-- NeutralSwipeItem -->
+    <Style
+        x:Key="NeutralSwipeItemStyle"
+        BasedOn="{StaticResource SwipeItemBaseStyle}"
+        TargetType="controls:NeutralSwipeItem">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.SwipeView.Neutral}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource NeutralSwipeItemStyle}"
+        TargetType="controls:NeutralSwipeItem" />
+
+</ResourceDictionary>

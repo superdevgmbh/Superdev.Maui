@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="Superdev.Maui.Controls.ValidatableDateTimePicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    xmlns:effects="clr-namespace:Superdev.Maui.Effects"
+    x:Name="Control"
+    BackgroundColor="{Binding BackgroundColor, Source={x:Reference Control}, Mode=OneWay}"
+    IsClippedToBounds="True"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Annotation Text -->
+    <controls:CustomLabel
+        x:Name="AnnotationLabel"
+        x:FieldModifier="internal"
+        Grid.Row="0"
+        IsVisible="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{Binding Source={x:Reference Control}, Path=AnnotationLabelStyle}"
+        Text="{Binding AnnotationText, Source={x:Reference Control}, Mode=OneWay}" />
+
+    <!-- DatePicker -->
+    <Grid
+        Grid.Row="1"
+        ColumnDefinitions="140,*"
+        ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+        IsClippedToBounds="True">
+
+        <!-- TODO: Format -->
+        <controls:NullableDatePicker
+            x:Name="DatePicker"
+            x:FieldModifier="internal"
+            Grid.Column="0"
+            Margin="{DynamicResource ValidatableInputControlMargin}"
+            effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+            NullableDate="{Binding Date, Source={x:Reference Control}, Mode=TwoWay}"
+            Placeholder="{Binding Placeholder, Source={x:Reference Control}, Mode=OneWay}"
+            Style="{Binding DatePickerStyle, Source={x:Reference Control}, Mode=OneWay}"
+            ValidityRange="{Binding ValidityRange, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start" />
+
+        <!-- TODO: Format -->
+        <controls:NullableTimePicker
+            x:Name="TimePicker"
+            x:FieldModifier="internal"
+            Grid.Column="1"
+            Margin="{DynamicResource ValidatableInputControlMargin}"
+            effects:LineColorEffect.LineColor="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource PropertyErrorsToColorConverter}}"
+            Format="{Binding Time, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource NullableDateTimeToFormatConverter}}"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+            NullableTime="{Binding Time, Source={x:Reference Control}, Mode=TwoWay}"
+            Placeholder=""
+            Style="{Binding TimePickerStyle, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start" />
+
+        <!-- Readonly Text -->
+        <Label
+            x:Name="ReadonlyLabel"
+            x:FieldModifier="internal"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay}"
+            MinimumHeightRequest="26"
+            Style="{Binding Source={x:Reference Control}, Path=ReadonlyLabelStyle}"
+            Text="{Binding ReadonlyText, Source={x:Reference Control}, Mode=OneWay}" />
+    </Grid>
+
+    <!-- Validation Error Text -->
+    <controls:CustomLabel
+        x:Name="ValidationErrorLabel"
+        x:FieldModifier="internal"
+        Grid.Row="2"
+        IsVisible="{Binding Text, Source={x:Reference ValidationErrorLabel}, Mode=OneWay, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+        Style="{Binding Source={x:Reference Control}, Path=ValidationErrorLabelStyle}"
+        Text="{Binding ValidationErrors, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource EnumerableToFirstOrDefaultConverter}}" />
+</Grid>

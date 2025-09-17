@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Controls.SampleActivityIndicatorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="Transparent">
+    <ContentPage.Content>
+        <Grid
+            BackgroundColor="LightBlue"
+            HeightRequest="100"
+            WidthRequest="200"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label
+                Grid.Row="0"
+                FontAttributes="Bold"
+                Text="SampleActivityIndicatorPage"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand" />
+            <Label
+                x:Name="Label"
+                Grid.Row="1"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

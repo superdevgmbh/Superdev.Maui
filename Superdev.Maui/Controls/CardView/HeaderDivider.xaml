@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.HeaderDivider"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+    HorizontalOptions="Fill"
+    VerticalOptions="Start">
+    <!--
+        The margin is added to ensure the entire horizontal line is displayed on Android.
+        Some devices tend to clip the line if no slight margin is applied.
+    -->
+    <BoxView
+        Margin="0,0.1"
+        BackgroundColor="{DynamicResource CardViewStyle.DividerColor}"
+        HorizontalOptions="Fill"
+        VerticalOptions="Start">
+        <BoxView.HeightRequest>
+            <OnPlatform x:TypeArguments="x:Double">
+                <On
+                    Platform="Android"
+                    Value="1" />
+                <On
+                    Platform="iOS"
+                    Value="0.5" />
+            </OnPlatform>
+        </BoxView.HeightRequest>
+    </BoxView>
+</ContentView>

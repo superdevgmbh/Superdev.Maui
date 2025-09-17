@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.BindableItemsSourceDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:templates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:BindableItemsSourceDemoViewModel"
+    Title="BindableItemsSource Demo">
+
+    <ContentPage.Behaviors>
+        <s:EventToCommandBehavior
+            Command="{Binding AppearingCommand}"
+            EventName="Appearing" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="CountryItemTemplate">
+            <templates:CountryItemTemplate />
+        </DataTemplate>
+        <DataTemplate x:Key="CountryItemSeparatorTemplate">
+            <BoxView
+                HeightRequest="1"
+                Color="Magenta"
+                VerticalOptions="Center" />
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid Grid.Row="0">
+            <s:BindableItemsSource
+                ItemTemplate="{StaticResource CountryItemTemplate}"
+                ItemsSource="{Binding Countries}"
+                SeparatorTemplate="{StaticResource CountryItemSeparatorTemplate}"
+                Spacing="{DynamicResource Theme.Spacing.Large}" />
+        </Grid>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Superdev.Maui.Converters">
+
+    <!-- Converters -->
+    <converters:DebugConverter x:Key="DebugConverter" />
+    <converters:BoolInverter x:Key="BoolInverter" />
+    <converters:NullToBoolConverter x:Key="NullToTrueConverter" />
+    <converters:NullToBoolConverter
+        x:Key="NullToFalseConverter"
+        Inverted="True" />
+
+    <converters:EnumerableToFirstOrDefaultConverter x:Key="EnumerableToFirstOrDefaultConverter" />
+    <converters:NullableDateTimeToFormatConverter x:Key="NullableDateTimeToFormatConverter" />
+    <converters:PropertyErrorsToColorConverter x:Key="PropertyErrorsToColorConverter" />
+    <converters:ValidationErrorsToStringConverter x:Key="ValidationErrorsToStringConverter" />
+    <converters:StringIsNullOrEmptyToBoolConverter x:Key="StringIsNullOrEmptyToTrueConverter" />
+    <converters:StringIsNullOrEmptyToBoolConverter
+        x:Key="StringIsNullOrEmptyToFalseConverter"
+        IsInverted="True" />
+
+    <converters:ViewModelErrorIsVisibleConverter
+        x:Key="ViewModelErrorIsVisibleConverter"
+        IsInverted="False" />
+    <converters:IsNullToBoolConverter x:Key="IsNullToBoolConverter" />
+    <converters:IsNullToBoolConverter
+        x:Key="IsNotNullToBoolConverter"
+        IsInverted="True" />
+    <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+</ResourceDictionary>

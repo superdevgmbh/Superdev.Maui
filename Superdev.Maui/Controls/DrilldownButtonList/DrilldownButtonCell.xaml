@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.DrilldownButtonCell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Name="Control"
+    x:DataType="controls:DrilldownButtonView"
+    IsClippedToBounds="True">
+
+    <Grid>
+        <controls:CustomButton
+            Grid.Row="0"
+            AllCaps="False"
+            Command="{Binding Command}"
+            CommandParameter="{Binding CommandParameter}"
+            CornerRadius="0"
+            FontAttributes="None"
+            FontSize="{DynamicResource LargeSize}"
+            IsEnabled="{Binding IsEnabled}"
+            Style="{DynamicResource DrilldownButtonStyle}"
+            Text="{Binding Title}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center">
+
+            <controls:CustomButton.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On
+                        Platform="Android"
+                        Value="8, 0, 0, 0" />
+                    <On
+                        Platform="iOS"
+                        Value="16, 10, 16, 10" />
+                </OnPlatform>
+            </controls:CustomButton.Padding>
+        </controls:CustomButton>
+
+        <Image
+            Grid.Row="0"
+            Margin="0,0,8,0"
+            HeightRequest="24"
+            IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
+            Source="{Binding ImageSource}"
+            WidthRequest="24"
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
+
+        <ActivityIndicator
+            x:Name="ActivityIndicator"
+            Grid.Row="0"
+            Margin="0,0,8,0"
+            HeightRequest="24"
+            IsRunning="{Binding IsBusy, FallbackValue=False}"
+            IsVisible="{Binding IsBusy, FallbackValue=False}"
+            WidthRequest="24"
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
+
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Command}"
+                CommandParameter="{Binding CommandParameter}" />
+        </Grid.GestureRecognizers>
+    </Grid>
+</ContentView>

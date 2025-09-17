@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.DrilldownButtonListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=netstandard"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:DrilldownButtonListViewModel"
+    Title="Drilldown Buttons">
+
+    <ScrollView>
+        <Grid>
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                <Label
+                    Style="{StaticResource DemoLabelStyle}"
+                    Text="DrilldownButton" />
+                <s:DrilldownButton
+                    Command="{Binding DisplayAlertCommand}"
+                    ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                    Text="{s:Translate DrilldownButton}" />
+
+                <s:DrilldownButton
+                    Command="{Binding DisplayAlertCommand}"
+                    ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                    Text="{s:Translate DrilldownButton}" />
+
+                <s:SpacerSection />
+
+                <s:DrilldownButton
+                    Command="{Binding DisplayAlertCommand}"
+                    ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                    Text="{s:Translate DrilldownButton}" />
+
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="DrilldownButtonList with static ItemsSource" />
+                        <s:HeaderDivider />
+                        <s:DrilldownButtonList>
+                            <s:DrilldownButtonList.ItemsSource>
+                                <objectModel:ObservableCollection x:TypeArguments="BindableObject">
+                                    <s:DrilldownButtonView
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                                        IsEnabled="True"
+                                        Title="DrilldownButtonCell (Enabled)" />
+                                    <s:DrilldownButtonView
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                                        IsEnabled="False"
+                                        Title="DrilldownButtonCell (Disabled)" />
+                                    <s:DrilldownButtonView
+                                        Command="{Binding RefreshCommand}"
+                                        IsBusy="{Binding IsRefreshing, Mode=OneWay}"
+                                        IsEnabled="{Binding IsRefreshing, Converter={StaticResource BoolInverter}}"
+                                        Title="{Binding RefreshButtonText}" />
+                                    <s:DrilldownSwitchView
+                                        Command="{Binding ToggleSwitchCommand}"
+                                        IsEnabled="True"
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                                        Title="{Binding ToggleSwitchButtonText}" />
+                                    <s:DrilldownSwitchView
+                                        Command="{Binding ToggleSwitchCommand}"
+                                        IsEnabled="False"
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                                        Title="Disabled DrilldownSwitchView: Lorem ipsum dolor sit a b c d e f g h i j k l m o" />
+                                </objectModel:ObservableCollection>
+                            </s:DrilldownButtonList.ItemsSource>
+                        </s:DrilldownButtonList>
+                    </VerticalStackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="DrilldownButtonList with dynamic ItemsSource" />
+                        <s:HeaderDivider />
+                        <Grid
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            RowSpacing="{DynamicResource Theme.Spacing.Small}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <VerticalStackLayout BackgroundColor="Green">
+                                <Label
+                                    LineBreakMode="WordWrap"
+                                    Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <s:CardViewDividerLine />
+
+                        <s:DrilldownButtonList ItemsSource="{Binding DrilldownItems, Mode=OneWay}">
+                            <s:DrilldownButtonList.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Text="Custom ItemTemplate"
+                                            TextColor="LightBlue" />
+                                        <Label
+                                            BackgroundColor="LightBlue"
+                                            Text="{Binding Title}" />
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </s:DrilldownButtonList.ItemTemplate>
+                        </s:DrilldownButtonList>
+                    </VerticalStackLayout>
+                </s:CardView>
+
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="{s:Translate AboutSectionText}" />
+                        <s:HeaderDivider />
+                        <Grid
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            RowSpacing="{DynamicResource Theme.Spacing.Small}">
+
+                            <s:CustomLabel
+                                Grid.Row="0"
+                                JustifyText="True"
+                                LineBreakMode="WordWrap"
+                                Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam." />
+                        </Grid>
+
+                        <s:CardViewDividerLine />
+
+                        <s:DrilldownButtonList>
+                            <s:DrilldownButtonList.ItemsSource>
+                                <objectModel:ObservableCollection x:TypeArguments="BindableObject">
+                                    <s:DrilldownButtonView
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                                        IsBusy="{Binding IsNavigatingToTermsAndConditions}"
+                                        IsEnabled="{Binding IsNavigatingToTermsAndConditions, Converter={StaticResource BoolInverter}}"
+                                        Title="{s:Translate TermsAndConditionsButtonText}" />
+                                    <s:DrilldownButtonView
+                                        Command="{Binding DisplayAlertCommand}"
+                                        ImageSource="{s:ImageResource chevron_right_grey_192x192}"
+                                        IsBusy="{Binding IsNavigatingToPrivacyPolicy}"
+                                        IsEnabled="{Binding IsNavigatingToPrivacyPolicy, Converter={StaticResource BoolInverter}}"
+                                        Title="{s:Translate PrivacyPolicyButtonText}" />
+                                </objectModel:ObservableCollection>
+                            </s:DrilldownButtonList.ItemsSource>
+                        </s:DrilldownButtonList>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

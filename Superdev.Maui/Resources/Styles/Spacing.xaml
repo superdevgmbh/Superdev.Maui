@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Spacing -->
+    <OnPlatform
+        x:TypeArguments="x:Double"
+        x:Key="Theme.DividerLine.Small">
+        <On
+            Platform="Android"
+            Value="1" />
+        <On
+            Platform="iOS"
+            Value="0.5" />
+    </OnPlatform>
+
+    <OnPlatform
+        x:TypeArguments="x:Double"
+        x:Key="Theme.DividerLine.Medium">
+        <On
+            Platform="Android"
+            Value="1" />
+        <On
+            Platform="iOS"
+            Value="1" />
+    </OnPlatform>
+
+    <OnPlatform
+        x:TypeArguments="Thickness"
+        x:Key="CardPadding">
+        <On
+            Platform="Android"
+            Value="8, 8, 8, 16" />
+        <On
+            Platform="iOS"
+            Value="0, 0, 0, 16" />
+    </OnPlatform>
+    <OnPlatform
+        x:TypeArguments="x:Double"
+        x:Key="CardSpacing">
+        <On
+            Platform="Android"
+            Value="16" />
+        <On
+            Platform="iOS"
+            Value="0" />
+    </OnPlatform>
+
+    <OnPlatform
+        x:TypeArguments="x:Double"
+        x:Key="CustomListItemTextStyleSize">
+        <On
+            Platform="Android"
+            Value="16" />
+        <On
+            Platform="iOS"
+            Value="16" />
+    </OnPlatform>
+
+    <OnPlatform
+        x:TypeArguments="x:Double"
+        x:Key="CustomListItemDetailTextStyleSize">
+        <On
+            Platform="Android"
+            Value="13" />
+        <On
+            Platform="iOS"
+            Value="13" />
+    </OnPlatform>
+</ResourceDictionary>

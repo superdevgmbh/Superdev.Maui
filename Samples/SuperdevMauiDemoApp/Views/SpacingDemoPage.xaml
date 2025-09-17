@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.SpacingDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                RowDefinitions="*">
+                <Label
+                    Grid.Column="0"
+                    Text="Theme.Spacing.Small" />
+                <Frame
+                    Grid.Column="1"
+                    HeightRequest="{DynamicResource Theme.Spacing.Small}"
+                    Style="{StaticResource LayoutBorderFrameStyle}" />
+            </Grid>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                RowDefinitions="*">
+                <Label
+                    Grid.Column="0"
+                    Text="Theme.Spacing.Medium" />
+                <Frame
+                    Grid.Column="1"
+                    HeightRequest="{DynamicResource Theme.Spacing.Medium}"
+                    Style="{StaticResource LayoutBorderFrameStyle}" />
+            </Grid>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                RowDefinitions="*">
+                <Label
+                    Grid.Column="0"
+                    Text="Theme.Spacing.Large" />
+                <Frame
+                    Grid.Column="1"
+                    HeightRequest="{DynamicResource Theme.Spacing.Large}"
+                    Style="{StaticResource LayoutBorderFrameStyle}" />
+            </Grid>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                RowDefinitions="*">
+                <Label
+                    Grid.Column="0"
+                    Text="Theme.Spacing.CardSpacing" />
+                <Frame
+                    Grid.Column="1"
+                    HeightRequest="{DynamicResource Theme.Spacing.CardSpacing}"
+                    Style="{StaticResource LayoutBorderFrameStyle}" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.StylesDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:StylesDemoViewModel"
+    Title="Styles / Resources Demo">
+
+    <ContentPage.Resources>
+        <DataTemplate
+            x:DataType="vm:ColorResourceViewModel"
+            x:Key="ColorResourceItemTemplate">
+            <Grid
+                ColumnDefinitions="100,100,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Small}">
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    BackgroundColor="{Binding Value}"
+                    FontSize="Small"
+                    Text="{Binding Value, Converter={StaticResource ColorToHexStringConverter}}"
+                    TextColor="{Binding Value, Converter={StaticResource ColorInverter}}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:DataType="vm:FontResourceViewModel"
+            x:Key="FontResourceItemTemplate">
+            <Grid
+                ColumnDefinitions="100,100,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Small}">
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="{Binding Value.FontAttributes}"
+                    FontFamily="{Binding Value.FontFamily}"
+                    FontSize="{Binding Value.FontSize}"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Value, Converter={StaticResource FontElementToStringConverter}}"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:DataType="vm:ResourceViewModel"
+            x:Key="ThicknessItemTemplate">
+            <Grid
+                ColumnDefinitions="100,100,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Small}">
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding Value, Converter={StaticResource ThicknessToStringConverter}}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:DataType="vm:ResourceViewModel"
+            x:Key="GenericResourceItemTemplate">
+            <Grid
+                ColumnDefinitions="100,100,*"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Small}">
+                <Label
+                    Grid.Column="0"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding ResourceType}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontSize="Small"
+                    LineBreakMode="CharacterWrap"
+                    Text="{Binding Value}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Small"
+                    Text="{Binding Key}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding SwitchThemesCommand}"
+            Text="{Binding AppTheme, StringFormat='{}[{0}]'}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <ScrollView
+            Grid.Row="0"
+            HorizontalScrollBarVisibility="Always"
+            VerticalScrollBarVisibility="Always">
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="Test" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Dynamic Resource Bindings" />
+                            <Button
+                                Command="{Binding UpdateColorsCommand}"
+                                Text="Update Colors" />
+                            <Grid>
+                                <BoxView
+                                    HeightRequest="50"
+                                    Color="{DynamicResource Theme.Color.Primary}"
+                                    HorizontalOptions="Fill" />
+                                <Label
+                                    Text="Theme.Color.Primary"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                            <Grid>
+                                <BoxView
+                                    HeightRequest="50"
+                                    Color="{DynamicResource Theme.Color.Tertiary}"
+                                    HorizontalOptions="Fill" />
+                                <Label
+                                    Text="Theme.Color.Tertiary"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="App.Current.Resources (Colors)" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                <VerticalStackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource ColorResourceItemTemplate}"
+                                    BindableLayout.ItemsSource="{Binding Colors}" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="App.Current.Resources (Fonts)" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                <VerticalStackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource FontResourceItemTemplate}"
+                                    BindableLayout.ItemsSource="{Binding Fonts}" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="App.Current.Resources (Fonts)" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="FontSizes" />
+                            <StackLayout>
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.Micro}"
+                                    Text="Theme.FontSize.Micro" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.Small}"
+                                    Text="Theme.FontSize.Small" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.MidMedium}"
+                                    Text="Theme.FontSize.MidMedium" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.Medium}"
+                                    Text="Theme.FontSize.Medium" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.Large}"
+                                    Text="Theme.FontSize.Large" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.XLarge}"
+                                    Text="Theme.FontSize.XLarge" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.XXLarge}"
+                                    Text="Theme.FontSize.XXLarge" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Default}"
+                                    FontSize="{DynamicResource Theme.FontSize.XXXLarge}"
+                                    Text="Theme.FontSize.XXXLarge" />
+
+                                <Label
+                                    Style="{StaticResource DemoLabelStyle}"
+                                    Text="Named Fonts" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Body1}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Body1}"
+                                    FontSize="{DynamicResource Theme.FontSize.Body1}"
+                                    Text="Body1" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Body2}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Body2}"
+                                    FontSize="{DynamicResource Theme.FontSize.Body2}"
+                                    Text="Body2" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Button}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Button}"
+                                    FontSize="{DynamicResource Theme.FontSize.Button}"
+                                    Text="Button" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Input}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Input}"
+                                    FontSize="{DynamicResource Theme.FontSize.Input}"
+                                    Text="Input" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.H1}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.H1}"
+                                    FontSize="{DynamicResource Theme.FontSize.H1}"
+                                    Text="H1" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.H2}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.H2}"
+                                    FontSize="{DynamicResource Theme.FontSize.H2}"
+                                    Text="H2" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.H3}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.H3}"
+                                    FontSize="{DynamicResource Theme.FontSize.H3}"
+                                    Text="H3" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.H4}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.H4}"
+                                    FontSize="{DynamicResource Theme.FontSize.H4}"
+                                    Text="H4" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.H5}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.H5}"
+                                    FontSize="{DynamicResource Theme.FontSize.H5}"
+                                    Text="H5" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.H6}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.H6}"
+                                    FontSize="{DynamicResource Theme.FontSize.H6}"
+                                    Text="H6" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Caption}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Caption}"
+                                    FontSize="{DynamicResource Theme.FontSize.Caption}"
+                                    Text="Caption" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Overline}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Overline}"
+                                    FontSize="{DynamicResource Theme.FontSize.Overline}"
+                                    Text="Overline" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Title}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Title}"
+                                    FontSize="{DynamicResource Theme.FontSize.Title}"
+                                    Text="Title" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Subtitle1}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Subtitle1}"
+                                    FontSize="{DynamicResource Theme.FontSize.Subtitle1}"
+                                    Text="Subtitle1" />
+                                <Label
+                                    FontAttributes="{DynamicResource Theme.FontAttributes.Subtitle2}"
+                                    FontFamily="{DynamicResource Theme.FontFamily.Subtitle2}"
+                                    FontSize="{DynamicResource Theme.FontSize.Subtitle2}"
+                                    Text="Subtitle2" />
+                            </StackLayout>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="App.Current.Resources" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+                            <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                                <Button
+                                    Command="{Binding LoadDataCommand}"
+                                    Text="Load Data" />
+
+                                <VerticalStackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource GenericResourceItemTemplate}"
+                                    BindableLayout.ItemsSource="{Binding Resources}" />
+
+                                <Button
+                                    Command="{Binding DumpResourcesCommand}"
+                                    Text="Dump Resources" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>

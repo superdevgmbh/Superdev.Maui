@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.RadioButtonDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="RadioButtonDemoPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="RadioButton (Enabled)" />
+            <VerticalStackLayout RadioButtonGroup.GroupName="GroupEnabled">
+                <RadioButton
+                    BackgroundColor="Yellow"
+                    BorderColor="Red"
+                    BorderWidth="2"
+                    CornerRadius="4"
+                    IsChecked="False"
+                    Value="0" />
+                <RadioButton
+                    Content="Value 1"
+                    IsChecked="True"
+                    Value="1" />
+                <RadioButton
+                    Content="Value 2"
+                    IsChecked="False"
+                    Value="2" />
+                <RadioButton
+                    Content="Value 3 (RadioButtonEntryStyle)"
+                    IsChecked="False"
+                    Style="{StaticResource RadioButtonEntryStyle}"
+                    Value="3" />
+                <RadioButton
+                    Content="Value 4 (RadioButtonEntryStyle)"
+                    IsChecked="False"
+                    Style="{StaticResource RadioButtonEntryStyle}"
+                    Value="4" />
+            </VerticalStackLayout>
+
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="RadioButton (Disabled)" />
+            <RadioButton
+                Content="Value 1"
+                GroupName="GroupDisabled"
+                IsChecked="False"
+                IsEnabled="False"
+                Value="1" />
+            <RadioButton
+                Content="Value 2"
+                GroupName="GroupDisabled"
+                IsChecked="True"
+                IsEnabled="False"
+                Value="2" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<cardView:CardView
+    x:Class="Superdev.Maui.Controls.DrilldownButton"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cardView="clr-namespace:Superdev.Maui.Controls.CardView;assembly=Superdev.Maui"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls;assembly=Superdev.Maui"
+    x:Name="Control">
+
+    <VerticalStackLayout>
+        <controls:HeaderDivider>
+            <controls:HeaderDivider.IsVisible>
+                <OnPlatform
+                    x:TypeArguments="x:Boolean"
+                    Default="False">
+                    <On
+                        Platform="iOS"
+                        Value="True" />
+                </OnPlatform>
+            </controls:HeaderDivider.IsVisible>
+        </controls:HeaderDivider>
+        <Grid>
+            <controls:CustomButton
+                AllCaps="False"
+                Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+                CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}"
+                CornerRadius="0"
+                FontAttributes="None"
+                FontSize="{DynamicResource LargeSize}"
+                IsEnabled="{Binding IsEnabled, Source={x:Reference Control}, Mode=OneWay}"
+                Style="{DynamicResource DrilldownButtonStyle}"
+                Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center">
+
+                <controls:CustomButton.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On
+                            Platform="Android"
+                            Value="8, 0, 0, 0" />
+                        <On
+                            Platform="iOS"
+                            Value="16, 10, 16, 10" />
+                    </OnPlatform>
+                </controls:CustomButton.Padding>
+
+            </controls:CustomButton>
+
+            <Image
+                Margin="0,0,8,0"
+                HeightRequest="24"
+                Source="{Binding ImageSource, Source={x:Reference Control}, Mode=OneWay}"
+                WidthRequest="24"
+                HorizontalOptions="End"
+                VerticalOptions="Center" />
+
+            <ActivityIndicator
+                x:Name="ActivityIndicator"
+                Margin="0,0,8,0"
+                IsRunning="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}"
+                IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}"
+                WidthRequest="24"
+                HorizontalOptions="End"
+                VerticalOptions="Center" />
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+                    CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}" />
+            </Grid.GestureRecognizers>
+        </Grid>
+        <controls:FooterDivider />
+    </VerticalStackLayout>
+</cardView:CardView>

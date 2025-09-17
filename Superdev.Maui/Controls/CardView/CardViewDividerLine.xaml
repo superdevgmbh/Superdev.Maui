@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<BoxView
+    x:Class="Superdev.Maui.Controls.CardView.CardViewDividerLine"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Margin="0,0.2"
+    BackgroundColor="{DynamicResource CardViewStyle.DividerColor}"
+    HorizontalOptions="Fill">
+    <BoxView.HeightRequest>
+        <OnPlatform x:TypeArguments="x:Double">
+            <On
+                Platform="Android"
+                Value="1" />
+            <On
+                Platform="iOS"
+                Value="0.6" />
+        </OnPlatform>
+    </BoxView.HeightRequest>
+</BoxView>

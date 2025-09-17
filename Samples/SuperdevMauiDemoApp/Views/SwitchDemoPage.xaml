@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.SwitchDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:SwitchDemoViewModel"
+    Title="SwitchDemoPage">
+
+    <Grid>
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="Switch" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}">
+
+                            <Grid
+                                ColumnDefinitions="Auto,*,*"
+                                ColumnSpacing="{DynamicResource Theme.Spacing.Small}"
+                                RowDefinitions="Auto,Auto,Auto"
+                                RowSpacing="{DynamicResource Theme.Spacing.Small}">
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{StaticResource DemoLabelStyle}"
+                                    Text="Toggled=False" />
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Style="{StaticResource DemoLabelStyle}"
+                                    Text="Toggled=True" />
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Style="{StaticResource DemoLabelStyle}"
+                                    Text="Enabled" />
+                                <Switch
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    IsEnabled="True"
+                                    IsToggled="False"
+                                    HorizontalOptions="Start" />
+                                <Switch
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    IsEnabled="True"
+                                    IsToggled="True"
+                                    HorizontalOptions="Start" />
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Style="{StaticResource DemoLabelStyle}"
+                                    Text="Disabled" />
+                                <Switch
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    IsEnabled="False"
+                                    IsToggled="False"
+                                    HorizontalOptions="Start" />
+                                <Switch
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    IsEnabled="False"
+                                    IsToggled="True"
+                                    HorizontalOptions="Start" />
+                            </Grid>
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}"
+            Text="PageActivityIndicator Text"
+            Title="PageActivityIndicator Title" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>
