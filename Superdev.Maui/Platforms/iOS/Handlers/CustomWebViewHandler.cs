@@ -41,7 +41,9 @@ namespace Superdev.Maui.Platforms.Handlers
         protected override void ConnectHandler(WKWebView platformView)
         {
             Debug.WriteLine("ConnectHandler");
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
             base.ConnectHandler(platformView);
         }
 

@@ -37,7 +37,9 @@ namespace Superdev.Maui.Platforms.Handlers
             visualElement.Loaded += this.OnVisualElementLoaded;
             visualElement.Unloaded += this.OnVisualElementUnloaded;
 
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
 
             // base.ConnectHandler(platformView);
         }

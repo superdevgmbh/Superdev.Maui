@@ -82,7 +82,9 @@ namespace Superdev.Maui.Platforms.Handlers
         protected override void ConnectHandler(MauiDatePicker platformView)
         {
             this.uiDatePicker = ReflectionHelper.GetPropertyValue<UIDatePicker>(this.PlatformView, "DatePickerDialog");
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
             base.ConnectHandler(platformView);
 
             // HACK:

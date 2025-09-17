@@ -32,7 +32,9 @@ namespace Superdev.Maui.Platforms.Handlers
         protected override void ConnectHandler(MauiPicker platformView)
         {
             base.ConnectHandler(platformView);
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
 
             var customPicker = (CustomPicker)this.VirtualView;
             this.originalTextColor = customPicker.TextColor;
