@@ -40,7 +40,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void ConnectHandler(WKWebView platformView)
         {
-            Debug.WriteLine("ConnectHandler");
 #if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
 #endif
@@ -49,7 +48,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(WKWebView platformView)
         {
-            Debug.WriteLine("DisconnectHandler");
             base.DisconnectHandler(platformView);
 
             if (this.VirtualView is CustomWebView customWebView)
