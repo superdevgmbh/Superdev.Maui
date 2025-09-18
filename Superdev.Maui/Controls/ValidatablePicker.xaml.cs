@@ -95,10 +95,36 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ItemsSourceProperty, value);
         }
 
-        public BindingBase ItemDisplayBinding
+        // HACK: Sadly, it's not possible to route ItemDisplayBinding (of type BindingBase)
+        // trough to the nested picker control.
+        // Sources with similar issues found on github:
+        // https://github.com/dotnet/maui/issues/4818
+        // https://github.com/sebarslan/Maui.NullableDateTimePicker/blob/2f9dcae20a43f1fc02abfc268291552b6de33d4a/Maui.NullableDateTimePicker/Controls/SelectList.cs#L44
+        public static readonly BindableProperty ItemDisplayNameProperty =
+            BindableProperty.Create(
+                nameof(ItemDisplayName),
+                typeof(string),
+                typeof(ValidatablePicker),
+                propertyChanged: OnItemDisplayNamePropertyChanged);
+
+        private static void OnItemDisplayNamePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            get => this.Picker.ItemDisplayBinding;
-            set => this.Picker.ItemDisplayBinding = value;
+            var validatablePicker = (ValidatablePicker)bindable;
+
+            if (newValue is string propertyName)
+            {
+                validatablePicker.Picker.ItemDisplayBinding = new Binding(propertyName);
+            }
+            else
+            {
+                validatablePicker.Picker.ItemDisplayBinding = null;
+            }
+        }
+
+        public string ItemDisplayName
+        {
+            get => (string)this.GetValue(ItemDisplayNameProperty);
+            set => this.SetValue(ItemDisplayNameProperty, value);
         }
 
         public static readonly BindableProperty SelectedItemProperty =
@@ -208,8 +234,8 @@ namespace Superdev.Maui.Controls
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
                 if (readonlyText == null && this.SelectedItem is object selectedItem)
                 {
-                    if (this.ItemDisplayBinding is Binding { Path: var path } &&
-                        path != Binding.SelfPath && path != nameof(this.ItemDisplayBinding))
+                    if (this.Picker.ItemDisplayBinding is Binding { Path: var path } &&
+                        path != Binding.SelfPath && path != nameof(this.Picker.ItemDisplayBinding))
                     {
                         var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, path);
                         readonlyText = selectedItemValue?.ToString();

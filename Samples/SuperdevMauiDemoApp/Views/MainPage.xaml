@@ -52,7 +52,7 @@
                         </VerticalStackLayout.Resources>
 
                         <s:ValidatablePicker
-                            ItemDisplayBinding="{Binding NativeName}"
+                            ItemDisplayName="NativeName"
                             ItemsSource="{Binding Languages}"
                             Placeholder="{s:Translate LanguageLabelText}"
                             SelectedItem="{Binding Language, Mode=TwoWay}" />

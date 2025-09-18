@@ -8,6 +8,12 @@
     x:DataType="vm:PickerDemoViewModel"
     Title="PickerDemoPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ToggleIsReadonlyCommand}"
+            Text="{Binding IsReadonly, StringFormat='[IsReadonly={0}]'}" />
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <Grid>
             <VerticalStackLayout
@@ -56,26 +62,26 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="ValidatablePicker with strings" />
                             <s:ValidatablePicker
-                                ItemDisplayBinding="{Binding .}"
+                                ItemDisplayName="."
                                 ItemsSource="{Binding StringValues}"
                                 Placeholder="Please select"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker with strings, using ItemDisplayBinding and NullString" />
+                                Text="ValidatablePicker with strings, using ItemDisplayName=." />
                             <s:ValidatablePicker
-                                ItemDisplayBinding="{Binding .}"
+                                ItemDisplayName="."
                                 ItemsSource="{Binding StringValues}"
                                 Placeholder="Please select"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker with ItemDisplayBinding=Name" />
+                                Text="ValidatablePicker with ItemDisplayName=Name" />
                             <s:ValidatablePicker
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                ItemDisplayBinding="{Binding Name}"
+                                ItemDisplayName="Name"
                                 ItemsSource="{Binding Countries}"
                                 Placeholder="ValidatablePicker"
                                 ReadonlyText="ReadonlyText"
@@ -84,17 +90,13 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker IsReadonly=true, ItemDisplayBinding=null" />
+                                Text="ValidatablePicker IsReadonly=true, ItemDisplayName=null" />
                             <s:ValidatablePicker
                                 IsReadonly="True"
+                                ItemDisplayName="{x:Null}"
                                 ItemsSource="{Binding Countries, Mode=OneWay}"
                                 Placeholder="ValidatablePicker"
                                 SelectedItem="{Binding Country, Mode=TwoWay}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="Toggle IsReadonly" />
-                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>
@@ -144,12 +146,6 @@
                             <Button
                                 Command="{Binding ToggleBirthdateCommand}"
                                 Text="Toggle Birthdate" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="Toggle IsEnabled" />
-                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>
@@ -267,11 +263,6 @@
                                 IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
                                 NullableTime="{Binding Birthdate, Mode=TwoWay}"
                                 Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="Toggle IsEnabled" />
-                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>

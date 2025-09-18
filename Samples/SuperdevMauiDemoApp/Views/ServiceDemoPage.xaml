@@ -53,18 +53,18 @@
             </Grid>
             <s:ValidatablePicker
                 IsReadonly="True"
-                ItemDisplayBinding="{Binding .}"
+                ItemDisplayName="."
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="PlatformAppTheme"
                 SelectedItem="{Binding PlatformAppTheme, Mode=TwoWay}" />
             <s:ValidatablePicker
                 IsReadonly="True"
-                ItemDisplayBinding="{Binding .}"
+                ItemDisplayName="."
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="UserAppTheme"
                 SelectedItem="{Binding UserAppTheme, Mode=TwoWay}" />
             <s:ValidatablePicker
-                ItemDisplayBinding="{Binding .}"
+                ItemDisplayName="."
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="AppTheme"
                 SelectedItem="{Binding AppTheme, Mode=TwoWay}" />

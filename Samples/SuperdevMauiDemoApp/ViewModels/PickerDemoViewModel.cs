@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
@@ -25,6 +26,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private ICommand toggleBirthdateCommand;
         private DateTime? patentStartDate;
         private DateRange patentValidityRange;
+        private IRelayCommand toggleIsReadonlyCommand;
 
         public PickerDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -117,6 +119,16 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.country;
             set => this.SetProperty(ref this.country, value);
+        }
+
+        public IRelayCommand ToggleIsReadonlyCommand
+        {
+            get => this.toggleIsReadonlyCommand ??= new RelayCommand(this.ToggleIsReadonly);
+        }
+
+        private void ToggleIsReadonly()
+        {
+            this.IsReadonly = !this.IsReadonly;
         }
 
         public bool IsReadonly
