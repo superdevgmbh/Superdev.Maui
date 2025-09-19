@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    x:Class="Superdev.Maui.Controls.HyperlinkButton"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Superdev.Maui.Converters"
+    x:Name="Control"
+    HorizontalOptions="Start"
+    VerticalOptions="Start">
+    <ContentView.Resources>
+        <converters:ColorAlphaConverter
+            x:Key="ColorAlphaConverter"
+            Alpha="0.6" />
+    </ContentView.Resources>
+
+    <Grid>
+        <Label
+            x:Name="Label"
+            Grid.Row="0"
+            Style="{Binding LabelStyle, Source={x:Reference Name=Control}}"
+            Text="{Binding Text, Source={x:Reference Name=Control}}"
+            HorizontalOptions="Start"
+            VerticalOptions="Start">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding Command.IsRunning, Source={x:Reference Name=Control}}"
+                    TargetType="Label"
+                    Value="True">
+                    <Setter Property="TextColor" Value="{Binding TextColor, Source={x:Reference Name=Label}, Converter={StaticResource ColorAlphaConverter}}" />
+                </DataTrigger>
+            </Label.Triggers>
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Command, Source={x:Reference Name=Control}}" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <Grid
+            Grid.Row="0"
+            HeightRequest="{Binding Height, Source={x:Reference Label}}"
+            IsVisible="{Binding Command.IsRunning, Source={x:Reference Name=Control}, FallbackValue=False}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <!-- <Grid.Background> -->
+            <!--     <RadialGradientBrush Center="0.5,0.5" Radius="0.8"> -->
+            <!--         <GradientStop Offset="0.0" Color="{Binding BackgroundColor, Source={x:Reference Name=Control}}" /> -->
+            <!--         <GradientStop Offset="1.0" Color="Transparent" /> -->
+            <!--     </RadialGradientBrush> -->
+            <!-- </Grid.Background> -->
+            <ActivityIndicator
+                IsRunning="{Binding Command.IsRunning, Source={x:Reference Name=Control}, FallbackValue=False}"
+                Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}" />
+        </Grid>
+    </Grid>
+</ContentView>

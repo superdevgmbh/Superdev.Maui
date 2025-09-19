@@ -38,6 +38,6 @@
     </OnPlatform>
 
     <!-- Test -->
-    <Color x:Key="Theme.Color.Hyperlink">Magenta</Color>
+    <!-- <Color x:Key="Theme.Color.Hyperlink">Magenta</Color> -->
 
 </ResourceDictionary>
