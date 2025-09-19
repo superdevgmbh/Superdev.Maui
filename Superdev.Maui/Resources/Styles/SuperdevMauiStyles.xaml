@@ -630,15 +630,10 @@
     </Style>
     <Style
         x:Key="ViewModelErrorTextLabelStyle"
-        BasedOn="{StaticResource LabelStyle}"
+        BasedOn="{StaticResource ViewModelErrorTitleLabelStyle}"
         TargetType="Label">
-        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Medium}" />
-        <Setter Property="VerticalOptions" Value="Start" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="LineBreakMode" Value="WordWrap" />
+        <Setter Property="FontAttributes" Value="None" />
     </Style>
     <Style
         x:Key="ViewModelErrorControlStyle"

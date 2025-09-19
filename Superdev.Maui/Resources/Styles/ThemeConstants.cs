@@ -148,7 +148,6 @@
         public static class FontFamily
         {
             public const string Default = "Theme.FontFamily.Default";
-
             public const string Body1 = "Theme.FontFamily.Body1";
             public const string Body2 = "Theme.FontFamily.Body2";
             public const string Button = "Theme.FontFamily.Button";
