@@ -496,7 +496,7 @@
     <Style
         x:Key="HyperlinkLabelStyle"
         TargetType="Label">
-        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Hyperlink}" />
         <Setter Property="TextDecorations" Value="Underline" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
@@ -505,7 +505,7 @@
     <Style
         x:Key="HyperlinkSpanStyle"
         TargetType="Span">
-        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Hyperlink}" />
         <Setter Property="TextDecorations" Value="Underline" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />

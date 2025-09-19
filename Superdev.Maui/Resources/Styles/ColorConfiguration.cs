@@ -161,6 +161,7 @@ namespace Superdev.Maui.Resources.Styles
             this.Resources.SetValue(ThemeConstants.Color.OnTertiary, colorConfiguration.OnTertiary);
             this.Resources.SetValue(ThemeConstants.Color.Error, colorConfiguration.Error);
             this.Resources.SetValue(ThemeConstants.Color.ErrorBackground, colorConfiguration.ErrorBackground);
+            this.Resources.SetValue(ThemeConstants.Color.Hyperlink, Colors.Blue);
 
             this.Resources.SetValue(ThemeConstants.Color.SemiTransparentBright, MaterialColors.SemiTransparentBright);
             this.Resources.SetValue(ThemeConstants.Color.SemiTransparentDark, MaterialColors.SemiTransparentDark);

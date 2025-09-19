@@ -26,6 +26,7 @@
             public const string OnTertiary = "Theme.Color.OnTertiary";
             public const string Error = "Theme.Color.Error";
             public const string ErrorBackground = "Theme.Color.ErrorBackground";
+            public const string Hyperlink = "Theme.Color.Hyperlink";
 
             public const string SemiTransparentBright = "Theme.Color.SemiTransparentBright";
             public const string SemiTransparentDark = "Theme.Color.SemiTransparentDark";
