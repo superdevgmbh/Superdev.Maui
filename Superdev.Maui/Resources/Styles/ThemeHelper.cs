@@ -431,8 +431,8 @@ namespace Superdev.Maui.Resources.Styles
                 }
 
                 // Get the merged dictionaries
-                var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
-                if (mergedDictionaries == null)
+                var globalMergedDictionary = Application.Current.Resources.MergedDictionaries;
+                if (globalMergedDictionary == null)
                 {
                     return;
                 }
@@ -451,38 +451,41 @@ namespace Superdev.Maui.Resources.Styles
                     return;
                 }
 
+                var superdevMauiStyles = globalMergedDictionary.FirstOrDefault<SuperdevMauiStyles>();
+                var localMergedDictionaries = superdevMauiStyles.MergedDictionaries;
+
                 // Update ColorResources
-                var colorResources = mergedDictionaries.FirstOrDefault<ColorResources>();
+                var colorResources = localMergedDictionaries.FirstOrDefault<ColorResources>();
                 if (colorResources != null)
                 {
-                    mergedDictionaries.Remove(colorResources);
+                    localMergedDictionaries.Remove(colorResources);
                 }
 
                 var colorConfiguration = theme.ColorConfiguration ?? new ColorConfiguration();
                 colorConfiguration.Initialize();
-                mergedDictionaries.Add(colorConfiguration.Resources);
+                localMergedDictionaries.Add(colorConfiguration.Resources);
 
-                // Update ColorResources
-                var spacingResources = mergedDictionaries.FirstOrDefault<SpacingResources>();
+                // Update SpacingResources
+                var spacingResources = localMergedDictionaries.FirstOrDefault<SpacingResources>();
                 if (spacingResources != null)
                 {
-                    mergedDictionaries.Remove(spacingResources);
+                    localMergedDictionaries.Remove(spacingResources);
                 }
 
                 var spacingConfiguration = theme.SpacingConfiguration ?? new SpacingConfiguration();
                 spacingConfiguration.Initialize();
-                mergedDictionaries.Add(spacingConfiguration.Resources);
+                localMergedDictionaries.Add(spacingConfiguration.Resources);
 
                 // Update FontResources
-                var fontResources = mergedDictionaries.FirstOrDefault<FontResources>();
+                var fontResources = localMergedDictionaries.FirstOrDefault<FontResources>();
                 if (fontResources != null)
                 {
-                    mergedDictionaries.Remove(fontResources);
+                    localMergedDictionaries.Remove(fontResources);
                 }
 
                 var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
                 fontConfiguration.Initialize();
-                mergedDictionaries.Add(fontConfiguration.Resources);
+                localMergedDictionaries.Add(fontConfiguration.Resources);
 
                 // Apply theme resources from the appropriate dictionary first
                 // var sourceDict = theme == AppTheme.Dark ? darkDict : lightDict;

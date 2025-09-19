@@ -209,8 +209,9 @@
 
     <Color x:Key="Black">#000000</Color>
     <Color x:Key="White">#FFFFFF</Color>
-    <Color x:Key="SemiTransparentDark">#7F000000</Color>
-    <Color x:Key="SemiTransparentBright">#7FFFFFFF</Color>
+
+    <Color x:Key="Theme.Color.SemiTransparentDark">#7F000000</Color>
+    <Color x:Key="Theme.Color.SemiTransparentBright">#7FFFFFFF</Color>
 
     <!-- Named Colors -->
     <styles:ColorReference
@@ -239,7 +240,7 @@
     <styles:ColorReference
         x:Key="Theme.SwipeView.Neutral"
         Value="{StaticResource Gray400}" />
-    
+
     <!-- ViewCell -->
     <styles:ColorReference
         x:Key="Theme.ViewCell.BackgroundColor"

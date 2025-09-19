@@ -17,16 +17,17 @@
 
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="Label with FormattedString (Span)" />
+                Text="Hyperlinks" />
+            <Label
+                Style="{DynamicResource HyperlinkLabelStyle}"
+                Text="Label with HyperlinkLabelStyle" />
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Span text with" />
-                        <Span Text=" " />
+                        <Span Text="Label with FormattedText and " />
                         <Span
-                            Style="{StaticResource HyperlinkSpanStyle}"
+                            Style="{DynamicResource HyperlinkSpanStyle}"
                             Text="HyperlinkSpanStyle" />
-                        <Span Text="." />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
