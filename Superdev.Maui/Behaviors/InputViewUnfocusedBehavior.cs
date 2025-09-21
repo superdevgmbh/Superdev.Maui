@@ -38,7 +38,7 @@ namespace Superdev.Maui.Behaviors
         {
             base.OnAttachedTo(bindable);
 
-            var inputView = (InputView)bindable.AsEntry() ?? bindable.AsEditor() ?? bindable;
+            var inputView = bindable.AsEntry() ?? bindable.AsEditor() ?? bindable as InputView;
             if (inputView != null)
             {
                 inputView.Unfocused += this.OnInputViewUnfocused;
@@ -51,8 +51,11 @@ namespace Superdev.Maui.Behaviors
 
         protected override void OnDetachingFrom(VisualElement bindable)
         {
-            var inputView = (InputView)bindable.AsEntry() ?? bindable.AsEditor() ?? bindable;
-            inputView.Unfocused -= this.OnInputViewUnfocused;
+            var inputView = bindable.AsEntry() ?? bindable.AsEditor() ?? bindable as InputView;
+            if (inputView != null)
+            {
+                inputView.Unfocused -= this.OnInputViewUnfocused;
+            }
 
             base.OnDetachingFrom(bindable);
         }

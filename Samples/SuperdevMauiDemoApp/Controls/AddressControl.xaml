@@ -29,7 +29,7 @@
                         Text="{Binding Street, Mode=TwoWay}"
                         ValidationErrors="{Binding Validation.Errors[Street]}">
                         <s:ValidatableEntry.Behaviors>
-                            <s:EntryCompletedBehavior TargetElement="{x:Reference PostalCodeLEntry}" />
+                            <s:InputViewCompletedBehavior TargetElement="{x:Reference PostalCodeLEntry}" />
                         </s:ValidatableEntry.Behaviors>
                     </s:ValidatableEntry>
 

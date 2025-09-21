@@ -10,23 +10,23 @@ namespace Superdev.Maui.Behaviors
     /// <example>
     /// <Entry Placeholder="Entry 1">
     ///     <Entry.Behaviors>
-    ///         <behaviors:EntryCompletedBehavior TargetElement="{x:Reference Entry2}" />
+    ///         <behaviors:InputViewCompletedBehavior TargetElement="{x:Reference Entry2}" />
     /// </Entry.Behaviors >
     /// </Entry >
     ///
     /// <Entry Placeholder="Entry 2">
     ///     <Entry.Behaviors>
-    ///         <behaviors:EntryCompletedBehavior TargetElementName="Entry2" />
+    ///         <behaviors:InputViewCompletedBehavior TargetElementName="Entry2" />
     /// </Entry.Behaviors >
     /// </Entry >
     /// </example>
-    public class EntryCompletedBehavior : BehaviorBase<VisualElement>
+    public class InputViewCompletedBehavior : BehaviorBase<VisualElement>
     {
         public static readonly BindableProperty TargetElementProperty =
             BindableProperty.Create(
                 nameof(TargetElement),
                 typeof(VisualElement),
-                typeof(EntryCompletedBehavior));
+                typeof(InputViewCompletedBehavior));
 
         public VisualElement TargetElement
         {
@@ -40,19 +40,30 @@ namespace Superdev.Maui.Behaviors
         {
             base.OnAttachedTo(bindable);
 
-            var entry = bindable.AsEntry();
-            if (entry == null)
+            if (bindable.AsEntry() is Entry entry)
             {
-                throw new InvalidOperationException("bindable must be of type Entry or ValidatableEntry");
+                entry.Completed += this.OnEntryCompleted;
             }
-
-            entry.Completed += this.OnEntryCompleted;
+            else if (bindable.AsEditor() is Editor editor)
+            {
+                editor.Completed += this.OnEntryCompleted;
+            }
+            else
+            {
+                throw new InvalidOperationException("bindable must be an Entry, Editor, or a subclass of either");
+            }
         }
 
         protected override void OnDetachingFrom(VisualElement bindable)
         {
-            var entry = bindable.AsEntry();
-            entry.Completed -= this.OnEntryCompleted;
+            if (bindable.AsEntry() is Entry entry)
+            {
+                entry.Completed -= this.OnEntryCompleted;
+            }
+            else if (bindable.AsEditor() is Editor editor)
+            {
+                editor.Completed -= this.OnEntryCompleted;
+            }
 
             base.OnDetachingFrom(bindable);
         }
@@ -61,13 +72,23 @@ namespace Superdev.Maui.Behaviors
         {
             if (string.IsNullOrEmpty(this.TargetElementName))
             {
-                var entry = this.TargetElement.AsVisualElement();
-                if (entry == null)
+                if (this.TargetElement is not VisualElement targetElement)
                 {
-                    throw new InvalidOperationException("TargetElementName must be of type VisualElement or ValidatableEntry");
+                    throw new ArgumentNullException(nameof(this.TargetElement));
                 }
 
-                entry.Focus();
+                if (targetElement.AsEntry() is Entry entry)
+                {
+                    entry.Focus();
+                }
+                else if (targetElement.AsEditor() is Editor editor)
+                {
+                    editor.Focus();
+                }
+                else
+                {
+                    throw new InvalidOperationException("TargetElement must be an Entry, Editor, or a subclass of either");
+                }
             }
             else
             {
@@ -75,9 +96,15 @@ namespace Superdev.Maui.Behaviors
                 while (parent != null)
                 {
                     var targetElement = parent.FindByName<VisualElement>(this.TargetElementName);
-                    if (targetElement != null)
+                    if (targetElement.AsEntry() is Entry entry)
                     {
-                        targetElement.Focus();
+                        entry.Focus();
+                        break;
+                    }
+
+                    if (targetElement.AsEditor() is Editor editor)
+                    {
+                        editor.Focus();
                         break;
                     }
 

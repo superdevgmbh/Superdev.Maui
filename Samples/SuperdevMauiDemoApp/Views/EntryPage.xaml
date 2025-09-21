@@ -130,9 +130,9 @@
                                     TrailingIconCommandParameter="{Binding Text, Source={x:Reference UserNameEntry}}"
                                     ValidationErrors="{Binding Validation.Errors[UserName]}">
                                     <s:ValidatableEntry.Behaviors>
-                                        <s:MaxLengthTextBehavior MaxLength="{Binding UserNameMaxLength}" />
+                                        <s:InputViewMaxLengthBehavior MaxLength="{Binding UserNameMaxLength}" />
                                         <s:InputViewUnfocusedBehavior DecorationFlags="Trim" />
-                                        <s:EntryCompletedBehavior TargetElementName="ValidatableEntryTest1" />
+                                        <s:InputViewCompletedBehavior TargetElementName="ValidatableEntryTest1" />
                                     </s:ValidatableEntry.Behaviors>
                                 </s:ValidatableEntry>
                                 <Entry
@@ -142,7 +142,7 @@
                                     Text="{Binding UserName, Mode=TwoWay}">
                                     <Entry.Behaviors>
                                         <s:InputViewUnfocusedBehavior DecorationFlags="Trim" />
-                                        <s:EntryCompletedBehavior TargetElement="{x:Reference UserNameEntry}" />
+                                        <s:InputViewCompletedBehavior TargetElement="{x:Reference ValidatableEntryTest1}" />
                                     </Entry.Behaviors>
                                 </Entry>
                             </Grid>
