@@ -8,7 +8,7 @@ namespace Superdev.Maui.Resources.Styles
     /// <summary>
     ///     Helper class for managing application themes with platform-aware adaptations
     /// </summary>
-    public class ThemeHelper : IThemeHelper
+    public partial class ThemeHelper : IThemeHelper
     {
         private const bool DefaultUseSystemTheme = true;
         private const string AppThemeSettingsKey = "AppThemeSettingsKey";
@@ -148,7 +148,7 @@ namespace Superdev.Maui.Resources.Styles
             {
                 if (Application.Current == null)
                 {
-                    this.logger.LogDebug("Application.Current is null, cannot initialize theme helper");
+                    this.logger.LogWarning("Application.Current is null, cannot initialize theme helper");
                     return;
                 }
 
@@ -486,6 +486,10 @@ namespace Superdev.Maui.Resources.Styles
                 var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
                 fontConfiguration.Initialize();
                 localMergedDictionaries.Add(fontConfiguration.Resources);
+
+#if ANDROID || IOS
+                this.ApplyThemePlatformResources(theme);
+#endif
 
                 // Apply theme resources from the appropriate dictionary first
                 // var sourceDict = theme == AppTheme.Dark ? darkDict : lightDict;

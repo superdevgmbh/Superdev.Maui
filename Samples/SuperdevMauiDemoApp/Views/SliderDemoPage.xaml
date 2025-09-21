@@ -7,9 +7,18 @@
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     Title="SliderDemoPage">
 
-    <VerticalStackLayout>
-        <s:CustomSlider
-            ThumbColor="Blue"
-            ThumbSize="20" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="{DynamicResource Theme.Padding.Medium}" Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label Style="{StaticResource DemoLabelStyle}" Text="Slider" />
+            <Slider
+                Maximum="100"
+                Minimum="0"
+                Value="50" />
+            <Label Style="{StaticResource DemoLabelStyle}" Text="CustomSlider" />
+            <s:CustomSlider
+                Maximum="100"
+                Minimum="0"
+                Value="50" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

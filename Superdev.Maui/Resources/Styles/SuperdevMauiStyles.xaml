@@ -669,6 +669,7 @@
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 
+    <!-- Switch -->
     <Style
         x:Key="SwitchStyle"
         ApplyToDerivedTypes="True"
@@ -753,6 +754,22 @@
     <Style
         BasedOn="{StaticResource CheckBoxStyle}"
         TargetType="CheckBox" />
+
+    <!-- Slider -->
+    <Style
+        x:Key="SliderStyle"
+        ApplyToDerivedTypes="True"
+        TargetType="Slider">
+        <Setter Property="ThumbColor" Value="{DynamicResource Theme.Slider.ThumbColor}" />
+        <Setter Property="MinimumTrackColor" Value="{DynamicResource Theme.Slider.MinimumTrackColor}" />
+        <Setter Property="MaximumTrackColor" Value="{DynamicResource Theme.Slider.MaximumTrackColor}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource SliderStyle}"
+        TargetType="Slider" />
+    <Style
+        BasedOn="{StaticResource SliderStyle}"
+        TargetType="controls:CustomSlider" />
 
     <!-- Picker -->
     <Style

@@ -6,41 +6,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
-    x:DataType="vm:ServiceDemoViewModel"
+    Title="ServiceDemoPage"
     s:StatusBar.NavigationBarColor="{DynamicResource LightGreenA200}"
     s:StatusBar.StatusBarColor="{DynamicResource LightGreenA200}"
     s:StatusBar.Style="Light"
-    Title="ServiceDemoPage">
+    x:DataType="vm:ServiceDemoViewModel">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="{DynamicResource Theme.Padding.Medium}"
-            Spacing="{DynamicResource Theme.Spacing.Medium}">
-            <Label
-                Style="{StaticResource DemoLabelStyle}"
-                Text="IDeviceInfo" />
+        <VerticalStackLayout Padding="{DynamicResource Theme.Padding.Medium}" Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label Style="{StaticResource DemoLabelStyle}" Text="IDeviceInfo" />
             <s:ValidatableEntry
                 IsReadonly="True"
                 Placeholder="DeviceId"
                 Text="{Binding DeviceId, Mode=OneWay}" />
-            <Label
-                Style="{StaticResource DemoLabelStyle}"
-                Text="IStatusBarService" />
-            <Button
-                Command="{Binding SetStatusBarColorCommand}"
-                Text="SetStatusBarColor" />
-            <Button
-                Command="{Binding SetStatusBarStyleCommand}"
-                Text="SetStatusBarStyle" />
-            <Button
-                Command="{Binding SetNavigationBarColorCommand}"
-                Text="SetNavigationBarColor" />
-            <Button
-                Command="{Binding ResetNavigationBarColorCommand}"
-                Text="NavigationBarColor=null" />
-            <Label
-                Style="{StaticResource DemoLabelStyle}"
-                Text="IThemeHelper" />
+            <Label Style="{StaticResource DemoLabelStyle}" Text="IStatusBarService" />
+            <Button Command="{Binding SetStatusBarColorCommand}" Text="SetStatusBarColor" />
+            <Button Command="{Binding SetStatusBarStyleCommand}" Text="SetStatusBarStyle" />
+            <Button Command="{Binding SetNavigationBarColorCommand}" Text="SetNavigationBarColor" />
+            <Button Command="{Binding ResetNavigationBarColorCommand}" Text="NavigationBarColor=null" />
+            <Label Style="{StaticResource DemoLabelStyle}" Text="IThemeHelper" />
             <Grid ColumnDefinitions="*,Auto">
                 <Label
                     Grid.Column="0"
@@ -48,8 +32,8 @@
                     Text="{Binding UseSystemTheme, StringFormat='UseSystemTheme={0}'}" />
                 <Switch
                     Grid.Column="1"
-                    IsToggled="{Binding UseSystemTheme}"
-                    HorizontalOptions="End" />
+                    HorizontalOptions="End"
+                    IsToggled="{Binding UseSystemTheme}" />
             </Grid>
             <s:ValidatablePicker
                 IsReadonly="True"
@@ -68,15 +52,12 @@
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="AppTheme"
                 SelectedItem="{Binding AppTheme, Mode=TwoWay}" />
-            <Button
-                Command="{Binding ResetThemeCommand}"
-                Text="Reset" />
-            <Label
-                Style="{StaticResource DemoLabelStyle}"
-                Text="IGeolocationSettings" />
-            <Button
-                Command="{Binding ShowGeolocationSettingsCommand}"
-                Text="ShowSettingsUI" />
+            <Button Command="{Binding ResetThemeCommand}" Text="Reset" />
+            <Label Style="{StaticResource DemoLabelStyle}" Text="IDialogService" />
+            <Button Command="{Binding DisplayAlertCommand}" Text="DisplayAlertAsync" />
+            <Button Command="{Binding DisplayActionSheetCommand}" Text="DisplayActionSheetAsync" />
+            <Label Style="{StaticResource DemoLabelStyle}" Text="IGeolocationSettings" />
+            <Button Command="{Binding ShowGeolocationSettingsCommand}" Text="ShowSettingsUI" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

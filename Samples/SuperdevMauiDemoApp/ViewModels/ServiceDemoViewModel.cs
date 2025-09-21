@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
@@ -8,10 +9,12 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class ServiceDemoViewModel : BaseViewModel
     {
+        private readonly ILogger logger;
         private readonly IStatusBarService statusBarService;
         private readonly IGeolocationSettings geolocationSettings;
         private readonly IDeviceInfo deviceInfo;
         private readonly IThemeHelper themeHelper;
+        private readonly IDialogService dialogService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
         private IRelayCommand showGeolocationSettingsCommand;
@@ -28,18 +31,24 @@ namespace SuperdevMauiDemoApp.ViewModels
         private AppTheme userAppTheme;
         private AppTheme appTheme;
         private IRelayCommand resetThemeCommand;
+        private IAsyncRelayCommand displayAlertCommand;
+        private IAsyncRelayCommand displayActionSheetCommand;
 
         public ServiceDemoViewModel(
+            ILogger<ServiceDemoViewModel> logger,
             IStatusBarService statusBarService,
             IGeolocationSettings geolocationSettings,
             IDeviceInfo deviceInfo,
             IThemeHelper themeHelper,
+            IDialogService dialogService,
             IViewModelErrorHandler viewModelErrorHandler)
         {
+            this.logger = logger;
             this.statusBarService = statusBarService;
             this.geolocationSettings = geolocationSettings;
             this.deviceInfo = deviceInfo;
             this.themeHelper = themeHelper;
+            this.dialogService = dialogService;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             this.appTheme = this.themeHelper.AppTheme;
@@ -206,6 +215,33 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.themeHelper.Reset();
             this.RefreshThemeHelperValues();
+        }
+
+        public IAsyncRelayCommand DisplayAlertCommand
+        {
+            get => this.displayAlertCommand ??= new AsyncRelayCommand(this.DisplayAlertAsync);
+        }
+
+        private async Task DisplayAlertAsync()
+        {
+            var result = await this.dialogService.DisplayAlertAsync("Title", "Message", "Confirm", "Cancel");
+            this.logger.LogDebug($"DisplayAlertAsync: result={result}");
+        }
+
+        public IAsyncRelayCommand DisplayActionSheetCommand
+        {
+            get => this.displayActionSheetCommand ??= new AsyncRelayCommand(this.DisplayActionSheetAsync);
+        }
+
+        private async Task DisplayActionSheetAsync()
+        {
+            var buttons = new []
+            {
+                "Button1",
+                "Button2"
+            };
+            var result = await this.dialogService.DisplayActionSheetAsync("Title", "Cancel", "Destruction", buttons);
+            this.logger.LogDebug($"DisplayActionSheetAsync: result={result}");
         }
 
         public IRelayCommand ShowGeolocationSettingsCommand

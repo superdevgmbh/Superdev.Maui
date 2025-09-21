@@ -26,6 +26,7 @@ namespace Superdev.Maui.Resources.Styles
             this.SetButtonColors(this);
             this.SetDrilldownButtonColors(this);
             this.SetSwitchColors(this);
+            this.SetSliderColors(this);
             this.SetCardViewColors(this);
             this.isInitialized = true;
         }
@@ -101,36 +102,43 @@ namespace Superdev.Maui.Resources.Styles
             var primaryVariantGreyscale = primaryVariant.Greyscale();
 
             // Toggled=false, Enabled=true
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColor, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColor, isAndroid
                 ? primaryVariantGreyscale
                 : MaterialColors.White);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColor, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColor, isAndroid
                 ? primaryGreyscale
                 : MaterialColors.White);
 
             // Toggled=true, Enabled=true
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorToggled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColorToggled, isAndroid
                 ? primaryVariant
                 : primary);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorToggled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColorToggled, isAndroid
                 ? primary
                 : MaterialColors.White);
 
             // Toggled=false, Enabled=false
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColorDisabled, isAndroid
                 ? primaryVariantGreyscale.Brighten(0.1f)
                 : primaryVariantGreyscale);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColorDisabled, isAndroid
                 ? primaryGreyscale.Brighten(0.3f)
                 : MaterialColors.White);
 
             // Toggled=true, Enabled=false
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorToggledDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColorToggledDisabled, isAndroid
                 ? primaryVariant.Brighten(0.1f)
                 : primaryVariant);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorToggledDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColorToggledDisabled, isAndroid
                 ? primary.Brighten(0.4f)
                 : MaterialColors.White);
+        }
+
+        private void SetSliderColors(ColorConfiguration colorConfiguration)
+        {
+            this.Resources.SetValue(ThemeConstants.Slider.ThumbColor, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Slider.MinimumTrackColor, colorConfiguration.SecondaryVariant);
+            this.Resources.SetValue(ThemeConstants.Slider.MaximumTrackColor, MaterialColors.Gray300);
         }
 
         private void SetCardViewColors(ColorConfiguration colorConfiguration)
