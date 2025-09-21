@@ -11,7 +11,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Command="{Binding ToggleIsReadonlyCommand}"
-            Text="{Binding IsReadonly, StringFormat='[IsReadonly={0}]'}" />
+            Text="{Binding IsReadonly, StringFormat='[RO={0}]'}" />
     </ContentPage.ToolbarItems>
 
     <ScrollView>
@@ -30,7 +30,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Picker with strings, using ItemDisplayBinding and NullString " />
+                                Text="Picker with strings, using ItemDisplayBinding and NullString" />
                             <Picker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
@@ -39,7 +39,7 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomPicker with strings " />
+                                Text="CustomPicker with strings" />
                             <s:CustomPicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
