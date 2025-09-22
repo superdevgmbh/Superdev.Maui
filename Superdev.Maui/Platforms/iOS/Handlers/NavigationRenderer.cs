@@ -42,7 +42,7 @@ namespace Superdev.Maui.Platforms.Handlers
                 }
 
                 var current = ReflectionHelper.GetPropertyValue<Page>(this.TopViewController, "Child");
-                var swipeBackEnabled = Controls.PlatformConfiguration.iOSSpecific.NavigationPage.GetSwipeBackEnabled(current);
+                var swipeBackEnabled = Superdev.Maui.Controls.PlatformConfiguration.iOSSpecific.NavigationPage.GetSwipeBackEnabled(current);
 
                 Debug.WriteLine($"ViewDidLayoutSubviews: InteractivePopGestureRecognizer: swipeBackEnabled={swipeBackEnabled}");
                 interactivePopGestureRecognizer.Enabled = swipeBackEnabled;
