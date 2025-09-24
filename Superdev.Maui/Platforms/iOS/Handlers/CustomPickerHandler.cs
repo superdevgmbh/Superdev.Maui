@@ -1,8 +1,5 @@
-using System.ComponentModel;
-using System.Diagnostics;
-using Microsoft.Maui.Handlers;
+using Foundation;
 using Microsoft.Maui.Platform;
-using Superdev.Maui.Utils;
 using Superdev.Maui.Controls;
 
 namespace Superdev.Maui.Platforms.Handlers
@@ -11,12 +8,16 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class CustomPickerHandler : PickerHandler
     {
-        private Color originalTextColor;
-        private bool isUpdatingPlaceholderColor;
+        static CustomPickerHandler()
+        {
+            Mapper.AppendToMapping(Picker.ItemsSourceProperty.PropertyName, MapItemsSource);
+            Mapper.AppendToMapping(Picker.TitleProperty.PropertyName, MapTitle);
+            Mapper.AppendToMapping(Picker.SelectedIndexProperty.PropertyName, MapSelectedIndex);
+        }
 
         public new static readonly PM Mapper = new PM(PickerHandler.Mapper)
         {
-            [nameof(CustomPicker.PlaceholderColor)] = MapPlaceholderColor
+            [nameof(CustomPicker.PlaceholderColor)] = MapPlaceholderColor,
         };
 
         public CustomPickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -29,39 +30,21 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        protected override void ConnectHandler(MauiPicker platformView)
+        private new CustomPicker VirtualView => (CustomPicker)base.VirtualView;
+
+        private static void MapItemsSource(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
-            base.ConnectHandler(platformView);
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-
-            var customPicker = (CustomPicker)this.VirtualView;
-            this.originalTextColor = customPicker.TextColor;
-
-            customPicker.SelectedIndexChanged += this.OnSelectedIndexChanged;
-            customPicker.PropertyChanged += this.OnPropertyChanged;
+            customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private static void MapTitle(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
-            // Debug.WriteLine($"CustomPicker.OnPropertyChanged: PropertyName={e.PropertyName}");
-
-            if (e.PropertyName == nameof(Picker.TextColor))
-            {
-                if (!this.isUpdatingPlaceholderColor)
-                {
-                    var customPicker = (CustomPicker)sender;
-                    this.originalTextColor = customPicker.TextColor;
-                    this.UpdatePlaceholderColor(customPicker.PlaceholderColor);
-                }
-            }
+            customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
-        private void OnSelectedIndexChanged(object sender, EventArgs e)
+        private static void MapSelectedIndex(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
-            var customPicker = (CustomPicker)sender;
-            this.UpdatePlaceholderColor(customPicker.PlaceholderColor);
+            customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
         private static void MapPlaceholderColor(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
@@ -71,41 +54,21 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void UpdatePlaceholderColor(Color placeholderColor)
         {
-            if (this.originalTextColor == null)
+            var customPicker = this.VirtualView;
+
+            var title = customPicker.Title;
+            if (string.IsNullOrEmpty(title))
             {
                 return;
             }
 
-            try
+            if (placeholderColor == null)
             {
-                this.isUpdatingPlaceholderColor = true;
-
-                var customPicker = (CustomPicker)this.VirtualView;
-                if (customPicker.SelectedItem == null)
-                {
-                    Debug.WriteLine($"CustomPicker.UpdatePlaceholderColor: SelectedItem={customPicker.SelectedItem} --> placeholderColor");
-                    customPicker.TextColor = placeholderColor;
-                }
-                else
-                {
-                    Debug.WriteLine($"CustomPicker.UpdatePlaceholderColor: SelectedItem={customPicker.SelectedItem} --> _originalTextColor");
-                    customPicker.TextColor = this.originalTextColor;
-                }
+                return;
             }
-            finally
-            {
-                this.isUpdatingPlaceholderColor = false;
-            }
-        }
 
-        protected override void DisconnectHandler(MauiPicker platformView)
-        {
-            var customPicker = (CustomPicker)this.VirtualView;
-            customPicker.SelectedIndexChanged -= this.OnSelectedIndexChanged;
-
-            this.originalTextColor = null;
-
-            base.DisconnectHandler(platformView);
+            var control = this.PlatformView;
+            control.AttributedPlaceholder = new NSAttributedString(title, null, placeholderColor.ToPlatform());
         }
     }
 }
