@@ -51,6 +51,25 @@
                             </Style>
                         </VerticalStackLayout.Resources>
 
+                        <Picker
+                            ItemsSource="{Binding Languages}"
+                            Title="Picker1"
+                            TitleColor="Red" />
+                        <s:CustomPicker
+                            PlaceholderColor="Green"
+                            Title="CustomPicker1"
+                            TitleColor="Magenta" />
+                        <s:CustomPicker
+                            ItemsSource="{Binding Languages}"
+                            PlaceholderColor="Blue"
+                            Title="CustomPicker2"
+                            TitleColor="Magenta" />
+
+                        <s:CustomPicker
+                            ItemDisplayBinding="{Binding NativeName}"
+                            ItemsSource="{Binding Languages}"
+                            SelectedItem="{Binding Language, Mode=TwoWay}"
+                            Title="CustomPicker" />
                         <s:ValidatablePicker
                             DisplayMemberPath="NativeName"
                             ItemsSource="{Binding Languages}"

@@ -7,6 +7,14 @@ namespace Superdev.Maui.Resources.Styles
         /// </summary>
         public static IThemeHelper Current => ThemeHelper.Current;
 
+        public bool OverrideStyles { get; set; }
+
+        /// <summary>
+        /// Overrides existing styles in the application's resource dictionary with styles
+        /// whose keys end with <c>_Override</c>.
+        /// </summary>
+        void OverrideStylesInternal();
+
         void ApplyTheme(string theme);
 
         void ApplyTheme(string lightTheme, string darkTheme);

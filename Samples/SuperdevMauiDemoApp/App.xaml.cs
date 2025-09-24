@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using Superdev.Maui;
-using Superdev.Maui.Controls;
+﻿using Superdev.Maui.Controls;
+using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
@@ -15,6 +14,7 @@ namespace SuperdevMauiDemoApp
             this.InitializeComponent();
 
             var themeHelper = IThemeHelper.Current;
+            themeHelper.OverrideStyles = true;
             themeHelper.ApplyTheme(
                 lightTheme: "SampleApp.Theme.Light",
                 darkTheme: "SampleApp.Theme.Dark");

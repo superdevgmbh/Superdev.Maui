@@ -316,5 +316,21 @@ namespace Superdev.Maui.Controls
             get => (IEnumerable<string>)this.GetValue(ValidationErrorsProperty);
             set => this.SetValue(ValidationErrorsProperty, value);
         }
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == DialogExtensions.DoneButtonText)
+            {
+                var value = DialogExtensions.GetDoneButtonText(this);
+                DialogExtensions.SetDoneButtonText(this.Picker, value);
+            }
+            else if (propertyName == DialogExtensions.NegativeButtonText)
+            {
+                var value = DialogExtensions.GetNegativeButtonText(this);
+                DialogExtensions.SetNegativeButtonText(this.Picker, value);
+            }
+        }
     }
 }

@@ -1,7 +1,10 @@
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Platforms.iOS.Utils;
+using Superdev.Maui.Resources.Styles;
+using Superdev.Maui.Utils;
+using UIKit;
+using MauiDoneAccessoryView = Superdev.Maui.Platforms.Controls.MauiDoneAccessoryView;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -24,23 +27,62 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private static void UpdateDoneButtonText(IPickerHandler pickerHandler, IPicker picker)
-        {
-            if (pickerHandler is PickerHandler handler)
-            {
-                var newDoneButton = UIToolbarHelper.CreateDoneButton((BindableObject)picker, (_, _) => { });
-                UIToolbarHelper.ReplaceDoneButton(handler.PlatformView.InputAccessoryView, newDoneButton);
-            }
-        }
+        private new Picker VirtualView => (Picker)base.VirtualView;
 
         protected override MauiPicker CreatePlatformView()
         {
             var mauiPicker = base.CreatePlatformView();
 
-            var newDoneButton = UIToolbarHelper.CreateDoneButton((BindableObject)this.VirtualView, (_, _) => { });
-            UIToolbarHelper.ReplaceDoneButton(mauiPicker.InputAccessoryView, newDoneButton);
+            var inputAccessoryView = new MauiDoneAccessoryView();
+            inputAccessoryView.SetDataContext(this);
+            inputAccessoryView.SetDoneClicked(this.OnDoneClicked);
+
+            mauiPicker.InputAccessoryView = inputAccessoryView;
 
             return mauiPicker;
+        }
+
+        private void OnDoneClicked(object obj)
+        {
+            ReflectionHelper.RunMethod(this, "OnDone");
+        }
+
+        private static void UpdateDoneButtonText(PickerHandler pickerHandler, Picker picker)
+        {
+            if (pickerHandler.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
+            {
+                var doneButtonText = DialogExtensions.GetDoneButtonText(picker);
+                if (doneButtonText != null)
+                {
+                    mauiDoneAccessoryView.SetDoneText(doneButtonText);
+                }
+            }
+        }
+
+        protected override void ConnectHandler(MauiPicker platformView)
+        {
+#if !NET9_0_OR_GREATER
+            this.VirtualView.AddCleanUpEvent();
+#endif
+            base.ConnectHandler(platformView);
+            // ThemeHelper.Current.ThemeChanged += this.OnThemeChanged;
+        }
+
+        // TODO: React on theme change to update tint color of InputAccessoryView
+        // private void OnThemeChanged(object sender, AppTheme e)
+        // {
+        //     if (this.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
+        //     {
+        //         var tintColor = UIBarButtonItem.AppearanceWhenContainedIn(typeof(UIToolbar)).TintColor;
+        //         mauiDoneAccessoryView.TintColor = tintColor;
+        //         mauiDoneAccessoryView.SetNeedsDisplay();
+        //     }
+        // }
+
+        protected override void DisconnectHandler(MauiPicker platformView)
+        {
+            // ThemeHelper.Current.ThemeChanged -= this.OnThemeChanged;
+            base.DisconnectHandler(platformView);
         }
     }
 }

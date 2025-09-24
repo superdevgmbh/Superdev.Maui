@@ -3,6 +3,8 @@ namespace Superdev.Maui.Controls
     public static class DialogExtensions
     {
         public const string DoneButtonText = "DoneButtonText";
+        public const string PositiveButtonText = "PositiveButtonText";
+        public const string NegativeButtonText = "NegativeButtonText";
         public const string NeutralButtonText = "NeutralButtonText";
 
         public static readonly BindableProperty DoneButtonTextProperty =
@@ -24,7 +26,7 @@ namespace Superdev.Maui.Controls
 
         public static readonly BindableProperty NegativeButtonTextProperty =
             BindableProperty.CreateAttached(
-                "NegativeButtonText",
+                NegativeButtonText,
                 typeof(string),
                 typeof(DialogExtensions),
                 null);
@@ -41,7 +43,7 @@ namespace Superdev.Maui.Controls
 
         public static readonly BindableProperty PositiveButtonTextProperty =
             BindableProperty.CreateAttached(
-                "PositiveButtonText",
+                PositiveButtonText,
                 typeof(string),
                 typeof(DialogExtensions),
                 null);

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Superdev.Maui.Services;
 using Preferences = Superdev.Maui.Services.Preferences;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Resources.Styles
 {
@@ -10,6 +11,7 @@ namespace Superdev.Maui.Resources.Styles
     /// </summary>
     public partial class ThemeHelper : IThemeHelper
     {
+        private const string OverrideStylesSuffix = "_Override";
         private const bool DefaultUseSystemTheme = true;
         private const string AppThemeSettingsKey = "AppThemeSettingsKey";
         private const string UseSystemThemeSettingsKey = "UseSystemThemeSettingsKey";
@@ -39,6 +41,8 @@ namespace Superdev.Maui.Resources.Styles
         private bool? useSystemTheme;
         private AppTheme? appTheme;
         private AppTheme? lastUsedTheme;
+        private bool overrideStyles;
+        private bool isInitialized;
 
         private ThemeHelper(
             ILogger<ThemeHelper> logger,
@@ -50,6 +54,53 @@ namespace Superdev.Maui.Resources.Styles
             this.fontConverter = fontConverter;
 
             this.Initialize();
+        }
+
+        public bool OverrideStyles
+        {
+            get => this.overrideStyles;
+            set
+            {
+                if (this.overrideStyles != value)
+                {
+                    this.overrideStyles = value;
+                    if (value)
+                    {
+                        this.OverrideStylesInternal();
+                    }
+                }
+            }
+        }
+
+        public void OverrideStylesInternal()
+        {
+            var app = Application.Current;
+            var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(app.Resources, "MergedResources")
+#if DEBUG
+                    .ToArray()
+#endif
+                ;
+#if DEBUG
+            this.logger.LogDebug(
+                $"OverrideStyles: Found resources: {mergedResources.Length}");
+
+            var allStyles = mergedResources
+                .Where(r => r.Value is Style)
+                .OrderBy(r => r.Key)
+                .ToArray();
+            this.logger.LogDebug(
+                $"OverrideStyles: Found styles: {allStyles.Length}{Environment.NewLine}" +
+                $"{string.Join(Environment.NewLine, allStyles.Select(r => $"Key: {r.Key}, TargetType: {((Style)r.Value).TargetType}"))}");
+#endif
+
+            var styleOverrides = mergedResources.Where(r => (r.Key?.EndsWith(OverrideStylesSuffix, StringComparison.InvariantCultureIgnoreCase) ?? false) && r.Value is Style)
+                .Select(r => (r.Key, BaseKey: r.Key.Replace(OverrideStylesSuffix, string.Empty), Style: r.Value as Style));
+
+            foreach (var styleOverride in styleOverrides)
+            {
+                this.logger.LogDebug($"OverrideStyles: Overriding style x:Key={styleOverride.BaseKey} with x:Key={styleOverride.Key}");
+                app.Resources[styleOverride.BaseKey] = styleOverride.Style;
+            }
         }
 
         /// <summary>
@@ -182,6 +233,8 @@ namespace Superdev.Maui.Resources.Styles
 
                 // Apply the initial theme
                 this.ApplyTheme();
+
+                this.isInitialized = true;
             }
             catch (Exception ex)
             {
@@ -486,6 +539,11 @@ namespace Superdev.Maui.Resources.Styles
                 var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
                 fontConfiguration.Initialize();
                 localMergedDictionaries.Add(fontConfiguration.Resources);
+
+                if (this.OverrideStyles)
+                {
+                    this.OverrideStylesInternal();
+                }
 
 #if ANDROID || IOS
                 this.ApplyThemePlatformResources(theme);
