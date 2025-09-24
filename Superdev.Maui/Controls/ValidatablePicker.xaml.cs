@@ -54,7 +54,8 @@ namespace Superdev.Maui.Controls
         {
             get
             {
-                if (this.SelectedIndex != SelectedIndexDefaultValue || this.IsReadonly)
+                if ((this.SelectedIndex != SelectedIndexDefaultValue && TryGetSelectedItemText(this.Picker, this.SelectedItem, out var selectedItemText) && selectedItemText != null) ||
+                    this.IsReadonly)
                 {
                     return this.Placeholder;
                 }
@@ -140,6 +141,7 @@ namespace Superdev.Maui.Controls
         private static void OnSelectedItemPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var picker = (ValidatablePicker)bindable;
+            picker.OnPropertyChanged(nameof(picker.AnnotationText));
             picker.OnPropertyChanged(nameof(picker.Placeholder));
             picker.OnPropertyChanged(nameof(picker.ReadonlyText));
         }
@@ -232,24 +234,39 @@ namespace Superdev.Maui.Controls
             get
             {
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
-                if (readonlyText == null && this.SelectedItem is object selectedItem)
+                if (readonlyText == null)
                 {
-                    if (this.Picker.ItemDisplayBinding is Binding { Path: var path } &&
-                        path != Binding.SelfPath && path != nameof(this.Picker.ItemDisplayBinding))
+                    if (TryGetSelectedItemText(this.Picker, this.SelectedItem, out var selectedItemText))
                     {
-                        var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, path);
-                        readonlyText = selectedItemValue?.ToString();
+                        readonlyText = selectedItemText;
                     }
                     else
                     {
                         // In case readonly text is null, we try to take SelectedItem as ReadonlyText
-                        readonlyText = selectedItem.ToString();
+                        readonlyText = this.SelectedItem?.ToString();
                     }
                 }
 
                 return readonlyText;
             }
             set => this.SetValue(ReadonlyTextProperty, value);
+        }
+
+        private static bool TryGetSelectedItemText(Picker picker, object selectedItem, out string selectedItemText)
+        {
+            if (picker != null && selectedItem != null)
+            {
+                if (picker.ItemDisplayBinding is Binding { Path: var path } &&
+                    path != Binding.SelfPath && path != nameof(picker.ItemDisplayBinding))
+                {
+                    var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, path);
+                    selectedItemText = selectedItemValue?.ToString();
+                    return true;
+                }
+            }
+
+            selectedItemText = null;
+            return false;
         }
 
         public static readonly BindableProperty AnnotationLabelStyleProperty =
