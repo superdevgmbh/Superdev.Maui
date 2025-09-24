@@ -62,7 +62,7 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        ItemDisplayName="Name"
+                        DisplayMemberPath="Name"
                         ItemsSource="{Binding Countries}"
                         Placeholder="{s:Translate UserAddressCountryLabelText}"
                         SelectedItem="{Binding Country, Mode=TwoWay}"

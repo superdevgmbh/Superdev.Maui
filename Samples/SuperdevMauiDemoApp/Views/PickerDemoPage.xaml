@@ -62,7 +62,7 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="ValidatablePicker with strings" />
                             <s:ValidatablePicker
-                                ItemDisplayName="."
+                                DisplayMemberPath="."
                                 ItemsSource="{Binding StringValues}"
                                 Placeholder="Please select"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
@@ -71,7 +71,7 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="ValidatablePicker with strings, using ItemDisplayName=." />
                             <s:ValidatablePicker
-                                ItemDisplayName="."
+                                DisplayMemberPath="."
                                 ItemsSource="{Binding StringValues}"
                                 Placeholder="Please select"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
@@ -80,8 +80,8 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="ValidatablePicker with ItemDisplayName=Name" />
                             <s:ValidatablePicker
+                                DisplayMemberPath="Name"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                ItemDisplayName="Name"
                                 ItemsSource="{Binding Countries}"
                                 Placeholder="ValidatablePicker"
                                 ReadonlyText="ReadonlyText"
@@ -92,8 +92,8 @@
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="ValidatablePicker IsReadonly=true, ItemDisplayName=null" />
                             <s:ValidatablePicker
+                                DisplayMemberPath="{x:Null}"
                                 IsReadonly="True"
-                                ItemDisplayName="{x:Null}"
                                 ItemsSource="{Binding Countries, Mode=OneWay}"
                                 Placeholder="ValidatablePicker"
                                 SelectedItem="{Binding Country, Mode=TwoWay}" />

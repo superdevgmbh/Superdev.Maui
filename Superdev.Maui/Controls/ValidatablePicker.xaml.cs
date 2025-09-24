@@ -101,9 +101,9 @@ namespace Superdev.Maui.Controls
         // Sources with similar issues found on github:
         // https://github.com/dotnet/maui/issues/4818
         // https://github.com/sebarslan/Maui.NullableDateTimePicker/blob/2f9dcae20a43f1fc02abfc268291552b6de33d4a/Maui.NullableDateTimePicker/Controls/SelectList.cs#L44
-        public static readonly BindableProperty ItemDisplayNameProperty =
+        public static readonly BindableProperty DisplayMemberPathProperty =
             BindableProperty.Create(
-                nameof(ItemDisplayName),
+                nameof(DisplayMemberPath),
                 typeof(string),
                 typeof(ValidatablePicker),
                 propertyChanged: OnItemDisplayNamePropertyChanged);
@@ -122,10 +122,10 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        public string ItemDisplayName
+        public string DisplayMemberPath
         {
-            get => (string)this.GetValue(ItemDisplayNameProperty);
-            set => this.SetValue(ItemDisplayNameProperty, value);
+            get => (string)this.GetValue(DisplayMemberPathProperty);
+            set => this.SetValue(DisplayMemberPathProperty, value);
         }
 
         public static readonly BindableProperty SelectedItemProperty =
