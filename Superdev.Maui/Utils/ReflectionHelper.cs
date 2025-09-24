@@ -107,5 +107,54 @@ namespace Superdev.Maui.Utils
 
             return fieldInfo;
         }
+
+        public static MethodInfo GetMethodInfo(Type type, string methodName, Type[] parameterTypes = null)
+        {
+            MethodInfo methodInfo;
+            do
+            {
+                methodInfo = type.GetMethod(
+                    methodName,
+                    BindingFlags.Instance |
+                    BindingFlags.Static |
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.IgnoreCase,
+                    null,
+                    parameterTypes ?? Type.EmptyTypes,
+                    null);
+
+                type = type.BaseType;
+            } while (methodInfo == null && type != null);
+
+            return methodInfo;
+        }
+
+        public static object RunMethod(object target, string methodName, params object[] parameters)
+        {
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (string.IsNullOrEmpty(methodName))
+            {
+                throw new ArgumentNullException(nameof(methodName));
+            }
+
+            var paramTypes = parameters?.Select(p => p?.GetType() ?? typeof(object)).ToArray() ?? Type.EmptyTypes;
+            var methodInfo = GetMethodInfo(target.GetType(), methodName, paramTypes);
+
+            if (methodInfo == null)
+            {
+                throw new MissingMethodException($"Method '{methodName}' not found.");
+            }
+
+            return methodInfo.Invoke(target, parameters);
+        }
+
+        // Generic version to avoid casting manually
+        public static T RunMethod<T>(object target, string methodName, params object[] parameters)
+        {
+            var result = RunMethod(target, methodName, parameters);
+            return (T)result;
+        }
     }
 }
