@@ -216,8 +216,8 @@
                             <s:CustomButton
                                 Grid.Column="0"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="ListViewDemoPage"
-                                Text="ListView" />
+                                CommandParameter="TimePickerDemoPage"
+                                Text="TimePicker" />
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
@@ -235,8 +235,8 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="xxxxPage"
-                                Text="(unused)" />
+                                CommandParameter="ListViewDemoPage"
+                                Text="ListView" />
                         </Grid>
                         <Grid
                             ColumnDefinitions="*,*"

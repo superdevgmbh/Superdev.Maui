@@ -56,13 +56,13 @@
                 IsReadonly="True"
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="PlatformAppTheme"
-                SelectedItem="{Binding PlatformAppTheme, Mode=TwoWay}" />
+                SelectedItem="{Binding PlatformAppTheme, Mode=OneWay}" />
             <s:ValidatablePicker
                 DisplayMemberPath="."
                 IsReadonly="True"
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="UserAppTheme"
-                SelectedItem="{Binding UserAppTheme, Mode=TwoWay}" />
+                SelectedItem="{Binding UserAppTheme, Mode=OneWay}" />
             <s:ValidatablePicker
                 DisplayMemberPath="."
                 ItemsSource="{Binding AppThemes}"

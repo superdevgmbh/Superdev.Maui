@@ -11,7 +11,7 @@
         ApplyToDerivedTypes="True"
         BasedOn="{StaticResource PickerStyle}"
         TargetType="Picker">
-        <Setter Property="s:DialogExtensions.NegativeButtonText" Value="{s:Translate CancelButtonText}" />
+        <Setter Property="s:DialogExtensions.NeutralButtonText" Value="{s:Translate CancelButtonText}" />
         <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
     </Style>
     <Style

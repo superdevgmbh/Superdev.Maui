@@ -2,11 +2,11 @@ using System.Diagnostics;
 using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using Superdev.Maui.Utils;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Platforms.iOS.Utils;
 using UIKit;
+using TimePicker = Microsoft.Maui.Controls.TimePicker;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -14,14 +14,16 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class NullableTimePickerHandler : TimePickerHandler
     {
+        private static readonly DateTime DateTime111 = new DateTime(1, 1, 1);
+
         public new static readonly PM Mapper = new PM(TimePickerHandler.Mapper)
         {
-            [nameof(TimePicker.Format)] = UpdateFormat,
-            [nameof(TimePicker.Time)] = UpdateTime,
-            [nameof(NullableTimePicker.NullableTime)] = UpdateNullableTime,
-            [nameof(NullableTimePicker.Placeholder)] = UpdatePlaceholder,
-            [nameof(NullableTimePicker.PlaceholderColor)] = UpdatePlaceholder,
-            [nameof(DialogExtensions.NeutralButtonText)] = UpdateNeutralButtonText
+            [nameof(TimePicker.Time)] = MapTime,
+            [nameof(TimePicker.Format)] = MapFormat,
+            [nameof(NullableTimePicker.NullableTime)] = MapNullableTime,
+            [nameof(NullableTimePicker.Placeholder)] = MapPlaceholder,
+            [nameof(NullableTimePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
         public NullableTimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -75,8 +77,17 @@ namespace Superdev.Maui.Platforms.Handlers
             var time = this.PlatformView.Date.ToDateTime().TimeOfDay;
             this.VirtualView.Time = time;
             this.VirtualView.NullableTime = time;
-            SetNullableText(this.PlatformView, this.VirtualView);
             this.PlatformView.ResignFirstResponder();
+        }
+
+        private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
+        {
+            UpdatePlaceholder(nullableTimePickerHandler, nullableTimePicker);
+        }
+
+        private static void MapPlaceholderColor(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
+        {
+            UpdatePlaceholder(nullableTimePickerHandler, nullableTimePicker);
         }
 
         private static void UpdatePlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
@@ -101,7 +112,7 @@ namespace Superdev.Maui.Platforms.Handlers
             this.SetupUIToolbar(this.PlatformView);
         }
 
-        private static void UpdateNeutralButtonText(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
+        private static void MapNeutralButtonText(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {
             nullableTimePickerHandler.SetupUIToolbar(nullableTimePickerHandler.PlatformView);
         }
@@ -110,55 +121,114 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             nullableTimePicker.Time = TimeSpan.Zero;
             nullableTimePicker.NullableTime = null;
-            SetNullableText(mauiTimePicker, nullableTimePicker);
             mauiTimePicker.ResignFirstResponder();
         }
 
-        private static void UpdateFormat(ITimePickerHandler datePickerHandler, ITimePicker datePicker)
+        private new static void MapFormat(ITimePickerHandler nullableTimePickerHandler, ITimePicker timePicker)
         {
-            Debug.WriteLine("UpdateFormat");
+            Debug.WriteLine("MapFormat");
 
-            if (datePicker is NullableTimePicker nullableTimePicker)
+            if (timePicker is NullableTimePicker nullableTimePicker)
             {
-                SetNullableText(datePickerHandler.PlatformView, nullableTimePicker);
+                var uiDatePicker = nullableTimePickerHandler.PlatformView?.Picker;
+                UpdateTime(nullableTimePickerHandler.PlatformView, nullableTimePicker, uiDatePicker, nullableTimePicker.NullableTime);
             }
         }
 
-        private static void UpdateTime(ITimePickerHandler datePickerHandler, ITimePicker datePicker)
+        private new static void MapTime(ITimePickerHandler nullableTimePickerHandler, ITimePicker timePicker)
         {
-            Debug.WriteLine("UpdateDate");
+            Debug.WriteLine("UpdateTime");
 
-            if (datePicker is NullableTimePicker nullableTimePicker &&
-                datePickerHandler is NullableTimePickerHandler)
+            if (timePicker is NullableTimePicker nullableTimePicker)
             {
-                UpdateNullableTime(datePickerHandler, nullableTimePicker);
+                var uiDatePicker = nullableTimePickerHandler.PlatformView?.Picker;
+                UpdateUIDatePicker(uiDatePicker, nullableTimePicker.Time);
+                UpdateTime(nullableTimePickerHandler.PlatformView, nullableTimePicker, uiDatePicker, nullableTimePicker.Time);
             }
         }
 
-        private static void UpdateNullableTime(ITimePickerHandler datePickerHandler, ITimePicker datePicker)
+        private static void MapNullableTime(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {
-            Debug.WriteLine("UpdateNullableDate");
+            Debug.WriteLine("MapNullableTime");
 
-            if (datePicker is NullableTimePicker nullableTimePicker)
+            var uiDatePicker = nullableTimePickerHandler.PlatformView?.Picker;
+            UpdateUIDatePicker(uiDatePicker, nullableTimePicker.NullableTime);
+            UpdateTime(nullableTimePickerHandler.PlatformView, nullableTimePicker, uiDatePicker, nullableTimePicker.NullableTime);
+        }
+
+        public static void UpdateUIDatePicker(UIDatePicker datePicker, TimeSpan? nullableTime)
+        {
+            if (datePicker != null)
             {
-                SetNullableText(datePickerHandler.PlatformView, nullableTimePicker);
+                var time = nullableTime ?? TimeSpan.Zero;
+                datePicker.Date = DateTime111.Add(time).ToNSDate();
             }
         }
 
-        private static void SetNullableText(MauiTimePicker mauiTimePicker, NullableTimePicker nullableTimePicker)
+        private static void UpdateTime(MauiTimePicker mauiTimePicker, NullableTimePicker nullableTimePicker, UIDatePicker uiDatePicker, TimeSpan? nullableTime)
         {
-            var originalText = mauiTimePicker.Text;
+            var cultureInfo = Culture.CurrentCulture;
+
+            var format = nullableTimePicker.Format;
+
+            // if (string.IsNullOrEmpty(format))
+            {
+                var locale = new NSLocale(cultureInfo.TwoLetterISOLanguageName);
+
+                if (uiDatePicker != null)
+                {
+                    uiDatePicker.Locale = locale;
+                }
+            }
 
             try
             {
-                mauiTimePicker.Text = nullableTimePicker.NullableTime.ToStringExtended(nullableTimePicker.Format);
+                if (nullableTime is TimeSpan time)
+                {
+                    var text1 = nullableTime.ToStringExtended(format, cultureInfo);
+                    // var text2 = time.ToFormattedString(format, cultureInfo);
+                    mauiTimePicker.Text = text1;
+                    // Debug.WriteLine($"UpdateTime: mauiTimePicker.Text with format={format}, cultureInfo={cultureInfo} {Environment.NewLine}" +
+                    //                 $"> {text1}{Environment.NewLine}" +
+                    //                 $"> {text2}");
+                }
+                else
+                {
+                    mauiTimePicker.Text = null;
+                }
             }
             catch (Exception ex)
             {
                 mauiTimePicker.Text = ex.Message;
             }
 
-            Debug.WriteLine($"SetNullableText: mauiTimePicker.Text=\"{originalText}\" --> mauiTimePicker.Text=\"{mauiTimePicker.Text}\"");
+            if (format != null)
+            {
+                if (format.IndexOf('H') != -1)
+                {
+                    var locale = new NSLocale("de");
+
+                    if (uiDatePicker != null)
+                    {
+                        uiDatePicker.Locale = locale;
+                    }
+                }
+                else if (format.IndexOf('h') != -1)
+                {
+                    var locale = new NSLocale("en");
+
+                    if (uiDatePicker != null)
+                    {
+                        uiDatePicker.Locale = locale;
+                    }
+                }
+                else
+                {
+                    // uiDatePicker.Locale ???
+                }
+            }
+
+            mauiTimePicker.UpdateCharacterSpacing(nullableTimePicker);
         }
     }
 }

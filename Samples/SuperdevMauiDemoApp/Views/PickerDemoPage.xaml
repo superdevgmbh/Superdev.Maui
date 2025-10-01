@@ -124,7 +124,7 @@
                                 NullableDate="{Binding Birthdate, Mode=TwoWay}"
                                 Placeholder="NullableDatePicker with Birthdate" />
                             <s:NullableDatePicker
-                                s:DialogExtensions.NegativeButtonText="{s:Translate ClearButtonText}"
+                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
                                 Format="D"
                                 IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
                                 NullableDate="{Binding Birthdate, Mode=TwoWay}"
@@ -213,63 +213,6 @@
 
                 <s:CardView>
                     <VerticalStackLayout>
-                        <s:LabelSection Text="TimePicker" />
-                        <s:HeaderDivider />
-                        <VerticalStackLayout
-                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
-                            Spacing="{DynamicResource Theme.Spacing.Medium}">
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="TimePicker with Format=h\:mm" />
-                            <TimePicker
-                                Format="h\:mm"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=h\:mm" />
-                            <s:NullableTimePicker
-                                Format="h\:mm"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{x:Null}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=hh:mm" />
-                            <s:NullableTimePicker
-                                Format="hh:mm"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{x:Null}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=h:mm tt" />
-                            <s:NullableTimePicker
-                                Format="h:mm tt"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{x:Null}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=g" />
-                            <s:NullableTimePicker
-                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
-                                Format="g"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="NullableTimePicker" />
-                        </VerticalStackLayout>
-                        <s:FooterDivider />
-                    </VerticalStackLayout>
-                </s:CardView>
-
-                <s:CardView>
-                    <VerticalStackLayout>
                         <s:LabelSection Text="ValidatableDateTimePickers" />
                         <s:HeaderDivider />
                         <VerticalStackLayout
@@ -279,12 +222,13 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableDateTimePicker with Date=PatentStartDate" />
+                                Text="ValidatableDateTimePicker with Date=PatentStartDate and NeutralButtonText=ClearButtonText" />
                             <s:ValidatableDateTimePicker
-                                s:DialogExtensions.NegativeButtonText="{s:Translate ClearButtonText}"
+                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
                                 Date="{Binding PatentStartDate, Mode=TwoWay}"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
                                 Placeholder="ValidatableDateTimePicker"
+                                Time="{Binding PatentStartTime, Mode=TwoWay}"
                                 ValidationErrors="{Binding Validation.Errors[PatentStartDate]}"
                                 ValidityRange="{Binding PatentValidityRange}" />
 

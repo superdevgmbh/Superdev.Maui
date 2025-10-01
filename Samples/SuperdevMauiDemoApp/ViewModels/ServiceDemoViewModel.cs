@@ -51,6 +51,12 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.dialogService = dialogService;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
+            this.AppThemes = new[]
+            {
+                AppTheme.Unspecified,
+                AppTheme.Light,
+                AppTheme.Dark
+            };
             this.appTheme = this.themeHelper.AppTheme;
             this.useSystemTheme = this.themeHelper.UseSystemTheme;
             this.themeHelper.ThemeChanged += this.OnThemeChanged;
@@ -156,18 +162,15 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.useSystemTheme = this.themeHelper.UseSystemTheme;
             this.RaisePropertyChanged(nameof(this.UseSystemTheme));
+
             this.UserAppTheme = this.themeHelper.UserAppTheme;
             this.PlatformAppTheme = this.themeHelper.PlatformAppTheme;
+
             this.appTheme = this.themeHelper.AppTheme;
             this.RaisePropertyChanged(nameof(this.AppTheme));
         }
 
-        public AppTheme[] AppThemes => new []
-        {
-            AppTheme.Unspecified,
-            AppTheme.Light,
-            AppTheme.Dark
-        };
+        public AppTheme[] AppThemes { get; }
 
         public AppTheme PlatformAppTheme
         {

@@ -11,46 +11,25 @@ using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class PickerDemoViewModel : BaseViewModel
+    public class TimePickerDemoViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private readonly IDialogService dialogService;
-        private readonly ICountryService countryService;
         private readonly IDateTime dateTime;
 
-        private string selectedString;
-        private ObservableCollection<CountryViewModel> countries;
-        private CountryViewModel country;
         private bool isReadonly;
         private DateTime? birthdate;
-        private ICommand toggleBirthdateCommand;
         private DateTime patentStartDate;
         private TimeSpan patentStartTime;
         private TimeSpan? patentEndTime;
         private DateRange patentValidityRange;
         private IRelayCommand toggleIsReadonlyCommand;
 
-        public PickerDemoViewModel(
+        public TimePickerDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
-            IDialogService dialogService,
-            ICountryService countryService,
             IDateTime dateTime)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
-            this.dialogService = dialogService;
-            this.countryService = countryService;
             this.dateTime = dateTime;
-
-            this.StringValues = new ObservableCollection<string>
-            {
-                null,
-                "String 1",
-                "String 2",
-                "String 3",
-            };
-            this.SelectedString = null;
-
-            this.Countries = new ObservableCollection<CountryViewModel>();
 
             var referenceDate = dateTime.Now;
             this.BirthdateValidityRange = new DateRange(start: referenceDate.AddDays(-2), end: referenceDate.AddDays(2));
@@ -77,13 +56,6 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             try
             {
-                var defaultCountryViewModel = new CountryViewModel(new CountryDto { Name = null });
-                var countryDtos = await this.countryService.GetAllAsync();
-                this.Countries = countryDtos
-                    .Select(c => new CountryViewModel(c))
-                    .Prepend(defaultCountryViewModel)
-                    .ToObservableCollection();
-
                 var today = this.dateTime.Now.Date;
                 var todayInOneMonth = today.AddMonths(1);
                 this.PatentValidityRange = new DateRange(today, todayInOneMonth);
@@ -97,33 +69,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
-        }
-
-        public ObservableCollection<string> StringValues { get; set; }
-
-        public string SelectedString
-        {
-            get => this.selectedString;
-            set
-            {
-                if (this.SetProperty(ref this.selectedString, value))
-                {
-                    // this.logger.Debug()
-                    //this.dialogService.DisplayAlertAsync("SelectedString", $"value={value}", "OK");
-                }
-            }
-        }
-
-        public ObservableCollection<CountryViewModel> Countries
-        {
-            get => this.countries;
-            private set => this.SetProperty(ref this.countries, value);
-        }
-
-        public CountryViewModel Country
-        {
-            get => this.country;
-            set => this.SetProperty(ref this.country, value);
         }
 
         public IRelayCommand ToggleIsReadonlyCommand
@@ -156,16 +101,6 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public DateRange BirthdateValidityRange { get; }
 
-        public ICommand ToggleBirthdateCommand
-        {
-            get => this.toggleBirthdateCommand ??= new Command(this.ToggleBirthdate);
-        }
-
-        private void ToggleBirthdate()
-        {
-            this.Birthdate = this.Birthdate == null ? DateTime.Now : null;
-        }
-
         public DateTime PatentStartDate
         {
             get => this.patentStartDate;
@@ -181,13 +116,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public TimeSpan? PatentEndTime
         {
             get => this.patentEndTime;
-            set
-            {
-                if (this.SetProperty(ref this.patentEndTime, value))
-                {
-                    // this.RaisePropertyChanged(nameof(this.PatentValidityRange));
-                }
-            }
+            set => this.SetProperty(ref this.patentEndTime, value);
         }
 
         public DateRange PatentValidityRange

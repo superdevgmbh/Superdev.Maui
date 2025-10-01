@@ -158,6 +158,18 @@ namespace Superdev.Maui.Extensions
             return timeSpan.Days.ToString(CultureInfo.InvariantCulture) + "d";
         }
 
+        // public static string ToFormattedString(this TimeSpan time, string format, CultureInfo cultureInfo = null)
+        // {
+        //     cultureInfo ??= CultureInfo.CurrentCulture;
+        //
+        //     if (string.IsNullOrEmpty(format))
+        //     {
+        //         format = cultureInfo.DateTimeFormat.ShortTimePattern;
+        //     }
+        //
+        //     return DateTime.Today.Add(time).ToString(format, cultureInfo);
+        // }
+
         /// <summary>
         /// Formats a nullable TimeSpan using a specified format string, supporting both TimeSpan and time-only DateTime formats.
         /// The method distinguishes between formats that are:
@@ -171,22 +183,29 @@ namespace Superdev.Maui.Extensions
         /// <exception cref="FormatException">
         /// Throws FormatException if the format includes invalid options.</exception>
         /// </summary>
-        public static string ToStringExtended(this TimeSpan? nullableTime, string format)
+        public static string ToStringExtended(this TimeSpan? nullableTime, string format, CultureInfo cultureInfo = null)
         {
+            cultureInfo ??= CultureInfo.CurrentCulture;
+
+            if (string.IsNullOrEmpty(format))
+            {
+                format = cultureInfo.DateTimeFormat.ShortTimePattern;
+            }
+
             string formattedTime;
 
             if (nullableTime is TimeSpan timeSpan &&
                 timeSpan != TimeSpan.MinValue &&
-                !string.IsNullOrEmpty(format))
+                timeSpan != TimeSpan.MaxValue)
             {
                 if (TimeSpanFormats.Contains(format) || format.Contains("\\:"))
                 {
-                    formattedTime = timeSpan.ToString(format);
+                    formattedTime = timeSpan.ToString(format, cultureInfo);
                 }
                 else
                 {
-                    var d = DateTime111 + timeSpan;
-                    formattedTime = d.ToString(format);
+                    var dateTime = DateTime.Today.Add(timeSpan);
+                    formattedTime = dateTime.ToString(format, cultureInfo);
                 }
             }
             else

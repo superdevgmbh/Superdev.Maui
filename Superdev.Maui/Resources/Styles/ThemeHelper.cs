@@ -443,12 +443,12 @@ namespace Superdev.Maui.Resources.Styles
                 // Apply theme resources
                 this.ApplyThemeResources(currentTheme);
 
-                // Notify listeners of theme change
-                var hasThemeChanged = this.lastUsedTheme != currentTheme;
-                if (hasThemeChanged)
-                {
-                    this.RaiseThemeChangedEvent(currentTheme);
-                }
+                // TODO: Notify listeners of theme change
+                // var hasThemeChanged = this.lastUsedTheme != currentTheme;
+                // if (hasThemeChanged)
+                // {
+                //     this.RaiseThemeChangedEvent(currentTheme);
+                // }
             }
             catch (Exception ex)
             {

@@ -784,6 +784,7 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="ios:Picker.UpdateMode" Value="WhenFinished" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -826,6 +827,7 @@
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="ios:DatePicker.UpdateMode" Value="WhenFinished" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -866,6 +868,7 @@
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="ios:TimePicker.UpdateMode" Value="WhenFinished" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

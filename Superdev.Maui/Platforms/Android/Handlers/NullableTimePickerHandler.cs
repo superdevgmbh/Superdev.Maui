@@ -1,3 +1,4 @@
+using System.Globalization;
 using Android.App;
 using Android.Content;
 using Microsoft.Maui.Platform;
@@ -102,9 +103,13 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void SetNullableText(MauiTimePicker mauiTimePicker, NullableTimePicker nullableTimePicker)
         {
+            var currentCulture = CultureInfo.CurrentCulture;
+
             try
             {
-                mauiTimePicker.Text = nullableTimePicker.NullableTime.ToStringExtended(nullableTimePicker.Format);
+                var nullableTime = nullableTimePicker.NullableTime;
+                var format = nullableTimePicker.Format;
+                mauiTimePicker.Text = nullableTime.ToStringExtended(format, currentCulture);
             }
             catch (Exception ex)
             {
