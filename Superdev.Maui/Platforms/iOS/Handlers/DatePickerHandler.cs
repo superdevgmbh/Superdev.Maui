@@ -1,4 +1,3 @@
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.iOS.Utils;

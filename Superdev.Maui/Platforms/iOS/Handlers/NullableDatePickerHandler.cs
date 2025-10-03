@@ -15,12 +15,12 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(DatePickerHandler.Mapper)
         {
-            [nameof(DatePicker.Format)] = UpdateFormat,
-            [nameof(DatePicker.Date)] = UpdateDate,
-            [nameof(NullableDatePicker.NullableDate)] = UpdateNullableDate,
-            [nameof(NullableDatePicker.Placeholder)] = UpdatePlaceholder,
-            [nameof(NullableDatePicker.PlaceholderColor)] = UpdatePlaceholder,
-            [nameof(DialogExtensions.NeutralButtonText)] = UpdateNeutralButtonText
+            [nameof(DatePicker.Date)] = MapDate,
+            [nameof(DatePicker.Format)] = MapFormat,
+            [nameof(NullableDatePicker.NullableDate)] = MapNullableDate,
+            [nameof(NullableDatePicker.Placeholder)] = MapPlaceholder,
+            [nameof(NullableDatePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
         private UIDatePicker uiDatePicker;
@@ -104,6 +104,18 @@ namespace Superdev.Maui.Platforms.Handlers
             base.DisconnectHandler(platformView);
         }
 
+        private static void MapPlaceholder(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
+        {
+            Debug.WriteLine("MapPlaceholder");
+            UpdatePlaceholder(nullableDatePickerHandler, nullableDatePicker);
+        }
+
+        private static void MapPlaceholderColor(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
+        {
+            Debug.WriteLine("MapPlaceholderColor");
+            UpdatePlaceholder(nullableDatePickerHandler, nullableDatePicker);
+        }
+
         private static void UpdatePlaceholder(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
         {
             var placeholderText = nullableDatePicker.Placeholder;
@@ -126,7 +138,7 @@ namespace Superdev.Maui.Platforms.Handlers
             this.SetupUIToolbar(this.PlatformView);
         }
 
-        private static void UpdateNeutralButtonText(NullableDatePickerHandler nullableDatePickerHandler,
+        private static void MapNeutralButtonText(NullableDatePickerHandler nullableDatePickerHandler,
             NullableDatePicker nullableDatePicker)
         {
             nullableDatePickerHandler.SetupUIToolbar(nullableDatePickerHandler.PlatformView);
@@ -140,9 +152,9 @@ namespace Superdev.Maui.Platforms.Handlers
             mauiDatePicker.ResignFirstResponder();
         }
 
-        private static void UpdateFormat(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private new static void MapFormat(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
         {
-            Debug.WriteLine("UpdateFormat");
+            Debug.WriteLine("MapFormat");
 
             if (datePicker is NullableDatePicker nullableDatePicker)
             {
@@ -150,18 +162,18 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static void UpdateDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private new static void MapDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
         {
-            Debug.WriteLine("UpdateDate");
+            Debug.WriteLine("MapDate");
 
             if (datePicker is NullableDatePicker nullableDatePicker &&
                 datePickerHandler is NullableDatePickerHandler)
             {
-                UpdateNullableDate(datePickerHandler, nullableDatePicker);
+                MapNullableDate(datePickerHandler, nullableDatePicker);
             }
         }
 
-        private static void UpdateNullableDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void MapNullableDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
         {
             Debug.WriteLine("UpdateNullableDate");
 

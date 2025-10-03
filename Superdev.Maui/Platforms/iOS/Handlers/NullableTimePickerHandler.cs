@@ -82,11 +82,13 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {
+            Debug.WriteLine("MapPlaceholder");
             UpdatePlaceholder(nullableTimePickerHandler, nullableTimePicker);
         }
 
         private static void MapPlaceholderColor(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {
+            Debug.WriteLine("MapPlaceholderColor");
             UpdatePlaceholder(nullableTimePickerHandler, nullableTimePicker);
         }
 
@@ -137,7 +139,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private new static void MapTime(ITimePickerHandler nullableTimePickerHandler, ITimePicker timePicker)
         {
-            Debug.WriteLine("UpdateTime");
+            Debug.WriteLine("MapTime");
 
             if (timePicker is NullableTimePicker nullableTimePicker)
             {
@@ -183,19 +185,12 @@ namespace Superdev.Maui.Platforms.Handlers
 
             try
             {
-                if (nullableTime is TimeSpan time)
-                {
-                    var text1 = nullableTime.ToStringExtended(format, cultureInfo);
-                    // var text2 = time.ToFormattedString(format, cultureInfo);
-                    mauiTimePicker.Text = text1;
-                    // Debug.WriteLine($"UpdateTime: mauiTimePicker.Text with format={format}, cultureInfo={cultureInfo} {Environment.NewLine}" +
-                    //                 $"> {text1}{Environment.NewLine}" +
-                    //                 $"> {text2}");
-                }
-                else
-                {
-                    mauiTimePicker.Text = null;
-                }
+                var text1 = nullableTime.ToStringExtended(format, cultureInfo);
+                // var text2 = time.ToFormattedString(format, cultureInfo);
+                mauiTimePicker.Text = text1;
+                // Debug.WriteLine($"UpdateTime: mauiTimePicker.Text with format={format}, cultureInfo={cultureInfo} {Environment.NewLine}" +
+                //                 $"> {text1}{Environment.NewLine}" +
+                //                 $"> {text2}");
             }
             catch (Exception ex)
             {
