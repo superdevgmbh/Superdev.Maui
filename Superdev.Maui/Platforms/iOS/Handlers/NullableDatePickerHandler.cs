@@ -23,11 +23,9 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
-        UIDatePicker uiDatePicker { get => this.mauiDatePicker.InputView as UIDatePicker; }
-
-        // private UIDatePicker uiDatePicker;
         private MauiDatePicker mauiDatePicker;
 
+        private UIDatePicker Picker { get => this.mauiDatePicker.InputView as UIDatePicker; }
 
         public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
@@ -83,16 +81,14 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void HandleDoneButton(object sender, EventArgs e)
         {
-            var date = this.uiDatePicker.Date.ToDateTime();
+            var date = this.Picker.Date.ToDateTime();
             this.VirtualView.Date = date;
             this.VirtualView.NullableDate = date;
-            // SetNullableText(this.PlatformView, this.VirtualView);
             this.PlatformView.ResignFirstResponder();
         }
 
         protected override void ConnectHandler(MauiDatePicker platformView)
         {
-            // this.uiDatePicker = ReflectionHelper.GetPropertyValue<UIDatePicker>(this.PlatformView, "DatePickerDialog");
 #if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
 #endif
@@ -111,7 +107,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(MauiDatePicker platformView)
         {
-            // this.uiDatePicker = null;
             this.mauiDatePicker = null;
             base.DisconnectHandler(platformView);
         }
@@ -154,7 +149,6 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             nullableDatePicker.Date = DateTime.Now;
             nullableDatePicker.NullableDate = null;
-            // SetNullableText(mauiDatePicker, nullableDatePicker);
             mauiDatePicker.ResignFirstResponder();
         }
 
@@ -179,7 +173,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
             if (datePickerHandler is NullableDatePickerHandler nullableDatePickerHandler && datePicker is NullableDatePicker nullableDatePicker)
             {
-                UpdateUIDatePicker(nullableDatePickerHandler.uiDatePicker, nullableDatePicker.Date);
+                UpdateUIDatePicker(nullableDatePickerHandler.Picker, nullableDatePicker.Date);
                 MapNullableDate(datePickerHandler, nullableDatePicker);
             }
         }
@@ -190,7 +184,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
             if (datePickerHandler is NullableDatePickerHandler nullableDatePickerHandler && datePicker is NullableDatePicker nullableDatePicker)
             {
-                UpdateUIDatePicker(nullableDatePickerHandler.uiDatePicker, nullableDatePicker.NullableDate);
+                UpdateUIDatePicker(nullableDatePickerHandler.Picker, nullableDatePicker.NullableDate);
                 UpdateDate(datePickerHandler.PlatformView, nullableDatePicker);
             }
         }
