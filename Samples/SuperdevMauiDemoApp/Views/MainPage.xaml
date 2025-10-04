@@ -216,13 +216,27 @@
                             <s:CustomButton
                                 Grid.Column="0"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="TimePickerDemoPage"
-                                Text="TimePicker" />
+                                CommandParameter="PickerDemoPage"
+                                Text="Picker" />
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="PickerDemoPage"
-                                Text="Pickers" />
+                                Text="Picker" />
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                            <s:CustomButton
+                                Grid.Column="0"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="DatePickerDemoPage"
+                                Text="DatePicker" />
+                            <s:CustomButton
+                                Grid.Column="1"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="TimePickerDemoPage"
+                                Text="TimePicker" />
                         </Grid>
                         <Grid
                             ColumnDefinitions="*,*"
@@ -250,7 +264,7 @@
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="ToggleViewDemoPage"
-                                Text="ToggleView Demo" />
+                                Text="ToggleView" />
                         </Grid>
                         <Grid
                             ColumnDefinitions="*,*"
@@ -259,12 +273,12 @@
                                 Grid.Column="0"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="MultiStateToggleButtonDemoPage"
-                                Text="MultiStateToggleButton Demo" />
+                                Text="MultiStateToggleButton" />
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="SearchBarDemoPage"
-                                Text="SearchBar Demo" />
+                                Text="SearchBar" />
                         </Grid>
                         <Grid
                             ColumnDefinitions="*,*"

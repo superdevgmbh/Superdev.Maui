@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.DatePickerDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:DatePickerDemoViewModel"
+    Title="DatePickerDemoPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ToggleIsReadonlyCommand}"
+            Text="{Binding IsReadonly, StringFormat='[RO={0}]'}" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <Grid>
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="DatePicker" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="DatePicker with Format=null" />
+                            <DatePicker
+                                Date="{Binding PatentStartDate, Mode=TwoWay}"
+                                Format="{x:Null}"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="DatePicker with Format=default" />
+                            <DatePicker
+                                Date="{Binding PatentStartDate, Mode=TwoWay}"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="DatePicker with Format=dd. MMMM yyyy" />
+                            <DatePicker
+                                Date="{Binding PatentStartDate, Mode=TwoWay}"
+                                Format="dd. MMMM yyyy"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="NullableDatePickers" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableDatePicker with Format=default and NullableDate=null" />
+                            <s:NullableDatePicker
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{x:Null}"
+                                Placeholder="NullableDatePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableDatePicker with Format=D" />
+                            <s:NullableDatePicker
+                                Format="D"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="NullableDatePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableDatePicker with Format=d and NeutralButtonText=Clear" />
+                            <s:NullableDatePicker
+                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
+                                Format="d"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="NullableDatePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableDatePicker with Format=g and NeutralButtonText=Clear and DoneButtonText=Done" />
+                            <s:NullableDatePicker
+                                s:DialogExtensions.DoneButtonText="{s:Translate DoneButtonText}"
+                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
+                                Format="D"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="NullableDatePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableDatePicker with Format=yyyy-MM-dd and ValidityRange=[-2y..+2y]" />
+                            <s:NullableDatePicker
+                                Format="yyyy-MM-dd"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="NullableDatePicker" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
