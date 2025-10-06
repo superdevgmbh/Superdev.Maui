@@ -123,7 +123,7 @@
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
     <PackageReference Include="Sentry.Extensions.Logging" Version="5.15.0" />
-    <PackageReference Include="ValueConverters.MAUI" Version="4.0.6-pre" />
+    <PackageReference Include="ValueConverters.MAUI" Version="4.0.9-pre" />
   </ItemGroup>
 
   <ItemGroup>

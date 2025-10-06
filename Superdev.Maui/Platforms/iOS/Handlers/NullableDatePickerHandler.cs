@@ -23,10 +23,6 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
-        private MauiDatePicker mauiDatePicker;
-
-        private UIDatePicker Picker { get => this.mauiDatePicker.InputView as UIDatePicker; }
-
         public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
@@ -38,12 +34,6 @@ namespace Superdev.Maui.Platforms.Handlers
         }
 
         private new NullableDatePicker VirtualView => (NullableDatePicker)base.VirtualView;
-
-        protected override MauiDatePicker CreatePlatformView()
-        {
-            this.mauiDatePicker = base.CreatePlatformView();
-            return this.mauiDatePicker;
-        }
 
         protected override void SetupUIToolbar(MauiDatePicker mauiDatePicker)
         {
@@ -85,6 +75,12 @@ namespace Superdev.Maui.Platforms.Handlers
             this.VirtualView.Date = date;
             this.VirtualView.NullableDate = date;
             this.PlatformView.ResignFirstResponder();
+        }
+
+        protected override void OnEditingDidEnd(DateTime date)
+        {
+            this.VirtualView.Date = date;
+            this.VirtualView.NullableDate = date;
         }
 
         protected override void ConnectHandler(MauiDatePicker platformView)
