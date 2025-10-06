@@ -1,6 +1,8 @@
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.iOS.Utils;
+using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -47,6 +49,40 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             var mauiTimePicker = timePickerHandler.PlatformView;
             timePickerHandler.UpdateDoneButton(mauiTimePicker);
+        }
+
+        protected override void ConnectHandler(MauiTimePicker platformView)
+        {
+            base.ConnectHandler(platformView);
+
+            var mauiTimePicker = this.PlatformView;
+            mauiTimePicker.EditingDidEnd += this.OnEditingDidEnd;
+        }
+
+        private void OnEditingDidEnd(object sender, EventArgs e)
+        {
+            var mauiTimePicker = this.PlatformView;
+            if (mauiTimePicker.Picker is UIDatePicker picker)
+            {
+                var date = picker.Date.ToDateTime();
+                this.OnEditingDidEnd(date.TimeOfDay);
+            }
+        }
+
+        protected virtual void OnEditingDidEnd(TimeSpan time)
+        {
+            this.VirtualView.Time = time;
+        }
+
+        protected override void DisconnectHandler(MauiTimePicker platformView)
+        {
+            base.DisconnectHandler(platformView);
+
+            var mauiTimePicker = this.PlatformView;
+            if (mauiTimePicker != null)
+            {
+                mauiTimePicker.EditingDidEnd -= this.OnEditingDidEnd;
+            }
         }
     }
 }

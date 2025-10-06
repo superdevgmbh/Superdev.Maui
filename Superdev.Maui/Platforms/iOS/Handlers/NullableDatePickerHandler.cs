@@ -72,15 +72,17 @@ namespace Superdev.Maui.Platforms.Handlers
         private void HandleDoneButton(object sender, EventArgs e)
         {
             var date = this.Picker.Date.ToDateTime();
-            this.VirtualView.Date = date;
-            this.VirtualView.NullableDate = date;
+            var nullableDatePicker = this.VirtualView;
+            nullableDatePicker.Date = date;
+            nullableDatePicker.NullableDate = date;
             this.PlatformView.ResignFirstResponder();
         }
 
         protected override void OnEditingDidEnd(DateTime date)
         {
-            this.VirtualView.Date = date;
-            this.VirtualView.NullableDate = date;
+            var nullableDatePicker = this.VirtualView;
+            nullableDatePicker.Date = date;
+            nullableDatePicker.NullableDate = date;
         }
 
         protected override void ConnectHandler(MauiDatePicker platformView)

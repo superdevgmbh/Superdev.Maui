@@ -126,6 +126,13 @@ namespace Superdev.Maui.Platforms.Handlers
             mauiTimePicker.ResignFirstResponder();
         }
 
+        protected override void OnEditingDidEnd(TimeSpan time)
+        {
+            var nullableTimePicker = this.VirtualView;
+            nullableTimePicker.Time = time;
+            nullableTimePicker.NullableTime = time;
+        }
+
         private new static void MapFormat(ITimePickerHandler nullableTimePickerHandler, ITimePicker timePicker)
         {
             Debug.WriteLine("MapFormat");
