@@ -58,7 +58,7 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             base.ConnectHandler(platformView);
 
-            this.mauiDatePicker.EditingDidEnd += this.OnEditingDidEnd;
+            platformView.EditingDidEnd += this.OnEditingDidEnd;
         }
 
         private void OnEditingDidEnd(object sender, EventArgs e)
@@ -77,12 +77,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(MauiDatePicker platformView)
         {
-            base.DisconnectHandler(platformView);
+            platformView.EditingDidEnd -= this.OnEditingDidEnd;
 
-            if (this.mauiDatePicker != null)
-            {
-                this.mauiDatePicker.EditingDidEnd -= this.OnEditingDidEnd;
-            }
+            base.DisconnectHandler(platformView);
         }
     }
 }

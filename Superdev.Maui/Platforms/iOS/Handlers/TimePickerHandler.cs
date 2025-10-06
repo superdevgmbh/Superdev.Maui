@@ -55,13 +55,12 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             base.ConnectHandler(platformView);
 
-            var mauiTimePicker = this.PlatformView;
-            mauiTimePicker.EditingDidEnd += this.OnEditingDidEnd;
+            platformView.EditingDidEnd += this.OnEditingDidEnd;
         }
 
         private void OnEditingDidEnd(object sender, EventArgs e)
         {
-            var mauiTimePicker = this.PlatformView;
+            var mauiTimePicker = (MauiTimePicker)sender;
             if (mauiTimePicker.Picker is UIDatePicker picker)
             {
                 var date = picker.Date.ToDateTime();
@@ -76,13 +75,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(MauiTimePicker platformView)
         {
-            base.DisconnectHandler(platformView);
+            platformView.EditingDidEnd -= this.OnEditingDidEnd;
 
-            var mauiTimePicker = this.PlatformView;
-            if (mauiTimePicker != null)
-            {
-                mauiTimePicker.EditingDidEnd -= this.OnEditingDidEnd;
-            }
+            base.DisconnectHandler(platformView);
         }
     }
 }
