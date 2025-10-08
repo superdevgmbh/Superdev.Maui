@@ -1032,7 +1032,7 @@
     <!-- ValidatablePicker -->
     <Style TargetType="controls:ValidatablePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
+        <Setter Property="PickerStyle" Value="{DynamicResource CustomPickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
