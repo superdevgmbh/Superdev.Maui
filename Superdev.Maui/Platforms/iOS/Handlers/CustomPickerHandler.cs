@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Foundation;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
