@@ -1,9 +1,6 @@
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Utils;
-using UIKit;
 using MauiDoneAccessoryView = Superdev.Maui.Platforms.Controls.MauiDoneAccessoryView;
 
 namespace Superdev.Maui.Platforms.Handlers
