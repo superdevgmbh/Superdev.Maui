@@ -72,13 +72,13 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomPicker with ItemsSource=string[], TextColor=Black, TitleColor=Red, PlaceholderColor=Green" />
+                                Text="CustomPicker with ItemsSource=string[], TextColor=Blue, TitleColor=Red, PlaceholderColor=Green" />
                             <s:CustomPicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
                                 PlaceholderColor="Green"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}"
-                                TextColor="Black"
+                                TextColor="Blue"
                                 Title="Please select"
                                 TitleColor="Red" />
                         </VerticalStackLayout>
