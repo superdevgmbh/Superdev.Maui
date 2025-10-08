@@ -25,7 +25,7 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new Picker VirtualView => (CustomPicker)base.VirtualView;
+        private new Picker VirtualView => (Picker)base.VirtualView;
 
         protected override MauiPicker CreatePlatformView()
         {
