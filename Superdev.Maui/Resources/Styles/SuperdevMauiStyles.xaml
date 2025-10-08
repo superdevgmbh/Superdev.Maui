@@ -1030,12 +1030,18 @@
     </Style>
 
     <!-- ValidatablePicker -->
-    <Style TargetType="controls:ValidatablePicker">
+    <Style
+        x:Key="ValidatablePickerStyle"
+        TargetType="controls:ValidatablePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
         <Setter Property="PickerStyle" Value="{DynamicResource CustomPickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatablePickerStyle}"
+        TargetType="controls:ValidatablePicker" />
 
     <!-- ValidatableDatePicker -->
     <Style
