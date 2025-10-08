@@ -45,7 +45,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        public static void MapTitleColor(IPickerHandler handler, IPicker picker)
+        public new static void MapTitleColor(IPickerHandler handler, IPicker picker)
         {
             // Ignore
         }
