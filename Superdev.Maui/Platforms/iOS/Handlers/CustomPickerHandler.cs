@@ -34,21 +34,25 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void MapItemsSource(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
+            Debug.WriteLine("MapItemsSource");
             customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
         private static void MapTitle(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
+            Debug.WriteLine("MapTitle");
             customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
         private static void MapSelectedIndex(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
+            Debug.WriteLine("MapSelectedIndex");
             customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
         private static void MapPlaceholderColor(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
         {
+            Debug.WriteLine("MapPlaceholderColor");
             customPickerHandler.UpdatePlaceholderColor(customPicker.PlaceholderColor);
         }
 
