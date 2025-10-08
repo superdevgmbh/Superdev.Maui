@@ -23,9 +23,12 @@ namespace SuperdevMauiDemoApp
 
             var viewModelErrorRegistry = IViewModelErrorRegistry.Current;
             RegisterViewModelErrors(viewModelErrorRegistry);
+        }
 
+        protected override Window CreateWindow(IActivationState activationState)
+        {
             var mainPage = IPlatformApplication.Current.Services.GetService<MainPage>();
-            this.MainPage = new NavigationPage(mainPage);
+            return new Window(new NavigationPage(mainPage));
         }
 
         protected override void OnStart()
