@@ -591,7 +591,7 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
+        <Setter Property="TitleStyle" Value="{DynamicResource ActivityIndicatorTitleLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource CustomActivityIndicatorStyle}"
@@ -610,7 +610,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
+        <Setter Property="TitleStyle" Value="{DynamicResource ActivityIndicatorTitleLabelStyle}" />
         <Setter Property="TextStyle">
             <Setter.Value>
                 <Style
@@ -654,8 +654,8 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="TitleLabelStyle" Value="{StaticResource ViewModelErrorTitleLabelStyle}" />
-        <Setter Property="TextLabelStyle" Value="{StaticResource ViewModelErrorTextLabelStyle}" />
+        <Setter Property="TitleLabelStyle" Value="{DynamicResource ViewModelErrorTitleLabelStyle}" />
+        <Setter Property="TextLabelStyle" Value="{DynamicResource ViewModelErrorTextLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource ViewModelErrorControlStyle}"
