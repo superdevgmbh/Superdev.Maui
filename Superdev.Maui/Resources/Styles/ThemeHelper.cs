@@ -12,6 +12,7 @@ namespace Superdev.Maui.Resources.Styles
     public partial class ThemeHelper : IThemeHelper
     {
         private const string OverrideStylesSuffix = "_Override";
+        private const string MergeStylesSuffix = "_Merge";
         private const bool DefaultUseSystemTheme = true;
         private const string AppThemeSettingsKey = "AppThemeSettingsKey";
         private const string UseSystemThemeSettingsKey = "UseSystemThemeSettingsKey";
@@ -42,6 +43,7 @@ namespace Superdev.Maui.Resources.Styles
         private AppTheme? appTheme;
         private AppTheme? lastUsedTheme;
         private bool overrideStyles;
+        private bool mergeStyles;
         private bool isInitialized;
 
         private ThemeHelper(
@@ -66,13 +68,28 @@ namespace Superdev.Maui.Resources.Styles
                     this.overrideStyles = value;
                     if (value)
                     {
-                        this.OverrideStylesInternal();
+                        // this.OverrideStylesInternal(overrideStyles: true, mergeStyles: this.MergeStyles);
+                    }
+                }
+            }
+        }
+        public bool MergeStyles
+        {
+            get => this.mergeStyles;
+            set
+            {
+                if (this.mergeStyles != value)
+                {
+                    this.mergeStyles = value;
+                    if (value)
+                    {
+                        // this.OverrideStylesInternal(overrideStyles: this.OverrideStyles, mergeStyles: true);
                     }
                 }
             }
         }
 
-        public void OverrideStylesInternal()
+        private void OverrideStylesInternal(bool overrideStyles, bool mergeStyles)
         {
             var app = Application.Current;
             var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(app.Resources, "MergedResources")
@@ -93,13 +110,39 @@ namespace Superdev.Maui.Resources.Styles
                 $"{string.Join(Environment.NewLine, allStyles.Select(r => $"Key: {r.Key}, TargetType: {((Style)r.Value).TargetType}"))}");
 #endif
 
-            var styleOverrides = mergedResources.Where(r => (r.Key?.EndsWith(OverrideStylesSuffix, StringComparison.InvariantCultureIgnoreCase) ?? false) && r.Value is Style)
-                .Select(r => (r.Key, BaseKey: r.Key.Replace(OverrideStylesSuffix, string.Empty), Style: r.Value as Style));
-
-            foreach (var styleOverride in styleOverrides)
+            if (overrideStyles)
             {
-                this.logger.LogDebug($"OverrideStyles: Overriding style x:Key={styleOverride.BaseKey} with x:Key={styleOverride.Key}");
-                app.Resources[styleOverride.BaseKey] = styleOverride.Style;
+                var styleOverrides = mergedResources.Where(r => (r.Key?.EndsWith(OverrideStylesSuffix, StringComparison.InvariantCultureIgnoreCase) ?? false) && r.Value is Style)
+                    .Select(r => (r.Key, BaseKey: r.Key.Replace(OverrideStylesSuffix, string.Empty), Style: r.Value as Style));
+
+                foreach (var styleOverride in styleOverrides)
+                {
+                    this.logger.LogDebug($"OverrideStyles: Overriding style x:Key={styleOverride.BaseKey} with x:Key={styleOverride.Key}");
+                    app.Resources[styleOverride.BaseKey] = styleOverride.Style;
+                }
+            }
+
+            if (mergeStyles)
+            {
+                var styleMerges = mergedResources.Where(r => (r.Key?.EndsWith(MergeStylesSuffix, StringComparison.InvariantCultureIgnoreCase) ?? false) && r.Value is Style)
+                    .Select(r => (r.Key, BaseKey: r.Key.Replace(MergeStylesSuffix, string.Empty), Style: r.Value as Style));
+
+                foreach (var styleMerge in styleMerges)
+                {
+                    this.logger.LogDebug($"OverrideStyles: Merging style x:Key={styleMerge.BaseKey} with x:Key={styleMerge.Key}");
+
+                    var baseStyle = (Style)app.Resources[styleMerge.BaseKey];
+                    foreach (var setter in styleMerge.Style.Setters)
+                    {
+                        var existingSetter = baseStyle.Setters.FirstOrDefault(s => s.Property.PropertyName == setter.Property.PropertyName);
+                        if (existingSetter != null)
+                        {
+                            baseStyle.Setters.Remove(existingSetter);
+                        }
+
+                        baseStyle.Setters.Add(setter);
+                    }
+                }
             }
         }
 
@@ -540,9 +583,9 @@ namespace Superdev.Maui.Resources.Styles
                 fontConfiguration.Initialize();
                 localMergedDictionaries.Add(fontConfiguration.Resources);
 
-                if (this.OverrideStyles)
+                if (this.OverrideStyles || this.MergeStyles)
                 {
-                    this.OverrideStylesInternal();
+                    this.OverrideStylesInternal(overrideStyles: this.OverrideStyles, mergeStyles: this.MergeStyles);
                 }
 
 #if ANDROID || IOS

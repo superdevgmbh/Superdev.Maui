@@ -30,12 +30,24 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomPicker with ItemsSource=string[]" />
+                                Text="Picker with ItemsSource=string[], TextColor=Magenta, TitleColor=null" />
+                            <Picker
+                                ItemsSource="{Binding StringValues}"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}"
+                                TextColor="Magenta"
+                                Title="Picker"
+                                TitleColor="{x:Null}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Picker with ItemsSource=string[], TextColor=Green, TitleColor=Red" />
                             <Picker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}"
-                                Title="Please select" />
+                                TextColor="Green"
+                                Title="Please select"
+                                TitleColor="Red" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>
@@ -57,6 +69,18 @@
                                 ItemsSource="{Binding StringValues}"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}"
                                 Title="Please select" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="CustomPicker with ItemsSource=string[], TextColor=Black, TitleColor=Red, PlaceholderColor=Green" />
+                            <s:CustomPicker
+                                ItemDisplayBinding="{Binding .}"
+                                ItemsSource="{Binding StringValues}"
+                                PlaceholderColor="Green"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}"
+                                TextColor="Black"
+                                Title="Please select"
+                                TitleColor="Red" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>

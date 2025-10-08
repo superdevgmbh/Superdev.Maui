@@ -14,7 +14,7 @@ namespace SuperdevMauiDemoApp
             this.InitializeComponent();
 
             var themeHelper = IThemeHelper.Current;
-            themeHelper.OverrideStyles = true;
+            themeHelper.MergeStyles = true;
             themeHelper.ApplyTheme(
                 lightTheme: "SampleApp.Theme.Light",
                 darkTheme: "SampleApp.Theme.Dark");

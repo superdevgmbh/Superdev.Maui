@@ -7,22 +7,10 @@
 
     <!-- Picker -->
     <Style
-        x:Key="PickerStyle_Override"
-        ApplyToDerivedTypes="True"
-        BasedOn="{StaticResource PickerStyle}"
+        x:Key="PickerStyle_Merge"
         TargetType="Picker">
         <Setter Property="s:DialogExtensions.NeutralButtonText" Value="{s:Translate CancelButtonText}" />
         <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
     </Style>
-    <Style
-        BasedOn="{StaticResource PickerStyle_Override}"
-        TargetType="Picker" />
 
-    <Style
-        x:Key="CustomPickerStyle_Override"
-        BasedOn="{StaticResource PickerStyle_Override}"
-        TargetType="s:CustomPicker" />
-    <Style
-        BasedOn="{StaticResource CustomPickerStyle_Override}"
-        TargetType="s:CustomPicker" />
 </ResourceDictionary>

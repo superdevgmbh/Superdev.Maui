@@ -1042,7 +1042,7 @@
         x:Key="ValidatableDatePickerStyle"
         TargetType="controls:ValidatableDatePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="DatePickerStyle" Value="{DynamicResource NullableDatePickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
@@ -1056,8 +1056,8 @@
         x:Key="ValidatableDateTimePickerStyle"
         TargetType="controls:ValidatableDateTimePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
-        <Setter Property="TimePickerStyle" Value="{StaticResource TimePickerStyle}" />
+        <Setter Property="DatePickerStyle" Value="{DynamicResource NullableDatePickerStyle}" />
+        <Setter Property="TimePickerStyle" Value="{DynamicResource NullableTimePickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>

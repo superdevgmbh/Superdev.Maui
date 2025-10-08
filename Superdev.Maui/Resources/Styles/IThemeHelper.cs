@@ -7,13 +7,15 @@ namespace Superdev.Maui.Resources.Styles
         /// </summary>
         public static IThemeHelper Current => ThemeHelper.Current;
 
+        /// <summary>
+        /// Determines whether to override existing styles with those whose <c>x:Key</c> is prefixed with <c>_Override</c>.
+        /// </summary>
         public bool OverrideStyles { get; set; }
 
         /// <summary>
-        /// Overrides existing styles in the application's resource dictionary with styles
-        /// whose keys end with <c>_Override</c>.
+        /// Determines whether to merge existing styles with those whose <c>x:Key</c> is prefixed with <c>_Merge</c>.
         /// </summary>
-        void OverrideStylesInternal();
+        public bool MergeStyles { get; set; }
 
         void ApplyTheme(string theme);
 
