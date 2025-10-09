@@ -6,9 +6,9 @@ namespace Superdev.Maui.Converters
 {
     internal class PropertyErrorsToColorConverter : BindableObject, IValueConverter
     {
-        private Color NormalColor => (Color)Application.Current.Resources[ThemeConstants.Color.TextColorBright];
+        private static Color NormalColor => (Color)Application.Current.Resources[ThemeConstants.Color.TextColorBright];
 
-        private Color ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.Error];
+        private static Color ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.Error];
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -16,14 +16,14 @@ namespace Superdev.Maui.Converters
             var propertyErrors = (IEnumerable<string>)value;
             if (propertyErrors != null && propertyErrors.Any())
             {
-                color = this.ErrorColor;
+                color = ErrorColor;
             }
             else
             {
-                color = this.NormalColor;
+                color = NormalColor;
             }
 
-            Debug.WriteLine($"PropertyErrorsToColorConverter.Convert: color={color.ToHex()}");
+            // Debug.WriteLine($"PropertyErrorsToColorConverter.Convert: color={color.ToHex()}");
             return color;
         }
 
