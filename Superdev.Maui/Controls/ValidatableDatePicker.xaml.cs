@@ -198,6 +198,7 @@ namespace Superdev.Maui.Controls
         protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
+            // Debug.WriteLine($"ValidatableDatePicker.OnPropertyChanged: propertyName={propertyName}");
 
             if (propertyName == nameof(this.DatePicker.Format))
             {

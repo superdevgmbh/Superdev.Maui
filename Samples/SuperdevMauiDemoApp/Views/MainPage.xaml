@@ -202,8 +202,8 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="PickerDemoPage"
-                                Text="Picker" />
+                                CommandParameter="xxxDemoPage"
+                                Text="(unused)" />
                         </Grid>
                         <Grid
                             ColumnDefinitions="*,*"

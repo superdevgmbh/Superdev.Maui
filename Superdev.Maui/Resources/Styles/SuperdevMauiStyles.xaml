@@ -13,9 +13,9 @@
     xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Converters.xaml" />
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Spacing.xaml" />
+        <ResourceDictionary Source="Converters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Styles -->

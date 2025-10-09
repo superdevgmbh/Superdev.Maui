@@ -1,23 +1,30 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Converters
 {
     internal class PropertyErrorsToColorConverter : BindableObject, IValueConverter
     {
-        public object NormalColor => (Color)Application.Current.Resources[ThemeConstants.Color.TextColor];
+        private Color NormalColor => (Color)Application.Current.Resources[ThemeConstants.Color.TextColorBright];
 
-        public object ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.Error];
+        private Color ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.Error];
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            Color color;
             var propertyErrors = (IEnumerable<string>)value;
             if (propertyErrors != null && propertyErrors.Any())
             {
-                return this.ErrorColor;
+                color = this.ErrorColor;
+            }
+            else
+            {
+                color = this.NormalColor;
             }
 
-            return this.NormalColor;
+            Debug.WriteLine($"PropertyErrorsToColorConverter.Convert: color={color.ToHex()}");
+            return color;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
