@@ -16,10 +16,10 @@
                 <Label
                     Grid.Column="0"
                     Text="Theme.Spacing.Small" />
-                <Frame
+                <Border
                     Grid.Column="1"
                     HeightRequest="{DynamicResource Theme.Spacing.Small}"
-                    Style="{StaticResource LayoutBorderFrameStyle}" />
+                    Style="{StaticResource SpacingDemoBorderStyle}" />
             </Grid>
             <Grid
                 ColumnDefinitions="*,*"
@@ -28,10 +28,10 @@
                 <Label
                     Grid.Column="0"
                     Text="Theme.Spacing.Medium" />
-                <Frame
+                <Border
                     Grid.Column="1"
                     HeightRequest="{DynamicResource Theme.Spacing.Medium}"
-                    Style="{StaticResource LayoutBorderFrameStyle}" />
+                    Style="{StaticResource SpacingDemoBorderStyle}" />
             </Grid>
             <Grid
                 ColumnDefinitions="*,*"
@@ -40,10 +40,10 @@
                 <Label
                     Grid.Column="0"
                     Text="Theme.Spacing.Large" />
-                <Frame
+                <Border
                     Grid.Column="1"
                     HeightRequest="{DynamicResource Theme.Spacing.Large}"
-                    Style="{StaticResource LayoutBorderFrameStyle}" />
+                    Style="{StaticResource SpacingDemoBorderStyle}" />
             </Grid>
             <Grid
                 ColumnDefinitions="*,*"
@@ -52,10 +52,10 @@
                 <Label
                     Grid.Column="0"
                     Text="Theme.Spacing.CardSpacing" />
-                <Frame
+                <Border
                     Grid.Column="1"
                     HeightRequest="{DynamicResource Theme.Spacing.CardSpacing}"
-                    Style="{StaticResource LayoutBorderFrameStyle}" />
+                    Style="{StaticResource SpacingDemoBorderStyle}" />
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
