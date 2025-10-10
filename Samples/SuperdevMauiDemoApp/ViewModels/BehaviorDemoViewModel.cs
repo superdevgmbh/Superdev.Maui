@@ -9,6 +9,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IDialogService dialogService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private IAsyncRelayCommand appearingCommand;
+        private IAsyncRelayCommand disappearingCommand;
         private IAsyncRelayCommand buttonClickCommand;
 
         public BehaviorDemoViewModel(
@@ -22,6 +23,19 @@ namespace SuperdevMauiDemoApp.ViewModels
         public IAsyncRelayCommand AppearingCommand
         {
             get => this.appearingCommand ??= new AsyncRelayCommand(this.InitializeAsync);
+        }
+
+        public IAsyncRelayCommand DisappearingCommand
+        {
+            get => this.disappearingCommand ??= new AsyncRelayCommand(this.OnDisappearingAsync);
+        }
+
+        private async Task OnDisappearingAsync()
+        {
+            await this.dialogService.DisplayAlertAsync(
+                "Disappearing",
+                "Disappearing event has triggered DisappearingCommand",
+                "OK");
         }
 
         private async Task InitializeAsync()
