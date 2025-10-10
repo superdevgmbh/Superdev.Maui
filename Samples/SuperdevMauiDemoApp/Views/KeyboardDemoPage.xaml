@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.KeyboardDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:KeyboardDemoViewModel"
+    s:PageExtensions.HasKeyboardOffset="{Binding HasKeyboardOffset}"
+    AutomationId="KeyboardDemoPage"
+    Title="KeyboardDemoPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ToggleHasKeyboardOffsetCommand}"
+            Text="{Binding HasKeyboardOffset, StringFormat='{}HKO={0}'}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid RowDefinitions="*,Auto">
+            <ScrollView
+                Grid.Row="0"
+                BackgroundColor="Yellow">
+                <VerticalStackLayout
+                    Padding="{DynamicResource Theme.Padding.CardPadding}"
+                    Spacing="{DynamicResource Theme.Spacing.Medium}">
+                    <s:CardView>
+                        <VerticalStackLayout>
+                            <s:LabelSection Text="Keyboard Offset" />
+                            <s:HeaderDivider />
+                            <VerticalStackLayout
+                                Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                                BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleHasKeyboardOffsetCommand}" />
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <CheckBox IsChecked="{Binding HasKeyboardOffset}" />
+                                    <Label
+                                        Text="{Binding HasKeyboardOffset, StringFormat='{}HasKeyboardOffset={0}'}"
+                                        VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <s:FooterDivider />
+                        </VerticalStackLayout>
+                    </s:CardView>
+                    <s:CardView>
+                        <VerticalStackLayout>
+                            <s:LabelSection Text="Input Form" />
+                            <s:HeaderDivider />
+                            <VerticalStackLayout
+                                Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                                BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                                <Editor
+                                    MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                    Placeholder="Editor"
+                                    Text="{Binding Notes, Mode=TwoWay}" />
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                                    <Editor
+                                        Grid.Column="0"
+                                        MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                        Placeholder="Editor"
+                                        Text="{Binding Notes, Mode=TwoWay}" />
+                                    <Entry
+                                        Grid.Column="1"
+                                        MaxLength="{Binding NotesMaxLength, Mode=OneWay}"
+                                        Placeholder="Entry"
+                                        Text="{Binding Notes, Mode=TwoWay}" />
+                                </Grid>
+                            </VerticalStackLayout>
+                            <s:FooterDivider />
+                        </VerticalStackLayout>
+                    </s:CardView>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Grid
+                Grid.Row="1"
+                Padding="{DynamicResource Theme.Padding.Medium}"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="{DynamicResource Theme.Spacing.Medium}"
+                RowDefinitions="*">
+                <Entry
+                    Grid.Column="0"
+                    Placeholder="Entry" />
+                <Button
+                    Grid.Column="1"
+                    Text="Send" />
+            </Grid>
+        </Grid>
+
+        <s:PageActivityIndicator
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}"
+            Text="PageActivityIndicator Text"
+            Title="PageActivityIndicator Title" />
+
+        <s:ViewModelErrorControl
+            Grid.Row="0"
+            ViewModelError="{Binding ViewModelError}" />
+    </Grid>
+</ContentPage>

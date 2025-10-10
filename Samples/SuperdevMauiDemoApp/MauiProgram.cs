@@ -62,6 +62,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<TimePickerDemoViewModel>();
             builder.Services.AddTransient<EditorDemoPage>();
             builder.Services.AddTransient<EditorDemoViewModel>();
+            builder.Services.AddTransient<KeyboardDemoPage>();
+            builder.Services.AddTransient<KeyboardDemoViewModel>();
             builder.Services.AddTransient<SwitchDemoPage>();
             builder.Services.AddTransient<SwitchDemoViewModel>();
             builder.Services.AddTransient<CheckBoxDemoPage>();

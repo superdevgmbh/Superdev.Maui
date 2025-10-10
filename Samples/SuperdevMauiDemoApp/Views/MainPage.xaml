@@ -250,6 +250,16 @@
                             <s:CustomButton
                                 Grid.Column="0"
                                 Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="KeyboardDemoPage"
+                                Text="Keyboard" />
+
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                            <s:CustomButton
+                                Grid.Column="0"
+                                Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="ViewModelErrorDemoPage"
                                 Text="ViewModelError" />
                             <s:CustomButton
