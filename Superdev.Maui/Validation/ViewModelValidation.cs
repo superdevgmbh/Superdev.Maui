@@ -98,7 +98,7 @@ namespace Superdev.Maui.Validation
 
         private async Task ValidateProperty(string propertyName)
         {
-            Debug.WriteLine($"ValidateProperty(propertyName: \"{propertyName}\")");
+            // Debug.WriteLine($"ValidateProperty(propertyName: \"{propertyName}\")");
 
             if (this.errorMessages.TryGetValue(propertyName, out var message))
             {
