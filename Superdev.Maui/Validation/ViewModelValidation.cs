@@ -100,9 +100,9 @@ namespace Superdev.Maui.Validation
         {
             Debug.WriteLine($"ValidateProperty(propertyName: \"{propertyName}\")");
 
-            if (this.errorMessages.ContainsKey(propertyName))
+            if (this.errorMessages.TryGetValue(propertyName, out var message))
             {
-                this.errorMessages[propertyName].Clear();
+                message.Clear();
 
                 //foreach (var validation in this.validations.Where(v => v.PropertyNames.Contains(propertyName)))
                 //{
