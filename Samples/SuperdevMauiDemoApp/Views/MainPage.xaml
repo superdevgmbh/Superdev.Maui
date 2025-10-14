@@ -265,8 +265,8 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="CardViewPage"
-                                Text="CardViewPage" />
+                                CommandParameter="CardViewDemoPage"
+                                Text="CardView" />
                         </Grid>
 
                         <Label

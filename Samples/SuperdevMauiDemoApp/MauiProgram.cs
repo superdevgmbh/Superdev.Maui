@@ -40,8 +40,8 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<LabelDemoPage>();
             builder.Services.AddTransient<LabelDemoViewModel>();
-            builder.Services.AddTransient<CardViewPage>();
-            builder.Services.AddTransient<CardViewViewModel>();
+            builder.Services.AddTransient<CardViewDemoPage>();
+            builder.Services.AddTransient<CardViewDemoViewModel>();
             builder.Services.AddTransient<DrilldownButtonListPage>();
             builder.Services.AddTransient<DrilldownButtonListViewModel>();
             builder.Services.AddTransient<EntryDemoPage>();
