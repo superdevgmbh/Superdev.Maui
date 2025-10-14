@@ -7,13 +7,13 @@ namespace Superdev.Maui.Localization
     [ContentProperty("Text")]
     public class TranslateExtension : BindableObject, IMarkupExtension<BindingBase>
     {
-        private static ILocalizer localizer = new NullLocalizer();
-        private static ITranslationProvider translationProvider = new NullTranslationProvider();
+        private static ILocalizer Localizer = new NullLocalizer();
+        private static ITranslationProvider TranslationProvider = new NullTranslationProvider();
 
         public static void Init(ILocalizer localizer, ITranslationProvider translationProvider)
         {
-            TranslateExtension.localizer = localizer;
-            TranslateExtension.translationProvider = translationProvider;
+            Localizer = localizer;
+            TranslationProvider = translationProvider;
         }
 
         public string Text { get; set; }
@@ -22,7 +22,7 @@ namespace Superdev.Maui.Localization
         {
             var binding = new Binding(nameof(TranslationData.Value))
             {
-                Source = new TranslationData(this.Text, localizer, translationProvider)
+                Source = new TranslationData(this.Text, Localizer, TranslationProvider)
             };
             return binding;
         }
