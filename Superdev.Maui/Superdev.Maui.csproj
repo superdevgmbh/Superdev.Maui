@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-android;net8.0-ios17.0;net9.0;net9.0-android;net9.0-ios18.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net8.0-android;net8.0-ios18.0;net9.0;net9.0-android;net9.0-ios18.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <UseMaui>true</UseMaui>
     <MauiVersion Condition="$(TargetFramework.Contains('net8.0'))">8.0.3</MauiVersion>
