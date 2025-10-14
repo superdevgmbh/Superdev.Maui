@@ -9,13 +9,13 @@ namespace Superdev.Maui.Controls
 
         static EmbeddedResourceExtension()
         {
-            Assembly = Assembly.GetEntryAssembly();
+            Assembly = Assembly.GetCallingAssembly();
         }
 
         public static void Init(Assembly assembly)
         {
             ArgumentNullException.ThrowIfNull(assembly);
-            
+
             Assembly = assembly;
         }
 
@@ -24,6 +24,11 @@ namespace Superdev.Maui.Controls
         public virtual object ProvideValue(IServiceProvider serviceProvider)
         {
             if (this.Name == null)
+            {
+                return null;
+            }
+
+            if (Assembly == null)
             {
                 return null;
             }
