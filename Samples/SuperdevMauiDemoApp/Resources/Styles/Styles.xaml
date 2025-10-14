@@ -13,4 +13,18 @@
         <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
     </Style>
 
+    <!-- Entry -->
+    <Style
+        x:Key="EntryStyle_Merge"
+        TargetType="Picker">
+        <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
+    </Style>
+
+    <!-- Editor -->
+    <Style
+        x:Key="EditorStyle_Merge"
+        TargetType="Picker">
+        <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
+    </Style>
+
 </ResourceDictionary>

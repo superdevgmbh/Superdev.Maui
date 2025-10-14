@@ -1,10 +1,21 @@
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Superdev.Maui.Controls;
 using UIKit;
+
+using MauiDoneAccessoryView = Superdev.Maui.Platforms.Controls.MauiDoneAccessoryView;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
+    using PM = PropertyMapper<Editor, EditorHandler>;
+
     public class EditorHandler : Microsoft.Maui.Handlers.EditorHandler
     {
+        public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.EditorHandler.Mapper)
+        {
+            [nameof(DialogExtensions.DoneButtonText)] = UpdateDoneButtonText,
+        };
+
         public EditorHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
@@ -13,6 +24,39 @@ namespace Superdev.Maui.Platforms.Handlers
         public EditorHandler()
             : base(Mapper)
         {
+        }
+
+        private new Editor VirtualView => (Editor)base.VirtualView;
+
+        protected override MauiTextView CreatePlatformView()
+        {
+            var mauiTextView = base.CreatePlatformView();
+
+            var inputAccessoryView = new MauiDoneAccessoryView();
+            inputAccessoryView.SetDataContext(this);
+            inputAccessoryView.SetDoneClicked(this.OnDoneClicked);
+
+            mauiTextView.InputAccessoryView = inputAccessoryView;
+
+            return mauiTextView;
+        }
+
+        private void OnDoneClicked(object _)
+        {
+            this.PlatformView.ResignFirstResponder();
+            this.VirtualView.SendCompleted();
+        }
+
+        private static void UpdateDoneButtonText(EditorHandler editorHandler, Editor editor)
+        {
+            if (editorHandler.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
+            {
+                var doneButtonText = DialogExtensions.GetDoneButtonText(editor);
+                if (doneButtonText != null)
+                {
+                    mauiDoneAccessoryView.SetDoneText(doneButtonText);
+                }
+            }
         }
 
         protected override void ConnectHandler(MauiTextView platformView)
@@ -24,7 +68,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void FixScrollingIssue()
         {
-            var editor = (Editor)this.VirtualView;
+            var editor = this.VirtualView;
             if (editor.AutoSize == EditorAutoSizeOption.TextChanges)
             {
                 this.PlatformView.ScrollEnabled = false;
