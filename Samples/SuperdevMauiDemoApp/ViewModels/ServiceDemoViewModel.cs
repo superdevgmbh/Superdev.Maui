@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
+using IBrowser = Superdev.Maui.Services.IBrowser;
 using IDeviceInfo = Superdev.Maui.Services.IDeviceInfo;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -15,6 +16,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IDeviceInfo deviceInfo;
         private readonly IThemeHelper themeHelper;
         private readonly IDialogService dialogService;
+        private readonly IBrowser browser;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
         private IRelayCommand showGeolocationSettingsCommand;
@@ -33,6 +35,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private IRelayCommand resetThemeCommand;
         private IAsyncRelayCommand displayAlertCommand;
         private IAsyncRelayCommand displayActionSheetCommand;
+        private IAsyncRelayCommand tryOpenUrlCommand;
 
         public ServiceDemoViewModel(
             ILogger<ServiceDemoViewModel> logger,
@@ -41,6 +44,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             IDeviceInfo deviceInfo,
             IThemeHelper themeHelper,
             IDialogService dialogService,
+            IBrowser browser,
             IViewModelErrorHandler viewModelErrorHandler)
         {
             this.logger = logger;
@@ -49,6 +53,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.deviceInfo = deviceInfo;
             this.themeHelper = themeHelper;
             this.dialogService = dialogService;
+            this.browser = browser;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             this.AppThemes = new[]
@@ -255,6 +260,17 @@ namespace SuperdevMauiDemoApp.ViewModels
         private void ShowGeolocationSettings()
         {
             this.geolocationSettings.ShowSettingsUI();
+        }
+
+        public IAsyncRelayCommand TryOpenUrlCommand
+        {
+            get => this.tryOpenUrlCommand ??= new AsyncRelayCommand(this.TryOpenUrlAsync);
+        }
+
+        private async Task TryOpenUrlAsync()
+        {
+            var result = await this.browser.TryOpenAsync("https://www.github.com/thomasgalliker");
+            this.logger.LogDebug($"TryOpenUrlAsync: result={result}");
         }
     }
 }

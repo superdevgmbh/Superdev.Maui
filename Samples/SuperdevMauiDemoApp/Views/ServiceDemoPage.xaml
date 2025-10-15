@@ -86,6 +86,12 @@
             <Button
                 Command="{Binding ShowGeolocationSettingsCommand}"
                 Text="ShowSettingsUI" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="IBrowser" />
+            <Button
+                Command="{Binding TryOpenUrlCommand}"
+                Text="TryOpenAsync" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

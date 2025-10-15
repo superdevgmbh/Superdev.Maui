@@ -20,6 +20,7 @@ using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
+using IBrowser = Superdev.Maui.Services.IBrowser;
 
 namespace Superdev.Maui
 {
@@ -123,6 +124,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
             builder.Services.AddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
             builder.Services.AddSingleton<IFontConverter>(_ => IFontConverter.Current);
+            builder.Services.AddSingleton<IBrowser>(_ => IBrowser.Current);
             builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             builder.Services.AddSingleton<IPageResolver, PageResolver>();
 
