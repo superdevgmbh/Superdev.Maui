@@ -62,6 +62,9 @@
 
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    
+    <!-- Embedded Resources -->
+    <EmbeddedResource Include="Resources\EmbeddedResources\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <!-- Android build properties -->

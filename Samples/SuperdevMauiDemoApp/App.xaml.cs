@@ -11,6 +11,7 @@ namespace SuperdevMauiDemoApp
     {
         public App()
         {
+            EmbeddedResourceExtension.Init(typeof(App).Assembly);
             this.InitializeComponent();
 
             var themeHelper = IThemeHelper.Current;
