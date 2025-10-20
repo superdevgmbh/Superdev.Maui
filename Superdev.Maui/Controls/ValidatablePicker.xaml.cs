@@ -264,6 +264,9 @@ namespace Superdev.Maui.Controls
                     selectedItemText = selectedItemValue?.ToString();
                     return true;
                 }
+
+                selectedItemText = selectedItem.ToString();
+                return true;
             }
 
             selectedItemText = null;
