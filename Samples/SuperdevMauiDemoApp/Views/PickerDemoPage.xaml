@@ -95,12 +95,12 @@
                             Spacing="{DynamicResource Theme.Spacing.Medium}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker with ItemsSource=string[]" />
+                                Text="ValidatablePicker with ItemsSource=int[] and ItemDisplayName=." />
                             <s:ValidatablePicker
                                 DisplayMemberPath="."
-                                ItemsSource="{Binding StringValues}"
-                                Placeholder="Please select"
-                                SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
+                                ItemsSource="{Binding IntValues}"
+                                Placeholder="Select int value"
+                                SelectedItem="{Binding SelectedInt, Mode=TwoWay}" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
@@ -108,7 +108,7 @@
                             <s:ValidatablePicker
                                 DisplayMemberPath="."
                                 ItemsSource="{Binding StringValues}"
-                                Placeholder="Please select"
+                                Placeholder="Select string value"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
 
                             <Label

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
@@ -13,6 +14,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class PickerDemoViewModel : BaseViewModel
     {
+        private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
@@ -29,19 +31,23 @@ namespace SuperdevMauiDemoApp.ViewModels
         private TimeSpan? patentEndTime;
         private DateRange patentValidityRange;
         private IRelayCommand toggleIsReadonlyCommand;
+        private int selectedInt;
 
         public PickerDemoViewModel(
+            ILogger<PickerDemoViewModel> logger,
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
             ICountryService countryService,
             IDateTime dateTime)
         {
+            this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
             this.countryService = countryService;
             this.dateTime = dateTime;
 
-            this.StringValues = new ObservableCollection<string>
+            this.IntValues = Enumerable.Range(0, 100).ToArray();
+            this.StringValues = new []
             {
                 null,
                 "String 1",
@@ -95,7 +101,21 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.IsBusy = false;
         }
 
-        public ObservableCollection<string> StringValues { get; set; }
+        public int[] IntValues { get; private set; }
+
+        public int SelectedInt
+        {
+            get => this.selectedInt;
+            set
+            {
+                if (this.SetProperty(ref this.selectedInt, value))
+                {
+                    this.logger.LogDebug($"SelectedInt={value}");
+                }
+            }
+        }
+
+        public string[] StringValues { get; private set; }
 
         public string SelectedString
         {
@@ -104,8 +124,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.selectedString, value))
                 {
-                    // this.logger.Debug()
-                    //this.dialogService.DisplayAlertAsync("SelectedString", $"value={value}", "OK");
+                    this.logger.LogDebug($"SelectedString={value ?? "null"}");
                 }
             }
         }

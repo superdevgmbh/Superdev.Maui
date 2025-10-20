@@ -54,8 +54,9 @@ namespace Superdev.Maui.Controls
         {
             get
             {
-                if ((this.SelectedIndex != SelectedIndexDefaultValue && TryGetSelectedItemText(this.Picker, this.SelectedItem, out var selectedItemText) && selectedItemText != null) ||
-                    this.IsReadonly)
+                if (this.IsReadonly || (this.SelectedIndex != SelectedIndexDefaultValue &&
+                                        TryGetSelectedItemText(this.Picker, this.SelectedItem, out var selectedItemText) &&
+                                        selectedItemText != null))
                 {
                     return this.Placeholder;
                 }
