@@ -126,8 +126,8 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
             builder.Services.AddSingleton<IFontConverter>(_ => IFontConverter.Current);
             builder.Services.AddSingleton<IBrowser>(_ => IBrowser.Current);
-            builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
-            builder.Services.AddSingleton<IPageResolver, PageResolver>();
+            builder.Services.AddSingleton<INavigationService>(_ => INavigationService.Current);
+            builder.Services.AddSingleton<IPageResolver>(_ => IPageResolver.Current);
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 

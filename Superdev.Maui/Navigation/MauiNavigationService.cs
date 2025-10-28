@@ -5,10 +5,20 @@ namespace Superdev.Maui.Navigation
 {
     public class MauiNavigationService : INavigationService
     {
+        private static readonly Lazy<INavigationService> Implementation = new Lazy<INavigationService>(CreateInstance, LazyThreadSafetyMode.PublicationOnly);
+
+        public static INavigationService Current => Implementation.Value;
+
+        private static INavigationService CreateInstance()
+        {
+            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<MauiNavigationService>>();
+            return new MauiNavigationService(logger, IPageResolver.Current);
+        }
+
         private readonly ILogger logger;
         private readonly IPageResolver pageResolver;
 
-        public MauiNavigationService(
+        internal MauiNavigationService(
             ILogger<MauiNavigationService> logger,
             IPageResolver pageResolver)
         {

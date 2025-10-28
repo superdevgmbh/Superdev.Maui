@@ -3,6 +3,11 @@
     public interface INavigationService
     {
         /// <summary>
+        /// Gets the singleton instance of <see cref="INavigationService"/>.
+        /// </summary>
+        public static INavigationService Current => MauiNavigationService.Current;
+
+        /// <summary>
         /// Pushes the given <paramref name="page"/> to the navigation stack.
         /// </summary>
         Task PushAsync(string page, bool animated = true);
