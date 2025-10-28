@@ -1,4 +1,4 @@
-﻿namespace Superdev.Maui.Services
+﻿namespace Superdev.Maui.Navigation
 {
     public interface INavigationService
     {
@@ -8,9 +8,19 @@
         Task PushAsync(string page, bool animated = true);
 
         /// <summary>
+        /// Pushes the given <paramref name="page"/> with parameter <paramref name="parameter"/> to the navigation stack.
+        /// </summary>
+        Task PushAsync<T>(string page, T parameter, bool animated = true);
+
+        /// <summary>
         /// Pushes the given <paramref name="page"/> to the navigation stack in a modal context.
         /// </summary>
         Task PushModalAsync(string page, bool animated = true);
+
+        /// <summary>
+        /// Pushes the given <paramref name="page"/> with parameter <paramref name="parameter"/> to the navigation stack in a modal context.
+        /// </summary>
+        Task PushModalAsync<T>(string page, T parameter, bool animated = true);
 
         /// <summary>
         /// Pops back from the current page.
@@ -37,5 +47,7 @@
         /// Replaces the current root page with <paramref name="page"/>.
         /// </summary>
         Task NavigateAsync(string page, bool animated = true);
+
+        INavigation Navigation { get; }
     }
 }

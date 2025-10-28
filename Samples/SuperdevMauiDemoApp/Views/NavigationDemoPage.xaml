@@ -26,6 +26,9 @@
             <Button
                 Command="{Binding PopCommand}"
                 Text="PopAsync" />
+            <Button
+                Command="{Binding PopToRootCommand}"
+                Text="PopToRootAsync" />
             <Label
                 Style="{StaticResource DemoLabelStyle}"
                 Text="Modal Navigation" />

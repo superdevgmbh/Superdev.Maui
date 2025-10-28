@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 
-namespace Superdev.Maui.Services
+namespace Superdev.Maui.Navigation
 {
     public class PageResolver : IPageResolver
     {

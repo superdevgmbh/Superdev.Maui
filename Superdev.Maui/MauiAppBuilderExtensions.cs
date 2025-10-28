@@ -18,6 +18,7 @@ using Superdev.Maui.Controls;
 using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
 using IBrowser = Superdev.Maui.Services.IBrowser;

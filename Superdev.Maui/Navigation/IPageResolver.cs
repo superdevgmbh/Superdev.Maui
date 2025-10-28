@@ -1,4 +1,4 @@
-namespace Superdev.Maui.Services
+namespace Superdev.Maui.Navigation
 {
     public interface IPageResolver
     {

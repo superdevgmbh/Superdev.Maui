@@ -7,6 +7,7 @@ using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;

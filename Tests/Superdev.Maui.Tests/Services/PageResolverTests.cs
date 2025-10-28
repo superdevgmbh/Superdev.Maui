@@ -1,3 +1,4 @@
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Services;
 using Superdev.Maui.Tests.Extensions;
 using Xunit.Abstractions;
