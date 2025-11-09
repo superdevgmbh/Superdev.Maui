@@ -2,11 +2,14 @@ namespace Superdev.Maui.Controls
 {
     public static class DialogExtensions
     {
-        public const string DoneButtonText = "DoneButtonText";
-        public const string PositiveButtonText = "PositiveButtonText";
-        public const string NegativeButtonText = "NegativeButtonText";
-        public const string NeutralButtonText = "NeutralButtonText";
+        public const string DoneButtonText = "DoneButtonText";          // --> DoneButtonText
+        public const string PositiveButtonText = "PositiveButtonText";  // --> OkButtonText
+        public const string NegativeButtonText = "NegativeButtonText";  // --> CancelButtonText
+        public const string NeutralButtonText = "NeutralButtonText";    // --> ClearButtonText
 
+        /// <summary>
+        /// The picker/dialog button text used for "done" buttons.
+        /// </summary>
         public static readonly BindableProperty DoneButtonTextProperty =
             BindableProperty.CreateAttached(
                 DoneButtonText,
@@ -24,6 +27,9 @@ namespace Superdev.Maui.Controls
             view.SetValue(DoneButtonTextProperty, value);
         }
 
+        /// <summary>
+        /// The picker/dialog button text used for "cancel" buttons.
+        /// </summary>
         public static readonly BindableProperty NegativeButtonTextProperty =
             BindableProperty.CreateAttached(
                 NegativeButtonText,
@@ -41,6 +47,9 @@ namespace Superdev.Maui.Controls
             view.SetValue(NegativeButtonTextProperty, value);
         }
 
+        /// <summary>
+        /// The picker/dialog button text used for "OK" buttons.
+        /// </summary>
         public static readonly BindableProperty PositiveButtonTextProperty =
             BindableProperty.CreateAttached(
                 PositiveButtonText,
@@ -58,6 +67,9 @@ namespace Superdev.Maui.Controls
             view.SetValue(PositiveButtonTextProperty, value);
         }
 
+        /// <summary>
+        /// The picker/dialog button text used for "clear" buttons.
+        /// </summary>
         public static readonly BindableProperty NeutralButtonTextProperty =
             BindableProperty.CreateAttached(
                 NeutralButtonText,
