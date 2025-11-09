@@ -13,7 +13,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.DatePickerHandler.Mapper)
         {
-            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+            [DialogExtensions.DoneButtonText] = MapDoneButtonText,
         };
 
         public DatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -48,7 +48,7 @@ namespace Superdev.Maui.Platforms.Handlers
             UIToolbarHelper.ReplaceDoneButton(mauiDatePicker.InputAccessoryView, newDoneButton);
         }
 
-        private static void UpdateDoneButtonText(DatePickerHandler datePickerHandler, DatePicker datePicker)
+        private static void MapDoneButtonText(DatePickerHandler datePickerHandler, DatePicker datePicker)
         {
             var mauiDatePicker = datePickerHandler.PlatformView;
             datePickerHandler.UpdateDoneButton(mauiDatePicker);

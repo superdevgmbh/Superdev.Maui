@@ -1,4 +1,3 @@
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.iOS.Utils;
@@ -12,7 +11,7 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.TimePickerHandler.Mapper)
         {
-            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+            [DialogExtensions.DoneButtonText] = MapDoneButtonText,
         };
 
         public TimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -45,7 +44,7 @@ namespace Superdev.Maui.Platforms.Handlers
             UIToolbarHelper.ReplaceDoneButton(mauiDatePicker.InputAccessoryView, newDoneButton);
         }
 
-        private static void UpdateDoneButtonText(TimePickerHandler timePickerHandler, TimePicker timePicker)
+        private static void MapDoneButtonText(TimePickerHandler timePickerHandler, TimePicker timePicker)
         {
             var mauiTimePicker = timePickerHandler.PlatformView;
             timePickerHandler.UpdateDoneButton(mauiTimePicker);

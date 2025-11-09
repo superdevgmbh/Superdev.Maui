@@ -11,7 +11,7 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PickerHandler.Mapper)
         {
-            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+            [DialogExtensions.DoneButtonText] = MapDoneButtonText,
         };
 
         public PickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -44,7 +44,7 @@ namespace Superdev.Maui.Platforms.Handlers
             ReflectionHelper.RunMethod(this, "OnDone");
         }
 
-        private static void UpdateDoneButtonText(PickerHandler pickerHandler, Picker picker)
+        private static void MapDoneButtonText(PickerHandler pickerHandler, Picker picker)
         {
             if (pickerHandler.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
             {

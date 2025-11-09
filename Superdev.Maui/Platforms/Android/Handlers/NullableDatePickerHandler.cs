@@ -12,11 +12,11 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(DatePickerHandler.Mapper)
         {
-            [nameof(DatePicker.Format)] = UpdateFormat,
-            [nameof(DatePicker.Date)] = UpdateDate,
-            [nameof(NullableDatePicker.NullableDate)] = UpdateNullableDate,
-            [nameof(NullableDatePicker.Placeholder)] = UpdatePlaceholder,
-            [nameof(NullableDatePicker.PlaceholderColor)] = UpdatePlaceholderColor
+            [nameof(DatePicker.Format)] = MapFormat,
+            [nameof(DatePicker.Date)] = MapDate,
+            [nameof(NullableDatePicker.NullableDate)] = MapNullableDate,
+            [nameof(NullableDatePicker.Placeholder)] = MapPlaceholder,
+            [nameof(NullableDatePicker.PlaceholderColor)] = MapPlaceholderColor
         };
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
@@ -47,12 +47,12 @@ namespace Superdev.Maui.Platforms.Handlers
             return dialog;
         }
 
-        private static void UpdatePlaceholder(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        private static void MapPlaceholder(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
             datePickerHandler.PlatformView.Hint = nullableDatePicker.Placeholder;
         }
 
-        private static void UpdatePlaceholderColor(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        private static void MapPlaceholderColor(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
             if (nullableDatePicker.PlaceholderColor is Color placeholderColor)
             {
@@ -60,17 +60,17 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static void UpdateFormat(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        private static void MapFormat(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
             SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
         }
 
-        private static void UpdateDate(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        private static void MapDate(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
             SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
         }
 
-        private static void UpdateNullableDate(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        private static void MapNullableDate(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
         {
             SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
         }

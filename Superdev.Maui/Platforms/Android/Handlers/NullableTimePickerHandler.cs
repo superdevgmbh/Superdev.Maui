@@ -14,11 +14,11 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(TimePickerHandler.Mapper)
         {
-            [nameof(TimePicker.Format)] = UpdateFormat,
-            [nameof(TimePicker.Time)] = UpdateTime,
-            [nameof(NullableTimePicker.NullableTime)] = UpdateNullableTime,
-            [nameof(NullableTimePicker.Placeholder)] = UpdatePlaceholder,
-            [nameof(NullableTimePicker.PlaceholderColor)] = UpdatePlaceholderColor
+            [nameof(TimePicker.Format)] = MapFormat,
+            [nameof(TimePicker.Time)] = MapTime,
+            [nameof(NullableTimePicker.NullableTime)] = MapNullableTime,
+            [nameof(NullableTimePicker.Placeholder)] = MapPlaceholder,
+            [nameof(NullableTimePicker.PlaceholderColor)] = MapPlaceholderColor
         };
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
@@ -44,12 +44,12 @@ namespace Superdev.Maui.Platforms.Handlers
             return dialog;
         }
 
-        private static void UpdatePlaceholder(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
+        private static void MapPlaceholder(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
         {
             datePickerHandler.PlatformView.Hint = nullableTimePicker.Placeholder;
         }
 
-        private static void UpdatePlaceholderColor(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
+        private static void MapPlaceholderColor(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
         {
             if (nullableTimePicker.PlaceholderColor is Color placeholderColor)
             {
@@ -57,17 +57,17 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static void UpdateFormat(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
+        private static void MapFormat(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
         {
             SetNullableText(datePickerHandler.PlatformView, nullableTimePicker);
         }
 
-        private static void UpdateTime(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
+        private static void MapTime(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
         {
             SetNullableText(datePickerHandler.PlatformView, nullableTimePicker);
         }
 
-        private static void UpdateNullableTime(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
+        private static void MapNullableTime(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
         {
             SetNullableText(datePickerHandler.PlatformView, nullableTimePicker);
         }
