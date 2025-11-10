@@ -86,6 +86,7 @@
                 RowDefinitions="*">
                 <Entry
                     Grid.Column="0"
+                    s:DialogExtensions.DoneButtonText="{x:Null}"
                     Placeholder="Entry" />
                 <Button
                     Grid.Column="1"

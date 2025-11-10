@@ -1,7 +1,6 @@
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Utils;
-using MauiDoneAccessoryView = Superdev.Maui.Platforms.Controls.MauiDoneAccessoryView;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -9,6 +8,8 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class PickerHandler : Microsoft.Maui.Handlers.PickerHandler
     {
+        private MauiDoneAccessoryView inputAccessoryView;
+
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PickerHandler.Mapper)
         {
             [DialogExtensions.DoneButtonText] = MapDoneButtonText,
@@ -30,30 +31,11 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             var mauiPicker = base.CreatePlatformView();
 
-            var inputAccessoryView = new MauiDoneAccessoryView();
-            inputAccessoryView.SetDataContext(this);
-            inputAccessoryView.SetDoneClicked(this.OnDoneClicked);
-
-            mauiPicker.InputAccessoryView = inputAccessoryView;
+            this.inputAccessoryView = new MauiDoneAccessoryView();
+            this.inputAccessoryView.SetDoneButtonAction(this.OnDoneClicked);
+            mauiPicker.InputAccessoryView = this.inputAccessoryView;
 
             return mauiPicker;
-        }
-
-        private void OnDoneClicked(object obj)
-        {
-            ReflectionHelper.RunMethod(this, "OnDone");
-        }
-
-        private static void MapDoneButtonText(PickerHandler pickerHandler, Picker picker)
-        {
-            if (pickerHandler.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
-            {
-                var doneButtonText = DialogExtensions.GetDoneButtonText(picker);
-                if (doneButtonText != null)
-                {
-                    mauiDoneAccessoryView.SetDoneText(doneButtonText);
-                }
-            }
         }
 
         protected override void ConnectHandler(MauiPicker platformView)
@@ -68,18 +50,33 @@ namespace Superdev.Maui.Platforms.Handlers
         // TODO: React on theme change to update tint color of InputAccessoryView
         // private void OnThemeChanged(object sender, AppTheme e)
         // {
-        //     if (this.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
-        //     {
-        //         var tintColor = UIBarButtonItem.AppearanceWhenContainedIn(typeof(UIToolbar)).TintColor;
-        //         mauiDoneAccessoryView.TintColor = tintColor;
-        //         mauiDoneAccessoryView.SetNeedsDisplay();
-        //     }
         // }
 
         protected override void DisconnectHandler(MauiPicker platformView)
         {
+            platformView.InputAccessoryView = null;
+            this.inputAccessoryView?.Dispose();
+            this.inputAccessoryView = null;
+
             // ThemeHelper.Current.ThemeChanged -= this.OnThemeChanged;
             base.DisconnectHandler(platformView);
+        }
+
+        private void OnDoneClicked()
+        {
+            ReflectionHelper.RunMethod(this, "OnDone");
+        }
+
+        private static void MapDoneButtonText(PickerHandler pickerHandler, Picker picker)
+        {
+            pickerHandler.DoneButtonText(picker);
+        }
+
+        private void DoneButtonText(Picker picker)
+        {
+            var doneButtonText = DialogExtensions.GetDoneButtonText(picker);
+            var mauiPicker = this.PlatformView;
+            mauiPicker.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
     }
 }

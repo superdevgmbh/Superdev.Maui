@@ -150,6 +150,12 @@ namespace Superdev.Maui.Utils
             return methodInfo.Invoke(target, parameters);
         }
 
+        public static TDelegate GetMethodDelegate<TDelegate>(object target, string methodName) where TDelegate : Delegate
+        {
+            var methodInfo = GetMethodInfo(target.GetType(), methodName);
+            return (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), target, methodInfo);
+        }
+
         // Generic version to avoid casting manually
         public static T RunMethod<T>(object target, string methodName, params object[] parameters)
         {

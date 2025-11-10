@@ -1,6 +1,5 @@
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Platforms.iOS.Utils;
 using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
@@ -9,7 +8,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class DatePickerHandler : Microsoft.Maui.Handlers.DatePickerHandler
     {
-        protected MauiDatePicker mauiDatePicker;
+        protected MauiDoneAccessoryView inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.DatePickerHandler.Mapper)
         {
@@ -28,30 +27,17 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private new DatePicker VirtualView => (DatePicker)base.VirtualView;
 
-        protected UIDatePicker Picker { get => this.mauiDatePicker.InputView as UIDatePicker; }
+        protected UIDatePicker Picker => this.PlatformView.InputView as UIDatePicker;
 
         protected override MauiDatePicker CreatePlatformView()
         {
-            this.mauiDatePicker = base.CreatePlatformView();
-            this.SetupUIToolbar(this.mauiDatePicker);
-            return this.mauiDatePicker;
-        }
+            var mauiDatePicker = base.CreatePlatformView();
 
-        protected virtual void SetupUIToolbar(MauiDatePicker mauiDatePicker)
-        {
-            this.UpdateDoneButton(mauiDatePicker);
-        }
+            this.inputAccessoryView = new MauiDoneAccessoryView();
+            this.inputAccessoryView.SetDoneButtonAction(this.HandleDoneButton);
+            mauiDatePicker.InputAccessoryView = this.inputAccessoryView;
 
-        protected virtual void UpdateDoneButton(MauiDatePicker mauiDatePicker)
-        {
-            var newDoneButton = UIToolbarHelper.CreateDoneButton(this.VirtualView, (_, _) => { });
-            UIToolbarHelper.ReplaceDoneButton(mauiDatePicker.InputAccessoryView, newDoneButton);
-        }
-
-        private static void MapDoneButtonText(DatePickerHandler datePickerHandler, DatePicker datePicker)
-        {
-            var mauiDatePicker = datePickerHandler.PlatformView;
-            datePickerHandler.UpdateDoneButton(mauiDatePicker);
+            return mauiDatePicker;
         }
 
         protected override void ConnectHandler(MauiDatePicker platformView)
@@ -59,6 +45,46 @@ namespace Superdev.Maui.Platforms.Handlers
             base.ConnectHandler(platformView);
 
             platformView.EditingDidEnd += this.OnEditingDidEnd;
+        }
+
+        protected override void DisconnectHandler(MauiDatePicker platformView)
+        {
+            platformView.EditingDidEnd -= this.OnEditingDidEnd;
+
+            platformView.InputAccessoryView = null;
+            this.inputAccessoryView?.Dispose();
+            this.inputAccessoryView = null;
+
+            base.DisconnectHandler(platformView);
+        }
+
+        private void HandleDoneButton()
+        {
+            var datePicker = this.VirtualView;
+            var uiDatePicker = this.Picker;
+
+            if (datePicker == null || uiDatePicker == null)
+            {
+                return;
+            }
+
+            var date = uiDatePicker.Date.ToDateTime().Date;
+            datePicker.Date = date;
+
+            var mauiDatePicker = this.PlatformView;
+            mauiDatePicker.ResignFirstResponder();
+        }
+
+        private static void MapDoneButtonText(DatePickerHandler datePickerHandler, DatePicker datePicker)
+        {
+            datePickerHandler.DoneButtonText(datePicker);
+        }
+
+        private void DoneButtonText(DatePicker datePicker)
+        {
+            var doneButtonText = DialogExtensions.GetDoneButtonText(datePicker);
+            var mauiDatePicker = this.PlatformView;
+            mauiDatePicker.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
         private void OnEditingDidEnd(object sender, EventArgs e)
@@ -72,14 +98,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected virtual void OnEditingDidEnd(DateTime date)
         {
-            this.VirtualView.Date = date;
+            var datePicker = this.VirtualView;
+            datePicker.Date = date;
         }
 
-        protected override void DisconnectHandler(MauiDatePicker platformView)
-        {
-            platformView.EditingDidEnd -= this.OnEditingDidEnd;
-
-            base.DisconnectHandler(platformView);
-        }
     }
 }

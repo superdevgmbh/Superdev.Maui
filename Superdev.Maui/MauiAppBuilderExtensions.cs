@@ -73,6 +73,7 @@ namespace Superdev.Maui
                 handlers.AddHandler(typeof(Editor), typeof(EditorHandler));
                 handlers.AddHandler(typeof(ScrollView), typeof(ScrollViewFixHandler));
                 handlers.AddHandler(typeof(NavigationPage), typeof(NavigationRenderer));
+                handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
 #endif
             })
             .ConfigureEffects(effects =>

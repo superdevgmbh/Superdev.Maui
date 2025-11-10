@@ -5,100 +5,127 @@ using UIKit;
 namespace Superdev.Maui.Platforms.Controls
 {
     /// <summary>
-    ///     Source: https://github.com/dotnet/maui/blob/main/src/Core/src/Platform/iOS/MauiDoneAccessoryView.cs#L8
+    ///     Source: https://github.com/dotnet/maui/blob/main/src/Core/src/Platform/iOS/MauiDoneAccessoryView.cs
     /// </summary>
-    internal sealed class MauiDoneAccessoryView : UIToolbar
+    public sealed class MauiDoneAccessoryView : UIToolbar
     {
-        private readonly BarButtonItemProxy proxy;
+        private Action doneAction;
+        private Action clearAction;
+        private UIBarButtonItem doneButton;
+        private UIBarButtonItem clearButton;
+        private static readonly UIBarButtonItem FlexibleSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
 
         public MauiDoneAccessoryView()
+            : this(done: null)
+        {
+        }
+
+        public MauiDoneAccessoryView(Action done)
             : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 44))
         {
-            this.proxy = new BarButtonItemProxy();
+            this.doneAction = done;
             this.BarStyle = UIBarStyle.Default;
             this.Translucent = true;
+            this.AutoresizingMask = UIViewAutoresizing.FlexibleHeight;
+
             var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, this.proxy.OnDataClicked);
+            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, this.OnDoneButtonClicked);
             this.SetItems([spacer, doneButton], false);
         }
 
-        internal void SetDoneClicked(Action<object> value)
+        public void SetDoneButtonAction(Action done)
         {
-            this.proxy.SetDoneClicked(value);
+            this.doneAction = done;
         }
 
-        internal void SetDoneText(string text)
+        private void OnDoneButtonClicked(object sender, EventArgs e)
         {
-            var doneButton = this.Items.LastOrDefault(i => i.Style == UIBarButtonItemStyle.Done);
-            if (doneButton != null)
-            {
-                var newDoneButton = new UIBarButtonItem(text, UIBarButtonItemStyle.Done, this.proxy.OnDataClicked);
-                var newItems = this.Items.Replace(doneButton, newDoneButton);
+            this.doneAction?.Invoke();
+        }
 
-                this.SetItems(newItems, false);
-                this.SetNeedsDisplay();
+        public void SetClearButtonAction(Action clear)
+        {
+            this.clearAction = clear;
+        }
+
+        private void OnClearButtonClicked(object sender, EventArgs e)
+        {
+            this.clearAction?.Invoke();
+        }
+
+        public void SetDoneButtonText(string text)
+        {
+            this.doneButton = !string.IsNullOrEmpty(text)
+                ? new UIBarButtonItem(text, UIBarButtonItemStyle.Done, this.OnDoneButtonClicked)
+                : null;
+            this.RefreshItems();
+        }
+
+        public void SetClearButtonText(string text)
+        {
+            this.clearButton = !string.IsNullOrEmpty(text)
+                ? new UIBarButtonItem(text, UIBarButtonItemStyle.Plain, this.OnClearButtonClicked)
+                : null;
+            this.RefreshItems();
+        }
+
+        /// <summary>
+        /// Builds the list of items in the following order:
+        /// [clear button – flexible space – done button]
+        /// </summary>
+        private void RefreshItems()
+        {
+            UIBarButtonItem[] newItems;
+
+            if (this.clearButton != null && this.doneButton != null)
+            {
+                newItems = [this.clearButton, FlexibleSpace, this.doneButton];
             }
             else
             {
-                var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-                doneButton = new UIBarButtonItem(text, UIBarButtonItemStyle.Done, this.proxy.OnDataClicked);
-
-                this.SetItems([spacer, doneButton], false);
-                this.SetNeedsDisplay();
-            }
-        }
-
-        internal void SetDataContext(object dataContext)
-        {
-            this.proxy.SetDataContext(dataContext);
-        }
-
-        public MauiDoneAccessoryView(Action doneClicked) : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 44))
-        {
-            this.proxy = new BarButtonItemProxy(doneClicked);
-            this.BarStyle = UIBarStyle.Default;
-            this.Translucent = true;
-
-            var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, this.proxy.OnClicked);
-            this.SetItems([spacer, doneButton], false);
-        }
-
-        private class BarButtonItemProxy
-        {
-            private readonly Action doneClicked;
-            private Action<object> doneWithDataClicked;
-            private WeakReference<object> data;
-
-            public BarButtonItemProxy() { }
-
-            public BarButtonItemProxy(Action doneClicked)
-            {
-                this.doneClicked = doneClicked;
-            }
-
-            public void SetDoneClicked(Action<object> value)
-            {
-                this.doneWithDataClicked = value;
-            }
-
-            public void SetDataContext(object dataContext)
-            {
-                this.data = dataContext is null ? null : new(dataContext);
-            }
-
-            public void OnDataClicked(object sender, EventArgs e)
-            {
-                if (this.data is not null && this.data.TryGetTarget(out var data))
+                if (this.clearButton != null)
                 {
-                    this.doneWithDataClicked?.Invoke(data);
+                    newItems = [this.clearButton, FlexibleSpace];
+                }
+                else
+                {
+                    if (this.doneButton != null)
+                    {
+                        newItems = [FlexibleSpace, this.doneButton];
+                    }
+                    else
+                    {
+                        newItems = [];
+                    }
                 }
             }
 
-            public void OnClicked(object sender, EventArgs e)
+            this.SetItems(newItems, false);
+            this.SetNeedsDisplay();
+        }
+
+        public static MauiDoneAccessoryView SetDoneButtonText(ref MauiDoneAccessoryView inputAccessoryView, string text)
+        {
+            inputAccessoryView.SetDoneButtonText(text);
+
+            return GetNewInputAccessoryView(inputAccessoryView);
+        }
+
+        public static MauiDoneAccessoryView SetClearButtonText(MauiDoneAccessoryView inputAccessoryView, string text)
+        {
+            inputAccessoryView.SetClearButtonText(text);
+
+            return GetNewInputAccessoryView(inputAccessoryView);
+        }
+
+        private static MauiDoneAccessoryView GetNewInputAccessoryView(MauiDoneAccessoryView inputAccessoryView)
+        {
+            if (!inputAccessoryView.Items!.Any())
             {
-                this.doneClicked?.Invoke();
+                return null;
             }
+
+            return inputAccessoryView;
         }
     }
 }

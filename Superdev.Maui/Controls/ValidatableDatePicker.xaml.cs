@@ -212,7 +212,8 @@ namespace Superdev.Maui.Controls
             {
                 // There is no way to forward attached bindable properties from ValidatableDatePicker to the
                 // internal NullableDatePicker control. Thus, we call SetValue on the NullableDatePicker and forward the value.
-                this.DatePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, DialogExtensions.GetNeutralButtonText(this));
+                var neutralButtonText = DialogExtensions.GetNeutralButtonText(this);
+                this.DatePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, neutralButtonText);
             }
         }
     }

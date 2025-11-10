@@ -25,14 +25,7 @@
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
                                 Text="Demo CustomEntry" />
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid ColumnDefinitions="*,*">
                                 <s:CustomEntry
                                     Grid.Row="0"
                                     Grid.Column="0"
@@ -43,6 +36,20 @@
                                     Grid.Column="1"
                                     Placeholder="Entry"
                                     Text="Entry" />
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*">
+                                <Entry
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    s:DialogExtensions.DoneButtonText="{Binding Source={x:Reference DoneButtonTextEntry}, Path=Text}"
+                                    Placeholder="Entry with DoneButtonText" />
+                                <Entry
+                                    x:Name="DoneButtonTextEntry"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    s:DialogExtensions.DoneButtonText="{x:Null}"
+                                    Placeholder="DoneButtonText"
+                                    Text="Done" />
                             </Grid>
 
                             <s:CustomEntry

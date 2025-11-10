@@ -4,7 +4,6 @@ using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
-using Superdev.Maui.Platforms.iOS.Utils;
 using UIKit;
 using TimePicker = Microsoft.Maui.Controls.TimePicker;
 
@@ -26,6 +25,8 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
+        private bool isClearing;
+
         public NullableTimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
@@ -36,49 +37,36 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        protected override MauiTimePicker CreatePlatformView()
+        {
+            var mauiTimePicker = base.CreatePlatformView();
+
+            var inputAccessoryView = (MauiDoneAccessoryView)mauiTimePicker.InputAccessoryView!;
+            inputAccessoryView.SetDoneButtonAction(this.HandleDoneButton);
+            inputAccessoryView.SetClearButtonAction(this.HandleClearButton);
+            mauiTimePicker.InputAccessoryView = inputAccessoryView;
+
+            return mauiTimePicker;
+        }
+
+        private void HandleDoneButton()
+        {
+            var timePicker = this.VirtualView;
+            var mauiTimePicker = this.PlatformView;
+
+            if (timePicker == null || mauiTimePicker == null)
+            {
+                return;
+            }
+
+            var timeOfDay = mauiTimePicker.Date.ToDateTime().TimeOfDay;
+            var time = new TimeSpan(hours: timeOfDay.Hours, minutes: timeOfDay.Minutes, 0);
+            timePicker.Time = time;
+            timePicker.NullableTime = time;
+            mauiTimePicker.ResignFirstResponder();
+        }
+
         private new NullableTimePicker VirtualView => (NullableTimePicker)base.VirtualView;
-
-        protected override void SetupUIToolbar(MauiTimePicker mauiTimePicker)
-        {
-            lock (mauiTimePicker.InputAccessoryView)
-            {
-                var buttonItems = new List<UIBarButtonItem>();
-                var clearButton = CreateClearButton(this.VirtualView, mauiTimePicker);
-                if (clearButton != null)
-                {
-                    buttonItems.Add(clearButton);
-                }
-
-                buttonItems.Add(new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace));
-                buttonItems.Add(UIToolbarHelper.CreateDoneButton(this.VirtualView, this.HandleDoneButton));
-
-                mauiTimePicker.InputAccessoryView = UIToolbarHelper.CreateUIToolbar(buttonItems.ToArray());
-                mauiTimePicker.InputAccessoryView.SetNeedsDisplay();
-            }
-        }
-
-        private static UIBarButtonItem CreateClearButton(NullableTimePicker nullableTimePicker, MauiTimePicker mauiTimePicker)
-        {
-            var clearButtonText = DialogExtensions.GetNeutralButtonText(nullableTimePicker);
-            if (!string.IsNullOrEmpty(clearButtonText))
-            {
-                var clearButton = new UIBarButtonItem(clearButtonText, UIBarButtonItemStyle.Plain, (_, _) =>
-                {
-                    HandleClearButton(nullableTimePicker, mauiTimePicker);
-                });
-                return clearButton;
-            }
-
-            return null;
-        }
-
-        private void HandleDoneButton(object sender, EventArgs e)
-        {
-            var time = this.PlatformView.Date.ToDateTime().TimeOfDay;
-            this.VirtualView.Time = time;
-            this.VirtualView.NullableTime = time;
-            this.PlatformView.ResignFirstResponder();
-        }
 
         private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {
@@ -109,25 +97,44 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        protected override void UpdateDoneButton(MauiTimePicker mauiTimePicker)
-        {
-            this.SetupUIToolbar(this.PlatformView);
-        }
-
         private static void MapNeutralButtonText(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {
-            nullableTimePickerHandler.SetupUIToolbar(nullableTimePickerHandler.PlatformView);
+            nullableTimePickerHandler.UpdateClearButtonText(nullableTimePicker);
         }
 
-        private static void HandleClearButton(NullableTimePicker nullableTimePicker, MauiTimePicker mauiTimePicker)
+        private void UpdateClearButtonText(NullableTimePicker nullableTimePicker)
         {
-            nullableTimePicker.Time = TimeSpan.Zero;
-            nullableTimePicker.NullableTime = null;
-            mauiTimePicker.ResignFirstResponder();
+            var clearButtonText = DialogExtensions.GetNeutralButtonText(nullableTimePicker);
+            var mauiTimePicker = this.PlatformView;
+            mauiTimePicker.InputAccessoryView = MauiDoneAccessoryView.SetClearButtonText(this.inputAccessoryView, clearButtonText);
+        }
+
+        private void HandleClearButton()
+        {
+            this.isClearing = true;
+
+            try
+            {
+                var nullableTimePicker = this.VirtualView;
+                nullableTimePicker.Time = TimeSpan.Zero;
+                nullableTimePicker.NullableTime = null;
+
+                var mauiTimePicker = this.PlatformView;
+                mauiTimePicker.ResignFirstResponder();
+            }
+            finally
+            {
+                this.isClearing = true;
+            }
         }
 
         protected override void OnEditingDidEnd(TimeSpan time)
         {
+            if (this.isClearing)
+            {
+                return;
+            }
+
             var nullableTimePicker = this.VirtualView;
             nullableTimePicker.Time = time;
             nullableTimePicker.NullableTime = time;

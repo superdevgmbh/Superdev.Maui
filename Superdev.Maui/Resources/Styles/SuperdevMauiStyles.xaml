@@ -904,8 +904,8 @@
         TargetType="SearchBar">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="CancelButtonColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+        <Setter Property="CancelButtonColor" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource Theme.Page.BackgroundColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />

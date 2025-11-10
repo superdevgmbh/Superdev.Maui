@@ -1,6 +1,5 @@
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using MauiDoneAccessoryView = Superdev.Maui.Platforms.Controls.MauiDoneAccessoryView;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -8,9 +7,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class EntryHandler : Microsoft.Maui.Handlers.EntryHandler
     {
+        private MauiDoneAccessoryView inputAccessoryView;
+
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.EntryHandler.Mapper)
         {
-            [nameof(DialogExtensions.DoneButtonText)] = UpdateDoneButtonText,
+            [nameof(DialogExtensions.DoneButtonText)] = MapDoneButtonText,
         };
 
         public EntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -29,31 +30,38 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             var mauiTextField = base.CreatePlatformView();
 
-            var inputAccessoryView = new MauiDoneAccessoryView();
-            inputAccessoryView.SetDataContext(this);
-            inputAccessoryView.SetDoneClicked(this.OnDoneClicked);
-
-            mauiTextField.InputAccessoryView = inputAccessoryView;
+            this.inputAccessoryView = new MauiDoneAccessoryView();
+            this.inputAccessoryView.SetDoneButtonAction(this.OnDoneClicked);
+            mauiTextField.InputAccessoryView = this.inputAccessoryView;
 
             return mauiTextField;
         }
 
-        private void OnDoneClicked(object _)
+        protected override void DisconnectHandler(MauiTextField platformView)
+        {
+            platformView.InputAccessoryView = null;
+            this.inputAccessoryView?.Dispose();
+            this.inputAccessoryView = null;
+
+            base.DisconnectHandler(platformView);
+        }
+
+        private static void MapDoneButtonText(EntryHandler entryHandler, Entry entry)
+        {
+            entryHandler.DoneButtonText(entry);
+        }
+
+        private void DoneButtonText(Entry entry)
+        {
+            var doneButtonText = DialogExtensions.GetDoneButtonText(entry);
+            var mauiTextField = this.PlatformView;
+            mauiTextField.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
+        }
+
+        private void OnDoneClicked()
         {
             this.PlatformView.ResignFirstResponder();
             this.VirtualView.SendCompleted();
-        }
-
-        private static void UpdateDoneButtonText(EntryHandler entryHandler, Entry entry)
-        {
-            if (entryHandler.PlatformView.InputAccessoryView is MauiDoneAccessoryView mauiDoneAccessoryView)
-            {
-                var doneButtonText = DialogExtensions.GetDoneButtonText(entry);
-                if (doneButtonText != null)
-                {
-                    mauiDoneAccessoryView.SetDoneText(doneButtonText);
-                }
-            }
         }
     }
 }

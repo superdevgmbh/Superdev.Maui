@@ -9,8 +9,41 @@
     <Style
         x:Key="PickerStyle_Merge"
         TargetType="Picker">
-        <Setter Property="s:DialogExtensions.NeutralButtonText" Value="{s:Translate CancelButtonText}" />
         <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
+        <Setter Property="s:DialogExtensions.PositiveButtonText" Value="{s:Translate OkButtonText}" />
+        <Setter Property="s:DialogExtensions.NegativeButtonText" Value="{s:Translate CancelButtonText}" />
+    </Style>
+
+    <!-- DatePicker -->
+    <Style
+        x:Key="DatePickerStyle_Merge"
+        TargetType="DatePicker">
+        <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
+        <Setter Property="s:DialogExtensions.PositiveButtonText" Value="{s:Translate OkButtonText}" />
+        <Setter Property="s:DialogExtensions.NegativeButtonText" Value="{s:Translate CancelButtonText}" />
+    </Style>
+
+    <!-- NullableDatePicker -->
+    <Style
+        x:Key="NullableDatePickerStyle_Merge"
+        TargetType="s:NullableDatePicker">
+        <Setter Property="s:DialogExtensions.NeutralButtonText" Value="{s:Translate ClearButtonText}" />
+    </Style>
+
+    <!-- TimePicker -->
+    <Style
+        x:Key="TimePickerStyle_Merge"
+        TargetType="TimePicker">
+        <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
+        <Setter Property="s:DialogExtensions.PositiveButtonText" Value="{s:Translate OkButtonText}" />
+        <Setter Property="s:DialogExtensions.NegativeButtonText" Value="{s:Translate CancelButtonText}" />
+    </Style>
+
+    <!-- NullableTimePicker -->
+    <Style
+        x:Key="NullableTimePickerStyle_Merge"
+        TargetType="s:NullableTimePicker">
+        <Setter Property="s:DialogExtensions.NeutralButtonText" Value="{s:Translate ClearButtonText}" />
     </Style>
 
     <!-- Entry -->
@@ -24,6 +57,13 @@
     <Style
         x:Key="EditorStyle_Merge"
         TargetType="Picker">
+        <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
+    </Style>
+
+    <!-- SearchBar -->
+    <Style
+        x:Key="SearchBarStyle_Merge"
+        TargetType="SearchBar">
         <Setter Property="s:DialogExtensions.DoneButtonText" Value="{s:Translate DoneButtonText}" />
     </Style>
 
