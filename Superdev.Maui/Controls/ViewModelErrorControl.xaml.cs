@@ -2,7 +2,7 @@
 
 namespace Superdev.Maui.Controls
 {
-    public partial class ViewModelErrorControl : ContentView
+    public partial class ViewModelErrorControl : Grid
     {
         public ViewModelErrorControl()
         {
