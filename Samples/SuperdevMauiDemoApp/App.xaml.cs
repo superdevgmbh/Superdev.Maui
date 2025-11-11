@@ -1,5 +1,4 @@
 ﻿using Superdev.Maui.Controls;
-using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;

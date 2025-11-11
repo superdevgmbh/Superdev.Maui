@@ -577,8 +577,18 @@
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Title}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Title}" />
         <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
         <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style
+        x:Key="ActivityIndicatorTextLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
     </Style>
@@ -611,17 +621,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="TitleStyle" Value="{DynamicResource ActivityIndicatorTitleLabelStyle}" />
-        <Setter Property="TextStyle">
-            <Setter.Value>
-                <Style
-                    BasedOn="{StaticResource LabelStyle}"
-                    TargetType="Label">
-                    <Setter Property="LineBreakMode" Value="WordWrap" />
-                    <Setter Property="HorizontalOptions" Value="Center" />
-                    <Setter Property="HorizontalTextAlignment" Value="Center" />
-                </Style>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="TextStyle" Value="{DynamicResource ActivityIndicatorTextLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource PageActivityIndicatorStyle}"
