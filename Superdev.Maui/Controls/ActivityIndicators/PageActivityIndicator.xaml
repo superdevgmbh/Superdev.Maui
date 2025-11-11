@@ -10,13 +10,15 @@
     HorizontalOptions="Fill"
     VerticalOptions="Fill">
 
-    <VerticalStackLayout
-        Spacing="{DynamicResource Theme.Spacing.Medium}"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
+    <Grid
+        RowDefinitions="*,*"
+        RowSpacing="{DynamicResource Theme.Spacing.Large}"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill">
 
         <!-- ActivityIndicator -->
         <VerticalStackLayout
+            Grid.Row="0"
             Padding="{DynamicResource Theme.Padding.Medium}"
             HorizontalOptions="Center"
             VerticalOptions="End">
@@ -25,14 +27,23 @@
                 Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}" />
         </VerticalStackLayout>
 
-        <!-- Title -->
-        <Label
-            Style="{Binding Source={x:Reference Control}, Path=TitleStyle}"
-            Text="{Binding Title, Source={x:Reference Control}}" />
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="{DynamicResource Theme.Spacing.Medium}"
+            HorizontalOptions="Center"
+            VerticalOptions="Start">
 
-        <!-- Text -->
-        <Label
-            Style="{Binding Source={x:Reference Control}, Path=TextStyle}"
-            Text="{Binding Text, Source={x:Reference Control}}" />
-    </VerticalStackLayout>
+            <!-- Title -->
+            <Label
+                IsVisible="{Binding Title, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+                Style="{Binding Source={x:Reference Control}, Path=TitleStyle}"
+                Text="{Binding Title, Source={x:Reference Control}}" />
+
+            <!-- Text -->
+            <Label
+                IsVisible="{Binding Text, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+                Style="{Binding Source={x:Reference Control}, Path=TextStyle}"
+                Text="{Binding Text, Source={x:Reference Control}}" />
+        </VerticalStackLayout>
+    </Grid>
 </Grid>
