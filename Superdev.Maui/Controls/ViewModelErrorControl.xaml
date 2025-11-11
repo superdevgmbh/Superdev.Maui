@@ -13,7 +13,7 @@
     <ScrollView>
         <VerticalStackLayout
             Padding="{DynamicResource Theme.Padding.Medium}"
-            Spacing="{DynamicResource Theme.Spacing.Large}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}"
             HorizontalOptions="Center"
             VerticalOptions="Center">
             <VerticalStackLayout.GestureRecognizers>

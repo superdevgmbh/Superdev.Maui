@@ -12,7 +12,7 @@
 
     <Grid
         RowDefinitions="*,*"
-        RowSpacing="{DynamicResource Theme.Spacing.Large}"
+        RowSpacing="{DynamicResource Theme.Spacing.Medium}"
         HorizontalOptions="Fill"
         VerticalOptions="Fill">
 
