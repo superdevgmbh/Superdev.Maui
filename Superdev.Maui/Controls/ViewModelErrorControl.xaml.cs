@@ -24,8 +24,7 @@ namespace Superdev.Maui.Controls
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(
             nameof(ImageSource),
             typeof(ImageSource),
-            typeof(ViewModelErrorControl),
-            ImageSource.FromResource("reload_192x192"));
+            typeof(ViewModelErrorControl));
 
         public ImageSource ImageSource
         {
