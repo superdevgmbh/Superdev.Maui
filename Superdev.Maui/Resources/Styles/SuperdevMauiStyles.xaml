@@ -543,7 +543,7 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
         <Setter Property="SeparatorVisibility" Value="Default" />
         <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
-        <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.SecondaryVariant}" />
         <Setter Property="ios:ListView.SeparatorStyle" Value="FullWidth" />
         <Setter Property="ios:ListView.RowAnimationsEnabled" Value="False" />
     </Style>
