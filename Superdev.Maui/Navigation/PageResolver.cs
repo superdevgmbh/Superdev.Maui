@@ -1,15 +1,26 @@
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 
-namespace Superdev.Maui.Services
+namespace Superdev.Maui.Navigation
 {
     public class PageResolver : IPageResolver
     {
+        private static readonly Lazy<IPageResolver> Implementation = new Lazy<IPageResolver>(CreateInstance, LazyThreadSafetyMode.PublicationOnly);
+
+        public static IPageResolver Current => Implementation.Value;
+
+        private static IPageResolver CreateInstance()
+        {
+            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<PageResolver>>();
+            var serviceProvider = IPlatformApplication.Current.Services.GetRequiredService<IServiceProvider>();
+            return new PageResolver(logger, serviceProvider);
+        }
+
         private readonly HashSet<Assembly> cachedAssemblies = new HashSet<Assembly>();
         private readonly ILogger logger;
         private readonly IServiceProvider serviceProvider;
 
-        public PageResolver(
+        internal PageResolver(
             ILogger<PageResolver> logger,
             IServiceProvider serviceProvider)
         {

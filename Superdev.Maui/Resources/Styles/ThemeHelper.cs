@@ -2,14 +2,17 @@ using Microsoft.Extensions.Logging;
 using Superdev.Maui.Services;
 using Preferences = Superdev.Maui.Services.Preferences;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Resources.Styles
 {
     /// <summary>
     ///     Helper class for managing application themes with platform-aware adaptations
     /// </summary>
-    public class ThemeHelper : IThemeHelper
+    public partial class ThemeHelper : IThemeHelper
     {
+        private const string OverrideStylesSuffix = "_Override";
+        private const string MergeStylesSuffix = "_Merge";
         private const bool DefaultUseSystemTheme = true;
         private const string AppThemeSettingsKey = "AppThemeSettingsKey";
         private const string UseSystemThemeSettingsKey = "UseSystemThemeSettingsKey";
@@ -39,6 +42,9 @@ namespace Superdev.Maui.Resources.Styles
         private bool? useSystemTheme;
         private AppTheme? appTheme;
         private AppTheme? lastUsedTheme;
+        private bool overrideStyles;
+        private bool mergeStyles;
+        private bool isInitialized;
 
         private ThemeHelper(
             ILogger<ThemeHelper> logger,
@@ -50,6 +56,94 @@ namespace Superdev.Maui.Resources.Styles
             this.fontConverter = fontConverter;
 
             this.Initialize();
+        }
+
+        public bool OverrideStyles
+        {
+            get => this.overrideStyles;
+            set
+            {
+                if (this.overrideStyles != value)
+                {
+                    this.overrideStyles = value;
+                    if (value)
+                    {
+                        // this.OverrideStylesInternal(overrideStyles: true, mergeStyles: this.MergeStyles);
+                    }
+                }
+            }
+        }
+        public bool MergeStyles
+        {
+            get => this.mergeStyles;
+            set
+            {
+                if (this.mergeStyles != value)
+                {
+                    this.mergeStyles = value;
+                    if (value)
+                    {
+                        // this.OverrideStylesInternal(overrideStyles: this.OverrideStyles, mergeStyles: true);
+                    }
+                }
+            }
+        }
+
+        private void OverrideStylesInternal(bool overrideStyles, bool mergeStyles)
+        {
+            var app = Application.Current;
+            var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(app.Resources, "MergedResources")
+#if DEBUG
+                    .ToArray()
+#endif
+                ;
+#if DEBUG
+            this.logger.LogDebug(
+                $"OverrideStyles: Found resources: {mergedResources.Length}");
+
+            var allStyles = mergedResources
+                .Where(r => r.Value is Style)
+                .OrderBy(r => r.Key)
+                .ToArray();
+            this.logger.LogDebug(
+                $"OverrideStyles: Found styles: {allStyles.Length}{Environment.NewLine}" +
+                $"{string.Join(Environment.NewLine, allStyles.Select(r => $"Key: {r.Key}, TargetType: {((Style)r.Value).TargetType}"))}");
+#endif
+
+            if (overrideStyles)
+            {
+                var styleOverrides = mergedResources.Where(r => (r.Key?.EndsWith(OverrideStylesSuffix, StringComparison.InvariantCultureIgnoreCase) ?? false) && r.Value is Style)
+                    .Select(r => (r.Key, BaseKey: r.Key.Replace(OverrideStylesSuffix, string.Empty), Style: r.Value as Style));
+
+                foreach (var styleOverride in styleOverrides)
+                {
+                    this.logger.LogDebug($"OverrideStyles: Overriding style x:Key={styleOverride.BaseKey} with x:Key={styleOverride.Key}");
+                    app.Resources[styleOverride.BaseKey] = styleOverride.Style;
+                }
+            }
+
+            if (mergeStyles)
+            {
+                var styleMerges = mergedResources.Where(r => (r.Key?.EndsWith(MergeStylesSuffix, StringComparison.InvariantCultureIgnoreCase) ?? false) && r.Value is Style)
+                    .Select(r => (r.Key, BaseKey: r.Key.Replace(MergeStylesSuffix, string.Empty), Style: r.Value as Style));
+
+                foreach (var styleMerge in styleMerges)
+                {
+                    this.logger.LogDebug($"OverrideStyles: Merging style x:Key={styleMerge.BaseKey} with x:Key={styleMerge.Key}");
+
+                    var baseStyle = (Style)app.Resources[styleMerge.BaseKey];
+                    foreach (var setter in styleMerge.Style.Setters)
+                    {
+                        var existingSetter = baseStyle.Setters.FirstOrDefault(s => s.Property.PropertyName == setter.Property.PropertyName);
+                        if (existingSetter != null)
+                        {
+                            baseStyle.Setters.Remove(existingSetter);
+                        }
+
+                        baseStyle.Setters.Add(setter);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -148,7 +242,7 @@ namespace Superdev.Maui.Resources.Styles
             {
                 if (Application.Current == null)
                 {
-                    this.logger.LogDebug("Application.Current is null, cannot initialize theme helper");
+                    this.logger.LogWarning("Application.Current is null, cannot initialize theme helper");
                     return;
                 }
 
@@ -182,6 +276,8 @@ namespace Superdev.Maui.Resources.Styles
 
                 // Apply the initial theme
                 this.ApplyTheme();
+
+                this.isInitialized = true;
             }
             catch (Exception ex)
             {
@@ -390,12 +486,12 @@ namespace Superdev.Maui.Resources.Styles
                 // Apply theme resources
                 this.ApplyThemeResources(currentTheme);
 
-                // Notify listeners of theme change
-                var hasThemeChanged = this.lastUsedTheme != currentTheme;
-                if (hasThemeChanged)
-                {
-                    this.RaiseThemeChangedEvent(currentTheme);
-                }
+                // TODO: Notify listeners of theme change
+                // var hasThemeChanged = this.lastUsedTheme != currentTheme;
+                // if (hasThemeChanged)
+                // {
+                //     this.RaiseThemeChangedEvent(currentTheme);
+                // }
             }
             catch (Exception ex)
             {
@@ -431,8 +527,8 @@ namespace Superdev.Maui.Resources.Styles
                 }
 
                 // Get the merged dictionaries
-                var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
-                if (mergedDictionaries == null)
+                var globalMergedDictionary = Application.Current.Resources.MergedDictionaries;
+                if (globalMergedDictionary == null)
                 {
                     return;
                 }
@@ -451,38 +547,50 @@ namespace Superdev.Maui.Resources.Styles
                     return;
                 }
 
+                var superdevMauiStyles = globalMergedDictionary.FirstOrDefault<SuperdevMauiStyles>();
+                var localMergedDictionaries = superdevMauiStyles.MergedDictionaries;
+
                 // Update ColorResources
-                var colorResources = mergedDictionaries.FirstOrDefault<ColorResources>();
+                var colorResources = localMergedDictionaries.FirstOrDefault<ColorResources>();
                 if (colorResources != null)
                 {
-                    mergedDictionaries.Remove(colorResources);
+                    localMergedDictionaries.Remove(colorResources);
                 }
 
                 var colorConfiguration = theme.ColorConfiguration ?? new ColorConfiguration();
                 colorConfiguration.Initialize();
-                mergedDictionaries.Add(colorConfiguration.Resources);
+                localMergedDictionaries.Add(colorConfiguration.Resources);
 
-                // Update ColorResources
-                var spacingResources = mergedDictionaries.FirstOrDefault<SpacingResources>();
+                // Update SpacingResources
+                var spacingResources = localMergedDictionaries.FirstOrDefault<SpacingResources>();
                 if (spacingResources != null)
                 {
-                    mergedDictionaries.Remove(spacingResources);
+                    localMergedDictionaries.Remove(spacingResources);
                 }
 
                 var spacingConfiguration = theme.SpacingConfiguration ?? new SpacingConfiguration();
                 spacingConfiguration.Initialize();
-                mergedDictionaries.Add(spacingConfiguration.Resources);
+                localMergedDictionaries.Add(spacingConfiguration.Resources);
 
                 // Update FontResources
-                var fontResources = mergedDictionaries.FirstOrDefault<FontResources>();
+                var fontResources = localMergedDictionaries.FirstOrDefault<FontResources>();
                 if (fontResources != null)
                 {
-                    mergedDictionaries.Remove(fontResources);
+                    localMergedDictionaries.Remove(fontResources);
                 }
 
                 var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
                 fontConfiguration.Initialize();
-                mergedDictionaries.Add(fontConfiguration.Resources);
+                localMergedDictionaries.Add(fontConfiguration.Resources);
+
+                if (this.OverrideStyles || this.MergeStyles)
+                {
+                    this.OverrideStylesInternal(overrideStyles: this.OverrideStyles, mergeStyles: this.MergeStyles);
+                }
+
+#if ANDROID || IOS
+                this.ApplyThemePlatformResources(theme);
+#endif
 
                 // Apply theme resources from the appropriate dictionary first
                 // var sourceDict = theme == AppTheme.Dark ? darkDict : lightDict;

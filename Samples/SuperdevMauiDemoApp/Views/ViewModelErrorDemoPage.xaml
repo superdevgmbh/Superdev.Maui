@@ -15,14 +15,16 @@
                     Padding="{DynamicResource Theme.Padding.CardPadding}"
                     Spacing="{DynamicResource Theme.Spacing.Medium}">
 
-                    <Label Text="Demo" />
+                    <Label Text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." />
                 </StackLayout>
             </Grid>
         </ScrollView>
 
         <s:PageActivityIndicator
             Grid.Row="0"
-            IsBusy="{Binding IsBusy}" />
+            IsBusy="{Binding IsBusy}"
+            Text="Text"
+            Title="Title" />
 
         <s:ViewModelErrorControl
             Grid.Row="0"

@@ -10,7 +10,8 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(PickerHandler.Mapper)
         {
-            [nameof(Picker.TitleColor)] = MapTitleColor, [nameof(CustomPicker.PlaceholderColor)] = MapPlaceholderColor
+            [nameof(Picker.TitleColor)] = MapTitleColor,
+            [nameof(CustomPicker.PlaceholderColor)] = MapPlaceholderColor
         };
 
         public CustomPickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -23,10 +24,12 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        private new CustomPicker VirtualView => (CustomPicker)base.VirtualView;
+
         protected override void ConnectHandler(MauiPicker mauiPicker)
         {
             base.ConnectHandler(mauiPicker);
-            UpdatePlaceholderColor((CustomPicker)this.VirtualView, mauiPicker);
+            UpdatePlaceholderColor(this.VirtualView, mauiPicker);
         }
 
         private static void MapPlaceholderColor(CustomPickerHandler customPickerHandler, CustomPicker customPicker)
@@ -42,7 +45,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        public static void MapTitleColor(IPickerHandler handler, IPicker picker)
+        public new static void MapTitleColor(IPickerHandler handler, IPicker picker)
         {
             // Ignore
         }

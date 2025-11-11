@@ -9,23 +9,27 @@
     Title="PreferencesDemoPage">
 
     <Grid>
-        <VerticalStackLayout Grid.Row="0">
-            <Label Text="EnvironmentName:" />
-            <Label Text="{Binding CurrentEnvironment.EnvironmentName}" />
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.Medium}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <Label Text="EnvironmentName:" />
+                <Label Text="{Binding CurrentEnvironment.EnvironmentName}" />
 
-            <Label Text="BaseUrl:" />
-            <Label Text="{Binding CurrentEnvironment.BaseUrl}" />
+                <Label Text="BaseUrl:" />
+                <Label Text="{Binding CurrentEnvironment.BaseUrl}" />
 
-            <Button
-                Command="{Binding GetCommand}"
-                Text="Get" />
-            <Button
-                Command="{Binding SetCommand}"
-                Text="Set" />
-            <Button
-                Command="{Binding ClearCommand}"
-                Text="Clear" />
-        </VerticalStackLayout>
+                <Button
+                    Command="{Binding GetCommand}"
+                    Text="Get" />
+                <Button
+                    Command="{Binding SetCommand}"
+                    Text="Set" />
+                <Button
+                    Command="{Binding ClearCommand}"
+                    Text="Clear" />
+            </VerticalStackLayout>
+        </ScrollView>
 
         <s:PageActivityIndicator
             Grid.Row="0"

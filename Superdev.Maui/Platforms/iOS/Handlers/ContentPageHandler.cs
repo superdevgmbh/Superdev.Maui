@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Foundation;
+using Microsoft.Maui.Converters;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using UIKit;
@@ -12,17 +13,18 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class ContentPageHandler : Superdev.Maui.Handlers.PageHandler
     {
+        private static readonly ThicknessTypeConverter ThicknessTypeConverter = new ThicknessTypeConverter();
+
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PageHandler.Mapper)
         {
-            [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset,
-            [NavigationPage.SwipeBackEnabledProperty.PropertyName] = UpdateSwipeBackEnabled
+            [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset, [NavigationPage.SwipeBackEnabledProperty.PropertyName] = UpdateSwipeBackEnabled
         };
 
-        private double? contentOriginalHeight;
         private Thickness? contentOriginalMargin;
 
         private NSObject onKeyboardShowObserver;
         private NSObject onKeyboardHideObserver;
+        private double keyboardHeight;
 
         public ContentPageHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
@@ -41,75 +43,107 @@ namespace Superdev.Maui.Platforms.Handlers
             {
                 if (contentPageHandler.onKeyboardShowObserver == null)
                 {
-                    contentPageHandler.onKeyboardShowObserver = UIKeyboard.Notifications.ObserveWillShow((sender, args) =>
+                    contentPageHandler.onKeyboardShowObserver = UIKeyboard.Notifications.ObserveWillShow((_, args) =>
                     {
-                        if (contentPageHandler.VirtualView is not ContentPage contentPage)
-                        {
-                            return;
-                        }
-
-                        if (contentPageHandler.contentOriginalHeight != null &&
-                            contentPageHandler.contentOriginalMargin != null)
-                        {
-                            return;
-                        }
-
-                        var hasKeyboardOffset = PageExtensions.GetHasKeyboardOffset(contentPage);
-                        if (hasKeyboardOffset == true)
-                        {
-                            var keyboardHeight = args.FrameEnd.Height;
-                            ApplyKeyboardOffset(contentPageHandler, contentPage, keyboardHeight);
-                        }
-                        else if (hasKeyboardOffset == false)
-                        {
-                            RemoveKeyboardOffset(contentPageHandler, contentPage);
-                        }
+                        var keyboardFrame = UIKeyboard.FrameEndFromNotification(args.Notification);
+                        contentPageHandler.keyboardHeight = keyboardFrame.Height;
+                        contentPageHandler.OnShowKeyboard(contentPageHandler.keyboardHeight);
                     });
                 }
 
                 if (contentPageHandler.onKeyboardHideObserver == null)
                 {
-                    contentPageHandler.onKeyboardHideObserver = UIKeyboard.Notifications.ObserveWillHide((sender, args) =>
+                    contentPageHandler.onKeyboardHideObserver = UIKeyboard.Notifications.ObserveWillHide((_, _) =>
                     {
-                        if (contentPageHandler.VirtualView is not ContentPage contentPage)
-                        {
-                            return;
-                        }
-
-                        RemoveKeyboardOffset(contentPageHandler, contentPage);
+                        contentPageHandler.keyboardHeight = 0d;
+                        contentPageHandler.OnHideKeyboard();
                     });
                 }
             }
         }
 
-        private static void ApplyKeyboardOffset(ContentPageHandler contentPageHandler, ContentPage contentPage, double keyboardHeight)
+        private void OnHideKeyboard()
         {
-            Debug.WriteLine($"ApplyKeyboardOffset: keyboardHeight={keyboardHeight}" +
-                            $"{(contentPage.AutomationId != null ? $", contentPage={contentPage.AutomationId}" : "")}");
-
-            var contentHeight = contentPage.Content.Height;
-            var contentMargin = contentPage.Content.Margin;
-            contentPageHandler.contentOriginalHeight = contentHeight;
-            contentPageHandler.contentOriginalMargin = contentMargin;
-
-            contentPage.Content.HeightRequest = contentHeight - keyboardHeight;
-            contentPage.Content.Margin = new Thickness(0, 0, 0, keyboardHeight);
+            this.RemoveKeyboardOffset();
         }
 
-        private static void RemoveKeyboardOffset(ContentPageHandler contentPageHandler, ContentPage contentPage)
+        private void OnShowKeyboard(double keyboardHeight)
         {
-            if (contentPageHandler.contentOriginalHeight is double contentHeight &&
-                contentPageHandler.contentOriginalMargin is Thickness contentMargin)
+            if (this.VirtualView is not ContentPage contentPage)
             {
-                Debug.WriteLine($"RemoveKeyboardOffset" +
-                                $"{(contentPage.AutomationId != null ? $": contentPage={contentPage.AutomationId}" : "")}");
+                return;
+            }
 
-                contentPage.Content.HeightRequest = contentHeight;
+            if (this.contentOriginalMargin != null)
+            {
+                return;
+            }
+
+            var hasKeyboardOffset = PageExtensions.GetHasKeyboardOffset(contentPage);
+            if (hasKeyboardOffset == true)
+            {
+                this.ApplyKeyboardOffset(keyboardHeight);
+            }
+            else if (hasKeyboardOffset == false)
+            {
+                this.RemoveKeyboardOffset();
+            }
+        }
+
+        private void ApplyKeyboardOffset(double keyboardHeight)
+        {
+            if (this.VirtualView is not ContentPage contentPage)
+            {
+                return;
+            }
+
+            // var selectedControl = this.PlatformView.FindFirstResponder();
+            // var rootUiView = contentPage.Content.ToPlatform(this.MauiContext);
+            //
+            // var distance = selectedControl.GetOverlapDistance(rootUiView, keyboardHeight);
+
+            if (keyboardHeight > 0d)
+            {
+                var contentMargin = contentPage.Content.Margin;
+                this.contentOriginalMargin = contentMargin;
+
+                var newMargin = new Thickness(
+                    contentMargin.Left,
+                    0,
+                    contentMargin.Right,
+                    keyboardHeight);
+
+                Debug.WriteLine($"ApplyKeyboardOffset:{Environment.NewLine}" +
+                                $"> contentPage: {GetContentPageName(contentPage)}{Environment.NewLine}" +
+                                $"> keyboardHeight: {keyboardHeight}{Environment.NewLine}" +
+                                $"> originalMargin: {ThicknessTypeConverter.ConvertToString(contentMargin)}{Environment.NewLine}" +
+                                $"> newMargin: {ThicknessTypeConverter.ConvertToString(newMargin)}");
+
+                contentPage.Content.Margin = newMargin;
+            }
+        }
+
+        private void RemoveKeyboardOffset()
+        {
+            if (this.VirtualView is not ContentPage contentPage)
+            {
+                return;
+            }
+
+            if (this.contentOriginalMargin is Thickness contentMargin)
+            {
+                Debug.WriteLine($"RemoveKeyboardOffset:{Environment.NewLine}" +
+                                $"> contentPage: {GetContentPageName(contentPage)}");
+
                 contentPage.Content.Margin = contentMargin;
 
-                contentPageHandler.contentOriginalHeight = null;
-                contentPageHandler.contentOriginalMargin = null;
+                this.contentOriginalMargin = null;
             }
+        }
+
+        private static string GetContentPageName(ContentPage contentPage)
+        {
+            return $"{contentPage.AutomationId ?? contentPage.GetType().Name}";
         }
 
         private static void UpdateSwipeBackEnabled(ContentPageHandler contentPageHandler, ContentPage contentPage)
@@ -129,13 +163,22 @@ namespace Superdev.Maui.Platforms.Handlers
 
             if (this.VirtualView is ContentPage contentPage)
             {
-                UpdateSwipeBackEnabled(this, contentPage);
+                contentPage.Loaded += this.OnPageLoaded;
             }
+        }
+
+        private void OnPageLoaded(object sender, EventArgs e)
+        {
+            var contentPage = (ContentPage)sender;
+            UpdateSwipeBackEnabled(this, contentPage);
         }
 
         protected override void DisconnectHandler(ContentView platformView)
         {
-            base.DisconnectHandler(platformView);
+            if (this.VirtualView is ContentPage contentPage)
+            {
+                contentPage.Loaded -= this.OnPageLoaded;
+            }
 
             if (this.onKeyboardShowObserver != null)
             {
@@ -149,8 +192,9 @@ namespace Superdev.Maui.Platforms.Handlers
                 this.onKeyboardHideObserver = null;
             }
 
-            this.contentOriginalHeight = null;
             this.contentOriginalMargin = null;
+
+            base.DisconnectHandler(platformView);
         }
     }
 }

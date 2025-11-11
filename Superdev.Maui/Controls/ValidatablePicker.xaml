@@ -27,7 +27,6 @@
             x:FieldModifier="internal"
             Margin="{DynamicResource ValidatableInputControlMargin}"
             IsVisible="{Binding IsReadonly, Source={x:Reference Control}, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-            ItemDisplayBinding="{Binding ItemDisplayBinding, Source={x:Reference Control}, Mode=OneWay}"
             ItemsSource="{Binding ItemsSource, Source={x:Reference Control}}"
             SelectedIndex="{Binding SelectedIndex, Source={x:Reference Control}, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Source={x:Reference Control}, Mode=TwoWay}"

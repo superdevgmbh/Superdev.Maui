@@ -6,7 +6,7 @@ using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class EntryViewModel : BaseViewModel
+    public class EntryDemoViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
@@ -15,7 +15,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private string userName;
         private int userNameMaxLength;
 
-        public EntryViewModel(
+        public EntryDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService)
         {

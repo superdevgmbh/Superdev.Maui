@@ -36,8 +36,8 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             try
             {
-                await Task.Delay(1000);
-                throw new InvalidOperationException("Test");
+                await Task.Delay(3000);
+                throw new DivideByZeroException("Test");
             }
             catch (Exception ex)
             {

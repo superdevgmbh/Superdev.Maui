@@ -65,19 +65,6 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(HorizontalTextAlignmentProperty, value);
         }
 
-        public static readonly BindableProperty HasBorderProperty =
-            BindableProperty.Create(
-                nameof(HasBorder),
-                typeof(bool),
-                typeof(NullableDatePicker),
-                true);
-
-        public bool HasBorder
-        {
-            get => (bool)this.GetValue(HasBorderProperty);
-            set => this.SetValue(HasBorderProperty, value);
-        }
-
         public static readonly BindableProperty PlaceholderProperty =
             BindableProperty.Create(
                 nameof(Placeholder),

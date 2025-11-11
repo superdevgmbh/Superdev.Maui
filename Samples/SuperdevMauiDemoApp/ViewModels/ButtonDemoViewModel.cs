@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
-using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels

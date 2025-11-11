@@ -18,8 +18,10 @@ using Superdev.Maui.Controls;
 using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
+using IBrowser = Superdev.Maui.Services.IBrowser;
 
 namespace Superdev.Maui
 {
@@ -71,6 +73,7 @@ namespace Superdev.Maui
                 handlers.AddHandler(typeof(Editor), typeof(EditorHandler));
                 handlers.AddHandler(typeof(ScrollView), typeof(ScrollViewFixHandler));
                 handlers.AddHandler(typeof(NavigationPage), typeof(NavigationRenderer));
+                handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
 #endif
             })
             .ConfigureEffects(effects =>
@@ -123,8 +126,9 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
             builder.Services.AddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
             builder.Services.AddSingleton<IFontConverter>(_ => IFontConverter.Current);
-            builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
-            builder.Services.AddSingleton<IPageResolver, PageResolver>();
+            builder.Services.AddSingleton<IBrowser>(_ => IBrowser.Current);
+            builder.Services.AddSingleton<INavigationService>(_ => INavigationService.Current);
+            builder.Services.AddSingleton<IPageResolver>(_ => IPageResolver.Current);
 
             TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
 

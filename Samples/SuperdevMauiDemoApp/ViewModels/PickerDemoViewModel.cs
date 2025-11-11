@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
@@ -12,6 +14,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class PickerDemoViewModel : BaseViewModel
     {
+        private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
@@ -23,21 +26,28 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isReadonly;
         private DateTime? birthdate;
         private ICommand toggleBirthdateCommand;
-        private DateTime? patentStartDate;
+        private DateTime patentStartDate;
+        private TimeSpan patentStartTime;
+        private TimeSpan? patentEndTime;
         private DateRange patentValidityRange;
+        private IRelayCommand toggleIsReadonlyCommand;
+        private int selectedInt;
 
         public PickerDemoViewModel(
+            ILogger<PickerDemoViewModel> logger,
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
             ICountryService countryService,
             IDateTime dateTime)
         {
+            this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
             this.countryService = countryService;
             this.dateTime = dateTime;
 
-            this.StringValues = new ObservableCollection<string>
+            this.IntValues = Enumerable.Range(0, 100).ToArray();
+            this.StringValues = new []
             {
                 null,
                 "String 1",
@@ -47,10 +57,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.SelectedString = null;
 
             this.Countries = new ObservableCollection<CountryViewModel>();
-
-            var referenceDate = dateTime.Now;
-            this.BirthdateValidityRange = new DateRange(start: referenceDate.AddDays(-2), end: referenceDate.AddDays(2));
-            this.Birthdate = referenceDate;
 
             _ = this.LoadData();
         }
@@ -83,6 +89,9 @@ namespace SuperdevMauiDemoApp.ViewModels
                 var today = this.dateTime.Now.Date;
                 var todayInOneMonth = today.AddMonths(1);
                 this.PatentValidityRange = new DateRange(today, todayInOneMonth);
+
+                this.PatentStartDate = today.AddDays(1);
+                this.PatentStartTime = new TimeSpan(14, 15, 16);
             }
             catch (Exception ex)
             {
@@ -92,7 +101,21 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.IsBusy = false;
         }
 
-        public ObservableCollection<string> StringValues { get; set; }
+        public int[] IntValues { get; private set; }
+
+        public int SelectedInt
+        {
+            get => this.selectedInt;
+            set
+            {
+                if (this.SetProperty(ref this.selectedInt, value))
+                {
+                    this.logger.LogDebug($"SelectedInt={value}");
+                }
+            }
+        }
+
+        public string[] StringValues { get; private set; }
 
         public string SelectedString
         {
@@ -101,8 +124,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.selectedString, value))
                 {
-                    // this.logger.Debug()
-                    //this.dialogService.DisplayAlertAsync("SelectedString", $"value={value}", "OK");
+                    this.logger.LogDebug($"SelectedString={value ?? "null"}");
                 }
             }
         }
@@ -117,6 +139,16 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.country;
             set => this.SetProperty(ref this.country, value);
+        }
+
+        public IRelayCommand ToggleIsReadonlyCommand
+        {
+            get => this.toggleIsReadonlyCommand ??= new RelayCommand(this.ToggleIsReadonly);
+        }
+
+        private void ToggleIsReadonly()
+        {
+            this.IsReadonly = !this.IsReadonly;
         }
 
         public bool IsReadonly
@@ -137,24 +169,24 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public DateRange BirthdateValidityRange { get; }
-
-        public ICommand ToggleBirthdateCommand
-        {
-            get => this.toggleBirthdateCommand ??= new Command(this.ToggleBirthdate);
-        }
-
-        private void ToggleBirthdate()
-        {
-            this.Birthdate = this.Birthdate == null ? DateTime.Now : null;
-        }
-
-        public DateTime? PatentStartDate
+        public DateTime PatentStartDate
         {
             get => this.patentStartDate;
+            set => this.SetProperty(ref this.patentStartDate, value);
+        }
+
+        public TimeSpan PatentStartTime
+        {
+            get => this.patentStartTime;
+            set => this.SetProperty(ref this.patentStartTime, value);
+        }
+
+        public TimeSpan? PatentEndTime
+        {
+            get => this.patentEndTime;
             set
             {
-                if (this.SetProperty(ref this.patentStartDate, value))
+                if (this.SetProperty(ref this.patentEndTime, value))
                 {
                     // this.RaisePropertyChanged(nameof(this.PatentValidityRange));
                 }

@@ -10,37 +10,32 @@
         <Grid>
             <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Large}">
                 <SearchBar
-                    IsEnabled="True"
-                    Placeholder=""
+                    Placeholder="SearchBar"
+                    Text="" />
+                <SearchBar
+                    Placeholder="SearchBar"
                     Text="SearchBar with Text" />
                 <SearchBar
+                    CancelButtonColor="{DynamicResource Theme.Color.TextColor}"
+                    Placeholder="SearchBar with CancelButtonColor=TextColor" />
+                <SearchBar
                     IsEnabled="False"
                     IsReadOnly="True"
-                    Placeholder=""
+                    Placeholder="SearchBar"
                     Text="SearchBar with Text (Readonly)" />
                 <SearchBar
-                    IsEnabled="True"
-                    Placeholder="SearchBar Placeholder"
-                    Text="" />
-                <SearchBar
                     IsEnabled="False"
                     IsReadOnly="True"
-                    Placeholder="SearchBar Placeholder (Readonly)"
-                    Text="" />
+                    Placeholder="SearchBar Placeholder (Readonly)" />
                 <SearchBar
                     ios:SearchBar.SearchBarStyle="Prominent"
-                    CancelButtonColor="OrangeRed"
-                    Placeholder="SearchBarStyle Prominent"
-                    Text="" />
+                    Placeholder="SearchBarStyle Prominent" />
                 <SearchBar
                     ios:SearchBar.SearchBarStyle="Minimal"
-                    Placeholder="SearchBarStyle Minimal"
-                    Text="" />
-
+                    Placeholder="SearchBarStyle Minimal" />
                 <Entry
                     Placeholder="Entry with Style=SearchEntryStyle"
-                    Style="{StaticResource SearchEntryStyle}"
-                    Text="" />
+                    Style="{StaticResource SearchEntryStyle}" />
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

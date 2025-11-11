@@ -25,6 +25,8 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        private new Picker VirtualView => (Picker)base.VirtualView;
+
         protected override MauiPicker CreatePlatformView()
         {
             var mauiPicker = new MauiPicker(this.Context);
@@ -37,7 +39,9 @@ namespace Superdev.Maui.Platforms.Handlers
             visualElement.Loaded += this.OnVisualElementLoaded;
             visualElement.Unloaded += this.OnVisualElementUnloaded;
 
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
 
             // base.ConnectHandler(platformView);
         }
@@ -99,28 +103,28 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void OnClick(object? sender, EventArgs e)
         {
-            if (this.dialog == null && this.VirtualView != null)
+            if (this.dialog == null && this.VirtualView is Picker picker)
             {
                 using (var builder = new AppCompatAlertDialog.Builder(this.Context))
                 {
-                    if (!string.IsNullOrWhiteSpace(this.VirtualView.Title))
+                    if (!string.IsNullOrWhiteSpace(picker.Title))
                     {
-                        if (this.VirtualView.TitleColor == null)
+                        if (picker.TitleColor == null)
                         {
-                            builder.SetTitle(this.VirtualView.Title ?? string.Empty);
+                            builder.SetTitle(picker.Title ?? string.Empty);
                         }
                         else
                         {
-                            var title = new SpannableString(this.VirtualView.Title ?? string.Empty);
+                            var title = new SpannableString(picker.Title ?? string.Empty);
 #pragma warning disable CA1416 // https://github.com/xamarin/xamarin-android/issues/6962
-                            title.SetSpan(new ForegroundColorSpan(this.VirtualView.TitleColor.ToPlatform()), 0, title.Length(),
+                            title.SetSpan(new ForegroundColorSpan(picker.TitleColor.ToPlatform()), 0, title.Length(),
                                 SpanTypes.ExclusiveExclusive);
 #pragma warning restore CA1416
                             builder.SetTitle(title);
                         }
                     }
 
-                    var items = this.VirtualView.GetItemsAsArray();
+                    var items = picker.GetItemsAsArray();
 
                     for (var i = 0; i < items.Length; i++)
                     {
@@ -134,11 +138,11 @@ namespace Superdev.Maui.Platforms.Handlers
                     builder.SetItems(items, (_, e) =>
                     {
                         var selectedIndex = e.Which;
-                        this.VirtualView.SelectedIndex = selectedIndex;
-                        this.PlatformView?.UpdatePicker(this.VirtualView);
+                        picker.SelectedIndex = selectedIndex;
+                        this.PlatformView?.UpdatePicker(picker);
                     });
 
-                    var negativeButtonText = GetNegativeButtonText((BindableObject)this.VirtualView);
+                    var negativeButtonText = GetNegativeButtonText(picker);
                     builder.SetNegativeButton(negativeButtonText, (_, _) => { });
 
                     this.dialog = builder.Create();

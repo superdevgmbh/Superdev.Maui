@@ -1,3 +1,4 @@
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Services;
 using Superdev.Maui.Tests.Extensions;
 using Xunit.Abstractions;
@@ -22,7 +23,7 @@ namespace Superdev.Maui.Tests.Services
         public void ShouldResolvePageWithoutViewModel_Success()
         {
             // Arrange
-            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>();
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(enablePrivate: true);
 
             // Act
             var page = pageResolver.ResolvePage("TestResolveWPage");
@@ -36,7 +37,7 @@ namespace Superdev.Maui.Tests.Services
         public void ShouldResolvePageWithViewModel_Success()
         {
             // Arrange
-            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>();
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(enablePrivate: true);
 
             // Act
             var page = pageResolver.ResolvePage("TestResolvePage");
@@ -50,7 +51,7 @@ namespace Superdev.Maui.Tests.Services
         public void ShouldResolvePage_ThrowsPageResolveException_PageNotFound()
         {
             // Arrange
-            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>();
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(enablePrivate: true);
 
             // Act
             Action action = () => pageResolver.ResolvePage("NonExistingPage");

@@ -8,11 +8,50 @@
     x:DataType="vm:PickerDemoViewModel"
     Title="PickerDemoPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ToggleIsReadonlyCommand}"
+            Text="{Binding IsReadonly, StringFormat='[RO={0}]'}" />
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <Grid>
             <VerticalStackLayout
                 Padding="{DynamicResource Theme.Padding.CardPadding}"
                 Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="Picker" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Picker with ItemsSource=string[], TextColor=Magenta, TitleColor=null" />
+                            <Picker
+                                ItemsSource="{Binding StringValues}"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}"
+                                TextColor="Magenta"
+                                Title="Picker"
+                                TitleColor="{x:Null}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="Picker with ItemsSource=string[], TextColor=Green, TitleColor=Red" />
+                            <Picker
+                                ItemDisplayBinding="{Binding .}"
+                                ItemsSource="{Binding StringValues}"
+                                SelectedItem="{Binding SelectedString, Mode=TwoWay}"
+                                TextColor="Green"
+                                Title="Please select"
+                                TitleColor="Red" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
                 <s:CardView>
                     <VerticalStackLayout>
                         <s:LabelSection Text="CustomPicker" />
@@ -24,8 +63,8 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="Picker with strings, using ItemDisplayBinding and NullString " />
-                            <Picker
+                                Text="CustomPicker with ItemsSource=string[]" />
+                            <s:CustomPicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}"
@@ -33,13 +72,15 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="CustomPicker with strings " />
+                                Text="CustomPicker with ItemsSource=string[], TextColor=Blue, TitleColor=Red, PlaceholderColor=Green" />
                             <s:CustomPicker
                                 ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding StringValues}"
+                                PlaceholderColor="Green"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}"
-                                Title="Please select" />
-
+                                TextColor="Blue"
+                                Title="Please select"
+                                TitleColor="Red" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>
@@ -54,28 +95,28 @@
                             Spacing="{DynamicResource Theme.Spacing.Medium}">
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker with strings" />
+                                Text="ValidatablePicker with ItemsSource=int[] and ItemDisplayName=." />
                             <s:ValidatablePicker
-                                ItemDisplayBinding="{Binding .}"
+                                DisplayMemberPath="."
+                                ItemsSource="{Binding IntValues}"
+                                Placeholder="Select int value"
+                                SelectedItem="{Binding SelectedInt, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="ValidatablePicker with ItemsSource=string[] and ItemDisplayName=." />
+                            <s:ValidatablePicker
+                                DisplayMemberPath="."
                                 ItemsSource="{Binding StringValues}"
-                                Placeholder="Please select"
+                                Placeholder="Select string value"
                                 SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker with strings, using ItemDisplayBinding and NullString" />
+                                Text="ValidatablePicker with ItemsSource=Country[] and ItemDisplayName=Name" />
                             <s:ValidatablePicker
-                                ItemDisplayBinding="{Binding .}"
-                                ItemsSource="{Binding StringValues}"
-                                Placeholder="Please select"
-                                SelectedItem="{Binding SelectedString, Mode=TwoWay}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker with ItemDisplayBinding=Name" />
-                            <s:ValidatablePicker
+                                DisplayMemberPath="Name"
                                 IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                ItemDisplayBinding="{Binding Name}"
                                 ItemsSource="{Binding Countries}"
                                 Placeholder="ValidatablePicker"
                                 ReadonlyText="ReadonlyText"
@@ -84,249 +125,13 @@
 
                             <Label
                                 Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatablePicker IsReadonly=true, ItemDisplayBinding=null" />
+                                Text="ValidatablePicker IsReadonly=true, ItemDisplayName=null" />
                             <s:ValidatablePicker
+                                DisplayMemberPath="{x:Null}"
                                 IsReadonly="True"
                                 ItemsSource="{Binding Countries, Mode=OneWay}"
                                 Placeholder="ValidatablePicker"
                                 SelectedItem="{Binding Country, Mode=TwoWay}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="Toggle IsReadonly" />
-                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-                        </VerticalStackLayout>
-                        <s:FooterDivider />
-                    </VerticalStackLayout>
-                </s:CardView>
-
-                <s:CardView>
-                    <VerticalStackLayout>
-                        <s:LabelSection Text="NullableDatePickers" />
-                        <s:HeaderDivider />
-                        <VerticalStackLayout
-                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
-                            Spacing="{DynamicResource Theme.Spacing.Medium}">
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableDatePicker" />
-                            <s:NullableDatePicker
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-                                NullableDate="{x:Null}"
-                                Placeholder="NullableDatePicker with NullableDate" />
-                            <s:NullableDatePicker
-                                Format="D"
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="NullableDatePicker with Birthdate" />
-                            <s:NullableDatePicker
-                                s:DialogExtensions.NegativeButtonText="{s:Translate ClearButtonText}"
-                                Format="D"
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="NullableDatePicker with ClearButtonText" />
-                            <s:NullableDatePicker
-                                s:DialogExtensions.DoneButtonText="{s:Translate DoneButtonText}"
-                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
-                                Format="D"
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="NullableDatePicker with Clean+Done" />
-                            <s:NullableDatePicker
-                                Format="D"
-                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
-                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="NullableDatePicker with ValidityRange"
-                                ValidityRange="{Binding BirthdateValidityRange}" />
-
-                            <Button
-                                Command="{Binding ToggleBirthdateCommand}"
-                                Text="Toggle Birthdate" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="Toggle IsEnabled" />
-                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-
-                        </VerticalStackLayout>
-                        <s:FooterDivider />
-                    </VerticalStackLayout>
-                </s:CardView>
-
-                <s:CardView>
-                    <VerticalStackLayout>
-                        <s:LabelSection Text="ValidatableDatePickers" />
-                        <s:HeaderDivider />
-                        <VerticalStackLayout
-                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
-                            Spacing="{DynamicResource Theme.Spacing.Medium}">
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableDatePicker" />
-                            <s:ValidatableDatePicker
-                                Date="{Binding Birthdate, Mode=TwoWay}"
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="ValidatableDatePicker"
-                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
-                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
-
-                            <s:ValidatableDatePicker
-                                Date="{Binding Birthdate, Mode=TwoWay}"
-                                IsReadonly="True"
-                                Placeholder="ValidatableDatePicker IsReadonly=&quot;True&quot;"
-                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
-                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
-
-                            <s:ValidatableDatePicker
-                                Date="{x:Null}"
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="ValidatableDatePicker Date=&quot;null&quot;"
-                                ReadonlyText="ReadonlyText"
-                                ValidationErrors="{Binding Validation.Errors[Birthdate]}" />
-
-                            <s:ValidatableDatePicker
-                                x:Name="ValidatableDatePickerTest2"
-                                Date="{Binding Birthdate, Mode=TwoWay}"
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="ValidatableDatePicker with ValidationErrors"
-                                ReadonlyText="{Binding Birthdate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
-                                ValidationErrors="{Binding Source={x:Reference ValidatableDatePickerTest2}, Path=Date, Converter={StaticResource RandomValidationErrorsConverter}}" />
-
-                            <ScrollView Orientation="Horizontal">
-                                <Grid ColumnDefinitions="*,*">
-                                    <s:ValidatableDatePicker
-                                        BackgroundColor="LightGoldenrodYellow"
-                                        Date="{x:Null}"
-                                        Placeholder="ValidatableDatePicker" />
-                                    <s:ValidatableEntry
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        BackgroundColor="LightGoldenrodYellow"
-                                        Placeholder="ValidatableEntry"
-                                        Text="" />
-                                </Grid>
-                            </ScrollView>
-                        </VerticalStackLayout>
-                        <s:FooterDivider />
-                    </VerticalStackLayout>
-                </s:CardView>
-
-                <s:CardView>
-                    <VerticalStackLayout>
-                        <s:LabelSection Text="TimePicker" />
-                        <s:HeaderDivider />
-                        <VerticalStackLayout
-                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
-                            Spacing="{DynamicResource Theme.Spacing.Medium}">
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="TimePicker with Format=h\:mm" />
-                            <TimePicker
-                                Format="h\:mm"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=h\:mm" />
-                            <s:NullableTimePicker
-                                Format="h\:mm"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{x:Null}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=hh:mm" />
-                            <s:NullableTimePicker
-                                Format="hh:mm"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{x:Null}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=h:mm tt" />
-                            <s:NullableTimePicker
-                                Format="h:mm tt"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{x:Null}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="NullableTimePicker with Format=g" />
-                            <s:NullableTimePicker
-                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
-                                Format="g"
-                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
-                                NullableTime="{Binding Birthdate, Mode=TwoWay}"
-                                Placeholder="NullableTimePicker" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="Toggle IsEnabled" />
-                            <Switch IsToggled="{Binding IsReadonly, Mode=TwoWay}" />
-                        </VerticalStackLayout>
-                        <s:FooterDivider />
-                    </VerticalStackLayout>
-                </s:CardView>
-
-                <s:CardView>
-                    <VerticalStackLayout>
-                        <s:LabelSection Text="ValidatableDateTimePickers" />
-                        <s:HeaderDivider />
-                        <VerticalStackLayout
-                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
-                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
-                            Spacing="{DynamicResource Theme.Spacing.Medium}">
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableDateTimePicker with Date=PatentStartDate" />
-                            <s:ValidatableDateTimePicker
-                                s:DialogExtensions.NegativeButtonText="{s:Translate ClearButtonText}"
-                                Date="{Binding PatentStartDate, Mode=TwoWay}"
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="ValidatableDateTimePicker"
-                                ValidationErrors="{Binding Validation.Errors[PatentStartDate]}"
-                                ValidityRange="{Binding PatentValidityRange}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableDateTimePicker with Date=&quot;null&quot; and static ReadonlyText" />
-                            <s:ValidatableDateTimePicker
-                                Date="{x:Null}"
-                                IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                Placeholder="ValidatableDateTimePicker"
-                                ReadonlyText="ReadonlyText"
-                                ValidationErrors="{Binding Validation.Errors[PatentStartDate]}" />
-
-                            <Label
-                                Style="{StaticResource DemoLabelStyle}"
-                                Text="ValidatableDateTimePicker compared to ValidatableEntry" />
-                            <ScrollView Orientation="Horizontal">
-                                <Grid ColumnDefinitions="*,*">
-                                    <s:ValidatableDateTimePicker
-                                        Grid.Column="0"
-                                        BackgroundColor="LightGoldenrodYellow"
-                                        Date="{x:Null}"
-                                        IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                        Placeholder="ValidatableDateTimePicker"
-                                        Time="{x:Null}" />
-                                    <s:ValidatableEntry
-                                        Grid.Column="1"
-                                        BackgroundColor="LightGoldenrodYellow"
-                                        IsReadonly="{Binding IsReadonly, Mode=OneWay}"
-                                        Placeholder="ValidatableEntry"
-                                        Text="" />
-                                </Grid>
-                            </ScrollView>
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>

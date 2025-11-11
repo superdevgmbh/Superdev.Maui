@@ -26,6 +26,7 @@ namespace Superdev.Maui.Resources.Styles
             this.SetButtonColors(this);
             this.SetDrilldownButtonColors(this);
             this.SetSwitchColors(this);
+            this.SetSliderColors(this);
             this.SetCardViewColors(this);
             this.isInitialized = true;
         }
@@ -51,30 +52,30 @@ namespace Superdev.Maui.Resources.Styles
             this.Resources.SetValue(ThemeConstants.Button.BackgroundColorDisabled, MaterialColors.Gray200);
 
             // Primary button style
-            this.Resources[ThemeConstants.Button.Primary.TextColor] = colorConfiguration.OnPrimary;
-            this.Resources[ThemeConstants.Button.Primary.BorderColor] = colorConfiguration.Primary;
-            this.Resources[ThemeConstants.Button.Primary.BackgroundColor] = colorConfiguration.Primary;
+            this.Resources.SetValue(ThemeConstants.Button.Primary.TextColor, colorConfiguration.OnPrimary);
+            this.Resources.SetValue(ThemeConstants.Button.Primary.BorderColor, colorConfiguration.Primary);
+            this.Resources.SetValue(ThemeConstants.Button.Primary.BackgroundColor, colorConfiguration.Primary);
 
-            this.Resources[ThemeConstants.Button.Primary.TextColorPressed] = colorConfiguration.OnPrimary;
-            this.Resources[ThemeConstants.Button.Primary.BorderColorPressed] = colorConfiguration.Primary;
-            this.Resources[ThemeConstants.Button.Primary.BackgroundColorPressed] = colorConfiguration.PrimaryVariant;
+            this.Resources.SetValue(ThemeConstants.Button.Primary.TextColorPressed, colorConfiguration.OnPrimary);
+            this.Resources.SetValue(ThemeConstants.Button.Primary.BorderColorPressed, colorConfiguration.Primary);
+            this.Resources.SetValue(ThemeConstants.Button.Primary.BackgroundColorPressed, colorConfiguration.PrimaryVariant);
 
-            this.Resources[ThemeConstants.Button.Primary.TextColorDisabled] = colorConfiguration.OnPrimary;
-            this.Resources[ThemeConstants.Button.Primary.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
-            this.Resources[ThemeConstants.Button.Primary.BackgroundColorDisabled] = colorConfiguration.PrimaryDisabled;
+            this.Resources.SetValue(ThemeConstants.Button.Primary.TextColorDisabled, colorConfiguration.OnPrimary);
+            this.Resources.SetValue(ThemeConstants.Button.Primary.BorderColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Button.Primary.BackgroundColorDisabled, colorConfiguration.PrimaryDisabled);
 
             // Secondary button style
-            this.Resources[ThemeConstants.Button.Secondary.TextColor] = colorConfiguration.Secondary;
-            this.Resources[ThemeConstants.Button.Secondary.BorderColor] = colorConfiguration.Secondary;
-            this.Resources[ThemeConstants.Button.Secondary.BackgroundColor] = colorConfiguration.OnSecondary;
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.TextColor, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.BorderColor, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.BackgroundColor, colorConfiguration.OnSecondary);
 
-            this.Resources[ThemeConstants.Button.Secondary.TextColorPressed] = colorConfiguration.Secondary;
-            this.Resources[ThemeConstants.Button.Secondary.BorderColorPressed] = colorConfiguration.Secondary;
-            this.Resources[ThemeConstants.Button.Secondary.BackgroundColorPressed] = colorConfiguration.SecondaryVariant;
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.TextColorPressed, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.BorderColorPressed, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.BackgroundColorPressed, colorConfiguration.SecondaryVariant);
 
-            this.Resources[ThemeConstants.Button.Secondary.TextColorDisabled] = colorConfiguration.PrimaryDisabled;
-            this.Resources[ThemeConstants.Button.Secondary.BorderColorDisabled] = colorConfiguration.PrimaryDisabled;
-            this.Resources[ThemeConstants.Button.Secondary.BackgroundColorDisabled] = MaterialColors.Gray200;
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.TextColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.BorderColorDisabled, colorConfiguration.PrimaryDisabled);
+            this.Resources.SetValue(ThemeConstants.Button.Secondary.BackgroundColorDisabled, MaterialColors.Gray200);
         }
 
         private void SetDrilldownButtonColors(ColorConfiguration colorConfiguration)
@@ -101,36 +102,43 @@ namespace Superdev.Maui.Resources.Styles
             var primaryVariantGreyscale = primaryVariant.Greyscale();
 
             // Toggled=false, Enabled=true
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColor, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColor, isAndroid
                 ? primaryVariantGreyscale
                 : MaterialColors.White);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColor, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColor, isAndroid
                 ? primaryGreyscale
                 : MaterialColors.White);
 
             // Toggled=true, Enabled=true
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorToggled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColorToggled, isAndroid
                 ? primaryVariant
                 : primary);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorToggled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColorToggled, isAndroid
                 ? primary
                 : MaterialColors.White);
 
             // Toggled=false, Enabled=false
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColorDisabled, isAndroid
                 ? primaryVariantGreyscale.Brighten(0.1f)
                 : primaryVariantGreyscale);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColorDisabled, isAndroid
                 ? primaryGreyscale.Brighten(0.3f)
                 : MaterialColors.White);
 
             // Toggled=true, Enabled=false
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.OnColorToggledDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.OnColorToggledDisabled, isAndroid
                 ? primaryVariant.Brighten(0.1f)
                 : primaryVariant);
-            this.Resources.SetValue(ThemeConstants.SwitchStyle.ThumbColorToggledDisabled, isAndroid
+            this.Resources.SetValue(ThemeConstants.Switch.ThumbColorToggledDisabled, isAndroid
                 ? primary.Brighten(0.4f)
                 : MaterialColors.White);
+        }
+
+        private void SetSliderColors(ColorConfiguration colorConfiguration)
+        {
+            this.Resources.SetValue(ThemeConstants.Slider.ThumbColor, colorConfiguration.Secondary);
+            this.Resources.SetValue(ThemeConstants.Slider.MinimumTrackColor, colorConfiguration.SecondaryVariant);
+            this.Resources.SetValue(ThemeConstants.Slider.MaximumTrackColor, MaterialColors.Gray300);
         }
 
         private void SetCardViewColors(ColorConfiguration colorConfiguration)
@@ -161,9 +169,7 @@ namespace Superdev.Maui.Resources.Styles
             this.Resources.SetValue(ThemeConstants.Color.OnTertiary, colorConfiguration.OnTertiary);
             this.Resources.SetValue(ThemeConstants.Color.Error, colorConfiguration.Error);
             this.Resources.SetValue(ThemeConstants.Color.ErrorBackground, colorConfiguration.ErrorBackground);
-
-            this.Resources.SetValue(ThemeConstants.Color.SemiTransparentBright, MaterialColors.SemiTransparentBright);
-            this.Resources.SetValue(ThemeConstants.Color.SemiTransparentDark, MaterialColors.SemiTransparentDark);
+            this.Resources.SetValue(ThemeConstants.Color.Hyperlink, Colors.Blue);
         }
 
         public static readonly BindableProperty ErrorProperty = BindableProperty.Create(

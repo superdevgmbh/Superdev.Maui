@@ -3,7 +3,6 @@ using Android.App;
 using Android.Content;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -39,8 +38,9 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             var dialog = base.CreateDatePickerDialog(year, month, day);
 
-            this.UpdatePositiveButton(this.VirtualView, dialog);
-            this.UpdateNegativeButton(this.VirtualView, dialog);
+            var datePicker = this.VirtualView;
+            this.UpdatePositiveButton(datePicker, dialog);
+            this.UpdateNegativeButton(datePicker, dialog);
 
             return dialog;
         }
@@ -111,14 +111,14 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void ConnectHandler(MauiDatePicker platformView)
         {
-            Debug.WriteLine("ConnectHandler");
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
             base.ConnectHandler(platformView);
         }
 
         protected override void DisconnectHandler(MauiDatePicker platformView)
         {
-            Debug.WriteLine("DisconnectHandler");
             this.HideAndDisposeDialog();
             base.DisconnectHandler(platformView);
         }

@@ -15,6 +15,9 @@
         <s:EventToCommandBehavior
             Command="{Binding AppearingCommand}"
             EventName="Appearing" />
+        <s:EventToCommandBehavior
+            Command="{Binding DisappearingCommand}"
+            EventName="Disappearing" />
     </ContentPage.Behaviors>
 
     <ScrollView>

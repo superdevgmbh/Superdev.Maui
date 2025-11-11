@@ -1,13 +1,24 @@
 ﻿using Microsoft.Extensions.Logging;
+using Superdev.Maui.Services;
 
-namespace Superdev.Maui.Services
+namespace Superdev.Maui.Navigation
 {
     public class MauiNavigationService : INavigationService
     {
+        private static readonly Lazy<INavigationService> Implementation = new Lazy<INavigationService>(CreateInstance, LazyThreadSafetyMode.PublicationOnly);
+
+        public static INavigationService Current => Implementation.Value;
+
+        private static INavigationService CreateInstance()
+        {
+            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<MauiNavigationService>>();
+            return new MauiNavigationService(logger, IPageResolver.Current);
+        }
+
         private readonly ILogger logger;
         private readonly IPageResolver pageResolver;
 
-        public MauiNavigationService(
+        internal MauiNavigationService(
             ILogger<MauiNavigationService> logger,
             IPageResolver pageResolver)
         {
@@ -15,13 +26,27 @@ namespace Superdev.Maui.Services
             this.pageResolver = pageResolver;
         }
 
-        public async Task PushAsync(string pageName, bool animated = true)
+        public Task PushAsync(string pageName, bool animated = true)
+        {
+            return this.PushAsync<object>(pageName, null, animated);
+        }
+
+        public async Task PushAsync<T>(string pageName, T parameter, bool animated = true)
         {
             try
             {
                 var page = this.pageResolver.ResolvePage(pageName);
                 var navigation = GetNavigation();
                 await navigation.PushAsync(page, animated);
+
+                if (parameter == null)
+                {
+                    await PageUtilities.InvokeViewAndViewModelActionAsync<INavigatedTo>(page, p => p.NavigatedToAsync());
+                }
+                else
+                {
+                    await PageUtilities.InvokeViewAndViewModelActionAsync<INavigatedTo<T>>(page, p => p.NavigatedToAsync(parameter));
+                }
             }
             catch (Exception ex)
             {
@@ -30,13 +55,27 @@ namespace Superdev.Maui.Services
             }
         }
 
-        public async Task PushModalAsync(string pageName, bool animated = true)
+        public Task PushModalAsync(string pageName, bool animated = true)
+        {
+            return this.PushModalAsync<object>(pageName, null, animated);
+        }
+
+        public async Task PushModalAsync<T>(string pageName, T parameter, bool animated = true)
         {
             try
             {
                 var page = this.pageResolver.ResolvePage(pageName);
                 var navigation = GetNavigation();
                 await navigation.PushModalAsync(new NavigationPage(page), animated);
+
+                if (parameter == null)
+                {
+                    await PageUtilities.InvokeViewAndViewModelActionAsync<INavigatedTo>(page, p => p.NavigatedToAsync());
+                }
+                else
+                {
+                    await PageUtilities.InvokeViewAndViewModelActionAsync<INavigatedTo<T>>(page, p => p.NavigatedToAsync(parameter));
+                }
             }
             catch (Exception ex)
             {
@@ -181,7 +220,7 @@ namespace Superdev.Maui.Services
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "PopModalAsync failed with exception");
+                this.logger.LogError(ex, "NavigateAsync failed with exception");
                 throw;
             }
         }
@@ -222,12 +261,13 @@ namespace Superdev.Maui.Services
                 }
             }
         }
-    }
 
-    public class PageNavigationException : Exception
-    {
-        public PageNavigationException(string message) : base(message)
+        public INavigation Navigation
         {
+            get
+            {
+                return Application.Current?.Windows[0].Page?.Navigation ?? throw new InvalidOperationException($"{nameof(Page.Navigation)} not found");
+            }
         }
     }
 }

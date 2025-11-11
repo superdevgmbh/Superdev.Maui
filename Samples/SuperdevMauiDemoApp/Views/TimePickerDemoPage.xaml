@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.TimePickerDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:TimePickerDemoViewModel"
+    Title="TimePickerDemoPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ToggleIsReadonlyCommand}"
+            Text="{Binding IsReadonly, StringFormat='[RO={0}]'}" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <Grid>
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.CardPadding}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="TimePicker" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="TimePicker with Format=null" />
+                            <TimePicker
+                                Format="{x:Null}"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                Time="{Binding PatentStartTime, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="TimePicker with Format=default" />
+                            <TimePicker
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                Time="{Binding PatentStartTime, Mode=TwoWay}" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="TimePicker with Format=h\:mm" />
+                            <TimePicker
+                                Format="h\:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                Time="{Binding PatentStartTime, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+                <s:CardView>
+                    <VerticalStackLayout>
+                        <s:LabelSection Text="NullableTimePicker" />
+                        <s:HeaderDivider />
+                        <VerticalStackLayout
+                            Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                            BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=null" />
+                            <s:NullableTimePicker
+                                Format="{x:Null}"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentStartTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=default" />
+                            <s:NullableTimePicker
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentStartTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=hh:mm" />
+                            <s:NullableTimePicker
+                                Format="hh:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=HH:mm" />
+                            <s:NullableTimePicker
+                                Format="HH:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=h\:mm" />
+                            <s:NullableTimePicker
+                                Format="h\:mm"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with Format=h:mm tt" />
+                            <s:NullableTimePicker
+                                Format="h:mm tt"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with NeutralButtonText=Clear and UpdateMode=Immediately" />
+                            <s:NullableTimePicker
+                                ios:TimePicker.UpdateMode="Immediately"
+                                s:DialogExtensions.NeutralButtonText="{s:Translate ClearButtonText}"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="NullableTimePicker" />
+                        </VerticalStackLayout>
+                        <s:FooterDivider />
+                    </VerticalStackLayout>
+                </s:CardView>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

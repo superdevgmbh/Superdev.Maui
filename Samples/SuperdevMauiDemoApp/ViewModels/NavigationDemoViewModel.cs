@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Navigation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -13,6 +14,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private IAsyncRelayCommand navigateToPageCommand;
         private IAsyncRelayCommand popCommand;
+        private IAsyncRelayCommand popToRootCommand;
         private IAsyncRelayCommand navigateToPageModalCommand;
         private IAsyncRelayCommand popModalCommand;
         private IRelayCommand toggleHasNavigationBarCommand;
@@ -87,6 +89,24 @@ namespace SuperdevMauiDemoApp.ViewModels
             try
             {
                 await this.navigationService.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                var viewModelError = this.viewModelErrorHandler.FromException(ex);
+                await this.dialogService.DisplayAlertAsync(viewModelError, "OK", "Cancel");
+            }
+        }
+
+        public IAsyncRelayCommand PopToRootCommand
+        {
+            get => this.popToRootCommand ??= new AsyncRelayCommand(this.PopToRootAsync);
+        }
+
+        private async Task PopToRootAsync()
+        {
+            try
+            {
+                await this.navigationService.PopToRootAsync(animated: false);
             }
             catch (Exception ex)
             {

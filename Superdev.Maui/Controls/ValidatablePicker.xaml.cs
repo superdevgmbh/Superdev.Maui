@@ -54,7 +54,9 @@ namespace Superdev.Maui.Controls
         {
             get
             {
-                if (this.SelectedIndex != SelectedIndexDefaultValue || this.IsReadonly)
+                if (this.IsReadonly || (this.SelectedIndex != SelectedIndexDefaultValue &&
+                                        TryGetSelectedItemText(this.Picker, this.SelectedItem, out var selectedItemText) &&
+                                        selectedItemText != null))
                 {
                     return this.Placeholder;
                 }
@@ -95,10 +97,36 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ItemsSourceProperty, value);
         }
 
-        public BindingBase ItemDisplayBinding
+        // HACK: Sadly, it's not possible to route ItemDisplayBinding (of type BindingBase)
+        // trough to the nested picker control.
+        // Sources with similar issues found on github:
+        // https://github.com/dotnet/maui/issues/4818
+        // https://github.com/sebarslan/Maui.NullableDateTimePicker/blob/2f9dcae20a43f1fc02abfc268291552b6de33d4a/Maui.NullableDateTimePicker/Controls/SelectList.cs#L44
+        public static readonly BindableProperty DisplayMemberPathProperty =
+            BindableProperty.Create(
+                nameof(DisplayMemberPath),
+                typeof(string),
+                typeof(ValidatablePicker),
+                propertyChanged: OnItemDisplayNamePropertyChanged);
+
+        private static void OnItemDisplayNamePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            get => this.Picker.ItemDisplayBinding;
-            set => this.Picker.ItemDisplayBinding = value;
+            var validatablePicker = (ValidatablePicker)bindable;
+
+            if (newValue is string propertyName)
+            {
+                validatablePicker.Picker.ItemDisplayBinding = new Binding(propertyName);
+            }
+            else
+            {
+                validatablePicker.Picker.ItemDisplayBinding = null;
+            }
+        }
+
+        public string DisplayMemberPath
+        {
+            get => (string)this.GetValue(DisplayMemberPathProperty);
+            set => this.SetValue(DisplayMemberPathProperty, value);
         }
 
         public static readonly BindableProperty SelectedItemProperty =
@@ -114,6 +142,7 @@ namespace Superdev.Maui.Controls
         private static void OnSelectedItemPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var picker = (ValidatablePicker)bindable;
+            picker.OnPropertyChanged(nameof(picker.AnnotationText));
             picker.OnPropertyChanged(nameof(picker.Placeholder));
             picker.OnPropertyChanged(nameof(picker.ReadonlyText));
         }
@@ -206,24 +235,42 @@ namespace Superdev.Maui.Controls
             get
             {
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
-                if (readonlyText == null && this.SelectedItem is object selectedItem)
+                if (readonlyText == null)
                 {
-                    if (this.ItemDisplayBinding is Binding { Path: var path } &&
-                        path != Binding.SelfPath && path != nameof(this.ItemDisplayBinding))
+                    if (TryGetSelectedItemText(this.Picker, this.SelectedItem, out var selectedItemText))
                     {
-                        var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, path);
-                        readonlyText = selectedItemValue?.ToString();
+                        readonlyText = selectedItemText;
                     }
                     else
                     {
                         // In case readonly text is null, we try to take SelectedItem as ReadonlyText
-                        readonlyText = selectedItem.ToString();
+                        readonlyText = this.SelectedItem?.ToString();
                     }
                 }
 
                 return readonlyText;
             }
             set => this.SetValue(ReadonlyTextProperty, value);
+        }
+
+        private static bool TryGetSelectedItemText(Picker picker, object selectedItem, out string selectedItemText)
+        {
+            if (picker != null && selectedItem != null)
+            {
+                if (picker.ItemDisplayBinding is Binding { Path: var path } &&
+                    path != Binding.SelfPath && path != nameof(picker.ItemDisplayBinding))
+                {
+                    var selectedItemValue = ReflectionHelper.GetPropertyValue(selectedItem, path);
+                    selectedItemText = selectedItemValue?.ToString();
+                    return true;
+                }
+
+                selectedItemText = selectedItem.ToString();
+                return true;
+            }
+
+            selectedItemText = null;
+            return false;
         }
 
         public static readonly BindableProperty AnnotationLabelStyleProperty =
@@ -272,6 +319,22 @@ namespace Superdev.Maui.Controls
         {
             get => (IEnumerable<string>)this.GetValue(ValidationErrorsProperty);
             set => this.SetValue(ValidationErrorsProperty, value);
+        }
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == DialogExtensions.DoneButtonText)
+            {
+                var value = DialogExtensions.GetDoneButtonText(this);
+                DialogExtensions.SetDoneButtonText(this.Picker, value);
+            }
+            else if (propertyName == DialogExtensions.NegativeButtonText)
+            {
+                var value = DialogExtensions.GetNegativeButtonText(this);
+                DialogExtensions.SetNegativeButtonText(this.Picker, value);
+            }
         }
     }
 }

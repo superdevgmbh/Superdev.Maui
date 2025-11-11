@@ -37,4 +37,7 @@
             Value="#EFEFF4" />
     </OnPlatform>
 
+    <!-- Test -->
+    <!-- <Color x:Key="Theme.Color.Hyperlink">Magenta</Color> -->
+
 </ResourceDictionary>

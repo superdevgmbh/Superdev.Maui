@@ -246,10 +246,11 @@ namespace Superdev.Maui.Controls
             }
             else if (propertyName == DialogExtensions.NeutralButtonTextProperty.PropertyName)
             {
-                // There is no way to forward attached bindable properties from ValidatableDateTimePicker to the
-                // internal NullableDatePicker control. Thus, we call SetValue on the NullableDatePicker and forward the value.
-                this.DatePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, DialogExtensions.GetNeutralButtonText(this));
-                this.TimePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, DialogExtensions.GetNeutralButtonText(this));
+                // There is no way to forward attached bindable properties from ValidatableDateTimePicker to the internal NullableDatePicker and NullableTimePicker controls.
+                // Thus, we call SetValue on the NullableDatePicker/NullableTimePicker and forward the value.
+                var neutralButtonText = DialogExtensions.GetNeutralButtonText(this);
+                this.DatePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, neutralButtonText);
+                this.TimePicker?.SetValue(DialogExtensions.NeutralButtonTextProperty, neutralButtonText);
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿namespace SuperdevMauiDemoApp.Views
 {
-    public partial class CardViewPage : ContentPage
+    public partial class CardViewDemoPage : ContentPage
     {
-        public CardViewPage()
+        public CardViewDemoPage()
         {
             this.InitializeComponent();
         }
