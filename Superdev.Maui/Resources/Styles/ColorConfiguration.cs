@@ -170,6 +170,8 @@ namespace Superdev.Maui.Resources.Styles
             this.Resources.SetValue(ThemeConstants.Color.Error, colorConfiguration.Error);
             this.Resources.SetValue(ThemeConstants.Color.ErrorBackground, colorConfiguration.ErrorBackground);
             this.Resources.SetValue(ThemeConstants.Color.Hyperlink, Colors.Blue);
+            this.Resources.SetValue(ThemeConstants.Color.ListSeparator, MaterialColors.Gray400);
+            this.Resources.SetValue(ThemeConstants.Color.DividerLine, MaterialColors.Gray400);
         }
 
         public static readonly BindableProperty ErrorProperty = BindableProperty.Create(

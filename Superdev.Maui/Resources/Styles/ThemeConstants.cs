@@ -27,6 +27,8 @@
             public const string Error = "Theme.Color.Error";
             public const string ErrorBackground = "Theme.Color.ErrorBackground";
             public const string Hyperlink = "Theme.Color.Hyperlink";
+            public const string ListSeparator = "Theme.Color.ListSeparator";
+            public const string DividerLine = "Theme.Color.DividerLine";
         }
 
         public static class Page
