@@ -8,10 +8,10 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         static NavigationRenderer()
         {
-            Mapper.AppendToMapping(NavigationPage.BackButtonTitleProperty.PropertyName, UpdateBackButtonTitle);
+            Mapper.AppendToMapping(NavigationPage.BackButtonTitleProperty.PropertyName, MapBackButtonTitle);
         }
 
-        private static void UpdateBackButtonTitle(Microsoft.Maui.Controls.Handlers.Compatibility.NavigationRenderer navigationRenderer, NavigationPage navigationPage)
+        private static void MapBackButtonTitle(Microsoft.Maui.Controls.Handlers.Compatibility.NavigationRenderer navigationRenderer, NavigationPage navigationPage)
         {
             if (navigationRenderer is NavigationRenderer navigationPageHandler)
             {
@@ -41,11 +41,14 @@ namespace Superdev.Maui.Platforms.Handlers
                     interactivePopGestureRecognizer.Delegate = new InteractivePopGestureRecognizerDelegate(navigationController);
                 }
 
-                var current = ReflectionHelper.GetPropertyValue<Page>(this.TopViewController, "Child");
-                var swipeBackEnabled = Superdev.Maui.Controls.PlatformConfiguration.iOSSpecific.NavigationPage.GetSwipeBackEnabled(current);
+                var childPage = ReflectionHelper.GetPropertyValue<Page>(this.TopViewController, "Child");
+                if (childPage != null)
+                {
+                    var swipeBackEnabled = Superdev.Maui.Controls.PlatformConfiguration.iOSSpecific.NavigationPage.GetSwipeBackEnabled(childPage);
 
-                Debug.WriteLine($"ViewDidLayoutSubviews: InteractivePopGestureRecognizer: swipeBackEnabled={swipeBackEnabled}");
-                interactivePopGestureRecognizer.Enabled = swipeBackEnabled;
+                    Debug.WriteLine($"ViewDidLayoutSubviews: InteractivePopGestureRecognizer: swipeBackEnabled={swipeBackEnabled}");
+                    interactivePopGestureRecognizer.Enabled = swipeBackEnabled;
+                }
             }
         }
 
