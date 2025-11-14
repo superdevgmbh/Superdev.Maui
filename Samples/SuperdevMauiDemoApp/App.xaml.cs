@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Superdev.Maui;
-using Superdev.Maui.Controls;
+﻿using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
@@ -12,9 +10,11 @@ namespace SuperdevMauiDemoApp
     {
         public App()
         {
+            EmbeddedResourceExtension.Init(typeof(App).Assembly);
             this.InitializeComponent();
 
             var themeHelper = IThemeHelper.Current;
+            themeHelper.MergeStyles = true;
             themeHelper.ApplyTheme(
                 lightTheme: "SampleApp.Theme.Light",
                 darkTheme: "SampleApp.Theme.Dark");
@@ -23,9 +23,12 @@ namespace SuperdevMauiDemoApp
 
             var viewModelErrorRegistry = IViewModelErrorRegistry.Current;
             RegisterViewModelErrors(viewModelErrorRegistry);
+        }
 
+        protected override Window CreateWindow(IActivationState activationState)
+        {
             var mainPage = IPlatformApplication.Current.Services.GetService<MainPage>();
-            this.MainPage = new NavigationPage(mainPage);
+            return new Window(new NavigationPage(mainPage));
         }
 
         protected override void OnStart()

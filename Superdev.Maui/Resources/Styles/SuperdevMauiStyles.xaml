@@ -13,9 +13,9 @@
     xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Converters.xaml" />
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Spacing.xaml" />
+        <ResourceDictionary Source="Converters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Styles -->
@@ -492,25 +492,38 @@
         BasedOn="{StaticResource CustomEditorStyle}"
         TargetType="controls:CustomEditor" />
 
-    <!-- HyperlinkLabelStyle -->
+    <!-- Hyperlinks -->
     <Style
         x:Key="HyperlinkLabelStyle"
         TargetType="Label">
-        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Hyperlink}" />
         <Setter Property="TextDecorations" Value="Underline" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
     </Style>
+
     <Style
         x:Key="HyperlinkSpanStyle"
         TargetType="Span">
-        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Hyperlink}" />
         <Setter Property="TextDecorations" Value="Underline" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Body1}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Body1}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Body1}" />
     </Style>
+
+    <Style
+        x:Key="HyperlinkButtonStyle"
+        TargetType="controls:HyperlinkButton">
+        <Setter Property="LabelStyle" Value="{DynamicResource HyperlinkLabelStyle}" />
+        <Setter Property="TextColor" Value="{DynamicResource Theme.Color.Hyperlink}" />
+        <Setter Property="ActivityIndicatorStyle" Value="{DynamicResource ActivityIndicatorStyle}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource HyperlinkButtonStyle}"
+        TargetType="controls:HyperlinkButton" />
 
     <!-- IndicatorView -->
     <Style
@@ -529,8 +542,8 @@
         TargetType="ListView">
         <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
         <Setter Property="SeparatorVisibility" Value="Default" />
-        <Setter Property="SeparatorColor" Value="{DynamicResource ListSeparator}" />
-        <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.Secondary}" />
+        <Setter Property="SeparatorColor" Value="{DynamicResource Theme.Color.ListSeparator}" />
+        <Setter Property="RefreshControlColor" Value="{DynamicResource Theme.Color.SecondaryVariant}" />
         <Setter Property="ios:ListView.SeparatorStyle" Value="FullWidth" />
         <Setter Property="ios:ListView.RowAnimationsEnabled" Value="False" />
     </Style>
@@ -564,8 +577,18 @@
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Title}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Title}" />
         <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
         <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style
+        x:Key="ActivityIndicatorTextLabelStyle"
+        BasedOn="{StaticResource LabelStyle}"
+        TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
     </Style>
@@ -573,12 +596,12 @@
         x:Key="CustomActivityIndicatorStyle"
         TargetType="controls:CustomActivityIndicator">
         <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
-        <Setter Property="ActivityIndicatorStyle" Value="{StaticResource ActivityIndicatorStyle}" />
+        <Setter Property="ActivityIndicatorStyle" Value="{DynamicResource ActivityIndicatorStyle}" />
         <Setter Property="CornerRadius" Value="{DynamicResource Theme.Spacing.Large}" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
+        <Setter Property="TitleStyle" Value="{DynamicResource ActivityIndicatorTitleLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource CustomActivityIndicatorStyle}"
@@ -597,18 +620,8 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="TitleStyle" Value="{StaticResource ActivityIndicatorTitleLabelStyle}" />
-        <Setter Property="TextStyle">
-            <Setter.Value>
-                <Style
-                    BasedOn="{StaticResource LabelStyle}"
-                    TargetType="Label">
-                    <Setter Property="LineBreakMode" Value="WordWrap" />
-                    <Setter Property="HorizontalOptions" Value="Center" />
-                    <Setter Property="HorizontalTextAlignment" Value="Center" />
-                </Style>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="TitleStyle" Value="{DynamicResource ActivityIndicatorTitleLabelStyle}" />
+        <Setter Property="TextStyle" Value="{DynamicResource ActivityIndicatorTextLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource PageActivityIndicatorStyle}"
@@ -630,15 +643,10 @@
     </Style>
     <Style
         x:Key="ViewModelErrorTextLabelStyle"
-        BasedOn="{StaticResource LabelStyle}"
+        BasedOn="{StaticResource ViewModelErrorTitleLabelStyle}"
         TargetType="Label">
-        <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Title}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Medium}" />
-        <Setter Property="VerticalOptions" Value="Start" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="LineBreakMode" Value="WordWrap" />
+        <Setter Property="FontAttributes" Value="None" />
     </Style>
     <Style
         x:Key="ViewModelErrorControlStyle"
@@ -646,8 +654,8 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Theme.Padding.Large}" />
-        <Setter Property="TitleLabelStyle" Value="{StaticResource ViewModelErrorTitleLabelStyle}" />
-        <Setter Property="TextLabelStyle" Value="{StaticResource ViewModelErrorTextLabelStyle}" />
+        <Setter Property="TitleLabelStyle" Value="{DynamicResource ViewModelErrorTitleLabelStyle}" />
+        <Setter Property="TextLabelStyle" Value="{DynamicResource ViewModelErrorTextLabelStyle}" />
     </Style>
     <Style
         BasedOn="{StaticResource ViewModelErrorControlStyle}"
@@ -661,6 +669,7 @@
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 
+    <!-- Switch -->
     <Style
         x:Key="SwitchStyle"
         ApplyToDerivedTypes="True"
@@ -746,6 +755,22 @@
         BasedOn="{StaticResource CheckBoxStyle}"
         TargetType="CheckBox" />
 
+    <!-- Slider -->
+    <Style
+        x:Key="SliderStyle"
+        ApplyToDerivedTypes="True"
+        TargetType="Slider">
+        <Setter Property="ThumbColor" Value="{DynamicResource Theme.Slider.ThumbColor}" />
+        <Setter Property="MinimumTrackColor" Value="{DynamicResource Theme.Slider.MinimumTrackColor}" />
+        <Setter Property="MaximumTrackColor" Value="{DynamicResource Theme.Slider.MaximumTrackColor}" />
+    </Style>
+    <Style
+        BasedOn="{StaticResource SliderStyle}"
+        TargetType="Slider" />
+    <Style
+        BasedOn="{StaticResource SliderStyle}"
+        TargetType="controls:CustomSlider" />
+
     <!-- Picker -->
     <Style
         x:Key="PickerStyle"
@@ -759,6 +784,7 @@
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="ios:Picker.UpdateMode" Value="WhenFinished" />
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -801,6 +827,7 @@
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="ios:DatePicker.UpdateMode" Value="WhenFinished" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -841,6 +868,7 @@
         <Setter Property="effects:LineColorEffect.LineColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
         <Setter Property="MinimumHeightRequest" Value="{StaticResource MinimumHeight.Input}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource MinimumHeight.Input}" />
+        <Setter Property="ios:TimePicker.UpdateMode" Value="WhenFinished" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -876,8 +904,8 @@
         TargetType="SearchBar">
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="CancelButtonColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
-        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+        <Setter Property="CancelButtonColor" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource Theme.Page.BackgroundColor}" />
         <Setter Property="FontFamily" Value="{DynamicResource Theme.FontFamily.Input}" />
         <Setter Property="FontSize" Value="{DynamicResource Theme.FontSize.Input}" />
         <Setter Property="FontAttributes" Value="{DynamicResource Theme.FontAttributes.Input}" />
@@ -1002,19 +1030,25 @@
     </Style>
 
     <!-- ValidatablePicker -->
-    <Style TargetType="controls:ValidatablePicker">
+    <Style
+        x:Key="ValidatablePickerStyle"
+        TargetType="controls:ValidatablePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="PickerStyle" Value="{DynamicResource PickerStyle}" />
+        <Setter Property="PickerStyle" Value="{DynamicResource CustomPickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ValidatablePickerStyle}"
+        TargetType="controls:ValidatablePicker" />
 
     <!-- ValidatableDatePicker -->
     <Style
         x:Key="ValidatableDatePickerStyle"
         TargetType="controls:ValidatableDatePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
+        <Setter Property="DatePickerStyle" Value="{DynamicResource NullableDatePickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>
@@ -1028,8 +1062,8 @@
         x:Key="ValidatableDateTimePickerStyle"
         TargetType="controls:ValidatableDateTimePicker">
         <Setter Property="AnnotationLabelStyle" Value="{DynamicResource AnnotationEntryLabelStyle}" />
-        <Setter Property="DatePickerStyle" Value="{StaticResource DatePickerStyle}" />
-        <Setter Property="TimePickerStyle" Value="{StaticResource TimePickerStyle}" />
+        <Setter Property="DatePickerStyle" Value="{DynamicResource NullableDatePickerStyle}" />
+        <Setter Property="TimePickerStyle" Value="{DynamicResource NullableTimePickerStyle}" />
         <Setter Property="ReadonlyLabelStyle" Value="{DynamicResource EntryLabelStyle}" />
         <Setter Property="ValidationErrorLabelStyle" Value="{DynamicResource ValidationErrorLabelStyle}" />
     </Style>

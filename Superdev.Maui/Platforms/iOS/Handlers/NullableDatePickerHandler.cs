@@ -2,9 +2,7 @@ using System.Diagnostics;
 using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using Superdev.Maui.Utils;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Platforms.iOS.Utils;
 using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
@@ -15,15 +13,15 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         public new static readonly PM Mapper = new PM(DatePickerHandler.Mapper)
         {
-            [nameof(DatePicker.Format)] = UpdateFormat,
-            [nameof(DatePicker.Date)] = UpdateDate,
-            [nameof(NullableDatePicker.NullableDate)] = UpdateNullableDate,
-            [nameof(NullableDatePicker.Placeholder)] = UpdatePlaceholder,
-            [nameof(NullableDatePicker.PlaceholderColor)] = UpdatePlaceholder,
-            [nameof(DialogExtensions.NeutralButtonText)] = UpdateNeutralButtonText
+            [nameof(DatePicker.Date)] = MapDate,
+            [nameof(DatePicker.Format)] = MapFormat,
+            [nameof(NullableDatePicker.NullableDate)] = MapNullableDate,
+            [nameof(NullableDatePicker.Placeholder)] = MapPlaceholder,
+            [nameof(NullableDatePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
-        private UIDatePicker uiDatePicker;
+        private bool isClearing;
 
         public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
@@ -35,54 +33,64 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        protected override MauiDatePicker CreatePlatformView()
+        {
+            var mauiDatePicker = base.CreatePlatformView();
+
+            var inputAccessoryView = (MauiDoneAccessoryView)mauiDatePicker.InputAccessoryView!;
+            inputAccessoryView.SetDoneButtonAction(this.HandleDoneButton);
+            inputAccessoryView.SetClearButtonAction(this.HandleClearButton);
+            mauiDatePicker.InputAccessoryView = inputAccessoryView;
+
+            return mauiDatePicker;
+        }
+
+        protected override void DisconnectHandler(MauiDatePicker platformView)
+        {
+            platformView.InputAccessoryView = null;
+            this.inputAccessoryView?.Dispose();
+            this.inputAccessoryView = null;
+
+            base.DisconnectHandler(platformView);
+        }
+
         private new NullableDatePicker VirtualView => (NullableDatePicker)base.VirtualView;
 
-        protected override void SetupUIToolbar(MauiDatePicker mauiDatePicker)
+        private void HandleDoneButton()
         {
-            lock (mauiDatePicker.InputAccessoryView)
+            var nullableDatePicker = this.VirtualView;
+            var uiDatePicker = this.Picker;
+
+            if (nullableDatePicker == null || uiDatePicker == null)
             {
-                var buttonItems = new List<UIBarButtonItem>();
-                var clearButton = CreateClearButton(this.VirtualView, mauiDatePicker);
-                if (clearButton != null)
-                {
-                    buttonItems.Add(clearButton);
-                }
-
-                buttonItems.Add(new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace));
-                buttonItems.Add(UIToolbarHelper.CreateDoneButton(this.VirtualView, this.HandleDoneButton));
-
-                mauiDatePicker.InputAccessoryView = UIToolbarHelper.CreateUIToolbar(buttonItems.ToArray());
-                mauiDatePicker.InputAccessoryView.SetNeedsDisplay();
-            }
-        }
-
-        private static UIBarButtonItem CreateClearButton(NullableDatePicker nullableDatePicker, MauiDatePicker mauiDatePicker)
-        {
-            var clearButtonText = DialogExtensions.GetNeutralButtonText(nullableDatePicker);
-            if (!string.IsNullOrEmpty(clearButtonText))
-            {
-                var clearButton = new UIBarButtonItem(clearButtonText, UIBarButtonItemStyle.Plain, (_, _) =>
-                {
-                    HandleClearButton(nullableDatePicker, mauiDatePicker);
-                });
-                return clearButton;
+                return;
             }
 
-            return null;
+            var date = uiDatePicker.Date.ToDateTime().Date;
+            nullableDatePicker.Date = date;
+            nullableDatePicker.NullableDate = date;
+
+            var mauiDatePicker = this.PlatformView;
+            mauiDatePicker.ResignFirstResponder();
         }
 
-        private void HandleDoneButton(object sender, EventArgs e)
+        protected override void OnEditingDidEnd(DateTime date)
         {
-            this.VirtualView.Date = this.uiDatePicker.Date.ToDateTime();
-            this.VirtualView.NullableDate = this.uiDatePicker.Date.ToDateTime();
-            SetNullableText(this.PlatformView, this.VirtualView);
-            this.PlatformView.ResignFirstResponder();
+            if (this.isClearing)
+            {
+                return;
+            }
+
+            var nullableDatePicker = this.VirtualView;
+            nullableDatePicker.Date = date;
+            nullableDatePicker.NullableDate = date;
         }
 
         protected override void ConnectHandler(MauiDatePicker platformView)
         {
-            this.uiDatePicker = ReflectionHelper.GetPropertyValue<UIDatePicker>(this.PlatformView, "DatePickerDialog");
+#if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
+#endif
             base.ConnectHandler(platformView);
 
             // HACK:
@@ -92,14 +100,20 @@ namespace Superdev.Maui.Platforms.Handlers
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await Task.Delay(10);
-                SetNullableText(this.PlatformView, this.VirtualView);
+                UpdateDate(this.PlatformView, this.VirtualView);
             });
         }
 
-        protected override void DisconnectHandler(MauiDatePicker platformView)
+        private static void MapPlaceholder(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            this.uiDatePicker = null;
-            base.DisconnectHandler(platformView);
+            Debug.WriteLine("MapPlaceholder");
+            UpdatePlaceholder(nullableDatePickerHandler, nullableDatePicker);
+        }
+
+        private static void MapPlaceholderColor(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
+        {
+            Debug.WriteLine("MapPlaceholderColor");
+            UpdatePlaceholder(nullableDatePickerHandler, nullableDatePicker);
         }
 
         private static void UpdatePlaceholder(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
@@ -119,73 +133,102 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        protected override void UpdateDoneButton(MauiDatePicker mauiDatePicker)
+        private static void MapNeutralButtonText(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
         {
-            this.SetupUIToolbar(this.PlatformView);
+            nullableDatePickerHandler.UpdateClearButtonText(nullableDatePicker);
         }
 
-        private static void UpdateNeutralButtonText(NullableDatePickerHandler nullableDatePickerHandler,
-            NullableDatePicker nullableDatePicker)
+        private void UpdateClearButtonText(NullableDatePicker nullableDatePicker)
         {
-            nullableDatePickerHandler.SetupUIToolbar(nullableDatePickerHandler.PlatformView);
+            var clearButtonText = DialogExtensions.GetNeutralButtonText(nullableDatePicker);
+            var mauiTextField = this.PlatformView;
+            mauiTextField.InputAccessoryView = MauiDoneAccessoryView.SetClearButtonText(this.inputAccessoryView, clearButtonText);
         }
 
-        private static void HandleClearButton(NullableDatePicker nullableDatePicker, MauiDatePicker mauiDatePicker)
+        private void HandleClearButton()
         {
-            nullableDatePicker.Date = DateTime.Now;
-            nullableDatePicker.NullableDate = null;
-            SetNullableText(mauiDatePicker, nullableDatePicker);
-            mauiDatePicker.ResignFirstResponder();
+            this.isClearing = true;
+
+            try
+            {
+                var nullableDatePicker = this.VirtualView;
+                nullableDatePicker.Date = DateTime.Now;
+                nullableDatePicker.NullableDate = null;
+
+                var mauiDatePicker = this.PlatformView;
+                mauiDatePicker.ResignFirstResponder();
+            }
+            finally
+            {
+                this.isClearing = true;
+            }
         }
 
-        private static void UpdateFormat(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private new static void MapFormat(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
         {
-            Debug.WriteLine("UpdateFormat");
+            Debug.WriteLine("MapFormat");
 
             if (datePicker is NullableDatePicker nullableDatePicker)
             {
-                SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
+                UpdateDate(datePickerHandler.PlatformView, nullableDatePicker);
             }
         }
 
-        private static void UpdateDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private new static void MapDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
         {
-            Debug.WriteLine("UpdateDate");
+            Debug.WriteLine("MapDate");
 
-            if (datePicker is NullableDatePicker nullableDatePicker &&
-                datePickerHandler is NullableDatePickerHandler)
+            if (datePickerHandler is NullableDatePickerHandler nullableDatePickerHandler && datePicker is NullableDatePicker nullableDatePicker)
             {
-                UpdateNullableDate(datePickerHandler, nullableDatePicker);
+                UpdateUIDatePicker(nullableDatePickerHandler.Picker, nullableDatePicker.Date);
+                MapNullableDate(datePickerHandler, nullableDatePicker);
             }
         }
 
-        private static void UpdateNullableDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
+        private static void MapNullableDate(IDatePickerHandler datePickerHandler, IDatePicker datePicker)
         {
-            Debug.WriteLine("UpdateNullableDate");
+            Debug.WriteLine("MapNullableDate");
 
-            if (datePicker is NullableDatePicker nullableDatePicker)
+            if (datePickerHandler is NullableDatePickerHandler nullableDatePickerHandler && datePicker is NullableDatePicker nullableDatePicker)
             {
-                SetNullableText(datePickerHandler.PlatformView, nullableDatePicker);
+                UpdateUIDatePicker(nullableDatePickerHandler.Picker, nullableDatePicker.NullableDate);
+                UpdateDate(datePickerHandler.PlatformView, nullableDatePicker);
             }
         }
 
-        private static void SetNullableText(MauiDatePicker mauiDatePicker, NullableDatePicker nullableDatePicker)
+        private static void UpdateUIDatePicker(UIDatePicker datePicker, DateTime? nullableDate)
+        {
+            if (datePicker != null)
+            {
+                var dateTime = nullableDate ?? DateTime.Now;
+                datePicker.Date = dateTime.ToNSDate();
+            }
+        }
+
+        private static void UpdateDate(MauiDatePicker mauiDatePicker, NullableDatePicker nullableDatePicker)
         {
             var format = nullableDatePicker.Format;
-            var originalText = mauiDatePicker.Text;
 
             if (nullableDatePicker.NullableDate is DateTime dateTime && dateTime != DateTime.MinValue &&
                 !string.IsNullOrEmpty(format))
             {
-                var localDateTime = dateTime.ToLocalTime();
-                mauiDatePicker.Text = localDateTime.ToString(format);
+                try
+                {
+                    var localDateTime = dateTime.ToLocalTime();
+                    var text = localDateTime.ToString(format);
+                    mauiDatePicker.Text = text;
+                    // Debug.WriteLine($"UpdateDate: mauiDatePicker.Text with format={format}, cultureInfo={Culture.CurrentCulture} {Environment.NewLine}" +
+                    //                 $"> {text}");
+                }
+                catch (Exception ex)
+                {
+                    mauiDatePicker.Text = ex.Message;
+                }
             }
             else
             {
                 mauiDatePicker.Text = string.Empty;
             }
-
-            Debug.WriteLine($"SetNullableText: mauiDatePicker.Text=\"{originalText}\" --> mauiDatePicker.Text=\"{mauiDatePicker.Text}\"");
         }
     }
 }

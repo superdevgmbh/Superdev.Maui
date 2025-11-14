@@ -7,6 +7,7 @@ using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
@@ -28,7 +29,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IActivityIndicatorService activityIndicatorService;
         private readonly IThemeHelper themeHelper;
 
-        private CountryViewModel country;
         private string adminEmailAddress;
 
         private int numberOfLoads;
@@ -37,12 +37,12 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isReadonly;
         private ICommand longPressCommand;
         private ICommand normalPressCommand;
-        private ObservableCollection<CountryViewModel> countries;
         private DateTime? birthdate;
         private IAsyncRelayCommand navigateToPageCommand;
         private LanguageViewModel language;
         private IRelayCommand switchThemesCommand;
         private AppTheme appTheme;
+        private LanguageViewModel[] languages;
 
         public MainViewModel(
             ILogger<MainViewModel> logger,
@@ -68,13 +68,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.EnableBusyRefCount = false;
             this.ViewModelError = ViewModelError.None;
             this.User = new UserDto();
-            this.Countries = new ObservableCollection<CountryViewModel>();
-
-            this.Languages = new ObservableCollection<LanguageViewModel>
-            {
-                new LanguageViewModel(new CultureInfo("en")), new LanguageViewModel(new CultureInfo("de"))
-            };
-            this.language = this.Languages.First();
 
             _ = this.InitializeAsync();
         }
@@ -91,7 +84,11 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public ObservableCollection<LanguageViewModel> Languages { get; }
+        public LanguageViewModel[] Languages
+        {
+            get => this.languages;
+            private set => this.SetProperty(ref this.languages, value);
+        }
 
         public LanguageViewModel Language
         {
@@ -170,17 +167,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.birthdate, value);
         }
 
-        public ObservableCollection<CountryViewModel> Countries
-        {
-            get => this.countries;
-            private set => this.SetProperty(ref this.countries, value);
-        }
-
-        public CountryViewModel Country
-        {
-            get => this.country;
-            set => this.SetProperty(ref this.country, value);
-        }
 
         public IAsyncRelayCommand NavigateToPageCommand
         {
@@ -247,6 +233,14 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
 
+                this.Languages = new []
+                {
+                    new LanguageViewModel(new CultureInfo("en")),
+                    new LanguageViewModel(new CultureInfo("de"))
+                };
+                this.language = this.Languages.First();
+                this.RaisePropertyChanged(nameof(this.Language));
+
                 this.User = new UserDto { Id = 1, UserName = "thomasgalliker" };
                 this.UserId = 2;
 
@@ -257,19 +251,6 @@ namespace SuperdevMauiDemoApp.ViewModels
                     // Simulate a data load exception
                     throw new InvalidOperationException("Failed to load data. Try again.");
                 }
-
-                var defaultCountryViewModel = new CountryViewModel(new CountryDto { Name = null });
-                var countryDtos = (await this.countryService.GetAllAsync()).ToList();
-
-                // Set countries all at once
-                this.Countries.Clear();
-                this.Countries =
-                    new ObservableCollection<CountryViewModel>(countryDtos.Select(c => new CountryViewModel(c))
-                        .Prepend(defaultCountryViewModel));
-
-                // Set countries one after the other
-                this.Countries.Clear();
-                this.Countries.AddRange(countryDtos.Select(c => new CountryViewModel(c)).Prepend(defaultCountryViewModel));
 
                 //this.Notes = $"Test test test{Environment.NewLine}Line 2 text text text";
                 this.AdminEmailAddress = "thomas@bluewin.ch";

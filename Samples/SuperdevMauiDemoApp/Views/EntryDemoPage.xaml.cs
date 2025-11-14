@@ -2,11 +2,11 @@
 
 namespace SuperdevMauiDemoApp.Views
 {
-    public partial class EntryPage : ContentPage
+    public partial class EntryDemoPage : ContentPage
     {
         private WindowSoftInputModeAdjust originalWindowSoftInputModeAdjust;
 
-        public EntryPage()
+        public EntryDemoPage()
         {
             this.InitializeComponent();
         }

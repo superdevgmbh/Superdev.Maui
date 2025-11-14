@@ -1,17 +1,22 @@
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
+using IBrowser = Superdev.Maui.Services.IBrowser;
 using IDeviceInfo = Superdev.Maui.Services.IDeviceInfo;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
     public class ServiceDemoViewModel : BaseViewModel
     {
+        private readonly ILogger logger;
         private readonly IStatusBarService statusBarService;
         private readonly IGeolocationSettings geolocationSettings;
         private readonly IDeviceInfo deviceInfo;
         private readonly IThemeHelper themeHelper;
+        private readonly IDialogService dialogService;
+        private readonly IBrowser browser;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
         private IRelayCommand showGeolocationSettingsCommand;
@@ -28,20 +33,35 @@ namespace SuperdevMauiDemoApp.ViewModels
         private AppTheme userAppTheme;
         private AppTheme appTheme;
         private IRelayCommand resetThemeCommand;
+        private IAsyncRelayCommand displayAlertCommand;
+        private IAsyncRelayCommand displayActionSheetCommand;
+        private IAsyncRelayCommand tryOpenUrlCommand;
 
         public ServiceDemoViewModel(
+            ILogger<ServiceDemoViewModel> logger,
             IStatusBarService statusBarService,
             IGeolocationSettings geolocationSettings,
             IDeviceInfo deviceInfo,
             IThemeHelper themeHelper,
+            IDialogService dialogService,
+            IBrowser browser,
             IViewModelErrorHandler viewModelErrorHandler)
         {
+            this.logger = logger;
             this.statusBarService = statusBarService;
             this.geolocationSettings = geolocationSettings;
             this.deviceInfo = deviceInfo;
             this.themeHelper = themeHelper;
+            this.dialogService = dialogService;
+            this.browser = browser;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
+            this.AppThemes = new[]
+            {
+                AppTheme.Unspecified,
+                AppTheme.Light,
+                AppTheme.Dark
+            };
             this.appTheme = this.themeHelper.AppTheme;
             this.useSystemTheme = this.themeHelper.UseSystemTheme;
             this.themeHelper.ThemeChanged += this.OnThemeChanged;
@@ -147,18 +167,15 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.useSystemTheme = this.themeHelper.UseSystemTheme;
             this.RaisePropertyChanged(nameof(this.UseSystemTheme));
+
             this.UserAppTheme = this.themeHelper.UserAppTheme;
             this.PlatformAppTheme = this.themeHelper.PlatformAppTheme;
+
             this.appTheme = this.themeHelper.AppTheme;
             this.RaisePropertyChanged(nameof(this.AppTheme));
         }
 
-        public AppTheme[] AppThemes => new []
-        {
-            AppTheme.Unspecified,
-            AppTheme.Light,
-            AppTheme.Dark
-        };
+        public AppTheme[] AppThemes { get; }
 
         public AppTheme PlatformAppTheme
         {
@@ -208,6 +225,33 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.RefreshThemeHelperValues();
         }
 
+        public IAsyncRelayCommand DisplayAlertCommand
+        {
+            get => this.displayAlertCommand ??= new AsyncRelayCommand(this.DisplayAlertAsync);
+        }
+
+        private async Task DisplayAlertAsync()
+        {
+            var result = await this.dialogService.DisplayAlertAsync("Title", "Message", "Confirm", "Cancel");
+            this.logger.LogDebug($"DisplayAlertAsync: result={result}");
+        }
+
+        public IAsyncRelayCommand DisplayActionSheetCommand
+        {
+            get => this.displayActionSheetCommand ??= new AsyncRelayCommand(this.DisplayActionSheetAsync);
+        }
+
+        private async Task DisplayActionSheetAsync()
+        {
+            var buttons = new []
+            {
+                "Button1",
+                "Button2"
+            };
+            var result = await this.dialogService.DisplayActionSheetAsync("Title", "Cancel", "Destruction", buttons);
+            this.logger.LogDebug($"DisplayActionSheetAsync: result={result}");
+        }
+
         public IRelayCommand ShowGeolocationSettingsCommand
         {
             get => this.showGeolocationSettingsCommand ??= new RelayCommand(this.ShowGeolocationSettings);
@@ -216,6 +260,17 @@ namespace SuperdevMauiDemoApp.ViewModels
         private void ShowGeolocationSettings()
         {
             this.geolocationSettings.ShowSettingsUI();
+        }
+
+        public IAsyncRelayCommand TryOpenUrlCommand
+        {
+            get => this.tryOpenUrlCommand ??= new AsyncRelayCommand(this.TryOpenUrlAsync);
+        }
+
+        private async Task TryOpenUrlAsync()
+        {
+            var result = await this.browser.TryOpenAsync("https://www.github.com/thomasgalliker");
+            this.logger.LogDebug($"TryOpenUrlAsync: result={result}");
         }
     }
 }

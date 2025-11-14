@@ -26,9 +26,9 @@
             public const string OnTertiary = "Theme.Color.OnTertiary";
             public const string Error = "Theme.Color.Error";
             public const string ErrorBackground = "Theme.Color.ErrorBackground";
-
-            public const string SemiTransparentBright = "Theme.Color.SemiTransparentBright";
-            public const string SemiTransparentDark = "Theme.Color.SemiTransparentDark";
+            public const string Hyperlink = "Theme.Color.Hyperlink";
+            public const string ListSeparator = "Theme.Color.ListSeparator";
+            public const string DividerLine = "Theme.Color.DividerLine";
         }
 
         public static class Page
@@ -88,7 +88,7 @@
             public const string BackgroundColorPressed = "DrilldownButtonStyle.BackgroundColor.Pressed";
         }
 
-        public static class SwitchStyle
+        public static class Switch
         {
             public const string OnColor = "Theme.Switch.OnColor";
             public const string ThumbColor = "Theme.Switch.ThumbColor";
@@ -98,6 +98,13 @@
             public const string ThumbColorToggled = "Theme.Switch.ThumbColor.Toggled";
             public const string OnColorToggledDisabled = "Theme.Switch.OnColor.Toggled.Disabled";
             public const string ThumbColorToggledDisabled = "Theme.Switch.ThumbColor.Toggled.Disabled";
+        }
+
+        public static class Slider
+        {
+            public const string ThumbColor = "Theme.Slider.ThumbColor";
+            public const string MinimumTrackColor = "Theme.Slider.MinimumTrackColor";
+            public const string MaximumTrackColor = "Theme.Slider.MaximumTrackColor";
         }
 
         public static class CardViewStyle
@@ -147,7 +154,6 @@
         public static class FontFamily
         {
             public const string Default = "Theme.FontFamily.Default";
-
             public const string Body1 = "Theme.FontFamily.Body1";
             public const string Body2 = "Theme.FontFamily.Body2";
             public const string Button = "Theme.FontFamily.Button";

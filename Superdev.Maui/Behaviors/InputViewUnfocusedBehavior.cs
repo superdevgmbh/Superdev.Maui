@@ -19,7 +19,7 @@ namespace Superdev.Maui.Behaviors
     /// </Entry.Behaviors >
     /// </Entry >
     /// </example>
-    public class InputViewUnfocusedBehavior : BehaviorBase<InputView>
+    public class InputViewUnfocusedBehavior : BehaviorBase<VisualElement>
     {
         public static readonly BindableProperty DecorationFlagsProperty =
             BindableProperty.Create(
@@ -34,11 +34,11 @@ namespace Superdev.Maui.Behaviors
             set => this.SetValue(DecorationFlagsProperty, value);
         }
 
-        protected override void OnAttachedTo(InputView bindable)
+        protected override void OnAttachedTo(VisualElement bindable)
         {
             base.OnAttachedTo(bindable);
 
-            var inputView = (InputView)bindable.AsEntry() ?? bindable.AsEditor() ?? bindable;
+            var inputView = bindable.AsEntry() ?? bindable.AsEditor() ?? bindable as InputView;
             if (inputView != null)
             {
                 inputView.Unfocused += this.OnInputViewUnfocused;
@@ -49,10 +49,13 @@ namespace Superdev.Maui.Behaviors
             }
         }
 
-        protected override void OnDetachingFrom(InputView bindable)
+        protected override void OnDetachingFrom(VisualElement bindable)
         {
-            var inputView = (InputView)bindable.AsEntry() ?? bindable.AsEditor() ?? bindable;
-            inputView.Unfocused -= this.OnInputViewUnfocused;
+            var inputView = bindable.AsEntry() ?? bindable.AsEditor() ?? bindable as InputView;
+            if (inputView != null)
+            {
+                inputView.Unfocused -= this.OnInputViewUnfocused;
+            }
 
             base.OnDetachingFrom(bindable);
         }

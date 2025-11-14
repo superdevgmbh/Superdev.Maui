@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:Name="Page"
     x:DataType="vm:ListViewDemoViewModel"
-    Title="ListView Demo">
+    Title="ListViewDemoPage">
 
     <ContentPage.Resources>
         <DataTemplate x:Key="CountryItemTemplate">
@@ -19,13 +19,9 @@
     <Grid>
         <Grid
             Grid.Row="0"
-            RowDefinitions="Auto,*">
-            <Button
-                Grid.Row="0"
-                Command="{Binding ScrollToPositionTestCommand}"
-                Text="Scroll to position" />
+            RowDefinitions="*,Auto">
             <ListView
-                Grid.Row="1"
+                Grid.Row="0"
                 s:ListViewExtensions.ScrollTo="{Binding ScrollToCountry}"
                 CachingStrategy="RecycleElement"
                 HasUnevenRows="True"
@@ -34,13 +30,17 @@
                 ItemTemplate="{StaticResource CountryItemTemplate}"
                 ItemsSource="{Binding Countries}"
                 RefreshCommand="{Binding RefreshCommand}" />
+            <Button
+                Grid.Row="1"
+                Command="{Binding ScrollToPositionTestCommand}"
+                Text="Scroll to position" />
         </Grid>
 
-        <s:PageActivityIndicator
-            Grid.Row="0"
-            IsBusy="{Binding IsBusy}"
-            Text="Text"
-            Title="Title" />
+        <!-- <s:PageActivityIndicator -->
+        <!-- Grid.Row="0" -->
+        <!-- IsBusy="{Binding IsBusy}" -->
+        <!-- Text="Text" -->
+        <!-- Title="Title" /> -->
 
         <s:ViewModelErrorControl
             Grid.Row="0"

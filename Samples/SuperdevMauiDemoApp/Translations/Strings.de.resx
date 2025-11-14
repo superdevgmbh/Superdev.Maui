@@ -61,4 +61,10 @@
   <data name="LanguageLabelText" xml:space="preserve">
     <value>Sprache</value>
   </data>
+  <data name="DoneButtonText" xml:space="preserve">
+    <value>Fertig</value>
+  </data>
+  <data name="OkButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

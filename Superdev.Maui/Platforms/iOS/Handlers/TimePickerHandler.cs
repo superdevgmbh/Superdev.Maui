@@ -1,6 +1,6 @@
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Platforms.iOS.Utils;
+using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -8,9 +8,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class TimePickerHandler : Microsoft.Maui.Handlers.TimePickerHandler
     {
+        protected MauiDoneAccessoryView inputAccessoryView;
+
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.TimePickerHandler.Mapper)
         {
-            [DialogExtensions.DoneButtonText] = UpdateDoneButtonText,
+            [DialogExtensions.DoneButtonText] = MapDoneButtonText,
         };
 
         public TimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -28,25 +30,75 @@ namespace Superdev.Maui.Platforms.Handlers
         protected override MauiTimePicker CreatePlatformView()
         {
             var mauiTimePicker = base.CreatePlatformView();
-            this.SetupUIToolbar(mauiTimePicker);
+
+            this.inputAccessoryView = new MauiDoneAccessoryView();
+            this.inputAccessoryView.SetDoneButtonAction(this.HandleDoneButton);
+            mauiTimePicker.InputAccessoryView = this.inputAccessoryView;
+
             return mauiTimePicker;
         }
 
-        protected virtual void SetupUIToolbar(MauiTimePicker mauiTimePicker)
+        protected override void ConnectHandler(MauiTimePicker platformView)
         {
-            this.UpdateDoneButton(mauiTimePicker);
+            base.ConnectHandler(platformView);
+
+            platformView.EditingDidEnd += this.OnEditingDidEnd;
         }
 
-        protected virtual void UpdateDoneButton(MauiTimePicker mauiDatePicker)
+        protected override void DisconnectHandler(MauiTimePicker platformView)
         {
-            var newDoneButton = UIToolbarHelper.CreateDoneButton(this.VirtualView, (_, _) => { });
-            UIToolbarHelper.ReplaceDoneButton(mauiDatePicker.InputAccessoryView, newDoneButton);
+            platformView.EditingDidEnd -= this.OnEditingDidEnd;
+
+            platformView.InputAccessoryView = null;
+            this.inputAccessoryView?.Dispose();
+            this.inputAccessoryView = null;
+
+            base.DisconnectHandler(platformView);
         }
 
-        private static void UpdateDoneButtonText(TimePickerHandler timePickerHandler, TimePicker timePicker)
+        private void HandleDoneButton()
         {
-            var mauiTimePicker = timePickerHandler.PlatformView;
-            timePickerHandler.UpdateDoneButton(mauiTimePicker);
+            var timePicker = this.VirtualView;
+            var mauiTimePicker = this.PlatformView;
+
+            if (timePicker == null || mauiTimePicker == null)
+            {
+                return;
+            }
+
+            var timeOfDay = mauiTimePicker.Date.ToDateTime().TimeOfDay;
+            var time = new TimeSpan(hours: timeOfDay.Hours, minutes: timeOfDay.Minutes, 0);
+            timePicker.Time = time;
+            mauiTimePicker.ResignFirstResponder();
+        }
+
+        private static void MapDoneButtonText(TimePickerHandler timePickerHandler, TimePicker timePicker)
+        {
+            timePickerHandler.DoneButtonText(timePicker);
+        }
+
+        private void DoneButtonText(TimePicker timePicker)
+        {
+            var doneButtonText = DialogExtensions.GetDoneButtonText(timePicker);
+            var mauiTimePicker = this.PlatformView;
+            mauiTimePicker.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
+        }
+
+        private void OnEditingDidEnd(object sender, EventArgs e)
+        {
+            var mauiTimePicker = (MauiTimePicker)sender;
+            if (mauiTimePicker.Picker is UIDatePicker uiDatePicker)
+            {
+                var timeOfDay = uiDatePicker.Date.ToDateTime().TimeOfDay;
+                var time = new TimeSpan(hours: timeOfDay.Hours, minutes: timeOfDay.Minutes, 0);
+                this.OnEditingDidEnd(time);
+            }
+        }
+
+        protected virtual void OnEditingDidEnd(TimeSpan time)
+        {
+            var timePicker = this.VirtualView;
+            timePicker.Time = time;
         }
     }
 }

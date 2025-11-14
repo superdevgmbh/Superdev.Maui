@@ -7,7 +7,7 @@
     xmlns:templates="clr-namespace:SuperdevMauiDemoApp.Views.ItemTemplates"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:BindableItemsSourceDemoViewModel"
-    Title="BindableItemsSource Demo">
+    Title="BindableItemsSource">
 
     <ContentPage.Behaviors>
         <s:EventToCommandBehavior

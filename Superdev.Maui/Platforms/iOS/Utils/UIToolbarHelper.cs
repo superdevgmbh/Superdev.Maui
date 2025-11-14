@@ -5,8 +5,10 @@ using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Platforms.iOS.Utils
 {
+    [Obsolete]
     public static class UIToolbarHelper
     {
+        [Obsolete]
         public static UIToolbar CreateUIToolbar(UIBarButtonItem[] items)
         {
             var width = UIScreen.MainScreen.Bounds.Width;
@@ -20,6 +22,7 @@ namespace Superdev.Maui.Platforms.iOS.Utils
             return toolbar;
         }
 
+        [Obsolete]
         public static void ReplaceDoneButton(UIView inputAccessoryView, UIBarButtonItem newDoneButton)
         {
             if (inputAccessoryView is UIToolbar toolbar)
@@ -43,6 +46,7 @@ namespace Superdev.Maui.Platforms.iOS.Utils
             }
         }
 
+        [Obsolete]
         public static UIBarButtonItem CreateDoneButton(BindableObject element, EventHandler eventHandler)
         {
             if (DialogExtensions.GetDoneButtonText(element) is string doneButtonText)

@@ -165,4 +165,10 @@
   <data name="UserProfileAddressCaptionText" xml:space="preserve">
     <value>Shipping Address</value>
   </data>
+  <data name="DoneButtonText" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="OkButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

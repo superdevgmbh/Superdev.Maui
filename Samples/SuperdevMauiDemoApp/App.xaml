@@ -8,9 +8,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <styles:SuperdevMauiStyles />
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Converters.xaml" />
-                <styles:SuperdevMauiStyles />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Styles -->
@@ -26,21 +27,10 @@
             </Style>
 
             <Style
-                x:Key="FlatFrameStyle"
-                TargetType="Frame">
-                <Setter Property="BorderColor" Value="Black" />
+                x:Key="SpacingDemoBorderStyle"
+                TargetType="Border">
                 <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="HasShadow" Value="False" />
-                <Setter Property="CornerRadius" Value="0" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Margin" Value="0" />
-            </Style>
-
-            <Style
-                x:Key="LayoutBorderFrameStyle"
-                BasedOn="{StaticResource FlatFrameStyle}"
-                TargetType="Frame">
-                <Setter Property="BorderColor" Value="Magenta" />
+                <Setter Property="Stroke" Value="Magenta" />
                 <Setter Property="VerticalOptions" Value="Start" />
             </Style>
 

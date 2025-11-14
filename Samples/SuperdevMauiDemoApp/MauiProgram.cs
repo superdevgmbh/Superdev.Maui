@@ -33,18 +33,25 @@ namespace SuperdevMauiDemoApp
                 b.AddSimpleConsole();
             });
 
+            var localize = ILocalizer.Current;
+            localize.LanguageChanging += (_, e) =>
+            {
+                Strings.Culture = e.CultureInfo;
+            };
+
             var translationProvider = ResxSingleTranslationProvider.Current;
             translationProvider.Init(Strings.ResourceManager);
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<LabelDemoPage>();
-            builder.Services.AddTransient<CardViewPage>();
-            builder.Services.AddTransient<CardViewViewModel>();
+            builder.Services.AddTransient<LabelDemoViewModel>();
+            builder.Services.AddTransient<CardViewDemoPage>();
+            builder.Services.AddTransient<CardViewDemoViewModel>();
             builder.Services.AddTransient<DrilldownButtonListPage>();
             builder.Services.AddTransient<DrilldownButtonListViewModel>();
-            builder.Services.AddTransient<EntryPage>();
-            builder.Services.AddTransient<EntryViewModel>();
+            builder.Services.AddTransient<EntryDemoPage>();
+            builder.Services.AddTransient<EntryDemoViewModel>();
             builder.Services.AddTransient<ServiceDemoPage>();
             builder.Services.AddTransient<ServiceDemoViewModel>();
             builder.Services.AddTransient<NavigationDemoPage>();
@@ -55,8 +62,14 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<ActivityIndicatorDemoViewModel>();
             builder.Services.AddTransient<PickerDemoPage>();
             builder.Services.AddTransient<PickerDemoViewModel>();
+            builder.Services.AddTransient<DatePickerDemoPage>();
+            builder.Services.AddTransient<DatePickerDemoViewModel>();
+            builder.Services.AddTransient<TimePickerDemoPage>();
+            builder.Services.AddTransient<TimePickerDemoViewModel>();
             builder.Services.AddTransient<EditorDemoPage>();
             builder.Services.AddTransient<EditorDemoViewModel>();
+            builder.Services.AddTransient<KeyboardDemoPage>();
+            builder.Services.AddTransient<KeyboardDemoViewModel>();
             builder.Services.AddTransient<SwitchDemoPage>();
             builder.Services.AddTransient<SwitchDemoViewModel>();
             builder.Services.AddTransient<CheckBoxDemoPage>();
@@ -79,6 +92,7 @@ namespace SuperdevMauiDemoApp
             builder.Services.AddTransient<ProgressBarDemoPage>();
             builder.Services.AddTransient<BehaviorDemoPage>();
             builder.Services.AddTransient<BehaviorDemoViewModel>();
+            builder.Services.AddTransient<MarkupExtensionsDemoPage>();
             builder.Services.AddTransient<BindableItemsSourceDemoPage>();
             builder.Services.AddTransient<BindableItemsSourceDemoViewModel>();
 

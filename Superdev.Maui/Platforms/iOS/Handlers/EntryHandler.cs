@@ -1,7 +1,5 @@
 using Microsoft.Maui.Platform;
-using UIKit;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Platforms.iOS.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -9,9 +7,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class EntryHandler : Microsoft.Maui.Handlers.EntryHandler
     {
+        private MauiDoneAccessoryView inputAccessoryView;
+
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.EntryHandler.Mapper)
         {
-            [nameof(DialogExtensions.DoneButtonText)] = UpdateDoneButtonText,
+            [nameof(DialogExtensions.DoneButtonText)] = MapDoneButtonText,
         };
 
         public EntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
@@ -24,39 +24,44 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        private new Entry VirtualView => (Entry)base.VirtualView;
+
         protected override MauiTextField CreatePlatformView()
         {
-            var mauiDatePicker = base.CreatePlatformView();
-            this.SetupUIToolbar(mauiDatePicker);
-            return mauiDatePicker;
+            var mauiTextField = base.CreatePlatformView();
+
+            this.inputAccessoryView = new MauiDoneAccessoryView();
+            this.inputAccessoryView.SetDoneButtonAction(this.OnDoneClicked);
+            mauiTextField.InputAccessoryView = this.inputAccessoryView;
+
+            return mauiTextField;
         }
 
-        private void SetupUIToolbar(MauiTextField mauiTextField)
+        protected override void DisconnectHandler(MauiTextField platformView)
         {
-            if (mauiTextField.InputAccessoryView == null)
-            {
-                var toolbar = UIToolbarHelper.CreateUIToolbar(new[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) });
-                mauiTextField.InputAccessoryView = toolbar;
-            }
+            platformView.InputAccessoryView = null;
+            this.inputAccessoryView?.Dispose();
+            this.inputAccessoryView = null;
 
-            this.InsertOrUpdateDoneButton(mauiTextField);
+            base.DisconnectHandler(platformView);
         }
 
-        private static void UpdateDoneButtonText(EntryHandler entryHandler, Entry entry)
+        private static void MapDoneButtonText(EntryHandler entryHandler, Entry entry)
         {
-            entryHandler.InsertOrUpdateDoneButton(entryHandler.PlatformView);
+            entryHandler.DoneButtonText(entry);
         }
 
-        protected virtual void InsertOrUpdateDoneButton(MauiTextField mauiTextField)
+        private void DoneButtonText(Entry entry)
         {
-            var newDoneButton = UIToolbarHelper.CreateDoneButton((BindableObject)this.VirtualView, this.HandleDoneButton);
-            UIToolbarHelper.ReplaceDoneButton(mauiTextField.InputAccessoryView, newDoneButton);
+            var doneButtonText = DialogExtensions.GetDoneButtonText(entry);
+            var mauiTextField = this.PlatformView;
+            mauiTextField.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
-        private void HandleDoneButton(object sender, EventArgs args)
+        private void OnDoneClicked()
         {
             this.PlatformView.ResignFirstResponder();
-            ((IEntryController)this.VirtualView).SendCompleted();
+            this.VirtualView.SendCompleted();
         }
     }
 }

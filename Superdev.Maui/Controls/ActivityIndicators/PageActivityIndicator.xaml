@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <Grid
     x:Class="Superdev.Maui.Controls.PageActivityIndicator"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -7,15 +6,19 @@
     x:Name="Control"
     Padding="{DynamicResource Theme.Padding.Medium}"
     BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BackgroundColor}"
-    IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}">
+    IsVisible="{Binding IsBusy, Source={x:Reference Control}, FallbackValue=False}"
+    HorizontalOptions="Fill"
+    VerticalOptions="Fill">
 
-    <VerticalStackLayout
-        Spacing="{DynamicResource Theme.Spacing.Medium}"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
+    <Grid
+        RowDefinitions="*,*"
+        RowSpacing="{DynamicResource Theme.Spacing.Medium}"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill">
 
         <!-- ActivityIndicator -->
         <VerticalStackLayout
+            Grid.Row="0"
             Padding="{DynamicResource Theme.Padding.Medium}"
             HorizontalOptions="Center"
             VerticalOptions="End">
@@ -24,14 +27,23 @@
                 Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}" />
         </VerticalStackLayout>
 
-        <!-- Title -->
-        <Label
-            Style="{Binding Source={x:Reference Control}, Path=TitleStyle}"
-            Text="{Binding Title, Source={x:Reference Control}}" />
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="{DynamicResource Theme.Spacing.Medium}"
+            HorizontalOptions="Center"
+            VerticalOptions="Start">
 
-        <!-- Text -->
-        <Label
-            Style="{Binding Source={x:Reference Control}, Path=TextStyle}"
-            Text="{Binding Text, Source={x:Reference Control}}" />
-    </VerticalStackLayout>
+            <!-- Title -->
+            <Label
+                IsVisible="{Binding Title, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+                Style="{Binding Source={x:Reference Control}, Path=TitleStyle}"
+                Text="{Binding Title, Source={x:Reference Control}}" />
+
+            <!-- Text -->
+            <Label
+                IsVisible="{Binding Text, Source={x:Reference Control}, Converter={StaticResource StringIsNullOrEmptyToFalseConverter}}"
+                Style="{Binding Source={x:Reference Control}, Path=TextStyle}"
+                Text="{Binding Text, Source={x:Reference Control}}" />
+        </VerticalStackLayout>
+    </Grid>
 </Grid>

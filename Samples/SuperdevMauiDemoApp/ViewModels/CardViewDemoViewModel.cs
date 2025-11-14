@@ -3,13 +3,13 @@ using Superdev.Maui.Mvvm;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class CardViewViewModel : BaseViewModel
+    public class CardViewDemoViewModel : BaseViewModel
     {
         private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        public CardViewViewModel(
-            ILogger<CardViewViewModel> logger,
+        public CardViewDemoViewModel(
+            ILogger<CardViewDemoViewModel> logger,
             IViewModelErrorHandler viewModelErrorHandler)
         {
             this.logger = logger;

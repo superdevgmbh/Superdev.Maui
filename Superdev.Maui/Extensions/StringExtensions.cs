@@ -41,7 +41,6 @@ namespace Superdev.Maui.Extensions
         ////    Array.Resize(ref hashedBytes, 16);
         ////    return new Guid(hashedBytes);
         ////}
-
         public static bool Like(this string toSearch, string toFind)
         {
             return
@@ -82,9 +81,26 @@ namespace Superdev.Maui.Extensions
             return strings.Any(s => source.Contains(s, comparisonType));
         }
 
-        public static bool StartsWithAny(this string source, IEnumerable<string> strings)
+        /// <summary>
+        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="value"/>
+        /// </summary>
+        public static bool StartsWithAny(this string value, IEnumerable<string> values)
         {
-            return strings.Any(source.StartsWith);
+            ArgumentNullException.ThrowIfNull(value, nameof(value));
+            ArgumentNullException.ThrowIfNull(values, nameof(values));
+
+            return values.Any(value.StartsWith);
+        }
+
+        /// <summary>
+        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="value"/>
+        /// </summary>
+        public static bool StartsWithAny(this string value, IEnumerable<string> values,  StringComparison comparisonType)
+        {
+            ArgumentNullException.ThrowIfNull(value, nameof(value));
+            ArgumentNullException.ThrowIfNull(values, nameof(values));
+
+            return values.Any(s => value.StartsWith(s, comparisonType));
         }
 
         /// <summary>

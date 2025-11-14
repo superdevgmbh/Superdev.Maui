@@ -49,7 +49,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public override string ToString()
         {
-            return $"{this.Id}) {this.Name}";
+            return $"{{Id={this.Id}, Name={this.Name}}}";
         }
     }
 }

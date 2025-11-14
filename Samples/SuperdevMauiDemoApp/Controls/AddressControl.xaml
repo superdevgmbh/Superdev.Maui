@@ -29,7 +29,7 @@
                         Text="{Binding Street, Mode=TwoWay}"
                         ValidationErrors="{Binding Validation.Errors[Street]}">
                         <s:ValidatableEntry.Behaviors>
-                            <s:EntryCompletedBehavior TargetElement="{x:Reference PostalCodeLEntry}" />
+                            <s:InputViewCompletedBehavior TargetElement="{x:Reference PostalCodeLEntry}" />
                         </s:ValidatableEntry.Behaviors>
                     </s:ValidatableEntry>
 
@@ -62,7 +62,7 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        ItemDisplayBinding="{Binding Name}"
+                        DisplayMemberPath="Name"
                         ItemsSource="{Binding Countries}"
                         Placeholder="{s:Translate UserAddressCountryLabelText}"
                         SelectedItem="{Binding Country, Mode=TwoWay}"

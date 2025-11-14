@@ -52,19 +52,19 @@
                     HorizontalOptions="End" />
             </Grid>
             <s:ValidatablePicker
+                DisplayMemberPath="."
                 IsReadonly="True"
-                ItemDisplayBinding="{Binding .}"
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="PlatformAppTheme"
-                SelectedItem="{Binding PlatformAppTheme, Mode=TwoWay}" />
+                SelectedItem="{Binding PlatformAppTheme, Mode=OneWay}" />
             <s:ValidatablePicker
+                DisplayMemberPath="."
                 IsReadonly="True"
-                ItemDisplayBinding="{Binding .}"
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="UserAppTheme"
-                SelectedItem="{Binding UserAppTheme, Mode=TwoWay}" />
+                SelectedItem="{Binding UserAppTheme, Mode=OneWay}" />
             <s:ValidatablePicker
-                ItemDisplayBinding="{Binding .}"
+                DisplayMemberPath="."
                 ItemsSource="{Binding AppThemes}"
                 Placeholder="AppTheme"
                 SelectedItem="{Binding AppTheme, Mode=TwoWay}" />
@@ -73,10 +73,25 @@
                 Text="Reset" />
             <Label
                 Style="{StaticResource DemoLabelStyle}"
+                Text="IDialogService" />
+            <Button
+                Command="{Binding DisplayAlertCommand}"
+                Text="DisplayAlertAsync" />
+            <Button
+                Command="{Binding DisplayActionSheetCommand}"
+                Text="DisplayActionSheetAsync" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
                 Text="IGeolocationSettings" />
             <Button
                 Command="{Binding ShowGeolocationSettingsCommand}"
                 Text="ShowSettingsUI" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="IBrowser" />
+            <Button
+                Command="{Binding TryOpenUrlCommand}"
+                Text="TryOpenAsync" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

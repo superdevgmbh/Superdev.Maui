@@ -44,13 +44,26 @@ namespace Superdev.Maui.Resources.Styles
             }
 
 #if DEBUG
-            if (resourceDictionary.TryGetValue(key, out _))
+            if (resourceDictionary.TryGetValue(key, out var existingValue))
             {
                 Debug.WriteLine($"SetValue: key='{key}' already exists");
             }
 #endif
 
             resourceDictionary[key] = value;
+        }
+
+        public static void TrySetValue(this ResourceDictionary resourceDictionary, string key, object value)
+        {
+            if (resourceDictionary == null || key == null || value == null)
+            {
+                return;
+            }
+
+            if (!resourceDictionary.TryAdd(key, value))
+            {
+                Debug.WriteLine($"TrySetValue: key='{key}' already exists");
+            }
         }
     }
 }

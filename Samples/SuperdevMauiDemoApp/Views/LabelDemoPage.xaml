@@ -4,6 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:LabelDemoViewModel"
     Title="LabelDemoPage">
 
     <ScrollView>
@@ -17,19 +19,23 @@
 
             <Label
                 Style="{StaticResource DemoLabelStyle}"
-                Text="Label with FormattedString (Span)" />
+                Text="Hyperlinks" />
+            <Label
+                Style="{DynamicResource HyperlinkLabelStyle}"
+                Text="Label with HyperlinkLabelStyle" />
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Span text with" />
-                        <Span Text=" " />
+                        <Span Text="Label with FormattedText and " />
                         <Span
-                            Style="{StaticResource HyperlinkSpanStyle}"
+                            Style="{DynamicResource HyperlinkSpanStyle}"
                             Text="HyperlinkSpanStyle" />
-                        <Span Text="." />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+            <s:HyperlinkButton
+                Command="{Binding HyperlinkCommand}"
+                Text="HyperlinkButton" />
 
             <Label
                 Style="{StaticResource DemoLabelStyle}"

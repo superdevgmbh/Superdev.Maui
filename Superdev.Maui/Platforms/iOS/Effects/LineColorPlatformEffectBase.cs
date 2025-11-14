@@ -59,11 +59,8 @@ namespace Superdev.Maui.Platforms.Effects
 
             if (this.Element is VisualElement { Height: > 0, Width: > 0 } visualElement)
             {
-                // var lineY = Math.Min(visualElement.Height - 10, visualElement.Height * 0.87);
-                var lineY = visualElement.Height - 1;
-                lineLayer.Frame = new CGRect(0f, lineY, visualElement.Width, 1f);
-                this.Log(
-                    $"{visualElement.GetType().Name}: H:{visualElement.Height} W:{visualElement.Width} --> lineLayer.Frame: Y:{lineLayer.Frame.Y}");
+                var lineY = visualElement.Height - 1d;
+                lineLayer.Frame = new CGRect(0d, lineY, visualElement.Width, 1d);
 
                 var lineColor = LineColorEffect.GetLineColor(visualElement);
                 if (lineColor != null)
@@ -71,6 +68,11 @@ namespace Superdev.Maui.Platforms.Effects
                     lineLayer.BorderColor = lineColor.ToCGColor();
                     control.TintColor = control.TextColor;
                 }
+
+                this.Log($"{visualElement.GetType().Name}:{Environment.NewLine}" +
+                         $"> Height={visualElement.Height} Width={visualElement.Width}{Environment.NewLine}" +
+                         $"> lineLayer: Frame.Y={lineLayer.Frame.Y}{Environment.NewLine}" +
+                         $"> lineColor: {lineColor?.ToHex() ?? "null"}");
             }
         }
 
