@@ -101,7 +101,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 {
                     var cultureInfo = value.Dto;
 
-                    this.localizer.SetCultureInfo(cultureInfo);
+                    this.localizer.CurrentCultureInfo = cultureInfo;
 
                     CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
                     CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;

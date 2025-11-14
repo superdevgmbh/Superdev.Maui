@@ -15,17 +15,9 @@ namespace Superdev.Maui.Localization
         public static ILocalizer Current => Localizer.Current;
 
         /// <summary>
-        /// Returns platform-specific locale settings.
+        /// Gets or sets the current language.
         /// </summary>
-        CultureInfo GetCurrentCulture();
-
-        /// <summary>
-        /// Sets all relevant culture settings to <paramref name="cultureInfo" />.
-        /// </summary>
-        /// <remarks>
-        /// This method must be run from the UI thread.
-        /// </remarks>
-        void SetCultureInfo(CultureInfo cultureInfo);
+        CultureInfo CurrentCultureInfo { get; set; }
 
         /// <summary>
         /// Event is raised when the current language is going to be changed.

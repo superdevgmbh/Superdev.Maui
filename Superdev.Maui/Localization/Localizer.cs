@@ -22,7 +22,13 @@ namespace Superdev.Maui.Localization
             this.mainThread = mainThread;
         }
 
-        public void SetCultureInfo(CultureInfo cultureInfo)
+        public CultureInfo CurrentCultureInfo
+        {
+            get => Thread.CurrentThread.CurrentCulture;
+            set => this.SetCultureInfo(value);
+        }
+
+        private void SetCultureInfo(CultureInfo cultureInfo)
         {
             ArgumentNullException.ThrowIfNull(cultureInfo);
 
@@ -66,11 +72,6 @@ namespace Superdev.Maui.Localization
         protected virtual void OnLanguageChanged(CultureInfo ci)
         {
             this.LanguageChanged?.Invoke(this, new LanguageChangedEventArgs(ci));
-        }
-
-        public CultureInfo GetCurrentCulture()
-        {
-            return Thread.CurrentThread.CurrentCulture;
         }
     }
 }
