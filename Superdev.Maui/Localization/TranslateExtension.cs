@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Maui.Controls.Internals;
 
@@ -85,13 +86,14 @@ namespace Superdev.Maui.Localization
 
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                if (values != null && values.Any())
+                if (values != null)
                 {
                     if (values.ElementAtOrDefault(0) is string key &&
                         values.ElementAtOrDefault(1) is CultureInfo cultureInfo)
                     {
-                        var translate = this.translationProvider.Translate(key, cultureInfo);
-                        return translate;
+                        var translation = this.translationProvider.Translate(key, cultureInfo);
+                        Debug.WriteLine($"TranslateExtension: {key} >> \"{translation}\"");
+                        return translation;
                     }
                 }
 

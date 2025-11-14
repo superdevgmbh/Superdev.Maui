@@ -1,11 +1,12 @@
 ﻿using System.Globalization;
 using Superdev.Maui.Internals;
+using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 
 namespace Superdev.Maui.Localization
 {
     [Preserve(AllMembers = true)]
-    public class Localizer : ILocalizer
+    public class Localizer : BindableBase, ILocalizer
     {
         private readonly IMainThread mainThread;
         private static readonly Lazy<ILocalizer> Implementation = new Lazy<ILocalizer>(CreateLocalizer, LazyThreadSafetyMode.PublicationOnly);
@@ -17,15 +18,26 @@ namespace Superdev.Maui.Localization
             return new Localizer(IMainThread.Current);
         }
 
+        private CultureInfo appLanguage;
+
         private Localizer(IMainThread mainThread)
         {
             this.mainThread = mainThread;
+            this.CurrentCultureInfo = Thread.CurrentThread.CurrentCulture;
         }
 
         public CultureInfo CurrentCultureInfo
         {
-            get => Thread.CurrentThread.CurrentCulture;
-            set => this.SetCultureInfo(value);
+            get => this.appLanguage;
+            set
+            {
+                if (value != null && !Equals(this.appLanguage, value))
+                {
+                    this.appLanguage = value;
+                    this.SetCultureInfo(value);
+                    this.RaisePropertyChanged(nameof(this.CurrentCultureInfo));
+                }
+            }
         }
 
         private void SetCultureInfo(CultureInfo cultureInfo)
