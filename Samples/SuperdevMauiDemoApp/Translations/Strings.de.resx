@@ -16,8 +16,7 @@
     <value>Auto</value>
   </data>
   <data name="CancelButtonText" xml:space="preserve">
-    <value>Abbrechen
-</value>
+    <value>Abbrechen</value>
   </data>
   <data name="ClearButtonText" xml:space="preserve">
     <value>Löschen</value>
@@ -26,7 +25,7 @@
     <value>Countdown</value>
   </data>
   <data name="LoadingText" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Lädt...</value>
   </data>
   <data name="OffButtonText" xml:space="preserve">
     <value>Off</value>
