@@ -39,6 +39,8 @@ namespace Superdev.Maui.Localization
             {
                 Trace.WriteLine($"SetCultureInfo: cultureInfo={cultureInfo.Name}");
 
+                this.OnLanguageChanging(cultureInfo);
+
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
@@ -50,6 +52,13 @@ namespace Superdev.Maui.Localization
 
                 this.OnLanguageChanged(cultureInfo);
             }
+        }
+
+        public event EventHandler<LanguageChangingEventArgs> LanguageChanging;
+
+        private void OnLanguageChanging(CultureInfo ci)
+        {
+            this.LanguageChanging?.Invoke(this, new LanguageChangingEventArgs(ci));
         }
 
         public event EventHandler<LanguageChangedEventArgs> LanguageChanged;

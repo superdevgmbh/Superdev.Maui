@@ -3,9 +3,9 @@
 namespace Superdev.Maui.Localization
 {
     /// <summary>
-    ///     Implementations of this interface MUST convert iOS and Android
-    ///     platform-specific locales to a value supported in .NET because
-    ///     ONLY valid .NET cultures can have their RESX resources loaded and used.
+    /// Implementations of this interface MUST convert iOS and Android
+    /// platform-specific locales to a value supported in .NET because
+    /// ONLY valid .NET cultures can have their RESX resources loaded and used.
     /// </summary>
     public interface ILocalizer
     {
@@ -15,20 +15,25 @@ namespace Superdev.Maui.Localization
         public static ILocalizer Current => Localizer.Current;
 
         /// <summary>
-        ///     Returns platform-specific locale settings.
+        /// Returns platform-specific locale settings.
         /// </summary>
         CultureInfo GetCurrentCulture();
 
         /// <summary>
-        ///     Sets all relevant culture settings to <paramref name="cultureInfo" />.
+        /// Sets all relevant culture settings to <paramref name="cultureInfo" />.
         /// </summary>
         /// <remarks>
-        ///     This method must be run from the UI thread.
+        /// This method must be run from the UI thread.
         /// </remarks>
         void SetCultureInfo(CultureInfo cultureInfo);
 
         /// <summary>
-        ///     Event is raised when the current culture info has changed.
+        /// Event is raised when the current language is going to be changed.
+        /// </summary>
+        event EventHandler<LanguageChangingEventArgs> LanguageChanging;
+
+        /// <summary>
+        /// Event is raised when the current language has changed.
         /// </summary>
         event EventHandler<LanguageChangedEventArgs> LanguageChanged;
     }
