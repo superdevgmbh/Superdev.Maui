@@ -39,7 +39,7 @@ namespace Superdev.Maui.Localization
                     Bindings = new BindingBase[]
                     {
                         new Binding(this.Key, converter: this.Converter),
-                        new Binding(nameof(Localizer.CurrentCultureInfo))
+                        new Binding(nameof(Localizer.CurrentCulture))
                         {
                             Source = Localizer
                         }
@@ -58,7 +58,7 @@ namespace Superdev.Maui.Localization
                         {
                             Source = this.Key
                         },
-                        new Binding(nameof(Localizer.CurrentCultureInfo))
+                        new Binding(nameof(Localizer.CurrentCulture))
                         {
                             Source = Localizer
                         }
@@ -127,7 +127,7 @@ namespace Superdev.Maui.Localization
     [ExcludeFromCodeCoverage]
     internal class NullLocalizer : ILocalizer
     {
-        public CultureInfo CurrentCultureInfo
+        public CultureInfo CurrentCulture
         {
             get => CultureInfo.CurrentCulture;
             set => CultureInfo.CurrentCulture = value;

@@ -17,7 +17,7 @@ namespace Superdev.Maui.Localization
         /// <summary>
         /// Gets or sets the current language.
         /// </summary>
-        CultureInfo CurrentCultureInfo { get; set; }
+        CultureInfo CurrentCulture { get; set; }
 
         /// <summary>
         /// Event is raised when the current language is going to be changed.

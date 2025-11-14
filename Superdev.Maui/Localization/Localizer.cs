@@ -18,24 +18,22 @@ namespace Superdev.Maui.Localization
             return new Localizer(IMainThread.Current);
         }
 
-        private CultureInfo appLanguage;
+        private CultureInfo currentCulture;
 
         private Localizer(IMainThread mainThread)
         {
             this.mainThread = mainThread;
-            this.CurrentCultureInfo = Thread.CurrentThread.CurrentCulture;
+            this.CurrentCulture = Thread.CurrentThread.CurrentCulture;
         }
 
-        public CultureInfo CurrentCultureInfo
+        public CultureInfo CurrentCulture
         {
-            get => this.appLanguage;
+            get => this.currentCulture;
             set
             {
-                if (value != null && !Equals(this.appLanguage, value))
+                if (value != null && this.SetProperty(ref this.currentCulture, value))
                 {
-                    this.appLanguage = value;
                     this.SetCultureInfo(value);
-                    this.RaisePropertyChanged(nameof(this.CurrentCultureInfo));
                 }
             }
         }

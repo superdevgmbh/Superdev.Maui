@@ -23,7 +23,7 @@ namespace Superdev.Maui.Localization
         {
             if (this.resourceManager != null)
             {
-                throw new InvalidOperationException($"ResxSingleTranslationProvider can only be initialized once.");
+                throw new InvalidOperationException($"{this.GetType().Name} can only be initialized once.");
             }
 
             this.resourceManager = new ResourceManager(baseName, assembly);
@@ -41,7 +41,7 @@ namespace Superdev.Maui.Localization
         {
             if (this.resourceManager == null)
             {
-                throw new InvalidOperationException($"Call ResxSingleTranslationProvider.Init(...)");
+                throw new InvalidOperationException($"Call {this.GetType().Name}.{nameof(this.Init)}(...)");
             }
 
             var translatedValue = this.resourceManager.GetString(key, cultureInfo);

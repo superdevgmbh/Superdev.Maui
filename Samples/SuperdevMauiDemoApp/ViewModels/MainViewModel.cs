@@ -99,7 +99,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 if (value != null)
                 {
                     var cultureInfo = value.Dto;
-                    this.localizer.CurrentCultureInfo = cultureInfo;
+                    this.localizer.CurrentCulture = cultureInfo;
                 }
 
                 // Update all bindings
