@@ -1,35 +1,43 @@
 ﻿using System.Globalization;
 using Superdev.Maui.Internals;
+using Superdev.Maui.Services;
 
 namespace Superdev.Maui.Localization
 {
     [Preserve(AllMembers = true)]
     public class Localizer : ILocalizer
     {
+        private readonly IMainThread mainThread;
         private static readonly Lazy<ILocalizer> Implementation = new Lazy<ILocalizer>(CreateLocalizer, LazyThreadSafetyMode.PublicationOnly);
 
         public static ILocalizer Current => Implementation.Value;
 
         private static ILocalizer CreateLocalizer()
         {
-            return new Localizer();
+            return new Localizer(IMainThread.Current);
         }
 
-        private Localizer()
+        private Localizer(IMainThread mainThread)
         {
+            this.mainThread = mainThread;
         }
 
         public void SetCultureInfo(CultureInfo cultureInfo)
         {
-            if (cultureInfo == null)
+            ArgumentNullException.ThrowIfNull(cultureInfo);
+
+            if (this.mainThread.IsMainThread)
             {
-                throw new ArgumentNullException(nameof(cultureInfo));
+                SetCultureInfoInternal();
+            }
+            else
+            {
+                this.mainThread.BeginInvokeOnMainThread(SetCultureInfoInternal);
             }
 
-            if (!cultureInfo.Equals(Thread.CurrentThread.CurrentCulture))
+            void SetCultureInfoInternal()
             {
-                CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-                CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+                Trace.WriteLine($"SetCultureInfo: cultureInfo={cultureInfo.Name}");
 
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
@@ -37,13 +45,16 @@ namespace Superdev.Maui.Localization
                 CultureInfo.CurrentCulture = cultureInfo;
                 CultureInfo.CurrentUICulture = cultureInfo;
 
-                this.OnLocaleChanged(cultureInfo);
+                CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+                CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+                this.OnLanguageChanged(cultureInfo);
             }
         }
 
         public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
 
-        protected virtual void OnLocaleChanged(CultureInfo ci)
+        protected virtual void OnLanguageChanged(CultureInfo ci)
         {
             this.LanguageChanged?.Invoke(this, new LanguageChangedEventArgs(ci));
         }
