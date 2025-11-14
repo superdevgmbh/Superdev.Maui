@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -100,11 +99,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 if (value != null)
                 {
                     var cultureInfo = value.Dto;
-
                     this.localizer.CurrentCultureInfo = cultureInfo;
-
-                    CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-                    CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
                 }
 
                 // Update all bindings
