@@ -33,11 +33,8 @@ namespace SuperdevMauiDemoApp
                 b.AddSimpleConsole();
             });
 
-            var localize = ILocalizer.Current;
-            localize.LanguageChanging += (_, e) =>
-            {
-                Strings.Culture = e.CultureInfo;
-            };
+            var localizer = ILocalizer.Current;
+            localizer.LanguageChanging += (_, e) => Strings.Culture = e.CultureInfo;
 
             var translationProvider = ResxSingleTranslationProvider.Current;
             translationProvider.Init(Strings.ResourceManager);
