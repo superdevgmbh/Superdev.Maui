@@ -1,5 +1,7 @@
+using System.Globalization;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
@@ -17,6 +19,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IThemeHelper themeHelper;
         private readonly IDialogService dialogService;
         private readonly IBrowser browser;
+        private readonly ILocalizer localizer;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
         private IRelayCommand showGeolocationSettingsCommand;
@@ -36,6 +39,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         private IAsyncRelayCommand displayAlertCommand;
         private IAsyncRelayCommand displayActionSheetCommand;
         private IAsyncRelayCommand tryOpenUrlCommand;
+        private IRelayCommand<string> setCurrentCultureCommand;
+        private string currentCulture;
+        private IRelayCommand resetCurrentCultureCommand;
 
         public ServiceDemoViewModel(
             ILogger<ServiceDemoViewModel> logger,
@@ -45,6 +51,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             IThemeHelper themeHelper,
             IDialogService dialogService,
             IBrowser browser,
+            ILocalizer localizer,
             IViewModelErrorHandler viewModelErrorHandler)
         {
             this.logger = logger;
@@ -54,6 +61,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.themeHelper = themeHelper;
             this.dialogService = dialogService;
             this.browser = browser;
+            this.localizer = localizer;
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             this.AppThemes = new[]
@@ -65,6 +73,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.appTheme = this.themeHelper.AppTheme;
             this.useSystemTheme = this.themeHelper.UseSystemTheme;
             this.themeHelper.ThemeChanged += this.OnThemeChanged;
+            this.localizer.LanguageChanged += this.OnLanguageChanged;
 
             _ = this.InitializeAsync();
         }
@@ -72,6 +81,17 @@ namespace SuperdevMauiDemoApp.ViewModels
         private void OnThemeChanged(object sender, AppTheme e)
         {
             this.RefreshThemeHelperValues();
+        }
+
+        private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
+        {
+            this.CurrentCulture = e.CultureInfo.Name;
+        }
+
+        public string CurrentCulture
+        {
+            get => this.currentCulture;
+            private set => this.SetProperty(ref this.currentCulture, value);
         }
 
         private async Task InitializeAsync()
@@ -93,6 +113,8 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             try
             {
+                this.localizer.SupportedLanguages = SupportedLanguages.GetAll().ToArray();
+                this.CurrentCulture = this.localizer.CurrentCulture.Name;
                 this.DeviceId = this.deviceInfo.DeviceId;
 
                 this.RefreshThemeHelperValues();
@@ -103,6 +125,26 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
 
             this.IsBusy = false;
+        }
+
+        public IRelayCommand<string> SetCurrentCultureCommand
+        {
+            get => this.setCurrentCultureCommand ??= new RelayCommand<string>(this.SetCurrentCulture);
+        }
+
+        private void SetCurrentCulture(string locale)
+        {
+           this.localizer.CurrentCulture = new CultureInfo(locale);
+        }
+
+        public IRelayCommand ResetCurrentCultureCommand
+        {
+            get => this.resetCurrentCultureCommand ??= new RelayCommand(this.ResetCurrentCulture);
+        }
+
+        private void ResetCurrentCulture()
+        {
+           this.localizer.Reset();
         }
 
         public string DeviceId

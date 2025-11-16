@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+#nullable enable
 
 namespace Superdev.Maui.Services
 {

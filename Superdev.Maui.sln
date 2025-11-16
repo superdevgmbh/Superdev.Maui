@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		clean.bat = clean.bat
 		README.md = README.md
 		Settings.XamlStyler = Settings.XamlStyler
+		clean.sh = clean.sh
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superdev.Maui.Tests", "Tests\Superdev.Maui.Tests\Superdev.Maui.Tests.csproj", "{9339BED1-7910-4895-81A5-549F2FF68545}"

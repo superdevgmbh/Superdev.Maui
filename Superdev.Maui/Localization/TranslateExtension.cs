@@ -127,14 +127,34 @@ namespace Superdev.Maui.Localization
     [ExcludeFromCodeCoverage]
     internal class NullLocalizer : ILocalizer
     {
+        public string PreferencesKey { get; set; }
+
+        public CultureInfo DefaultLanguage { get; set; }
+
+        public CultureInfo[] SupportedLanguages { get; set; }
+
         public CultureInfo CurrentCulture
         {
             get => CultureInfo.CurrentCulture;
             set => CultureInfo.CurrentCulture = value;
         }
 
+        public string GetPlatformLocale()
+        {
+            return null;
+        }
+
+        public CultureInfo GetPlatformCulture()
+        {
+            return CultureInfo.InvariantCulture;
+        }
+
         public event EventHandler<LanguageChangingEventArgs> LanguageChanging;
 
         public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
+
+        public void Reset()
+        {
+        }
     }
 }

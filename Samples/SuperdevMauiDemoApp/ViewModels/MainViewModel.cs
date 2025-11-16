@@ -228,12 +228,10 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
 
-                this.Languages = new []
-                {
-                    new LanguageViewModel(new CultureInfo("en")),
-                    new LanguageViewModel(new CultureInfo("de"))
-                };
-                this.language = this.Languages.First();
+                this.Languages = SupportedLanguages.GetAll()
+                    .Select(c => new LanguageViewModel(c))
+                    .ToArray();
+                this.language = new LanguageViewModel(this.localizer.CurrentCulture);
                 this.RaisePropertyChanged(nameof(this.Language));
 
                 this.User = new UserDto { Id = 1, UserName = "thomasgalliker" };

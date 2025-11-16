@@ -34,6 +34,8 @@ namespace SuperdevMauiDemoApp
             });
 
             var localizer = ILocalizer.Current;
+            localizer.PreferencesKey = "SuperdevMauiDemoApp_AppLanguage";
+            localizer.SupportedLanguages = SupportedLanguages.GetAll().ToArray();
             localizer.LanguageChanging += (_, e) => Strings.Culture = e.CultureInfo;
 
             var translationProvider = ResxSingleTranslationProvider.Current;

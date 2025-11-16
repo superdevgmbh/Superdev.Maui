@@ -10,7 +10,7 @@
     x:DataType="vm:MainViewModel"
     ios:Page.UseSafeArea="False"
     BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
-    Title="Test">
+    Title="Superdev.Maui Sample App">
 
     <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
 
