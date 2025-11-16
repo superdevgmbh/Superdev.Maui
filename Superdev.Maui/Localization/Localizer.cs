@@ -23,7 +23,7 @@ namespace Superdev.Maui.Localization
 
         private static ILocalizer CreateLocalizer()
         {
-            return new Localizer(IPreferences.Current, IMainThread.Current);
+            return new Localizer(IPreferences.Current, IMainThread.Current, initialize: true);
         }
 
         private static readonly Dictionary<string, string> LocaleMappings = new(StringComparer.OrdinalIgnoreCase)
@@ -43,19 +43,22 @@ namespace Superdev.Maui.Localization
             { "fil", "tl-PH" } // Filipino
         };
 
-        private const string DefaultPreferencesKey = "Localizer_AppLanguage";
+        internal const string DefaultPreferencesKey = "Localizer_AppLanguage";
         private CultureInfo platformCulture;
         private CultureInfo overrideCulture;
         private CultureInfo[] supportedLanguages = [];
         private string preferencesKey = DefaultPreferencesKey;
         private CultureInfo defaultLanguage;
 
-        internal Localizer(IPreferences preferences, IMainThread mainThread)
+        internal Localizer(IPreferences preferences, IMainThread mainThread, bool initialize)
         {
             this.mainThread = mainThread;
             this.preferences = preferences;
 
-            this.InitializeFromPreferencesOrSystem();
+            if (initialize)
+            {
+                this.InitializeFromPreferencesOrSystem();
+            }
         }
 
         public string PreferencesKey
@@ -98,7 +101,7 @@ namespace Superdev.Maui.Localization
             }
         }
 
-        private void InitializeFromPreferencesOrSystem()
+        internal void InitializeFromPreferencesOrSystem()
         {
             if (this.GetLanguageFromPreferences() is string language &&
                 TryConvertToCultureInfo(language, out var cultureInfo))
@@ -272,6 +275,11 @@ namespace Superdev.Maui.Localization
         public CultureInfo GetPlatformCulture()
         {
             var platformLocale = this.GetPlatformLocale();
+            if (platformLocale == null)
+            {
+                throw new InvalidOperationException($"{nameof(this.GetPlatformLocale)} must not return null.");
+            }
+
             TryConvertToCultureInfo(platformLocale, out var cultureInfo);
             return cultureInfo;
         }
@@ -308,6 +316,7 @@ namespace Superdev.Maui.Localization
                     }
                 }
             }
+
 
             cultureInfo = CultureInfo.InvariantCulture;
             return false;

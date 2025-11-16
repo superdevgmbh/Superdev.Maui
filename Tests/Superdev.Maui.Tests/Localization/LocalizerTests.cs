@@ -7,8 +7,6 @@ namespace Superdev.Maui.Tests.Localization
 {
     public class LocalizerTests
     {
-        private const string AppSettingsLanguageKey = "AppSettingsLanguage";
-
         private readonly IMainThread mainThread;
 
         public LocalizerTests()
@@ -24,10 +22,13 @@ namespace Superdev.Maui.Tests.Localization
             var expectedCultureInfo = SupportedLanguages.English;
 
             var preferencesMock = new Mock<IPreferences>();
-            preferencesMock.Setup(p => p.Get<string>(AppSettingsLanguageKey, null, null, null))
-                .Returns(expectedCultureInfo.Name);
+            preferencesMock.Setup(p => p.Get<string>(Localizer.DefaultPreferencesKey, null))
+                .Returns(() => expectedCultureInfo.Name);
 
-            ILocalizer localizer = new TestLocalizer(platformLocale, preferencesMock.Object, this.mainThread);
+            ILocalizer localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
+            {
+                PlatformLocale =  platformLocale
+            };
 
             // Act
             var currentCulture = localizer.CurrentCulture;
@@ -35,7 +36,7 @@ namespace Superdev.Maui.Tests.Localization
             // Assert
             currentCulture.Should().Be(expectedCultureInfo);
 
-            preferencesMock.Verify(p => p.Get<string>(AppSettingsLanguageKey, null, null, null), Times.Once);
+            preferencesMock.Verify(p => p.Get<string>(Localizer.DefaultPreferencesKey, null), Times.Once);
             preferencesMock.VerifyNoOtherCalls();
         }
 
@@ -46,7 +47,11 @@ namespace Superdev.Maui.Tests.Localization
             // Arrange
             var preferencesMock = new Mock<IPreferences>();
 
-            ILocalizer localizer = new TestLocalizer(platformLocale, preferencesMock.Object, this.mainThread);
+            var localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
+            {
+                PlatformLocale =  platformLocale,
+                SupportedLanguages =  SupportedLanguages.GetAll().ToArray()
+            };
 
             // Act
             var currentCulture = localizer.CurrentCulture;
@@ -54,7 +59,7 @@ namespace Superdev.Maui.Tests.Localization
             // Assert
             currentCulture.Should().Be(expectedCultureInfo);
 
-            preferencesMock.Verify(p => p.Get<string>(AppSettingsLanguageKey, null, null, null), Times.Once);
+            preferencesMock.Verify(p => p.Get<string>(Localizer.DefaultPreferencesKey, null), Times.Exactly(2));
             preferencesMock.VerifyNoOtherCalls();
         }
 
@@ -105,17 +110,26 @@ namespace Superdev.Maui.Tests.Localization
 
     public class TestLocalizer : Localizer
     {
-        private readonly string platformLocale;
+        private readonly string? platformLocale;
 
-        public TestLocalizer(string platformLocale, IPreferences preferences, IMainThread mainThread)
-            : base(preferences, mainThread)
+        public TestLocalizer(IPreferences preferences, IMainThread mainThread)
+            : base(preferences, mainThread, initialize: false)
         {
-            this.platformLocale = platformLocale;
+        }
+
+        public string? PlatformLocale
+        {
+            get => this.platformLocale;
+            init
+            {
+                this.platformLocale = value;
+                this.InitializeFromPreferencesOrSystem();
+            }
         }
 
         public override string GetPlatformLocale()
         {
-            return this.platformLocale;
+            return this.PlatformLocale;
         }
     }
 }
