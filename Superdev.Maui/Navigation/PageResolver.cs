@@ -35,47 +35,71 @@ namespace Superdev.Maui.Navigation
 
         public TBindableObject ResolvePage<TBindableObject>(string pageName) where TBindableObject : BindableObject
         {
-            var pageTypes = this.FindTypesWithName(pageName);
-            if (pageTypes.Length == 0)
+            Type pageType = null;
+            Type viewModelType = null;
+
+            var pageRegistration = this.serviceProvider.GetKeyedService<PageRegistration>(pageName);
+            if (pageRegistration != null)
             {
-                throw new PageResolveException($"Page with name '{pageName}' not found");
+                pageType =  pageRegistration.PageType;
+                viewModelType =  pageRegistration.ViewModelType;
             }
 
-            if (pageTypes.Length > 1)
+            if (pageType == null)
             {
-                throw new PageResolveException(
-                    $"Multiple pages found for name '{pageName}': " +
-                    $"{string.Join($"> {Environment.NewLine}", pageTypes.Select(t => t.FullName))}");
+                var pageTypes = this.FindTypesWithName(pageName);
+                if (pageTypes.Length == 0)
+                {
+                    throw new PageResolveException($"Page with name '{pageName}' not found");
+                }
+
+                if (pageTypes.Length > 1)
+                {
+                    throw new PageResolveException(
+                        $"Multiple pages found for name '{pageName}': " +
+                        $"{string.Join($"> {Environment.NewLine}", pageTypes.Select(t => t.FullName))}");
+                }
+
+                pageType = pageTypes[0];
             }
 
-            var pageType = pageTypes[0];
-            var instance = this.serviceProvider.GetRequiredService(pageType);
+            var instance = this.serviceProvider.GetService(pageType);
             if (instance is not TBindableObject page)
             {
                 throw new PageResolveException($"'{pageName}' is not registered or not of type {typeof(TBindableObject).Name}");
             }
 
-            var pageNameIndex = pageName.LastIndexOf("Page", StringComparison.InvariantCultureIgnoreCase);
-            if (pageNameIndex > 0)
+            if (pageRegistration == null)
             {
-                var viewModelName = pageName.Substring(0, pageNameIndex) + "ViewModel";
-                var viewModelTypes = this.FindTypesWithName(viewModelName);
+                var pageNameIndex = pageName.LastIndexOf("Page", StringComparison.InvariantCultureIgnoreCase);
+                if (pageNameIndex > 0)
+                {
+                    var viewModelName = pageName.Substring(0, pageNameIndex) + "ViewModel";
+                    var viewModelTypes = this.FindTypesWithName(viewModelName);
 
-                if (viewModelTypes.Length == 0)
-                {
-                    this.logger.LogInformation($"View model with name '{viewModelName}' not found");
+                    if (viewModelTypes.Length == 0)
+                    {
+                        this.logger.LogInformation($"View model with name '{viewModelName}' not found");
+                    }
+                    else if (viewModelTypes.Length == 1)
+                    {
+                        viewModelType = viewModelTypes[0];
+                    }
+                    else
+                    {
+                        throw new PageResolveException(
+                            $"Multiple view models found for name '{viewModelName}': " +
+                            $"{string.Join($"> {Environment.NewLine}", viewModelTypes.Select(t => t.FullName))}");
+                    }
                 }
-                else if (viewModelTypes.Length == 1)
+            }
+
+            if (viewModelType != null)
+            {
+                var viewModel = this.serviceProvider.GetService(viewModelType);
+                if (viewModel != null)
                 {
-                    var viewModelType = viewModelTypes.Single();
-                    var viewModel = this.serviceProvider.GetRequiredService(viewModelType);
                     page.BindingContext = viewModel;
-                }
-                else
-                {
-                    throw new PageResolveException(
-                        $"Multiple view models found for name '{viewModelName}': " +
-                        $"{string.Join($"> {Environment.NewLine}", viewModelTypes.Select(t => t.FullName))}");
                 }
             }
 

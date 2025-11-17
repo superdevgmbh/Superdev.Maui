@@ -1,8 +1,8 @@
 ﻿using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
-using SuperdevMauiDemoApp.Views;
 
 namespace SuperdevMauiDemoApp
 {
@@ -27,7 +27,7 @@ namespace SuperdevMauiDemoApp
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-            var mainPage = IPlatformApplication.Current.Services.GetService<MainPage>();
+            var mainPage = IPageResolver.Current.ResolvePage("MainPage");
             return new Window(new NavigationPage(mainPage));
         }
 

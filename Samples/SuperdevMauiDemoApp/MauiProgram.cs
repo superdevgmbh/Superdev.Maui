@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Superdev.Maui;
 using Superdev.Maui.Localization;
+using Superdev.Maui.Navigation;
 using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
 using SuperdevMauiDemoApp.Translations;
@@ -41,8 +42,8 @@ namespace SuperdevMauiDemoApp
             var translationProvider = ResxSingleTranslationProvider.Current;
             translationProvider.Init(Strings.ResourceManager);
 
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<MainViewModel>();
+            builder.Services.RegisterForNavigation<MainPage, MainViewModel>("MainPage");
+
             builder.Services.AddTransient<LabelDemoPage>();
             builder.Services.AddTransient<LabelDemoViewModel>();
             builder.Services.AddTransient<CardViewDemoPage>();
