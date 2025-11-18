@@ -18,11 +18,9 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly ILogger<MainViewModel> logger;
         private readonly INavigationService navigationService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
-        private readonly ICountryService countryService;
         private readonly IValidationService validationService;
         private readonly ILocalizer localizer;
         private readonly IActivityIndicatorService activityIndicatorService;
@@ -31,42 +29,36 @@ namespace SuperdevMauiDemoApp.ViewModels
         private string adminEmailAddress;
 
         private int numberOfLoads;
-        private UserDto user;
-        private ICommand toggleSwitchCommand;
+        private UserDto? user;
+        private ICommand? toggleSwitchCommand;
         private bool isReadonly;
-        private ICommand longPressCommand;
-        private ICommand normalPressCommand;
+        private ICommand? longPressCommand;
+        private ICommand? normalPressCommand;
         private DateTime? birthdate;
-        private IAsyncRelayCommand navigateToPageCommand;
-        private LanguageViewModel language;
-        private IRelayCommand switchThemesCommand;
+        private IAsyncRelayCommand? navigateToPageCommand;
+        private LanguageViewModel? language;
+        private IRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
         private LanguageViewModel[] languages;
 
         public MainViewModel(
-            ILogger<MainViewModel> logger,
             INavigationService navigationService,
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
-            ICountryService countryService,
             IValidationService validationService,
             ILocalizer localizer,
             IActivityIndicatorService activityIndicatorService,
             IThemeHelper themeHelper)
         {
-            this.logger = logger;
             this.navigationService = navigationService;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
-            this.countryService = countryService;
             this.validationService = validationService;
             this.localizer = localizer;
             this.activityIndicatorService = activityIndicatorService;
             this.themeHelper = themeHelper;
 
             this.EnableBusyRefCount = false;
-            this.ViewModelError = ViewModelError.None;
-            this.User = new UserDto();
 
             _ = this.InitializeAsync();
         }
@@ -89,7 +81,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             private set => this.SetProperty(ref this.languages, value);
         }
 
-        public LanguageViewModel Language
+        public LanguageViewModel? Language
         {
             get => this.language;
             set
@@ -130,7 +122,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.themeHelper.AppTheme = this.AppTheme;
         }
 
-        private UserDto User
+        private UserDto? User
         {
             get => this.user;
             set
@@ -146,11 +138,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         public int UserId
         {
             get => this.User?.Id ?? 0;
-            set => this.SetProperty(this.User, value,
-                nameof(this.User.Id)); // Sync property value based on specified string
+            set => this.SetProperty(this.User, value, nameof(this.User.Id)); // Sync property value based on specified string
         }
 
-        public string UserName
+        public string? UserName
         {
             get => this.User?.UserName;
             set => this.SetProperty(this.User, value); // Sync property value based on property name
@@ -161,7 +152,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.birthdate;
             set => this.SetProperty(ref this.birthdate, value);
         }
-
 
         public IAsyncRelayCommand NavigateToPageCommand
         {
@@ -287,7 +277,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public bool IsReadonly
         {
             get => this.isReadonly;
-            set => this.SetProperty(ref this.isReadonly, value, nameof(this.IsReadonly));
+            set => this.SetProperty(ref this.isReadonly, value);
         }
 
         public ICommand ToggleSwitchCommand

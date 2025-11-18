@@ -8,7 +8,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class DatePickerHandler : Microsoft.Maui.Handlers.DatePickerHandler
     {
-        protected MauiDoneAccessoryView inputAccessoryView;
+        protected MauiDoneAccessoryView? inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.DatePickerHandler.Mapper)
         {
@@ -87,7 +87,7 @@ namespace Superdev.Maui.Platforms.Handlers
             mauiDatePicker.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
-        private void OnEditingDidEnd(object sender, EventArgs e)
+        private void OnEditingDidEnd(object? sender, EventArgs e)
         {
             if (this.Picker is UIDatePicker picker)
             {

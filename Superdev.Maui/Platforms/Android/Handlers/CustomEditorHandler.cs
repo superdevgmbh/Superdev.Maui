@@ -16,7 +16,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomEditor.BackgroundColor)] = MapBackgroundColor,
         };
 
-        public CustomEditorHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomEditorHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

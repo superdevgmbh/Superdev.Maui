@@ -9,9 +9,10 @@ namespace Superdev.Maui.Validation
 {
     public class ViewModelValidation : BindableBase, IValidatable, INotifyDataErrorInfo
     {
+        private static readonly ReadOnlyCollection<string> EmptyErrorsCollection = new ReadOnlyCollection<string>(new List<string>(0));
+
         private readonly List<IValidation> validations = new List<IValidation>();
         private readonly Dictionary<string, List<string>> errorMessages = new Dictionary<string, List<string>>();
-        private static readonly ReadOnlyCollection<string> EmptyErrorsCollection = new ReadOnlyCollection<string>(new List<string>(0));
         private bool isValidating;
 
         public ViewModelValidation()
@@ -20,21 +21,23 @@ namespace Superdev.Maui.Validation
         }
 
         /// <summary>
-        /// Validates properties when a change is propagated trough <see cref="INotifyPropertyChanged" />.
+        ///     Validates properties when a change is propagated trough <see cref="INotifyPropertyChanged" />.
         /// </summary>
         /// <remarks>
-        /// Default value is <code>True</code>.
-        /// Property validation is only taking place after the validation has been triggered for the first time.
-        /// Use <seealso cref="IsValidAsync"/> to run a validation.
+        ///     Default value is <code>True</code>.
+        ///     Property validation is only taking place after the validation has been triggered for the first time.
+        ///     Use <seealso cref="IsValidAsync" /> to run a validation.
         /// </remarks>
         public bool ValidateOnPropertyChange { get; set; }
 
         public ViewModelValidation Errors => this;
 
         public ReadOnlyCollection<string> this[string propertyName]
-            => this.errorMessages.ContainsKey(propertyName)
+        {
+            get => this.errorMessages.ContainsKey(propertyName)
                 ? new ReadOnlyCollection<string>(this.errorMessages[propertyName])
                 : EmptyErrorsCollection;
+        }
 
         public void AddValidation(IValidation validation)
         {
@@ -96,9 +99,13 @@ namespace Superdev.Maui.Validation
             this.OnErrorsChanged(string.Empty);
         }
 
-        private async Task ValidateProperty(string propertyName)
+        private async Task ValidateProperty(string? propertyName)
         {
             // Debug.WriteLine($"ValidateProperty(propertyName: \"{propertyName}\")");
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return;
+            }
 
             if (this.errorMessages.TryGetValue(propertyName, out var message))
             {
@@ -149,9 +156,9 @@ namespace Superdev.Maui.Validation
         {
             lock (this.errorMessages)
             {
-                if (this.errorMessages.ContainsKey(propertyName))
+                if (this.errorMessages.TryGetValue(propertyName, out var message))
                 {
-                    this.errorMessages[propertyName].Add(errorMessage);
+                    message.Add(errorMessage);
                 }
                 else
                 {
@@ -191,7 +198,7 @@ namespace Superdev.Maui.Validation
 
         #region INotifyDataErrorInfo
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         /// <summary>
         ///     Gets the validation errors for a specified property or for the entire entity.
@@ -203,12 +210,19 @@ namespace Superdev.Maui.Validation
         /// <returns>The validation errors for the property or entity.</returns>
         public IEnumerable GetErrors(string propertyName)
         {
-            if (this.errorMessages.ContainsKey(propertyName))
+            if (string.IsNullOrEmpty(propertyName))
             {
-                return this.errorMessages[propertyName];
+                // Return all errors when no specific property is requested
+                var allErrors = this.errorMessages.SelectMany(kv => kv.Value).ToArray();
+                return allErrors;
             }
 
-            return null;
+            if (this.errorMessages.TryGetValue(propertyName, out var errors))
+            {
+                return errors;
+            }
+
+            return EmptyErrorsCollection;
         }
 
         public virtual Dictionary<string, List<string>> GetErrors()
@@ -218,13 +232,13 @@ namespace Superdev.Maui.Validation
 
         public bool HasErrors => this.GetErrors().Count > 0;
 
-        private void OnErrorsChanged(string propertyName)
+        private void OnErrorsChanged(string? propertyName)
         {
             Debug.WriteLine($"OnErrorsChanged(propertyName: \"{propertyName}\")");
 
             this.RaisePropertyChanged(nameof(this.Errors));
             this.RaisePropertyChanged(nameof(this.HasErrors));
-            this.RaisePropertyChanged($"Item[{propertyName}]");
+            this.RaisePropertyChanged($"Item[{propertyName ?? string.Empty}]");
 
             this.ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
@@ -257,7 +271,6 @@ namespace Superdev.Maui.Validation
                 this.isValidating = true;
 
                 await this.ValidateAll().ConfigureAwait(false);
-
             }
             finally
             {
@@ -275,7 +288,7 @@ namespace Superdev.Maui.Validation
             this.HandlePropertyChange(args.PropertyName);
         }
 
-        internal async void HandlePropertyChange(string propertyName)
+        internal async void HandlePropertyChange(string? propertyName)
         {
             if (!(this.isValidating || this.ValidateOnPropertyChange))
             {

@@ -31,7 +31,7 @@ namespace Superdev.Maui.Utils
                 return;
             }
 
-            async void OnDisappearing(object sender, EventArgs e)
+            async void OnDisappearing(object? sender, EventArgs e)
             {
                 // For some reason we cannot use NavigatedFrom. When NavigatedFrom is fired,
                 // the navigated page is still on the navigation stack which seems pretty odd.

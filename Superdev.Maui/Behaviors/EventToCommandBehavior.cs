@@ -8,7 +8,7 @@ namespace Superdev.Maui.Behaviors
 {
     public class EventToCommandBehavior : BehaviorBase<VisualElement>
     {
-        private Delegate eventHandler;
+        private Delegate? eventHandler;
 
         public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
             nameof(EventName),
@@ -39,7 +39,7 @@ namespace Superdev.Maui.Behaviors
             typeof(object),
             typeof(EventToCommandBehavior));
 
-        public object CommandParameter
+        public object? CommandParameter
         {
             get => this.GetValue(CommandParameterProperty);
             set => this.SetValue(CommandParameterProperty, value);
@@ -92,18 +92,18 @@ namespace Superdev.Maui.Behaviors
                 return;
             }
 
-            var eventInfo = this.AssociatedObject.GetType().GetRuntimeEvent(name);
+            var eventInfo = this.AssociatedObject?.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
             {
                 throw new ArgumentException($"EventToCommandBehavior: Can't register the '{this.EventName}' event.");
             }
 
-            var paramType = eventInfo.EventHandlerType.IsGenericType
+            var paramType = eventInfo.EventHandlerType!.IsGenericType
                 ? eventInfo.EventHandlerType.GetGenericArguments()
-                : (new[] { typeof(object) });
+                : new[] { typeof(object) };
 
             var methodInfo = typeof(EventToCommandBehavior).GetTypeInfo()
-                .GetDeclaredMethod(nameof(this.OnEvent))
+                .GetDeclaredMethod(nameof(this.OnEvent))!
                 .MakeGenericMethod(paramType);
 
             this.eventHandler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
@@ -124,7 +124,7 @@ namespace Superdev.Maui.Behaviors
                 return;
             }
 
-            var eventInfo = this.AssociatedObject.GetType().GetRuntimeEvent(name);
+            var eventInfo = this.AssociatedObject?.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
             {
                 throw new ArgumentException($"EventToCommandBehavior: Can't de-register the '{this.EventName}' event.");
@@ -134,7 +134,7 @@ namespace Superdev.Maui.Behaviors
             this.eventHandler = null;
         }
 
-        private void OnEvent<T>(object sender, T eventArgs)
+        private void OnEvent<T>(object? sender, T eventArgs)
         {
             Debug.WriteLine($"EventToCommandBehavior.OnEvent(sender={sender?.GetType().GetFormattedName() ?? "<null>"}, eventArgs={eventArgs?.GetType().GetFormattedName() ?? "<null>"})");
 
@@ -190,15 +190,14 @@ namespace Superdev.Maui.Behaviors
             behavior.RegisterEvent(newEventName);
         }
 
-        private static object ResolveEventArgsValueFromPath<T>(T eventArgs, string eventArgsParameterPath)
+        private static object? ResolveEventArgsValueFromPath<T>(T eventArgs, string eventArgsParameterPath)
         {
-            object resolvedParameter;
             var propertyPathParts = eventArgsParameterPath.Split('.');
-            object propertyValue = eventArgs;
-            var propertyType = eventArgs.GetType();
+            object? propertyValue = eventArgs;
+            var propertyType = eventArgs?.GetType();
             foreach (var propertyPathPart in propertyPathParts)
             {
-                var propInfo = propertyType.GetRuntimeProperty(propertyPathPart);
+                var propInfo = propertyType?.GetRuntimeProperty(propertyPathPart);
                 if (propInfo == null)
                 {
                     throw new MissingMemberException($"ResolveEventArgsValueFromPath could not to find property with name '{eventArgsParameterPath}'");
@@ -211,7 +210,7 @@ namespace Superdev.Maui.Behaviors
                 }
             }
 
-            resolvedParameter = propertyValue;
+            var resolvedParameter = propertyValue;
             return resolvedParameter;
         }
     }

@@ -5,7 +5,7 @@ namespace Superdev.Maui.Converters
 {
     public class EnumerableToFirstOrDefaultConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is IEnumerable enumerable)
             {
@@ -23,7 +23,7 @@ namespace Superdev.Maui.Converters
             return null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

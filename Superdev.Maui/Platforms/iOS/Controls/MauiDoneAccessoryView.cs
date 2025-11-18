@@ -1,5 +1,4 @@
 using CoreGraphics;
-using Superdev.Maui.Extensions;
 using UIKit;
 
 namespace Superdev.Maui.Platforms.Controls
@@ -9,10 +8,10 @@ namespace Superdev.Maui.Platforms.Controls
     /// </summary>
     public sealed class MauiDoneAccessoryView : UIToolbar
     {
-        private Action doneAction;
-        private Action clearAction;
-        private UIBarButtonItem doneButton;
-        private UIBarButtonItem clearButton;
+        private Action? doneAction;
+        private Action? clearAction;
+        private UIBarButtonItem? doneButton;
+        private UIBarButtonItem? clearButton;
         private static readonly UIBarButtonItem FlexibleSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
 
         public MauiDoneAccessoryView()
@@ -20,7 +19,7 @@ namespace Superdev.Maui.Platforms.Controls
         {
         }
 
-        public MauiDoneAccessoryView(Action done)
+        public MauiDoneAccessoryView(Action? done)
             : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 44))
         {
             this.doneAction = done;
@@ -38,7 +37,7 @@ namespace Superdev.Maui.Platforms.Controls
             this.doneAction = done;
         }
 
-        private void OnDoneButtonClicked(object sender, EventArgs e)
+        private void OnDoneButtonClicked(object? sender, EventArgs e)
         {
             this.doneAction?.Invoke();
         }
@@ -48,7 +47,7 @@ namespace Superdev.Maui.Platforms.Controls
             this.clearAction = clear;
         }
 
-        private void OnClearButtonClicked(object sender, EventArgs e)
+        private void OnClearButtonClicked(object? sender, EventArgs e)
         {
             this.clearAction?.Invoke();
         }
@@ -104,21 +103,21 @@ namespace Superdev.Maui.Platforms.Controls
             this.SetNeedsDisplay();
         }
 
-        public static MauiDoneAccessoryView SetDoneButtonText(ref MauiDoneAccessoryView inputAccessoryView, string text)
+        public static MauiDoneAccessoryView? SetDoneButtonText(ref MauiDoneAccessoryView inputAccessoryView, string text)
         {
             inputAccessoryView.SetDoneButtonText(text);
 
             return GetNewInputAccessoryView(inputAccessoryView);
         }
 
-        public static MauiDoneAccessoryView SetClearButtonText(MauiDoneAccessoryView inputAccessoryView, string text)
+        public static MauiDoneAccessoryView? SetClearButtonText(MauiDoneAccessoryView inputAccessoryView, string text)
         {
             inputAccessoryView.SetClearButtonText(text);
 
             return GetNewInputAccessoryView(inputAccessoryView);
         }
 
-        private static MauiDoneAccessoryView GetNewInputAccessoryView(MauiDoneAccessoryView inputAccessoryView)
+        private static MauiDoneAccessoryView? GetNewInputAccessoryView(MauiDoneAccessoryView inputAccessoryView)
         {
             if (!inputAccessoryView.Items!.Any())
             {

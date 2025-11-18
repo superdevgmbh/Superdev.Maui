@@ -43,15 +43,12 @@ namespace SuperdevMauiDemoApp
             translationProvider.Init(Strings.ResourceManager);
 
             builder.Services.RegisterForNavigation<MainPage, MainViewModel>("MainPage");
+            builder.Services.RegisterForNavigation<LabelDemoPage, LabelDemoViewModel>();
+            builder.Services.RegisterForNavigation<CardViewDemoPage, CardViewDemoViewModel>();
+            builder.Services.RegisterForNavigation<DrilldownButtonListPage, DrilldownButtonListViewModel>();
+            builder.Services.RegisterForNavigation<EntryDemoPage, EntryDemoViewModel>();
+            builder.Services.RegisterForNavigation<ServiceDemoPage, ServiceDemoViewModel>();
 
-            builder.Services.AddTransient<LabelDemoPage>();
-            builder.Services.AddTransient<LabelDemoViewModel>();
-            builder.Services.AddTransient<CardViewDemoPage>();
-            builder.Services.AddTransient<CardViewDemoViewModel>();
-            builder.Services.AddTransient<DrilldownButtonListPage>();
-            builder.Services.AddTransient<DrilldownButtonListViewModel>();
-            builder.Services.AddTransient<EntryDemoPage>();
-            builder.Services.AddTransient<EntryDemoViewModel>();
             builder.Services.AddTransient<ServiceDemoPage>();
             builder.Services.AddTransient<ServiceDemoViewModel>();
             builder.Services.AddTransient<NavigationDemoPage>();

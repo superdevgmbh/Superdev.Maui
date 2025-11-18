@@ -68,7 +68,7 @@ namespace Superdev.Maui.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
-        private void OnEntryCompleted(object sender, EventArgs e)
+        private void OnEntryCompleted(object? sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(this.TargetElementName))
             {

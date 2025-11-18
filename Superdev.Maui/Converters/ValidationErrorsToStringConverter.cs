@@ -33,11 +33,11 @@ namespace Superdev.Maui.Converters
             set => this.SetValue(ShowBulletsProperty, value);
         }
 
-        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is ViewModelValidation viewModelValidation && viewModelValidation.HasErrors)
             {
-                string bulletString = null;
+                string? bulletString = null;
                 var showBullets = this.ShowBullets;
                 if (showBullets)
                 {
@@ -52,7 +52,7 @@ namespace Superdev.Maui.Converters
             return null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("ConvertBack is not supported");
         }

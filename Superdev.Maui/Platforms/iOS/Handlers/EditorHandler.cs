@@ -15,7 +15,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(DialogExtensions.DoneButtonText)] = MapDoneButtonText,
         };
 
-        public EditorHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public EditorHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

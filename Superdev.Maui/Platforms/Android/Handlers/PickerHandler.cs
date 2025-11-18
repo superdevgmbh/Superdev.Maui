@@ -1,11 +1,9 @@
-#nullable enable
 using Android.Text;
 using Android.Text.Style;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Platforms.Handlers.MauiFix.Extensions;
-using Superdev.Maui.Utils;
 using AppCompatAlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace Superdev.Maui.Platforms.Handlers

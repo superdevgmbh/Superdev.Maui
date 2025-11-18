@@ -12,7 +12,7 @@ namespace Superdev.Maui.Extensions
             return taskCompletionSource.Task;
         }
 
-        internal static Entry AsEntry(this VisualElement bindable)
+        internal static Entry? AsEntry(this VisualElement bindable)
         {
             if (bindable is Entry entry)
             {
@@ -27,7 +27,7 @@ namespace Superdev.Maui.Extensions
             return null;
         }
 
-        internal static Editor AsEditor(this VisualElement bindable)
+        internal static Editor? AsEditor(this VisualElement bindable)
         {
             if (bindable is Editor editor)
             {
@@ -42,7 +42,7 @@ namespace Superdev.Maui.Extensions
             return null;
         }
 
-        internal static VisualElement AsVisualElement(this VisualElement bindable)
+        internal static VisualElement? AsVisualElement(this VisualElement bindable)
         {
             if (bindable is VisualElement visualElement)
             {

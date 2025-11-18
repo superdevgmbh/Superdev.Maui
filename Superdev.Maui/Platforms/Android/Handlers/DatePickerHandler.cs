@@ -13,7 +13,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private DatePickerDialog dialog;
 
-        public DatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public DatePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

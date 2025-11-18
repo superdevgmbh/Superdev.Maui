@@ -6,11 +6,11 @@ namespace Superdev.Maui.Platforms.Services
 {
     public class ToastService : IToastService
     {
-        private static readonly Lazy<IToastService> Implementation = new Lazy<IToastService>(CreateToastService, LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<IToastService> Implementation = new Lazy<IToastService>(CreateInstance, LazyThreadSafetyMode.PublicationOnly);
 
         public static IToastService Current => Implementation.Value;
 
-        private static IToastService CreateToastService()
+        private static IToastService CreateInstance()
         {
             return new ToastService();
         }
@@ -22,8 +22,8 @@ namespace Superdev.Maui.Platforms.Services
         private const double LongDelay = 3.5;
         private const double ShortDelay = 2.0;
 
-        NSTimer alertDelay;
-        UIAlertController alert;
+        private NSTimer? alertDelay;
+        private UIAlertController? alert;
 
         public void LongAlert(string message)
         {
@@ -37,7 +37,7 @@ namespace Superdev.Maui.Platforms.Services
 
         private void ShowAlert(string message, double seconds)
         {
-            this.alertDelay = NSTimer.CreateScheduledTimer(seconds, (obj) => { this.DismissMessage(); });
+            this.alertDelay = NSTimer.CreateScheduledTimer(seconds, _ => { this.DismissMessage(); });
             this.alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
             UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(this.alert, true, null);
         }

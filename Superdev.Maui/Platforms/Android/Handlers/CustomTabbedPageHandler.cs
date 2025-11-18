@@ -125,7 +125,7 @@ namespace Superdev.Maui.Platforms.Handlers
             return default;
         }
 
-        private void TabbedPage_Loaded(object sender, EventArgs e)
+        private void TabbedPage_Loaded(object? sender, EventArgs e)
         {
             if (sender is CustomTabbedPage customTabbedPage)
             {

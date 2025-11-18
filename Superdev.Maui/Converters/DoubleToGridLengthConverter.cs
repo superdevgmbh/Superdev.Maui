@@ -5,7 +5,7 @@ namespace Superdev.Maui.Converters
 {
     internal class DoubleToGridLengthConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is double d)
             {
@@ -15,7 +15,7 @@ namespace Superdev.Maui.Converters
             return new GridLength(0, GridUnitType.Absolute);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value;
         }

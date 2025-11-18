@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Superdev.Maui.Internals;
 
@@ -25,7 +26,7 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         /// <param name="type"></param>
         /// <returns>Value type: Default instance. Reference type: null.</returns>
-        public static object GetDefaultValue(this Type type)
+        public static object? GetDefaultValue(this Type type)
         {
             if (type.GetTypeInfo().IsValueType && Nullable.GetUnderlyingType(type) == null)
             {
@@ -35,7 +36,7 @@ namespace Superdev.Maui.Extensions
             return null;
         }
 
-        public static FieldInfo GetDeclaredFieldsRecursively(this Type type, string propertyNameFilter)
+        public static FieldInfo? GetDeclaredFieldsRecursively(this Type? type, string propertyNameFilter)
         {
             if (type == null)
             {
@@ -57,18 +58,18 @@ namespace Superdev.Maui.Extensions
             return type.GetTypeInfo().GetDeclaredMethodsRecursively();
         }
 
-        public static IEnumerable<MethodInfo> GetDeclaredMethodsRecursively(this TypeInfo typeInfo)
+        public static IEnumerable<MethodInfo> GetDeclaredMethodsRecursively(this TypeInfo? typeInfo)
         {
             if (typeInfo == null)
             {
-                return null;
+                return Enumerable.Empty<MethodInfo>();
             }
 
             var methods = typeInfo.AsType().GetDeclaredMethodsRecursively(new List<MethodInfo>());
             return methods;
         }
 
-        private static IEnumerable<MethodInfo> GetDeclaredMethodsRecursively(this Type type, List<MethodInfo> methods)
+        private static IEnumerable<MethodInfo> GetDeclaredMethodsRecursively(this Type? type, List<MethodInfo> methods)
         {
             if (type == null)
             {
@@ -83,28 +84,24 @@ namespace Superdev.Maui.Extensions
 
         public static string GetFormattedName(this Type type)
         {
-            Guard.ArgumentNotNull(type, nameof(type));
-
             var typeInfo = type.GetTypeInfo();
             if (!typeInfo.IsGenericType)
             {
                 return type.Name;
             }
 
-            return string.Format("{0}<{1}>", type.Name.Substring(0, type.Name.IndexOf('`')), string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedName())));
+            return $"{type.Name.Substring(0, type.Name.IndexOf('`'))}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedName()))}>";
         }
 
         public static string GetFormattedFullname(this Type type)
         {
-            Guard.ArgumentNotNull(type, nameof(type));
-
             var typeInfo = type.GetTypeInfo();
             if (!typeInfo.IsGenericType)
             {
                 return type.ToString();
             }
 
-            return string.Format("{0}.{1}<{2}>", type.Namespace, type.Name.Substring(0, type.Name.IndexOf('`')), string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedFullname())));
+            return $"{type.Namespace}.{type.Name.Substring(0, type.Name.IndexOf('`'))}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedFullname()))}>";
         }
 
         /// <summary>
@@ -113,9 +110,7 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         public static bool IsCompilerGenerated(this Type type)
         {
-            Guard.ArgumentNotNull(type, nameof(type));
-
-            return type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), false) || type.DeclaringType.IsCompilerGenerated();
+            return type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), false) || (type.DeclaringType is Type declaringType && declaringType.IsCompilerGenerated());
         }
     }
 }

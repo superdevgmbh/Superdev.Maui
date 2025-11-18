@@ -32,7 +32,7 @@ namespace Superdev.Maui.Mvvm
         /// True if the value was changed, false if the existing value matched the
         /// desired value.
         /// </returns>
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null!)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {
@@ -62,7 +62,7 @@ namespace Superdev.Maui.Mvvm
         /// True if the value was changed, false if the existing value matched the
         /// desired value.
         /// </returns>
-        protected virtual bool SetProperty<T>(ref T storage, T value, Action onChanged, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty<T>(ref T storage, T value, Action onChanged, [CallerMemberName] string propertyName = null!)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {
@@ -107,25 +107,7 @@ namespace Superdev.Maui.Mvvm
         /// value is optional and can be provided automatically when invoked from compilers
         /// that support <see cref="CallerMemberNameAttribute" />.
         /// </param>
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            //OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-#pragma warning disable CS0618 // Type or member is obsolete
-            this.OnPropertyChanged(propertyName);
-#pragma warning restore CS0618 // Type or member is obsolete
-        }
-
-        /// <summary>
-        /// Notifies listeners that a property value has changed.
-        /// </summary>
-        /// <param name="propertyName">
-        /// Name of the property used to notify listeners. This
-        /// value is optional and can be provided automatically when invoked from compilers
-        /// that support <see cref="CallerMemberNameAttribute" />.
-        /// </param>
-        [Obsolete("Please use the new RaisePropertyChanged method. This method will be removed to comply wth .NET coding standards. If you are overriding this method, you should override the OnPropertyChanged(PropertyChangedEventArgs args) signature instead.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null!)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }

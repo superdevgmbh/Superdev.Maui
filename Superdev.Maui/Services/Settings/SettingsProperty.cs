@@ -11,12 +11,12 @@ namespace Superdev.Maui.Services.Settings
 
         private CachedValue<T> cachedValue;
 
-        public SettingsProperty(IPreferences preferences, Expression<Func<T>> expression, T defaultValue = default)
+        public SettingsProperty(IPreferences preferences, Expression<Func<T>> expression, T? defaultValue = default)
             : this(preferences, ((MemberExpression)expression.Body).Member.Name, defaultValue)
         {
         }
 
-        public SettingsProperty(IPreferences preferences, string key, T defaultValue = default)
+        public SettingsProperty(IPreferences preferences, string key, T? defaultValue = default)
         {
             Guard.ArgumentNotNull(preferences, nameof(preferences));
             Guard.ArgumentNotNullOrEmpty(key, nameof(key));

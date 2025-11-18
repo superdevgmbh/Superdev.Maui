@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 using Superdev.Maui.Validation;
-using SuperdevMauiDemoApp.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -14,6 +14,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isReadonly;
         private string userName;
         private int userNameMaxLength;
+        private IAsyncRelayCommand? appearingCommand;
 
         public EntryDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -21,8 +22,11 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
+        }
 
-            _ = this.InitializeAsync();
+        public IAsyncRelayCommand AppearingCommand
+        {
+            get => this.appearingCommand ??= new AsyncRelayCommand(this.InitializeAsync);
         }
 
         private async Task InitializeAsync()

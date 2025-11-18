@@ -9,7 +9,7 @@ namespace Superdev.Maui.Handlers
         private readonly ILogger logger;
         private readonly SuperdevMauiOptions options;
 
-        public PageHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public PageHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
             this.logger = IPlatformApplication.Current.Services.GetService<ILogger<PageHandler>>();

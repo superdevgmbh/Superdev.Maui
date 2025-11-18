@@ -8,7 +8,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class TimePickerHandler : Microsoft.Maui.Handlers.TimePickerHandler
     {
-        protected MauiDoneAccessoryView inputAccessoryView;
+        protected MauiDoneAccessoryView? inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.TimePickerHandler.Mapper)
         {
@@ -84,7 +84,7 @@ namespace Superdev.Maui.Platforms.Handlers
             mauiTimePicker.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
-        private void OnEditingDidEnd(object sender, EventArgs e)
+        private void OnEditingDidEnd(object? sender, EventArgs e)
         {
             var mauiTimePicker = (MauiTimePicker)sender;
             if (mauiTimePicker.Picker is UIDatePicker uiDatePicker)

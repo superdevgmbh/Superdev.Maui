@@ -4,7 +4,7 @@ namespace Superdev.Maui.Converters
 {
     internal class Part1ToColorConverter : BoolToColorConverter
     {
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is StatusSegment statusSegment)
             {
@@ -26,7 +26,7 @@ namespace Superdev.Maui.Converters
 
     internal class Part2ToColorConverter : BoolToColorConverter
     {
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is StatusSegment statusSegment)
             {
@@ -44,7 +44,7 @@ namespace Superdev.Maui.Converters
 
     internal class Part3ToColorConverter : BoolToColorConverter
     {
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is StatusSegment statusSegment)
             {

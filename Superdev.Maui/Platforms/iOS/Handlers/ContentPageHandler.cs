@@ -23,11 +23,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private Thickness? contentOriginalMargin;
 
-        private NSObject onKeyboardShowObserver;
-        private NSObject onKeyboardHideObserver;
+        private NSObject? onKeyboardShowObserver;
+        private NSObject? onKeyboardHideObserver;
         private double keyboardHeight;
 
-        public ContentPageHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public ContentPageHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -149,7 +149,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void UpdateSwipeBackEnabled(ContentPageHandler contentPageHandler, ContentPage contentPage)
         {
-            if (contentPageHandler.ViewController.NavigationController is { InteractivePopGestureRecognizer: UIGestureRecognizer gestureRecognizer })
+            if (contentPageHandler.ViewController?.NavigationController is { InteractivePopGestureRecognizer: UIGestureRecognizer gestureRecognizer })
             {
                 var swipeBackEnabled = NavigationPage.GetSwipeBackEnabled(contentPage);
 
@@ -168,9 +168,9 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private void OnPageLoaded(object sender, EventArgs e)
+        private void OnPageLoaded(object? sender, EventArgs e)
         {
-            var contentPage = (ContentPage)sender;
+            var contentPage = (ContentPage)sender!;
             UpdateSwipeBackEnabled(this, contentPage);
         }
 

@@ -11,7 +11,7 @@ namespace Superdev.Maui.Platforms.Handlers
         private const int PositiveButtonId = (int)DialogButtonType.Positive;
         private const int NegativeButtonId = (int)DialogButtonType.Negative;
 
-        public TimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public TimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

@@ -8,9 +8,9 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private readonly IDialogService dialogService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private IAsyncRelayCommand appearingCommand;
-        private IAsyncRelayCommand disappearingCommand;
-        private IAsyncRelayCommand buttonClickCommand;
+        private IAsyncRelayCommand? appearingCommand;
+        private IAsyncRelayCommand? disappearingCommand;
+        private IAsyncRelayCommand? buttonClickCommand;
 
         public BehaviorDemoViewModel(
             IDialogService dialogService,
