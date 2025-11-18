@@ -92,7 +92,7 @@ namespace Superdev.Maui.Mvvm
                () => true,
                (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, ce }));
         }
-        
+
         public T Create<T>(Func<Task> execute, Func<bool> canExecute) where T : ICommand
         {
             return this.CreateCommandWithFactory(

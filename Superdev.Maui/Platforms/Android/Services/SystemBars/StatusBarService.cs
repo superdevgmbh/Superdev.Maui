@@ -2,11 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using Android.OS;
 using Android.Views;
-using AndroidX.Core.View;
 using AndroidX.Core.Content;
-using Activity = Android.App.Activity;
+using AndroidX.Core.View;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Services;
+using Activity = Android.App.Activity;
 using Color = Microsoft.Maui.Graphics.Color;
 
 namespace Superdev.Maui.Platforms.Services

@@ -25,12 +25,12 @@ namespace Superdev.Maui.Tests.Converters
             {
                 this.Add(null, false);
                 this.Add(new[] { "null", "null" }, false);
-                this.Add(new []{new List<string>(), null}, false);
-                this.Add(new object[] { new [] { "1st", "2nd" }, "1st" }, true);
-                this.Add(new object[] { new List<string>{ "1st", "2nd" }, "1st" }, true);
-                this.Add(new object[] { new List<string>{ "1st", "2nd" }, "1st" }, true);
-                this.Add(new object[] { new List<string>{ "2st", "3rd" }, "1st" }, false);
-                this.Add(new object[] { new ReadOnlyCollection<string>(new List<string>{"1st", "2nd"}), "1st" }, true);
+                this.Add(new[] { new List<string>(), null }, false);
+                this.Add(new object[] { new[] { "1st", "2nd" }, "1st" }, true);
+                this.Add(new object[] { new List<string> { "1st", "2nd" }, "1st" }, true);
+                this.Add(new object[] { new List<string> { "1st", "2nd" }, "1st" }, true);
+                this.Add(new object[] { new List<string> { "2st", "3rd" }, "1st" }, false);
+                this.Add(new object[] { new ReadOnlyCollection<string>(new List<string> { "1st", "2nd" }), "1st" }, true);
             }
         }
 

@@ -56,7 +56,7 @@ namespace Superdev.Maui.Tests.Mvvm
 
             // Assert
             propertyChangedCallbacks.Should().HaveCount(10);
-            propertyChangedCallbacks.Should().ContainInOrder(new []
+            propertyChangedCallbacks.Should().ContainInOrder(new[]
             {
                 "IsBusy", "IsNotBusy", "IsContentReady",
                 "IsBusy", "IsNotBusy", "IsContentReady", "IsInitialized",
@@ -81,7 +81,7 @@ namespace Superdev.Maui.Tests.Mvvm
 
             // Assert
             propertyChangedCallbacks.Should().HaveCount(10);
-            propertyChangedCallbacks.Should().ContainInOrder(new []
+            propertyChangedCallbacks.Should().ContainInOrder(new[]
             {
                 "IsBusy", "IsNotBusy", "IsContentReady",
                 "IsBusy", "IsNotBusy", "IsContentReady", "IsInitialized",

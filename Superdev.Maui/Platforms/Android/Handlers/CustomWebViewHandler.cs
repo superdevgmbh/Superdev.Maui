@@ -2,9 +2,9 @@ using System.Diagnostics;
 using Android.Webkit;
 using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
+using Superdev.Maui.Utils;
 using static Android.Views.ViewGroup;
 using AWebView = Android.Webkit.WebView;
-using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {

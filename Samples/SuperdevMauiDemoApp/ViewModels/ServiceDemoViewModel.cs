@@ -134,7 +134,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void SetCurrentCulture(string locale)
         {
-           this.localizer.CurrentCulture = new CultureInfo(locale);
+            this.localizer.CurrentCulture = new CultureInfo(locale);
         }
 
         public IRelayCommand ResetCurrentCultureCommand
@@ -144,7 +144,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void ResetCurrentCulture()
         {
-           this.localizer.Reset();
+            this.localizer.Reset();
         }
 
         public string DeviceId
@@ -285,7 +285,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private async Task DisplayActionSheetAsync()
         {
-            var buttons = new []
+            var buttons = new[]
             {
                 "Button1",
                 "Button2"

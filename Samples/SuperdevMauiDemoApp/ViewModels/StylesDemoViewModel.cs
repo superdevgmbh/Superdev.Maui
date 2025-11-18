@@ -202,7 +202,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.appTheme, value))
                 {
-                    this.themeHelper.AppTheme =  value;
+                    this.themeHelper.AppTheme = value;
                 }
             }
         }

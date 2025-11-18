@@ -88,10 +88,7 @@ namespace Superdev.Maui.Platforms.Services
 
         public void HideLoadingPage()
         {
-            if (this.nativeView != null)
-            {
-                this.nativeView.RemoveFromSuperview();
-            }
+            this.nativeView?.RemoveFromSuperview();
         }
 
         public void Dispose()

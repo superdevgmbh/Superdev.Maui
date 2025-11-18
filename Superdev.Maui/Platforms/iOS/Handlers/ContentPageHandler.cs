@@ -17,7 +17,8 @@ namespace Superdev.Maui.Platforms.Handlers
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PageHandler.Mapper)
         {
-            [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset, [NavigationPage.SwipeBackEnabledProperty.PropertyName] = UpdateSwipeBackEnabled
+            [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset,
+            [NavigationPage.SwipeBackEnabledProperty.PropertyName] = UpdateSwipeBackEnabled
         };
 
         private Thickness? contentOriginalMargin;

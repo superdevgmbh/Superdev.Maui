@@ -139,7 +139,7 @@ namespace Superdev.Maui.Mvvm
             }
         }
 
-        public bool Equals(ViewModelError other)
+        public bool Equals(ViewModelError? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -158,7 +158,7 @@ namespace Superdev.Maui.Mvvm
         }
 
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {

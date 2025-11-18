@@ -301,7 +301,7 @@ namespace Superdev.Maui.Extensions
             return list;
         }
 
-        public static void Replace<T>(this T[] list, Predicate<T> oldItemSelector , T newItem)
+        public static void Replace<T>(this T[] list, Predicate<T> oldItemSelector, T newItem)
         {
             //check for different situations here and throw exception
             //if list contains multiple items that match the predicate

@@ -8,7 +8,7 @@
 
         static TestClass7()
         {
-            
+
         }
     }
 }

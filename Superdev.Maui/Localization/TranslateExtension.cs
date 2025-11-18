@@ -149,9 +149,9 @@ namespace Superdev.Maui.Localization
             return CultureInfo.InvariantCulture;
         }
 
-        public event EventHandler<LanguageChangingEventArgs> LanguageChanging;
+        public event EventHandler<LanguageChangingEventArgs> LanguageChanging = null!;
 
-        public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
+        public event EventHandler<LanguageChangedEventArgs> LanguageChanged = null!;
 
         public void Reset()
         {

@@ -53,7 +53,7 @@ namespace Superdev.Maui.Tests.Utils
             ReflectionHelper.SetFieldValue(obj, "InternalString", "new value");
 
             // Assert
-            Assert.Equal(obj.InternalString, "new value");
+            Assert.Equal("new value", obj.InternalString);
         }
 
         [Fact]

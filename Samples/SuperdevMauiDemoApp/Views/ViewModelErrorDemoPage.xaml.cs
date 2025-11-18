@@ -10,7 +10,7 @@ namespace SuperdevMauiDemoApp.Views
     {
         public ViewModelErrorDemoPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

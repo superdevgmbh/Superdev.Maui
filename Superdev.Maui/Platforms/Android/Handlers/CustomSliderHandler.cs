@@ -3,14 +3,14 @@ using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
-using Superdev.Maui.Controls;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Superdev.Maui.Controls;
+using Superdev.Maui.Utils;
 using BlendMode = Android.Graphics.BlendMode;
 using Color = Android.Graphics.Color;
-using ShapeDrawable = Android.Graphics.Drawables.ShapeDrawable;
 using OvalShape = Android.Graphics.Drawables.Shapes.OvalShape;
-using Superdev.Maui.Utils;
+using ShapeDrawable = Android.Graphics.Drawables.ShapeDrawable;
 
 namespace Superdev.Maui.Platforms.Handlers
 {

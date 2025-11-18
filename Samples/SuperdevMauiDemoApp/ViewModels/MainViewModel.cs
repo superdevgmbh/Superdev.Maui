@@ -9,10 +9,10 @@ using Superdev.Maui.Mvvm;
 using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
+using Superdev.Maui.Validation;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
-using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -114,7 +114,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.appTheme, value))
                 {
-                    this.themeHelper.AppTheme =  value;
+                    this.themeHelper.AppTheme = value;
                 }
             }
         }

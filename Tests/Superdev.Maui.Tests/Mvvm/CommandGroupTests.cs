@@ -165,7 +165,7 @@ namespace Superdev.Maui.Tests.Mvvm
             }
 
             var commands = Enumerable.Range(1, numberOfParallelCalls)
-                .Select(i => commandGroup.Create< AsyncRelayCommand>(() => task(i)))
+                .Select(i => commandGroup.Create<AsyncRelayCommand>(() => task(i)))
                 .ToArray();
 
             // Act

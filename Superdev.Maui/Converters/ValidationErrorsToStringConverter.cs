@@ -19,7 +19,7 @@ namespace Superdev.Maui.Converters
             get => (string)this.GetValue(BulletProperty);
             set => this.SetValue(BulletProperty, value);
         }
-        
+
         public static readonly BindableProperty ShowBulletsProperty =
             BindableProperty.Create(
                 nameof(ShowBullets),

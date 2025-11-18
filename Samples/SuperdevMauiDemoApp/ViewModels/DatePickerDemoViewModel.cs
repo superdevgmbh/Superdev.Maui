@@ -60,7 +60,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.BirthdateValidityRange = new DateRange(
                     start: new DateTime(birthdate.Year - 2, 1, 1),
                     end: new DateTime(birthdate.Year + 2, 12, 31));
-                
+
                 this.Birthdate = birthdate;
             }
             catch (Exception ex)

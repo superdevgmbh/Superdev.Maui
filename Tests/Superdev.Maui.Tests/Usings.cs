@@ -1,5 +1,5 @@
-global using Xunit;
+global using FluentAssertions;
 global using Moq;
 global using Moq.AutoMock;
-global using FluentAssertions;
 global using Superdev.Maui.Tests.TestData;
+global using Xunit;

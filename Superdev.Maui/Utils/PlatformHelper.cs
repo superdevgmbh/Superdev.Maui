@@ -2,21 +2,21 @@
 {
     public static class PlatformHelper
     {
-        public static T OnPlatform<T>(T ios, T android, T uwp)
+        public static T OnPlatform<T>(T ios, T android)
         {
-            switch (Device.RuntimePlatform)
+            var deviceInfo = DeviceInfo.Current;
+            if (deviceInfo.Platform == DevicePlatform.iOS)
             {
-                case Device.iOS:
-                    return ios;
-
-                case Device.Android:
-                    return android;
-
-                case Device.UWP:
-                    return uwp;
+                return ios;
             }
 
-            return default;
+            if (deviceInfo.Platform == DevicePlatform.Android)
+            {
+                return android;
+            }
+
+
+            return default!;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@
         /// <typeparam name="T">The platform-specific value.</typeparam>
         /// <param name="platformFactories">The value providers for each platform.</param>
         /// <returns>Returns a single platform-specific value.</returns>
-        public static T OnPlatformValue<T>(params (string, Func<T>)[] platformFactories)
+        public static T? OnPlatformValue<T>(params (DevicePlatform, Func<T>)[] platformFactories)
         {
             return OnPlatformValues(platformFactories).SingleOrDefault();
         }
@@ -36,9 +36,12 @@
         /// <typeparam name="T">The platform-specific value.</typeparam>
         /// <param name="platformFactories">The value providers for each platform.</param>
         /// <returns>Returns multiple platform-specific value.</returns>
-        public static IEnumerable<T> OnPlatformValues<T>(params (string, Func<T>)[] platformFactories)
+        public static IEnumerable<T> OnPlatformValues<T>(params (DevicePlatform, Func<T>)[] platformFactories)
         {
-            var functions = platformFactories.Where(pf => pf.Item1 == Device.RuntimePlatform).Select(pf => pf.Item2);
+            var deviceInfo = DeviceInfo.Current;
+            var functions = platformFactories
+                .Where(pf => pf.Item1 == deviceInfo.Platform)
+                .Select(pf => pf.Item2);
 
             foreach (var func in functions)
             {
@@ -54,9 +57,12 @@
         /// (Device.iOS, () =&gt;{ iosCalls++; }),
         /// (Device.Android, ()=&gt;{ androidCalls++; }));
         /// </example>
-        public static void RunOnPlatform(params (string, Action)[] platformActions)
+        public static void RunOnPlatform(params (DevicePlatform, Action)[] platformActions)
         {
-            var actions = platformActions.Where(pf => pf.Item1 == Device.RuntimePlatform).Select(pf => pf.Item2);
+            var deviceInfo = DeviceInfo.Current;
+            var actions = platformActions
+                .Where(pf => pf.Item1 == deviceInfo.Platform)
+                .Select(pf => pf.Item2);
 
             foreach (var action in actions)
             {

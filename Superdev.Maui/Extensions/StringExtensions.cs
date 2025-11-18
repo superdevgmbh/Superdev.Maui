@@ -95,7 +95,7 @@ namespace Superdev.Maui.Extensions
         /// <summary>
         /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="value"/>
         /// </summary>
-        public static bool StartsWithAny(this string value, IEnumerable<string> values,  StringComparison comparisonType)
+        public static bool StartsWithAny(this string value, IEnumerable<string> values, StringComparison comparisonType)
         {
             ArgumentNullException.ThrowIfNull(value, nameof(value));
             ArgumentNullException.ThrowIfNull(values, nameof(values));

@@ -4,12 +4,12 @@ namespace Superdev.Maui.Tests.TestData
     {
         static TestClass8()
         {
-            
+
         }
 
         public TestClass8()
         {
-            
+
         }
     }
 }

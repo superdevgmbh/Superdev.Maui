@@ -144,29 +144,6 @@ namespace Superdev.Maui.Platforms.Effects
             return safeAreaPadding;
         }
 
-        private bool GetHasInsets(UIInterfaceOrientation orientation, UIEdgeInsets insets)
-        {
-            bool hasInsets;
-
-            switch (orientation)
-            {
-                case UIInterfaceOrientation.Portrait:
-                case UIInterfaceOrientation.PortraitUpsideDown:
-                    hasInsets = insets.Top > 0 || insets.Bottom > 0;
-                    break;
-                case UIInterfaceOrientation.LandscapeLeft:
-                case UIInterfaceOrientation.LandscapeRight:
-                    hasInsets = insets.Left > 0 || insets.Right > 0;
-                    break;
-                default:
-                    hasInsets = insets.Top > 0 || insets.Bottom > 0;
-                    break;
-            }
-
-            Logger.LogDebug($"SafeAreaPaddingEffect.GetHasInsets returns hasInsets={hasInsets} for {this.Element.GetType().GetFormattedName()}");
-            return hasInsets;
-        }
-
         protected override void OnDetached()
         {
             Logger.LogDebug($"SafeAreaPaddingEffect.OnDetached from {this.Element?.GetType().GetFormattedName()}");

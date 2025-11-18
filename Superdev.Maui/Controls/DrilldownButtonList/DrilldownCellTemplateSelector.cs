@@ -5,7 +5,7 @@
         public DataTemplate DrilldownButtonCellTemplate { get; set; }
 
         public DataTemplate DrilldownSwitchCellTemplate { get; set; }
-        
+
         public DataTemplate CustomDrilldownCellTemplate { get; set; }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)

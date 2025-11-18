@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.Input;
-using Superdev.Maui.Mvvm;
-using Superdev.Maui.Services;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Mvvm;
 using Superdev.Maui.Navigation;
+using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {

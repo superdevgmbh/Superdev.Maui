@@ -41,8 +41,8 @@ namespace Superdev.Maui.Navigation
             var pageRegistration = this.serviceProvider.GetKeyedService<PageRegistration>(pageName);
             if (pageRegistration != null)
             {
-                pageType =  pageRegistration.PageType;
-                viewModelType =  pageRegistration.ViewModelType;
+                pageType = pageRegistration.PageType;
+                viewModelType = pageRegistration.ViewModelType;
             }
 
             if (pageType == null)

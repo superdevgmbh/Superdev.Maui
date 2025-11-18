@@ -5,9 +5,9 @@ using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
+using Superdev.Maui.Validation;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
-using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {

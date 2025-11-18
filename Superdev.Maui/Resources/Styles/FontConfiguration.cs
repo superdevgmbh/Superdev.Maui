@@ -1,5 +1,6 @@
 ﻿using Superdev.Maui.Services;
 using Superdev.Maui.Utils;
+using DeviceInfo = Superdev.Maui.Services.DeviceInfo;
 
 namespace Superdev.Maui.Resources.Styles
 {
@@ -40,7 +41,7 @@ namespace Superdev.Maui.Resources.Styles
             this.isInitialized = true;
         }
 
-        private void FontConverterUIContentSizeChanged(object sender, EventArgs e)
+        private void FontConverterUIContentSizeChanged(object? sender, EventArgs e)
         {
             var fontSizes = this.fontConverter.GetScaledFontSizes(this.FontSizes);
             this.SetFontSizes(fontSizes);
@@ -130,7 +131,7 @@ namespace Superdev.Maui.Resources.Styles
             this.Resources.SetValue(ThemeConstants.FontAttributes.Subtitle2, TryGetFontAttributes(this.Subtitle2, defaultFontAttributes));
 
             this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontFamily, TryGetFontFamily(this.SectionLabel, defaultFontFamily));
-            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontSize, TryGetFontSize(this.SectionLabel, PlatformHelper.OnPlatformValue((Device.iOS, () => 13d), (Device.Android, () => 18d))));
+            this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontSize, TryGetFontSize(this.SectionLabel, PlatformHelper.OnPlatformValue((DevicePlatform.iOS, () => 13d), (DevicePlatform.Android, () => 18d))));
             this.Resources.SetValue(ThemeConstants.CardViewStyle.HeaderFontAttributes, TryGetFontAttributes(this.SectionLabel, defaultFontAttributes));
 
             this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterFontFamily, TryGetFontFamily(this.FooterSection, defaultFontFamily));
@@ -138,18 +139,18 @@ namespace Superdev.Maui.Resources.Styles
             this.Resources.SetValue(ThemeConstants.CardViewStyle.FooterFontAttributes, TryGetFontAttributes(this.FooterSection, defaultFontAttributes));
         }
 
-        private static string TryGetFontFamily(FontElement fontElement, string @default)
+        private static string? TryGetFontFamily(FontElement? fontElement, string? @default)
         {
             var fontFamily = fontElement?.FontFamily;
             return fontFamily ?? @default;
         }
 
-        private static double TryGetFontSize(FontElement fontElement, double @default)
+        private static double? TryGetFontSize(FontElement? fontElement, double? @default)
         {
             var fontSize = fontElement?.FontSize;
-            if (fontSize != null && fontSize > 0)
+            if (fontSize is > 0)
             {
-                return fontElement.FontSize;
+                return fontSize;
             }
 
             return @default;

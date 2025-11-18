@@ -36,7 +36,7 @@ namespace Superdev.Maui.Resources.Styles
             throw new InvalidOperationException($"{typeof(T).GetFormattedName()} with key='{key}' could not be found.");
         }
 
-        public static void SetValue(this ResourceDictionary resourceDictionary, string key, object value)
+        public static void SetValue(this ResourceDictionary? resourceDictionary, string? key, object? value)
         {
             if (resourceDictionary == null || key == null || value == null)
             {

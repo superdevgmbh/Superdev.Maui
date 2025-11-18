@@ -10,7 +10,7 @@ namespace SuperdevMauiDemoApp.Views
     {
         public ActivityIndicatorDemoPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

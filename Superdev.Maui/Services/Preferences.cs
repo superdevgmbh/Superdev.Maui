@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-using MauiPreferences = Microsoft.Maui.Storage.Preferences;
 using Superdev.Maui.Extensions;
+using MauiPreferences = Microsoft.Maui.Storage.Preferences;
 
 namespace Superdev.Maui.Services
 {

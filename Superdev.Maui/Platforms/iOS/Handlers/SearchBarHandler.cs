@@ -48,8 +48,6 @@ namespace Superdev.Maui.Platforms.Handlers
             base.DisconnectHandler(platformView);
         }
 
-        private new SearchBar VirtualView => (SearchBar)base.VirtualView;
-
         private static void MapDoneButtonText(SearchBarHandler searchBarHandler, SearchBar searchBar)
         {
             searchBarHandler.DoneButtonText(searchBar);

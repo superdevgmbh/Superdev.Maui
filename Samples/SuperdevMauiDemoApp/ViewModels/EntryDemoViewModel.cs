@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
-using SuperdevMauiDemoApp.Services;
 using Superdev.Maui.Validation;
+using SuperdevMauiDemoApp.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {

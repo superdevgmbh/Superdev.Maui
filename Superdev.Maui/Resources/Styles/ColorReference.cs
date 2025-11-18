@@ -5,17 +5,17 @@ namespace Superdev.Maui.Resources.Styles
 {
     public class ColorReference : INotifyPropertyChanged
     {
-        private Color value;
+        private Color? value;
 
-        public Color Value
+        public Color? Value
         {
             get => this.value;
             set => this.RaiseAndSetIfChanged(ref this.value, value);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private void RaiseAndSetIfChanged<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        private void RaiseAndSetIfChanged<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
             {
@@ -23,16 +23,16 @@ namespace Superdev.Maui.Resources.Styles
             }
 
             field = value;
-            this.OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName!);
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public static implicit operator Color(ColorReference colorReference) => colorReference.Value;
 
-        public static implicit operator ColorReference(Color color) => new ColorReference{ Value = color };
+        public static implicit operator ColorReference(Color color) => new ColorReference { Value = color };
     }
 }

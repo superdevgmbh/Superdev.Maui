@@ -19,7 +19,6 @@ namespace Superdev.Maui.Platforms.Handlers
             Mapper.AppendToMapping(nameof(CustomTabbedPage.HideTabs), MapIsHidden);
         }
 
-        private CGRect originalFrame;
         private CGRect originalTabBarFrame;
 
         private static void MapIsHidden(TabbedRenderer tabbedRenderer, TabbedPage tabbedPage)

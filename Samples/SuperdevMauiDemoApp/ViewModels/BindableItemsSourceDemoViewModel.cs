@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Services;
-using Superdev.Maui.Extensions;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {

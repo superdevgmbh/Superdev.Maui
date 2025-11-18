@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Superdev.Maui.Controls;
+using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
-using Superdev.Maui.Extensions;
-using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {

@@ -41,4 +41,3 @@ namespace Superdev.Maui.Controls.CardView
         }
     }
 }
-

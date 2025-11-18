@@ -29,7 +29,7 @@ namespace Superdev.Maui.Tests.Utils
             // Assert
             viewModel.IsScannerBusy.Should().BeTrue();
             propertyChangedList.Should().HaveCount(1);
-            propertyChangedList.Should().ContainInOrder(new []
+            propertyChangedList.Should().ContainInOrder(new[]
             {
                 "IsScannerBusy",
             });
@@ -52,7 +52,7 @@ namespace Superdev.Maui.Tests.Utils
             // Assert
             viewModel.IsScannerBusy.Should().BeFalse();
             propertyChangedList.Should().HaveCount(2);
-            propertyChangedList.Should().ContainInOrder(new []
+            propertyChangedList.Should().ContainInOrder(new[]
             {
                 "IsScannerBusy",
                 "IsScannerBusy",
@@ -75,7 +75,7 @@ namespace Superdev.Maui.Tests.Utils
             // Assert
             viewModel.IsScannerBusy.Should().BeTrue();
             propertyChangedList.Should().HaveCount(1);
-            propertyChangedList.Should().ContainInOrder(new []
+            propertyChangedList.Should().ContainInOrder(new[]
             {
                 "IsScannerBusy",
             });
@@ -97,7 +97,7 @@ namespace Superdev.Maui.Tests.Utils
             // Assert
             viewModel.IsScannerBusy.Should().BeFalse();
             propertyChangedList.Should().HaveCount(2);
-            propertyChangedList.Should().ContainInOrder(new []
+            propertyChangedList.Should().ContainInOrder(new[]
             {
                 "IsScannerBusy",
                 "IsScannerBusy",

@@ -1,7 +1,7 @@
 using CoreGraphics;
 using Superdev.Maui.Controls;
-using UIKit;
 using Superdev.Maui.Extensions;
+using UIKit;
 
 namespace Superdev.Maui.Platforms.iOS.Utils
 {

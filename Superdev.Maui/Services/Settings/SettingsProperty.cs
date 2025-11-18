@@ -8,7 +8,7 @@ namespace Superdev.Maui.Services.Settings
         private readonly IPreferences preferences;
         private readonly string key;
         private readonly T defaultValue;
-        
+
         private CachedValue<T> cachedValue;
 
         public SettingsProperty(IPreferences preferences, Expression<Func<T>> expression, T defaultValue = default)
