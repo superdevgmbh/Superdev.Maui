@@ -36,6 +36,10 @@
             <s:HyperlinkButton
                 Command="{Binding HyperlinkCommand}"
                 Text="HyperlinkButton" />
+            <s:HyperlinkButton
+                Command="{Binding HyperlinkCommand}"
+                Text="HyperlinkButton with TextColor=Red"
+                TextColor="Red" />
 
             <Label
                 Style="{StaticResource DemoLabelStyle}"
