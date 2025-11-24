@@ -13,27 +13,32 @@ namespace Superdev.Maui.Controls
 
         public BindableToolbarItem()
         {
-            OnIsVisibleChanged(this, false, this.IsVisible);
         }
 
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
             this.bindingContextChanged = this.BindingContext != null;
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Task.Delay(1); // Not good
+                OnIsVisibleChanged(this, null, this.IsVisible);
+            });
         }
 
         public static readonly BindableProperty IsVisibleProperty =
             BindableProperty.Create(
                 nameof(IsVisible),
-                typeof(bool?),
+                typeof(bool),
                 typeof(ToolbarItem),
                 null,
                 BindingMode.TwoWay,
                 propertyChanged: OnIsVisibleChanged);
 
-        public bool? IsVisible
+        public bool IsVisible
         {
-            get => (bool?)this.GetValue(IsVisibleProperty);
+            get => (bool)this.GetValue(IsVisibleProperty);
             set => this.SetValue(IsVisibleProperty, value);
         }
 
@@ -70,24 +75,27 @@ namespace Superdev.Maui.Controls
                 }
             }
 
-            MainThread.BeginInvokeOnMainThread(() =>
+            if (!toolbarItem.visibilityUpdateQueue.IsEmpty)
             {
-                while (toolbarItem.visibilityUpdateQueue.TryDequeue(out var value))
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    if (value)
+                    while (toolbarItem.visibilityUpdateQueue.TryDequeue(out var value))
                     {
-                        toolbarItems.Add(toolbarItem);
-                    }
-                    else
-                    {
-                        var parent = toolbarItem.Parent;
-                        if (toolbarItems.Remove(toolbarItem))
+                        if (value)
                         {
-                            toolbarItem.Parent = parent;
+                            toolbarItems.Add(toolbarItem);
+                        }
+                        else
+                        {
+                            var parent = toolbarItem.Parent;
+                            if (toolbarItems.Remove(toolbarItem))
+                            {
+                                toolbarItem.Parent = parent;
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

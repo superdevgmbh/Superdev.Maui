@@ -1,7 +1,5 @@
-﻿using System.Globalization;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Logging;
 using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
@@ -11,7 +9,6 @@ using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
 using Superdev.Maui.Validation;
 using SuperdevMauiDemoApp.Model;
-using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -231,7 +228,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             try
             {
                 this.activityIndicatorService.ShowLoadingPage("Test loading message...");
-                await Task.Delay(3000);
+                await Task.Delay(1000);
 
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
