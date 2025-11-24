@@ -56,7 +56,7 @@ namespace Superdev.Maui.Handlers
 
                     if (hasBehaviors || hasTriggers || hasEffects)
                     {
-                        var message = $"Cleanup for {visualElement.GetType().GetFormattedName()}: " +
+                        var message = $"Cleanup \"{visualElement.GetType().GetFormattedName()}\": " +
                                       $"{(hasBehaviors ? $"{Environment.NewLine}> Behaviors.Count={behaviorsCount}" : "")}" +
                                       $"{(hasTriggers ? $"{Environment.NewLine}> Triggers.Count={triggersCount}" : "")}" +
                                       $"{(hasEffects ? $"{Environment.NewLine}> Effects.Count={effectsCount}" : "")}";

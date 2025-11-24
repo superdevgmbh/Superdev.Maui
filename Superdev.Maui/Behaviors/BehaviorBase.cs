@@ -28,7 +28,7 @@
         {
             base.OnBindingContextChanged();
 
-            if (!(sender is BindableObject bindableObject))
+            if (sender is not BindableObject bindableObject)
             {
                 return;
             }
