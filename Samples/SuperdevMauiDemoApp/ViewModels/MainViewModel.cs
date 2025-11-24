@@ -37,9 +37,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         private DateTime? birthdate;
         private IAsyncRelayCommand? navigateToPageCommand;
         private LanguageViewModel? language;
-        private IRelayCommand? switchThemesCommand;
+        private IAsyncRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
         private LanguageViewModel[] languages;
+        private bool showAppThemeToolbarItem;
 
         public MainViewModel(
             INavigationService navigationService,
@@ -111,15 +112,32 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public IRelayCommand SwitchThemesCommand
+        public bool ShowAppThemeToolbarItem
         {
-            get => this.switchThemesCommand ??= new RelayCommand(this.OnSwitchThemes);
+            get => this.showAppThemeToolbarItem;
+            private set => this.SetProperty(ref this.showAppThemeToolbarItem, value);
         }
 
-        private void OnSwitchThemes()
+        public IAsyncRelayCommand SwitchThemesCommand
         {
-            this.AppTheme = this.AppTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
-            this.themeHelper.AppTheme = this.AppTheme;
+            get => this.switchThemesCommand ??= new AsyncRelayCommand(this.OnSwitchThemes);
+        }
+
+        private async Task OnSwitchThemes()
+        {
+            this.ShowAppThemeToolbarItem = false;
+
+            try
+            {
+                await Task.Delay(1000);
+
+                this.AppTheme = this.AppTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
+                this.themeHelper.AppTheme = this.AppTheme;
+            }
+            finally
+            {
+                this.ShowAppThemeToolbarItem = true;
+            }
         }
 
         private UserDto? User
@@ -217,6 +235,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
+                this.ShowAppThemeToolbarItem = true;
 
                 this.Languages = SupportedLanguages.GetAll()
                     .Select(c => new LanguageViewModel(c))

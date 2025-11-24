@@ -15,8 +15,9 @@
     <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem
+        <s:BindableToolbarItem
             Command="{Binding SwitchThemesCommand}"
+            IsVisible="{Binding ShowAppThemeToolbarItem}"
             Text="{Binding AppTheme, StringFormat='{}[{0}]'}" />
     </ContentPage.ToolbarItems>
 
