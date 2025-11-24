@@ -48,7 +48,7 @@ namespace Superdev.Maui.Extensions
             return timeSpan == null ? "" : timeSpan.Value.ToSecondsString();
         }
 
-        public static string ToDurationString(this TimeSpan? timeSpan)
+        public static string? ToDurationString(this TimeSpan? timeSpan)
         {
             return timeSpan?.ToDurationString();
         }
@@ -99,7 +99,7 @@ namespace Superdev.Maui.Extensions
             return "";
         }
 
-        private static string GetMicroseconds(TimeSpan timeSpan)
+        private static string? GetMicroseconds(TimeSpan timeSpan)
         {
             var num1 = timeSpan.Ticks % 10000L;
             if (num1 <= 0L)
@@ -111,7 +111,7 @@ namespace Superdev.Maui.Extensions
             return num2.ToString("0.0", CultureInfo.InvariantCulture) + "µs";
         }
 
-        private static string GetSeconds(TimeSpan timeSpan)
+        private static string? GetSeconds(TimeSpan timeSpan)
         {
             if (timeSpan is { Seconds: <= 0, Milliseconds: <= 0 })
             {
@@ -128,7 +128,7 @@ namespace Superdev.Maui.Extensions
             return secondsString + "s";
         }
 
-        private static string GetMinutes(TimeSpan timeSpan)
+        private static string? GetMinutes(TimeSpan timeSpan)
         {
             if (timeSpan.Minutes <= 0)
             {
@@ -138,7 +138,7 @@ namespace Superdev.Maui.Extensions
             return timeSpan.Minutes.ToString(CultureInfo.InvariantCulture) + "m";
         }
 
-        private static string GetHours(TimeSpan timeSpan)
+        private static string? GetHours(TimeSpan timeSpan)
         {
             if (timeSpan.Hours <= 0)
             {
@@ -148,7 +148,7 @@ namespace Superdev.Maui.Extensions
             return timeSpan.Hours.ToString(CultureInfo.InvariantCulture) + "h";
         }
 
-        private static string AddDaysIfNotZero(TimeSpan timeSpan)
+        private static string? AddDaysIfNotZero(TimeSpan timeSpan)
         {
             if (timeSpan.Days <= 0)
             {
