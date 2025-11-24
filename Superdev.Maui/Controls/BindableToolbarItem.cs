@@ -10,6 +10,7 @@ namespace Superdev.Maui.Controls
         private readonly ConcurrentQueue<bool> visibilityUpdateQueue = new ConcurrentQueue<bool>();
 
         private bool bindingContextChanged;
+        private bool isRemoving;
 
         public BindableToolbarItem()
         {
@@ -20,11 +21,14 @@ namespace Superdev.Maui.Controls
             base.OnBindingContextChanged();
             this.bindingContextChanged = this.BindingContext != null;
 
-            MainThread.BeginInvokeOnMainThread(async () =>
+            if (this.bindingContextChanged)
             {
-                await Task.Delay(1); // Not good
-                OnIsVisibleChanged(this, null, this.IsVisible);
-            });
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(1); // Not good
+                    OnIsVisibleChanged(this, null, this.IsVisible);
+                });
+            }
         }
 
         public static readonly BindableProperty IsVisibleProperty =
@@ -32,7 +36,7 @@ namespace Superdev.Maui.Controls
                 nameof(IsVisible),
                 typeof(bool),
                 typeof(ToolbarItem),
-                null,
+                true,
                 BindingMode.TwoWay,
                 propertyChanged: OnIsVisibleChanged);
 
@@ -53,6 +57,12 @@ namespace Superdev.Maui.Controls
 
             if (toolbarItem.bindingContextChanged == false)
             {
+                return;
+            }
+
+            if (toolbarItem.isRemoving)
+            {
+                toolbarItem.isRemoving = false;
                 return;
             }
 
@@ -87,6 +97,7 @@ namespace Superdev.Maui.Controls
                         }
                         else
                         {
+                            toolbarItem.isRemoving = true;
                             var parent = toolbarItem.Parent;
                             if (toolbarItems.Remove(toolbarItem))
                             {

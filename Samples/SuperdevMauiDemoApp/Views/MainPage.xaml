@@ -18,7 +18,10 @@
         <s:BindableToolbarItem
             Command="{Binding SwitchThemesCommand}"
             IsVisible="{Binding ShowAppThemeToolbarItem}"
-            Text="{Binding AppTheme, StringFormat='{}[{0}]'}" />
+            Text="{Binding AppTheme, StringFormat='[{0}]'}" />
+        <!-- <s:BindableToolbarItem -->
+        <!-- Command="{Binding SwitchThemesCommand}" -->
+        <!-- Text="X1" /> -->
     </ContentPage.ToolbarItems>
 
     <Grid>
