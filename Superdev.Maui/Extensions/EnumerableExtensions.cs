@@ -285,7 +285,7 @@ namespace Superdev.Maui.Extensions
             return string.Join("&", parameters.Select(p => $"{WebUtility.UrlEncode(p.Key)}={WebUtility.UrlEncode(p.Value)}"));
         }
 
-        public static T FirstOrDefault<T>(this IEnumerable items)
+        public static T? FirstOrDefault<T>(this IEnumerable items)
         {
             foreach (var item in items.OfType<T>())
             {
@@ -308,6 +308,26 @@ namespace Superdev.Maui.Extensions
             //or check for nullability of list and etc ...
             var oldItemIndex = Array.FindIndex(list, oldItemSelector);
             list[oldItemIndex] = newItem;
+        }
+
+        /// <summary>
+        /// Removes all items from <paramref name="source"/> which match with the given <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="predicate">The condition for which items will be removed from the source collection.</param>
+        /// <typeparam name="T">Generic type T.</typeparam>
+        /// <returns>The number of removed items.</returns>
+        public static int RemoveBy<T>(this ICollection<T> source, Func<T, bool> predicate)
+        {
+            var itemsToRemove = source.Where(predicate).ToList();
+            var removedCount = 0;
+            foreach (var itemToRemove in itemsToRemove)
+            {
+                source.Remove(itemToRemove);
+                removedCount++;
+            }
+
+            return removedCount;
         }
     }
 }
