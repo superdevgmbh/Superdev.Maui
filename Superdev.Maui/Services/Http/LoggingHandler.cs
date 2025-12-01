@@ -16,12 +16,7 @@ namespace Superdev.Maui.Services.Http
 
         private readonly ILogger logger;
 
-        public static bool Enabled
-#if DEBUG
-            = true;
-#else
-            = false;
-#endif
+        public static bool Enabled = Debugger.IsAttached;
 
         public LoggingHandler(ILogger<LoggingHandler> logger, HttpMessageHandler innerHandler)
             : base(innerHandler)
