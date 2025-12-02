@@ -22,7 +22,7 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         public static T? GetFromJson<T>(this Microsoft.Maui.Storage.IPreferences preferences, string key, T? defaultValue = default, string? sharedName = null, JsonSerializerOptions? options = null)
         {
-            var stringValue = preferences.Get<string>(key, null, sharedName);
+            var stringValue = preferences.Get<string>(key, null!, sharedName);
             if (string.IsNullOrEmpty(stringValue))
             {
                 return defaultValue;

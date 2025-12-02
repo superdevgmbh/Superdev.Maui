@@ -37,7 +37,7 @@ namespace Superdev.Maui.Services
         /// <param name="key">The key to set the value for.</param>
         /// <param name="value">Value to set.</param>
         /// <param name="sharedName">Shared container name.</param>
-        void Set<T>(string key, T value);
+        void Set<T>(string key, T? value);
 
         /// <summary>
         /// Sets a value for a given key.

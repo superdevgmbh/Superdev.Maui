@@ -1,3 +1,4 @@
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using UIKit;
@@ -15,7 +16,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [DialogExtensions.DoneButtonText] = MapDoneButtonText,
         };
 
-        public TimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public TimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -25,7 +26,9 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new TimePicker VirtualView => (TimePicker)base.VirtualView;
+        public new TimePicker? VirtualView => ((ElementHandler)this).VirtualView as TimePicker;
+
+        public new MauiTimePicker? PlatformView => ((ElementHandler)this).PlatformView as MauiTimePicker;
 
         protected override MauiTimePicker CreatePlatformView()
         {
@@ -58,10 +61,8 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void HandleDoneButton()
         {
-            var timePicker = this.VirtualView;
-            var mauiTimePicker = this.PlatformView;
-
-            if (timePicker == null || mauiTimePicker == null)
+            if (this.VirtualView is not TimePicker timePicker ||
+                this.PlatformView is not MauiTimePicker mauiTimePicker)
             {
                 return;
             }
@@ -79,14 +80,22 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void DoneButtonText(TimePicker timePicker)
         {
+            if (this.PlatformView is not MauiTimePicker mauiTimePicker || this.inputAccessoryView == null)
+            {
+                return;
+            }
+
             var doneButtonText = DialogExtensions.GetDoneButtonText(timePicker);
-            var mauiTimePicker = this.PlatformView;
             mauiTimePicker.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
         private void OnEditingDidEnd(object? sender, EventArgs e)
         {
-            var mauiTimePicker = (MauiTimePicker)sender;
+            if (sender is not MauiTimePicker mauiTimePicker)
+            {
+                return;
+            }
+
             if (mauiTimePicker.Picker is UIDatePicker uiDatePicker)
             {
                 var timeOfDay = uiDatePicker.Date.ToDateTime().TimeOfDay;
@@ -97,7 +106,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected virtual void OnEditingDidEnd(TimeSpan time)
         {
-            var timePicker = this.VirtualView;
+            if (this.VirtualView is not TimePicker timePicker)
+            {
+                return;
+            }
+
             timePicker.Time = time;
         }
     }

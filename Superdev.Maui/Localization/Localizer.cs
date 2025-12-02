@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Superdev.Maui.Internals;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
@@ -44,11 +44,11 @@ namespace Superdev.Maui.Localization
         };
 
         internal const string DefaultPreferencesKey = "Localizer_AppLanguage";
-        private CultureInfo platformCulture;
-        private CultureInfo overrideCulture;
+        private CultureInfo platformCulture = null!;
+        private CultureInfo? overrideCulture;
         private CultureInfo[] supportedLanguages = [];
         private string preferencesKey = DefaultPreferencesKey;
-        private CultureInfo defaultLanguage;
+        private CultureInfo? defaultLanguage;
 
         internal Localizer(IPreferences preferences, IMainThread mainThread, bool initialize)
         {
@@ -78,9 +78,9 @@ namespace Superdev.Maui.Localization
             get => this.supportedLanguages;
             set
             {
-                value = value?
-                    .Where(c => c != null && !Equals(c, CultureInfo.InvariantCulture))
-                    .ToArray() ?? [];
+                value = value
+                    .Where(c => !Equals(c, CultureInfo.InvariantCulture))
+                    .ToArray();
 
                 if (this.SetProperty(ref this.supportedLanguages, value))
                 {
@@ -89,7 +89,7 @@ namespace Superdev.Maui.Localization
             }
         }
 
-        public CultureInfo DefaultLanguage
+        public CultureInfo? DefaultLanguage
         {
             get => this.defaultLanguage;
             set
@@ -120,48 +120,52 @@ namespace Superdev.Maui.Localization
             this.SetCurrentCultureInternal(cultureInfo);
         }
 
-        private CultureInfo ResolveSupportedCulture(CultureInfo cultureInfo)
+        private CultureInfo ResolveSupportedCulture(CultureInfo? cultureInfo)
         {
-            if (this.SupportedLanguages is { Length: > 0 } supportedLanguages)
+            if (cultureInfo != null)
             {
-                // Direct match
-                var exactMatch = supportedLanguages.FirstOrDefault(c => string.Equals(c.Name, cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase));
-                if (exactMatch != null)
-                {
-                    return exactMatch;
-                }
 
-                // Match by parent/base culture ("fr-CH" → "fr")
-                if (cultureInfo.Parent is CultureInfo parent && !Equals(parent, CultureInfo.InvariantCulture))
+                if (this.SupportedLanguages is { Length: > 0 } supportedLanguages)
                 {
-                    var parentMatch = supportedLanguages.FirstOrDefault(c => c.Name.Equals(parent.Name, StringComparison.InvariantCultureIgnoreCase));
-                    if (parentMatch != null)
+                    // Direct match
+                    var exactMatch = supportedLanguages.FirstOrDefault(c => string.Equals(c.Name, cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase));
+                    if (exactMatch != null)
                     {
-                        return parentMatch;
+                        return exactMatch;
                     }
+
+                    // Match by parent/base culture ("fr-CH" → "fr")
+                    if (cultureInfo.Parent is CultureInfo parent && !Equals(parent, CultureInfo.InvariantCulture))
+                    {
+                        var parentMatch = supportedLanguages.FirstOrDefault(c => c.Name.Equals(parent.Name, StringComparison.InvariantCultureIgnoreCase));
+                        if (parentMatch != null)
+                        {
+                            return parentMatch;
+                        }
+                    }
+
+                    // Match by ISO-2 language ("fr-FR" → "fr")
+                    var twoLetterMatch =
+                        supportedLanguages.FirstOrDefault(c => string.Equals(c.TwoLetterISOLanguageName, cultureInfo.TwoLetterISOLanguageName, StringComparison.InvariantCultureIgnoreCase));
+                    if (twoLetterMatch != null)
+                    {
+                        return twoLetterMatch;
+                    }
+
+                    // Fallback to default language
+                    if (this.DefaultLanguage is CultureInfo defaultLanguage)
+                    {
+                        return defaultLanguage;
+                    }
+
+                    // Fallback to first supported language
+                    return supportedLanguages.First();
                 }
 
-                // Match by ISO-2 language ("fr-FR" → "fr")
-                var twoLetterMatch =
-                    supportedLanguages.FirstOrDefault(c => string.Equals(c.TwoLetterISOLanguageName, cultureInfo.TwoLetterISOLanguageName, StringComparison.InvariantCultureIgnoreCase));
-                if (twoLetterMatch != null)
+                if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
                 {
-                    return twoLetterMatch;
+                    return cultureInfo;
                 }
-
-                // Fallback to default language
-                if (this.DefaultLanguage is CultureInfo defaultLanguage)
-                {
-                    return defaultLanguage;
-                }
-
-                // Fallback to first supported language
-                return supportedLanguages.First();
-            }
-
-            if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
-            {
-                return cultureInfo;
             }
 
             if (this.DefaultLanguage is CultureInfo defaultLang)
@@ -177,13 +181,10 @@ namespace Superdev.Maui.Localization
             get => this.overrideCulture ?? this.platformCulture;
             set
             {
-                if (value != null)
-                {
-                    var currentCulture = this.ResolveSupportedCulture(value);
-                    this.overrideCulture = currentCulture;
-                    this.SetLanguageToPreferences(currentCulture.Name);
-                    this.SetCurrentCultureInternal(currentCulture);
-                }
+                var currentCulture = this.ResolveSupportedCulture(value);
+                this.overrideCulture = currentCulture;
+                this.SetLanguageToPreferences(currentCulture.Name);
+                this.SetCurrentCultureInternal(currentCulture);
             }
         }
 
@@ -192,7 +193,7 @@ namespace Superdev.Maui.Localization
             this.preferences.Set(this.PreferencesKey, language);
         }
 
-        protected virtual string GetLanguageFromPreferences()
+        protected virtual string? GetLanguageFromPreferences()
         {
             return this.preferences.Get<string>(this.PreferencesKey, null);
         }
@@ -231,24 +232,24 @@ namespace Superdev.Maui.Localization
             }
         }
 
-        public event EventHandler<LanguageChangingEventArgs> LanguageChanging;
+        public event EventHandler<LanguageChangingEventArgs>? LanguageChanging;
 
         private void OnLanguageChanging(CultureInfo ci)
         {
             this.LanguageChanging?.Invoke(this, new LanguageChangingEventArgs(ci));
         }
 
-        public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
+        public event EventHandler<LanguageChangedEventArgs>? LanguageChanged;
 
         protected virtual void OnLanguageChanged(CultureInfo ci)
         {
             this.LanguageChanged?.Invoke(this, new LanguageChangedEventArgs(ci));
         }
 
-        public virtual string GetPlatformLocale()
+        public virtual string? GetPlatformLocale()
         {
 #if ANDROID
-            Locale locale;
+            Locale? locale;
 
             if (Build.VERSION.SdkInt < BuildVersionCodes.N)
             {
@@ -272,59 +273,56 @@ namespace Superdev.Maui.Localization
             return null;
         }
 
-        public CultureInfo GetPlatformCulture()
+        public CultureInfo? GetPlatformCulture()
         {
             var platformLocale = this.GetPlatformLocale();
-            if (platformLocale == null)
-            {
-                throw new InvalidOperationException($"{nameof(this.GetPlatformLocale)} must not return null.");
-            }
-
             TryConvertToCultureInfo(platformLocale, out var cultureInfo);
             return cultureInfo;
         }
 
-        private static bool TryConvertToCultureInfo(string locale, out CultureInfo cultureInfo)
+        private static bool TryConvertToCultureInfo([NotNullWhen(true)] string? locale, out CultureInfo? cultureInfo)
         {
-            locale = NormalizeLocaleString(locale);
+            if (locale != null)
+            {
+                locale = NormalizeLocaleString(locale);
 
-            if (LocaleMappings.TryGetValue(locale, out var mapped))
-            {
-                locale = mapped;
-            }
-
-            try
-            {
-                cultureInfo = new CultureInfo(locale);
-                return true;
-            }
-            catch
-            {
-                // Try base culture ("fr-CH" → "fr")
-                var dash = locale.IndexOf('-');
-                if (dash > 0)
+                if (LocaleMappings.TryGetValue(locale, out var mapped))
                 {
-                    var baseLang = locale[..dash];
-                    try
+                    locale = mapped;
+                }
+
+                try
+                {
+                    cultureInfo = new CultureInfo(locale);
+                    return true;
+                }
+                catch
+                {
+                    // Try base culture ("fr-CH" → "fr")
+                    var dash = locale.IndexOf('-');
+                    if (dash > 0)
                     {
-                        cultureInfo = new CultureInfo(baseLang);
-                        return true;
-                    }
-                    catch
-                    {
-                        // Ignore
+                        var baseLang = locale[..dash];
+                        try
+                        {
+                            cultureInfo = new CultureInfo(baseLang);
+                            return true;
+                        }
+                        catch
+                        {
+                            // Ignore
+                        }
                     }
                 }
             }
 
-
-            cultureInfo = CultureInfo.InvariantCulture;
+            cultureInfo = null;
             return false;
         }
 
         private static string NormalizeLocaleString(string locale)
         {
-            return locale?.Replace('_', '-');
+            return locale.Replace('_', '-');
         }
 
         public void Reset()

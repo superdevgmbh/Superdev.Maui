@@ -13,8 +13,7 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(Validation),
                 typeof(ViewModelValidation),
-                typeof(ValidationErrorBox),
-                default(ViewModelValidation));
+                typeof(ValidationErrorBox));
 
         public ViewModelValidation Validation
         {

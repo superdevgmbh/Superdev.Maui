@@ -14,7 +14,7 @@ namespace Superdev.Maui.Services
             var logger = serviceProvider.GetRequiredService<ILogger<Browser>>();
             return new Browser(
                 logger,
-                Application.Current,
+                Application.Current!,
                 Microsoft.Maui.ApplicationModel.Browser.Default);
         }
 
@@ -95,12 +95,12 @@ namespace Superdev.Maui.Services
             }
         }
 
-        private Color GetPreferredToolbarColor()
+        private Color? GetPreferredToolbarColor()
         {
             return this.application.Resources["Theme.Color.Primary"] as Color;
         }
 
-        private Color GetPreferredControlColor()
+        private Color? GetPreferredControlColor()
         {
             return this.application.Resources["Theme.Color.OnPrimary"] as Color;
         }

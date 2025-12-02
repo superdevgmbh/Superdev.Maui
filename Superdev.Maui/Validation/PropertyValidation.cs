@@ -4,11 +4,11 @@ namespace Superdev.Maui.Validation
 {
     public class PropertyValidation : AbstractValidation, IContextAware
     {
-        private Func<bool> validCriteria;
-        private Func<string> errorFunction;
-        private PropertyInfo propertyInfo;
-        private object baseViewModel;
-        private IValidationRule validationRule;
+        private Func<bool>? validCriteria;
+        private Func<string>? errorFunction;
+        private PropertyInfo? propertyInfo;
+        private object? baseViewModel;
+        private IValidationRule? validationRule;
 
         public PropertyValidation(string propertyName) : base(new[] { propertyName })
         {
@@ -89,7 +89,7 @@ namespace Superdev.Maui.Validation
             return this;
         }
 
-        public PropertyValidation Show(Func<object, string> function)
+        public PropertyValidation Show(Func<object?, string> function)
         {
             this.EnsureErrorFunction();
 
@@ -111,9 +111,9 @@ namespace Superdev.Maui.Validation
             this.propertyInfo = baseViewModel.GetType().GetProperty(this.PropertyNames[0]);
         }
 
-        private object GetPropertyValue()
+        private object? GetPropertyValue()
         {
-            return this.propertyInfo.GetValue(this.baseViewModel);
+            return this.propertyInfo?.GetValue(this.baseViewModel);
         }
 
         /// <summary>
@@ -136,15 +136,20 @@ namespace Superdev.Maui.Validation
 
         public override Task<Dictionary<string, List<string>>> GetErrors()
         {
-            if (this.IsValid())
+            if (!this.IsValid())
             {
-                return Task.FromResult(EmptyErrorsCollection);
+                var errorMessage = this.GetErrorMessage();
+
+                if (errorMessage != null)
+                {
+                    return Task.FromResult(new Dictionary<string, List<string>>
+                    {
+                        { this.PropertyNames[0], new List<string> { errorMessage } }
+                    });
+                }
             }
 
-            return Task.FromResult(new Dictionary<string, List<string>>
-            {
-                { this.PropertyNames[0], new List<string> { this.GetErrorMessage() } }
-            });
+            return Task.FromResult(EmptyErrorsCollection);
         }
 
         /// <summary>
@@ -155,7 +160,7 @@ namespace Superdev.Maui.Validation
         ///     No error message has been set for this validation. (Use the
         ///     'Show(..)' method.).
         /// </exception>
-        public string GetErrorMessage()
+        public string? GetErrorMessage()
         {
             if (this.errorFunction != null)
             {

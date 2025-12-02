@@ -1,7 +1,6 @@
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Platforms.Extensions;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -9,7 +8,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class SearchBarHandler : Microsoft.Maui.Handlers.SearchBarHandler
     {
-        private MauiDoneAccessoryView inputAccessoryView;
+        private MauiDoneAccessoryView? inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.SearchBarHandler.Mapper)
         {
@@ -17,7 +16,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(SearchBar.CancelButtonColor)] = MapCancelButtonColor,
         };
 
-        public SearchBarHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public SearchBarHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -57,7 +56,7 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             var doneButtonText = DialogExtensions.GetDoneButtonText(searchBar);
             var mauiSearchBar = this.PlatformView;
-            mauiSearchBar.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
+            mauiSearchBar.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView!, doneButtonText);
         }
 
         private new static void MapCancelButtonColor(ISearchBarHandler searchBarHandler, ISearchBar searchBar)

@@ -18,7 +18,7 @@ namespace Superdev.Maui.Platforms.Handlers.MauiFix
             [nameof(IScrollView.ContentSize)] = UpdateContentSize,
         };
 
-        public ScrollViewFixHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public ScrollViewFixHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

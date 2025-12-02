@@ -26,7 +26,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomSlider.ThumbSize)] = MapThumbSize
         };
 
-        public CustomSliderHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomSliderHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

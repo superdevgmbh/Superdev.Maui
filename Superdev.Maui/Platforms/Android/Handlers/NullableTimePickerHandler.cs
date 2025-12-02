@@ -23,7 +23,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
 
-        public NullableTimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public NullableTimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

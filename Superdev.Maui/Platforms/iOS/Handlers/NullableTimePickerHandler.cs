@@ -27,7 +27,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private bool isClearing;
 
-        public NullableTimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public NullableTimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

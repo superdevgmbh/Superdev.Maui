@@ -24,10 +24,10 @@ namespace Superdev.Maui.Extensions
         /// <param name="source">Source collection.</param>
         /// <param name="keySelector">Key selector.</param>
         /// <param name="comparer">
-        ///     The equality comparer to use to determine whether or not keys are equal. If null, the default equality comparer for
+        ///     The equality comparer to use to determine if keys are equal. If null, the default equality comparer for
         ///     <c>TSource</c> is used.
         /// </param>
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
         {
             if (source == null)
             {
@@ -42,7 +42,7 @@ namespace Superdev.Maui.Extensions
             return DistinctByInternal(source, keySelector, comparer);
         }
 
-        private static IEnumerable<TSource> DistinctByInternal<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        private static IEnumerable<TSource> DistinctByInternal<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
         {
             var knownKeys = new HashSet<TKey>(comparer);
             foreach (var element in source)
@@ -61,7 +61,7 @@ namespace Superdev.Maui.Extensions
         /// <typeparam name="TKey">Type of the selected element.</typeparam>
         /// <param name="source">Source collection.</param>
         /// <param name="keySelector">Key selector.</param>
-        public static IQueryable<TSource> DistinctBy<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, IEqualityComparer<TKey> comparer = null)
+        public static IQueryable<TSource> DistinctBy<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, IEqualityComparer<TKey>? comparer = null)
         {
             return Queryable.Select(Queryable.GroupBy(source, keySelector, comparer), g => g.First());
         }

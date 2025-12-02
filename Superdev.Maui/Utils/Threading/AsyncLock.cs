@@ -17,16 +17,16 @@
             var wait = this.semaphore.WaitAsync();
             return wait.IsCompleted
                 ? this.releaser
-                : wait.ContinueWith((_, state) => new Releaser((AsyncLock)state),
+                : wait.ContinueWith((_, state) => new Releaser(state as AsyncLock),
                     this, CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
         }
 
         public struct Releaser : IDisposable
         {
-            private readonly AsyncLock toRelease;
+            private readonly AsyncLock? toRelease;
 
-            internal Releaser(AsyncLock toRelease) { this.toRelease = toRelease; }
+            internal Releaser(AsyncLock? toRelease) { this.toRelease = toRelease; }
 
             public void Dispose()
             {

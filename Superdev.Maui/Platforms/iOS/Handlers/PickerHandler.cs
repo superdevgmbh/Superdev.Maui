@@ -15,7 +15,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [DialogExtensions.DoneButtonText] = MapDoneButtonText,
         };
 
-        public PickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public PickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

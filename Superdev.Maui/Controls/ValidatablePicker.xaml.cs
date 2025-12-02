@@ -321,7 +321,7 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ValidationErrorsProperty, value);
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

@@ -14,15 +14,14 @@ namespace Superdev.Maui.Mvvm
         private string? subTitle;
         private string? icon;
         private bool isRefreshing;
-        private ViewModelError? viewModelError;
-        private ViewModelValidation? validation;
+        private ViewModelError? viewModelError = ViewModelError.None;
+        private ViewModelValidation validation = new ViewModelValidation();
         private bool isInitialized;
         private bool enableBusyRefCount;
         private bool isBusy;
 
         protected BaseViewModel()
         {
-            this.ViewModelError = ViewModelError.None;
             this.SetupValidationInternal();
         }
 
@@ -172,7 +171,7 @@ namespace Superdev.Maui.Mvvm
 
         public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.ViewModelError == ViewModelError.None;
 
-        public ViewModelValidation? Validation
+        public ViewModelValidation Validation
         {
             get => this.validation /*?? throw new InvalidOperationException($"Override {nameof(this.SetupValidation)} before accessing {nameof(this.Validation)}")*/;
             private set => this.SetProperty(ref this.validation, value);

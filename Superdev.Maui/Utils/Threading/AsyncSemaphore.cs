@@ -35,7 +35,7 @@
 
         public void Release()
         {
-            TaskCompletionSource<bool> toRelease = null;
+            TaskCompletionSource<bool>? toRelease = null;
             lock (this.waiters)
             {
                 if (this.waiters.Count > 0)

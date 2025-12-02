@@ -21,7 +21,7 @@ namespace Superdev.Maui.Resources.Styles
 
         private static IThemeHelper CreateThemeHelper()
         {
-            var logger = IPlatformApplication.Current.Services.GetService<ILogger<ThemeHelper>>();
+            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<ThemeHelper>>();
             var preferences = Preferences.Current;
             var fontConverter = IFontConverter.Current;
             return new ThemeHelper(logger, preferences, fontConverter);
@@ -191,13 +191,13 @@ namespace Superdev.Maui.Resources.Styles
         }
 
         /// <inheritdoc />
-        public AppTheme PlatformAppTheme => Application.Current.PlatformAppTheme;
+        public AppTheme PlatformAppTheme => Application.Current!.PlatformAppTheme;
 
         /// <inheritdoc />
         public AppTheme UserAppTheme
         {
-            get => Application.Current.UserAppTheme;
-            private set => Application.Current.UserAppTheme = value;
+            get => Application.Current!.UserAppTheme;
+            private set => Application.Current!.UserAppTheme = value;
         }
 
         /// <inheritdoc />

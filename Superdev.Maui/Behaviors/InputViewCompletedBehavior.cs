@@ -34,7 +34,7 @@ namespace Superdev.Maui.Behaviors
             set => this.SetValue(TargetElementProperty, value);
         }
 
-        public string TargetElementName { get; set; }
+        public string? TargetElementName { get; set; }
 
         protected override void OnAttachedTo(VisualElement bindable)
         {
@@ -92,7 +92,7 @@ namespace Superdev.Maui.Behaviors
             }
             else
             {
-                var parent = ((Element)sender).Parent;
+                var parent = (sender as Element)?.Parent;
                 while (parent != null)
                 {
                     var targetElement = parent.FindByName<VisualElement>(this.TargetElementName);

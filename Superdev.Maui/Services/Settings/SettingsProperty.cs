@@ -7,9 +7,9 @@ namespace Superdev.Maui.Services.Settings
     {
         private readonly IPreferences preferences;
         private readonly string key;
-        private readonly T defaultValue;
+        private readonly T? defaultValue;
 
-        private CachedValue<T> cachedValue;
+        private CachedValue<T?> cachedValue;
 
         public SettingsProperty(IPreferences preferences, Expression<Func<T>> expression, T? defaultValue = default)
             : this(preferences, ((MemberExpression)expression.Body).Member.Name, defaultValue)
@@ -37,7 +37,7 @@ namespace Superdev.Maui.Services.Settings
         /// </summary>
         public bool CachingEnabled { get; set; } = true;
 
-        public T Value
+        public T? Value
         {
             get
             {
@@ -66,20 +66,20 @@ namespace Superdev.Maui.Services.Settings
             }
         }
 
-        object ISettingsProperty.Value
+        object? ISettingsProperty.Value
         {
             get => this.Value;
-            set => this.Value = (T)value;
+            set => this.Value = (T?)value;
         }
     }
 
     internal struct CachedValue<T>
     {
-        private T value;
+        private T? value;
 
         public bool HasValue { get; private set; }
 
-        public T Value
+        public T? Value
         {
             get => this.value;
             set
@@ -92,6 +92,6 @@ namespace Superdev.Maui.Services.Settings
 
     public interface ISettingsProperty
     {
-        object Value { get; set; }
+        object? Value { get; set; }
     }
 }

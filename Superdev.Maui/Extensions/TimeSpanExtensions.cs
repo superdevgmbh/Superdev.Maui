@@ -13,8 +13,6 @@ namespace Superdev.Maui.Extensions
             "T"
         };
 
-        private static readonly DateTime DateTime111 = new DateTime(1, 1, 1);
-
         public static string UnitSeconds = "s";
 
         /// <summary>
@@ -183,7 +181,7 @@ namespace Superdev.Maui.Extensions
         /// <exception cref="FormatException">
         /// Throws FormatException if the format includes invalid options.</exception>
         /// </summary>
-        public static string ToStringExtended(this TimeSpan? nullableTime, string format, CultureInfo cultureInfo = null)
+        public static string ToStringExtended(this TimeSpan? nullableTime, string format, CultureInfo? cultureInfo = null)
         {
             cultureInfo ??= CultureInfo.CurrentCulture;
 
