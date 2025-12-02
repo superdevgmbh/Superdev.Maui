@@ -3,7 +3,7 @@ using Superdev.Maui.Utils.Threading;
 
 namespace Superdev.Maui.Mvvm
 {
-    public class ViewModelError : BindableBase, IEquatable<ViewModelError>
+    public class ViewModelError : BindableBase, IEquatable<ViewModelError?>
     {
         public static readonly ViewModelError None = new ViewModelError(null, null, null, null);
 
@@ -183,12 +183,12 @@ namespace Superdev.Maui.Mvvm
             return HashCode.Combine(this.Icon, this.Title, this.Text, this.RetryButtonText);
         }
 
-        public static bool operator ==(ViewModelError left, ViewModelError right)
+        public static bool operator ==(ViewModelError? left, ViewModelError? right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ViewModelError left, ViewModelError right)
+        public static bool operator !=(ViewModelError? left, ViewModelError? right)
         {
             return !Equals(left, right);
         }

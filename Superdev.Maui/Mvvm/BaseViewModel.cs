@@ -10,12 +10,12 @@ namespace Superdev.Maui.Mvvm
     {
         private readonly RefCountBool busyRefCount = new RefCountBool();
 
-        private string title;
-        private string subTitle;
-        private string icon;
+        private string? title;
+        private string? subTitle;
+        private string? icon;
         private bool isRefreshing;
-        private ViewModelError viewModelError;
-        private ViewModelValidation validation;
+        private ViewModelError? viewModelError;
+        private ViewModelValidation? validation;
         private bool isInitialized;
         private bool enableBusyRefCount;
         private bool isBusy;
@@ -26,19 +26,19 @@ namespace Superdev.Maui.Mvvm
             this.SetupValidationInternal();
         }
 
-        public virtual string Title
+        public virtual string? Title
         {
             get => this.title;
             set => this.SetProperty(ref this.title, value);
         }
 
-        public string Subtitle
+        public string? Subtitle
         {
             get => this.subTitle;
             set => this.SetProperty(ref this.subTitle, value);
         }
 
-        public string Icon
+        public string? Icon
         {
             get => this.icon;
             set => this.SetProperty(ref this.icon, value);
@@ -153,7 +153,7 @@ namespace Superdev.Maui.Mvvm
             set => this.SetProperty(ref this.isRefreshing, value);
         }
 
-        public virtual ViewModelError ViewModelError
+        public virtual ViewModelError? ViewModelError
         {
             get => this.viewModelError;
             set
@@ -172,7 +172,7 @@ namespace Superdev.Maui.Mvvm
 
         public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.ViewModelError == ViewModelError.None;
 
-        public ViewModelValidation Validation
+        public ViewModelValidation? Validation
         {
             get => this.validation /*?? throw new InvalidOperationException($"Override {nameof(this.SetupValidation)} before accessing {nameof(this.Validation)}")*/;
             private set => this.SetProperty(ref this.validation, value);
@@ -191,7 +191,7 @@ namespace Superdev.Maui.Mvvm
         /// <summary>
         /// Overriding <see cref="SetupValidation"/> activates user input validation for this view model.
         /// </summary>
-        protected virtual ViewModelValidation SetupValidation()
+        protected virtual ViewModelValidation? SetupValidation()
         {
             return null;
         }
@@ -202,7 +202,7 @@ namespace Superdev.Maui.Mvvm
             this.Validation?.HandlePropertyChange(args.PropertyName);
         }
 
-        protected virtual bool SetProperty(RefCountBool refCountBool, bool value, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty(RefCountBool refCountBool, bool value, [CallerMemberName] string? propertyName = null)
         {
             var hasChanged = refCountBool.SetValue(value);
             if (hasChanged)

@@ -32,7 +32,7 @@ namespace Superdev.Maui.Mvvm
         /// True if the value was changed, false if the existing value matched the
         /// desired value.
         /// </returns>
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null!)
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {
@@ -62,7 +62,7 @@ namespace Superdev.Maui.Mvvm
         /// True if the value was changed, false if the existing value matched the
         /// desired value.
         /// </returns>
-        protected virtual bool SetProperty<T>(ref T storage, T value, Action onChanged, [CallerMemberName] string propertyName = null!)
+        protected virtual bool SetProperty<T>(ref T storage, T value, Action onChanged, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {
@@ -76,7 +76,7 @@ namespace Superdev.Maui.Mvvm
             return true;
         }
 
-        protected virtual bool SetProperty<TObject, T>(TObject source, T value, [CallerMemberName] string propertyName = null!, string? sourcePropertyName = null)
+        protected virtual bool SetProperty<TObject, T>(TObject source, T value, [CallerMemberName] string? propertyName = null, string? sourcePropertyName = null)
         {
             sourcePropertyName ??= propertyName;
 
@@ -107,7 +107,7 @@ namespace Superdev.Maui.Mvvm
         /// value is optional and can be provided automatically when invoked from compilers
         /// that support <see cref="CallerMemberNameAttribute" />.
         /// </param>
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null!)
+        protected virtual void RaisePropertyChanged([CallerMemberName] string? propertyName = null!)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
