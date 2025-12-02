@@ -8,10 +8,11 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private string url;
-        private IDictionary<string, string> headers;
-        private Command<WebNavigatingEventArgs> navigatingCommand;
-        private Command<WebNavigatedEventArgs> navigatedCommand;
+
+        private string? url;
+        private IDictionary<string, string> headers = new Dictionary<string, string>();
+        private Command<WebNavigatingEventArgs>? navigatingCommand;
+        private Command<WebNavigatedEventArgs>? navigatedCommand;
 
         public WebViewDemoViewModel(
             ILogger<WebViewDemoViewModel> logger,
@@ -54,7 +55,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.IsBusy = false;
         }
 
-        public string Url
+        public string? Url
         {
             get => this.url;
             set => this.SetProperty(ref this.url, value);

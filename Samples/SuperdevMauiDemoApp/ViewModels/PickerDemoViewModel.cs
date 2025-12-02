@@ -30,7 +30,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private TimeSpan patentStartTime;
         private TimeSpan? patentEndTime;
         private DateRange patentValidityRange;
-        private IRelayCommand toggleIsReadonlyCommand;
+        private IRelayCommand? toggleIsReadonlyCommand;
         private int selectedInt;
 
         public PickerDemoViewModel(

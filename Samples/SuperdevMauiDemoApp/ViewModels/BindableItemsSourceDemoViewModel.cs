@@ -12,7 +12,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ICountryService countryService;
 
         private ObservableCollection<CountryViewModel> countries;
-        private IAsyncRelayCommand appearingCommand;
+        private IAsyncRelayCommand? appearingCommand;
 
         public BindableItemsSourceDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,

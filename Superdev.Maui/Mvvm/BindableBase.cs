@@ -80,6 +80,8 @@ namespace Superdev.Maui.Mvvm
         {
             sourcePropertyName ??= propertyName;
 
+            ArgumentNullException.ThrowIfNull(sourcePropertyName);
+
             var sourceType = typeof(TObject);
             var propertyInfo = sourceType.GetProperty(sourcePropertyName);
             if (propertyInfo == null)

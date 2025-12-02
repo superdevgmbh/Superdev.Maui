@@ -19,6 +19,6 @@
         /// </summary>
         /// <param name="value">Property value for which the validation is set up.</param>
         /// <returns><c>True</c> if the provided value is valid, otherwise <c>false</c>.</returns>
-        bool IsValid(T value);
+        bool IsValid(T? value);
     }
 }

@@ -63,7 +63,7 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(IsTextUpperCaseProperty, value);
         }
 
-        private static void UpdateSectionText(LabelSection labelSection, string text, bool isUpperCase)
+        private static void UpdateSectionText(LabelSection labelSection, string? text, bool isUpperCase)
         {
             var newText = isUpperCase
                 ? text?.ToUpperInvariant()

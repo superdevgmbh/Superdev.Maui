@@ -30,9 +30,9 @@
                 BindingMode.TwoWay,
                 propertyChanged: OnTextPropertyChanged);
 
-        public string Text
+        public string? Text
         {
-            get => (string)this.GetValue(TextProperty);
+            get => (string?)this.GetValue(TextProperty);
             set => this.SetValue(TextProperty, value);
         }
 
@@ -49,9 +49,9 @@
                 typeof(ValidatableEditor),
                 propertyChanged: OnPlaceholderPropertyChanged);
 
-        public string Placeholder
+        public string? Placeholder
         {
-            get => (string)this.GetValue(PlaceholderProperty);
+            get => (string?)this.GetValue(PlaceholderProperty);
             set => this.SetValue(PlaceholderProperty, value);
         }
 
@@ -81,7 +81,7 @@
             entry.OnPropertyChanged(nameof(entry.AnnotationText));
         }
 
-        public string AnnotationText
+        public string? AnnotationText
         {
             get
             {

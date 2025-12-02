@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Superdev.Maui.Services;
 
 namespace Superdev.Maui.Navigation
 {
@@ -11,7 +10,7 @@ namespace Superdev.Maui.Navigation
 
         private static INavigationService CreateInstance()
         {
-            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<MauiNavigationService>>();
+            var logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<MauiNavigationService>>();
             return new MauiNavigationService(logger, IPageResolver.Current);
         }
 
@@ -31,7 +30,7 @@ namespace Superdev.Maui.Navigation
             return this.PushAsync<object>(pageName, null, animated);
         }
 
-        public async Task PushAsync<T>(string pageName, T parameter, bool animated = true)
+        public async Task PushAsync<T>(string pageName, T? parameter, bool animated = true)
         {
             try
             {
@@ -60,7 +59,7 @@ namespace Superdev.Maui.Navigation
             return this.PushModalAsync<object>(pageName, null, animated);
         }
 
-        public async Task PushModalAsync<T>(string pageName, T parameter, bool animated = true)
+        public async Task PushModalAsync<T>(string pageName, T? parameter, bool animated = true)
         {
             try
             {
@@ -92,12 +91,9 @@ namespace Superdev.Maui.Navigation
                     $"{nameof(MauiNavigationService)} does currently not support AppShell navigation");
             }
 
-            if (Application.Current?.MainPage is not Page page)
-            {
-                throw new PageNavigationException("Application.Current.MainPage is not set");
-            }
+            var rootPage = RootPage;
 
-            var targetPage = GetTarget(page);
+            var targetPage = GetTarget(rootPage);
             var navigation = targetPage.Navigation;
 
             if (navigation.ModalStack.Count > 0)
@@ -116,9 +112,8 @@ namespace Superdev.Maui.Navigation
             {
                 FlyoutPage flyout => GetTarget(flyout.Detail),
                 TabbedPage tabbed => GetTarget(tabbed.CurrentPage),
-                NavigationPage navigation => GetTarget(navigation.CurrentPage) ?? navigation,
+                NavigationPage navigation => navigation.CurrentPage != null ? GetTarget(navigation.CurrentPage) : navigation,
                 ContentPage page => page,
-                null => null,
                 _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
             };
         }
@@ -203,14 +198,14 @@ namespace Superdev.Maui.Navigation
                 var isAbsolute = path.StartsWith('/');
                 var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-                var pages = this.ResolvePagesForSegments(segments.First(), segments.Skip(1)).ToArray();
+                var pages = this.ResolvePagesForSegments(segments.First(), segments.Skip(1).ToArray()).ToArray();
 
                 var navigation = GetNavigation();
 
                 if (isAbsolute)
                 {
                     var rootPage = pages.First();
-                    Application.Current.MainPage = rootPage;
+                    RootPage = rootPage;
                 }
 
                 foreach (var page in pages.Skip(isAbsolute ? 1 : 0))
@@ -225,13 +220,13 @@ namespace Superdev.Maui.Navigation
             }
         }
 
-        private IEnumerable<Page> ResolvePagesForSegments(string firstSegment, IEnumerable<string> segments)
+        private IEnumerable<Page> ResolvePagesForSegments(string firstSegment, string[] segments)
         {
             if (firstSegment == nameof(NavigationPage))
             {
                 if (segments.Any())
                 {
-                    var pages = this.ResolvePagesForSegments(segments.First(), segments.Skip(1));
+                    var pages = this.ResolvePagesForSegments(segments.First(), segments.Skip(1).ToArray()).ToArray();
                     var firstPage = pages.First();
                     yield return new NavigationPage(firstPage);
                     foreach (var childPage in pages.Skip(1))
@@ -253,7 +248,7 @@ namespace Superdev.Maui.Navigation
             {
                 if (segments.Any())
                 {
-                    var pages = this.ResolvePagesForSegments(segments.First(), segments.Skip(1));
+                    var pages = this.ResolvePagesForSegments(segments.First(), segments.Skip(1).ToArray());
                     foreach (var childPage in pages)
                     {
                         yield return childPage;
@@ -262,11 +257,17 @@ namespace Superdev.Maui.Navigation
             }
         }
 
+        private static Page RootPage
+        {
+            get => Application.Current!.Windows[0].Page ?? throw new InvalidOperationException("Failed to resolve root page");
+            set => Application.Current!.Windows[0].Page = value;
+        }
+
         public INavigation Navigation
         {
             get
             {
-                return Application.Current?.Windows[0].Page?.Navigation ?? throw new InvalidOperationException($"{nameof(Page.Navigation)} not found");
+                return RootPage.Navigation ?? throw new InvalidOperationException($"{nameof(Page.Navigation)} not found");
             }
         }
     }

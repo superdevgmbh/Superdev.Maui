@@ -25,7 +25,7 @@ namespace SuperdevMauiDemoApp
             RegisterViewModelErrors(viewModelErrorRegistry);
         }
 
-        protected override Window CreateWindow(IActivationState activationState)
+        protected override Window CreateWindow(IActivationState? activationState)
         {
             var mainPage = IPageResolver.Current.ResolvePage("MainPage");
             return new Window(new NavigationPage(mainPage));
@@ -34,7 +34,7 @@ namespace SuperdevMauiDemoApp
         protected override void OnStart()
         {
             var statusBarService = IStatusBarService.Current;
-            var statusBarColor = (Color)App.Current.Resources["PrimaryDark"];
+            var statusBarColor = (Color)App.Current!.Resources["PrimaryDark"];
             statusBarService.SetStatusBarColor(statusBarColor);
             statusBarService.SetStyle(StatusBarStyle.Dark);
         }

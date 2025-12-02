@@ -9,7 +9,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     public abstract class DrilldownBaseViewModel : BaseViewModel, IDrilldownView
     {
         private readonly IDialogService dialogService;
-        private IAsyncRelayCommand command;
+        private IAsyncRelayCommand? command;
 
         protected DrilldownBaseViewModel(IDialogService dialogService)
         {

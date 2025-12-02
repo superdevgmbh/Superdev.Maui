@@ -51,7 +51,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             Debug.WriteLine($"OnElementPropertyChanged: {e.PropertyName}");
 

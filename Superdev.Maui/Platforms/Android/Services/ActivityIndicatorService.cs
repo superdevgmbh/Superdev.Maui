@@ -24,19 +24,20 @@ namespace Superdev.Maui.Platforms.Services
 
         private ActivityIndicatorService()
         {
-            this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<ActivityIndicatorService>>();
+            this.logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<ActivityIndicatorService>>();
             this.mainThread = IMainThread.Current;
         }
 
         private readonly ILogger logger;
         private readonly IMainThread mainThread;
-        private AView nativeView;
-        private Dialog dialog;
-        private ContentPage activityIndicatorPage;
 
-        private static DisplayMetrics GetDisplayMetrics(Context context)
+        private AView? nativeView;
+        private Dialog? dialog;
+        private ContentPage? activityIndicatorPage;
+
+        private static DisplayMetrics? GetDisplayMetrics(Context context)
         {
-            var displayMetrics = context.Resources.DisplayMetrics;
+            var displayMetrics = context.Resources?.DisplayMetrics;
             return displayMetrics;
         }
 
@@ -50,18 +51,32 @@ namespace Superdev.Maui.Platforms.Services
             this.activityIndicatorPage = activityIndicatorPage ?? throw new ArgumentException(nameof(activityIndicatorPage));
         }
 
+        private static Page? RootPage
+        {
+            get => Application.Current?.Windows[0].Page;
+        }
+
         private void RenderPage()
         {
-            var mainPage = Application.Current?.MainPage;
+            var mainPage = RootPage;
             if (mainPage == null)
             {
                 return;
             }
 
             var context = Platform.CurrentActivity;
+            if (context == null)
+            {
+                return;
+            }
+
             var displayMetrics = GetDisplayMetrics(context);
 
-            var contentPage = this.activityIndicatorPage;
+            if (this.activityIndicatorPage is not ContentPage contentPage)
+            {
+                return;
+            }
+
             this.activityIndicatorPage.Parent = mainPage;
             contentPage.Layout(new Rect(0, 0, mainPage.Width, mainPage.Height));
 
@@ -71,18 +86,25 @@ namespace Superdev.Maui.Platforms.Services
                 contentPage.Handler = pageHandler;
             }
 
-            this.nativeView = contentPage.Handler.PlatformView as AView;
+            var view = this.nativeView = contentPage.Handler.PlatformView as AView;
 
             this.dialog = new Dialog(context);
             this.dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
             this.dialog.SetCancelable(false);
-            this.dialog.SetContentView(this.nativeView);
+
+            if (view != null)
+            {
+                this.dialog.SetContentView(view);
+            }
 
             var window = this.dialog.Window;
-            window.SetLayout(displayMetrics.WidthPixels, displayMetrics.HeightPixels);
-            window.SetGravity(GravityFlags.CenterHorizontal | GravityFlags.CenterVertical);
-            window.ClearFlags(WindowManagerFlags.DimBehind);
-            window.SetBackgroundDrawable(new ColorDrawable(AColor.Transparent));
+            if (window != null && displayMetrics  != null)
+            {
+                window.SetLayout(displayMetrics.WidthPixels, displayMetrics.HeightPixels);
+                window.SetGravity(GravityFlags.CenterHorizontal | GravityFlags.CenterVertical);
+                window.ClearFlags(WindowManagerFlags.DimBehind);
+                window.SetBackgroundDrawable(new ColorDrawable(AColor.Transparent));
+            }
         }
 
         public async void ShowLoadingPage(string text)

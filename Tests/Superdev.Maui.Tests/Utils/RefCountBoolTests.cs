@@ -1,4 +1,3 @@
-using Moq.AutoMock;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Utils;
 
@@ -17,9 +16,9 @@ namespace Superdev.Maui.Tests.Utils
         public void IsBusyTest_TrueTrueFalse()
         {
             // Arrange
-            var propertyChangedList = new List<string>();
+            var propertyChangedList = new List<string?>();
             var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedList.Add(args.PropertyName); };
+            viewModel.PropertyChanged += (_, args) => { propertyChangedList.Add(args.PropertyName); };
 
             // Act
             viewModel.IsScannerBusy = true;
@@ -39,9 +38,9 @@ namespace Superdev.Maui.Tests.Utils
         public void IsBusyTest_TrueTrueFalseFalse()
         {
             // Arrange
-            var propertyChangedList = new List<string>();
+            var propertyChangedList = new List<string?>();
             var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedList.Add(args.PropertyName); };
+            viewModel.PropertyChanged += (_, args) => { propertyChangedList.Add(args.PropertyName); };
 
             // Act
             viewModel.IsScannerBusy = true;
@@ -63,9 +62,9 @@ namespace Superdev.Maui.Tests.Utils
         public void IsBusyTest_FalseFalseTrue()
         {
             // Arrange
-            var propertyChangedList = new List<string>();
+            var propertyChangedList = new List<string?>();
             var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedList.Add(args.PropertyName); };
+            viewModel.PropertyChanged += (_, args) => { propertyChangedList.Add(args.PropertyName); };
 
             // Act
             viewModel.IsScannerBusy = false;
@@ -85,9 +84,9 @@ namespace Superdev.Maui.Tests.Utils
         public void IsBusyTest_TrueFalseFalse()
         {
             // Arrange
-            var propertyChangedList = new List<string>();
+            var propertyChangedList = new List<string?>();
             var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedList.Add(args.PropertyName); };
+            viewModel.PropertyChanged += (_, args) => { propertyChangedList.Add(args.PropertyName); };
 
             // Act
             viewModel.IsScannerBusy = true;
@@ -116,7 +115,6 @@ namespace Superdev.Maui.Tests.Utils
             {
                 if (this.SetProperty(this.isScannerBusy, value))
                 {
-
                 }
             }
         }

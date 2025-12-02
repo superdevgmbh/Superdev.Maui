@@ -31,8 +31,8 @@ namespace Superdev.Maui.Resources.Styles
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static implicit operator Color(ColorReference colorReference) => colorReference.Value;
+        public static implicit operator Color?(ColorReference colorReference) => colorReference.Value;
 
-        public static implicit operator ColorReference(Color color) => new ColorReference { Value = color };
+        public static implicit operator ColorReference(Color? color) => new ColorReference { Value = color };
     }
 }

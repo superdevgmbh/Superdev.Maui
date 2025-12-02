@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 using Superdev.Maui.Services.Settings;

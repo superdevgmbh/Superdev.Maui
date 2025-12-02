@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using Superdev.Maui.Internals;
 
 namespace Superdev.Maui.Services.Settings
 {
@@ -18,8 +17,8 @@ namespace Superdev.Maui.Services.Settings
 
         public SettingsProperty(IPreferences preferences, string key, T? defaultValue = default)
         {
-            Guard.ArgumentNotNull(preferences, nameof(preferences));
-            Guard.ArgumentNotNullOrEmpty(key, nameof(key));
+            ArgumentNullException.ThrowIfNull(preferences);
+            ArgumentException.ThrowIfNullOrEmpty(key);
 
             if (key.Length > 255)
             {

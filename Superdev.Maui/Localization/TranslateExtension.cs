@@ -10,7 +10,7 @@ namespace Superdev.Maui.Localization
     public class TranslateExtension : IMarkupExtension<BindingBase>
     {
         private static ILocalizer Localizer = new NullLocalizer();
-        private static TranslateExtensionMultiConverter MultiConverter;
+        private static TranslateExtensionMultiConverter? MultiConverter;
 
         public static void Init(ILocalizer localizer, ITranslationProvider translationProvider)
         {
@@ -18,15 +18,15 @@ namespace Superdev.Maui.Localization
             MultiConverter = new TranslateExtensionMultiConverter(translationProvider);
         }
 
-        public string Key { get; set; }
+        public string? Key { get; init; }
 
-        public IValueConverter Converter { get; set; }
+        public IValueConverter? Converter { get; set; }
 
         public BindingBase ProvideValue(IServiceProvider serviceProvider)
         {
             if (this.Key == null)
             {
-                return null;
+                return null!;
             }
 
             BindingBase binding;
@@ -84,17 +84,14 @@ namespace Superdev.Maui.Localization
                 this.translationProvider = translationProvider;
             }
 
-            public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+            public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                if (values != null)
+                if (values.ElementAtOrDefault(0) is string key &&
+                    values.ElementAtOrDefault(1) is CultureInfo cultureInfo)
                 {
-                    if (values.ElementAtOrDefault(0) is string key &&
-                        values.ElementAtOrDefault(1) is CultureInfo cultureInfo)
-                    {
-                        var translation = this.translationProvider.Translate(key, cultureInfo);
-                        Debug.WriteLine($"TranslateExtension: {key} >> \"{translation}\"");
-                        return translation;
-                    }
+                    var translation = this.translationProvider.Translate(key, cultureInfo);
+                    Debug.WriteLine($"TranslateExtension: {key} >> \"{translation}\"");
+                    return translation;
                 }
 
                 return null;
@@ -108,30 +105,17 @@ namespace Superdev.Maui.Localization
     }
 
     /// <summary>
-    /// Null implementation of <seealso cref="ITranslationProvider"/>
-    /// in order to prevent NullReferenceExceptions in case TranslateExtension is not yet initialized.
-    /// </summary>
-    [ExcludeFromCodeCoverage]
-    internal class NullTranslationProvider : ITranslationProvider
-    {
-        public string Translate(string key, CultureInfo cultureInfo)
-        {
-            return $"No key found for '{key}'";
-        }
-    }
-
-    /// <summary>
     /// Null implementation of <seealso cref="ILocalizer"/>
     /// in order to prevent NullReferenceExceptions in case TranslateExtension is not yet initialized.
     /// </summary>
     [ExcludeFromCodeCoverage]
     internal class NullLocalizer : ILocalizer
     {
-        public string PreferencesKey { get; set; }
+        public string PreferencesKey { get; set; } = null!;
 
-        public CultureInfo DefaultLanguage { get; set; }
+        public CultureInfo? DefaultLanguage { get; set; } = null!;
 
-        public CultureInfo[] SupportedLanguages { get; set; }
+        public CultureInfo[] SupportedLanguages { get; set; } = null!;
 
         public CultureInfo CurrentCulture
         {
@@ -139,14 +123,14 @@ namespace Superdev.Maui.Localization
             set => CultureInfo.CurrentCulture = value;
         }
 
-        public string GetPlatformLocale()
+        public string? GetPlatformLocale()
         {
             return null;
         }
 
-        public CultureInfo GetPlatformCulture()
+        public CultureInfo? GetPlatformCulture()
         {
-            return CultureInfo.InvariantCulture;
+            return null;
         }
 
         public event EventHandler<LanguageChangingEventArgs> LanguageChanging = null!;

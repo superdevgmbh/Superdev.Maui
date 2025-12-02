@@ -35,7 +35,11 @@ namespace Superdev.Maui.Validation
 
             this.validationRule = validationRule;
 
-            this.validCriteria = () => !validationRule.IsValid((T)this.GetPropertyValue());
+            this.validCriteria = () =>
+            {
+                var propertyValue = (T?)this.GetPropertyValue();
+                return !validationRule.IsValid(propertyValue);
+            };
 
             return this;
         }

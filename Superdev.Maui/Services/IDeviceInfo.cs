@@ -7,6 +7,6 @@ namespace Superdev.Maui.Services
         /// </summary>
         public static IDeviceInfo Current => DeviceInfo.Current;
 
-        string DeviceId { get; }
+        string? DeviceId { get; }
     }
 }

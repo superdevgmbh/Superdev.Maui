@@ -130,7 +130,7 @@ namespace Superdev.Maui.Controls
                 typeof(string),
                 typeof(ValidatableDateTimePicker));
 
-        public string ReadonlyText
+        public string? ReadonlyText
         {
             get
             {

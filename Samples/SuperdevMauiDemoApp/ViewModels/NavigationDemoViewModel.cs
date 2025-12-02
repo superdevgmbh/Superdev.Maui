@@ -12,14 +12,14 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
 
-        private IAsyncRelayCommand navigateToPageCommand;
-        private IAsyncRelayCommand popCommand;
-        private IAsyncRelayCommand popToRootCommand;
-        private IAsyncRelayCommand navigateToPageModalCommand;
-        private IAsyncRelayCommand popModalCommand;
-        private IRelayCommand toggleHasNavigationBarCommand;
+        private IAsyncRelayCommand? navigateToPageCommand;
+        private IAsyncRelayCommand? popCommand;
+        private IAsyncRelayCommand? popToRootCommand;
+        private IAsyncRelayCommand? navigateToPageModalCommand;
+        private IAsyncRelayCommand? popModalCommand;
+        private IRelayCommand? toggleHasNavigationBarCommand;
         private bool hasNavigationBar = true;
-        private IRelayCommand toggleSwipeBackEnabledCommand;
+        private IRelayCommand? toggleSwipeBackEnabledCommand;
         private bool swipeBackEnabled = true;
 
         public NavigationDemoViewModel(

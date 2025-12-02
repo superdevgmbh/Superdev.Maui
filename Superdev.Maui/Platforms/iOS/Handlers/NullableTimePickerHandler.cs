@@ -66,7 +66,7 @@ namespace Superdev.Maui.Platforms.Handlers
             mauiTimePicker.ResignFirstResponder();
         }
 
-        private new NullableTimePicker VirtualView => (NullableTimePicker)base.VirtualView;
+        public new NullableTimePicker? VirtualView => base.VirtualView as NullableTimePicker;
 
         private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {

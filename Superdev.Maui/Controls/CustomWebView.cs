@@ -10,7 +10,7 @@ namespace Superdev.Maui.Controls
             this.Navigated += this.OnNavigated;
         }
 
-        private void OnNavigating(object sender, WebNavigatingEventArgs args)
+        private void OnNavigating(object? sender, WebNavigatingEventArgs args)
         {
             if (this.NavigatingCommand is ICommand command)
             {
@@ -21,7 +21,7 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        private void OnNavigated(object sender, WebNavigatedEventArgs args)
+        private void OnNavigated(object? sender, WebNavigatedEventArgs args)
         {
             if (this.NavigatedCommand is ICommand command)
             {
@@ -46,7 +46,7 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        public static BindableProperty EvaluateJavascriptProperty = BindableProperty.Create(
+        public static readonly BindableProperty EvaluateJavascriptProperty = BindableProperty.Create(
             nameof(EvaluateJavascript),
             typeof(Func<string, Task<string>>),
             typeof(CustomWebView),

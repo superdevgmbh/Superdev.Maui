@@ -7,7 +7,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class CountryViewModel : BaseViewModel
     {
         private bool isSelected;
-        private IAsyncRelayCommand deleteCommand;
+        private IAsyncRelayCommand? deleteCommand;
 
         public CountryViewModel(CountryDto countryDto)
         {

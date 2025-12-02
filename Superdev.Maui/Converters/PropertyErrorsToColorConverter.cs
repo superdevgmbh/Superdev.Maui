@@ -1,20 +1,19 @@
-﻿using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Converters
 {
     internal class PropertyErrorsToColorConverter : BindableObject, IValueConverter
     {
-        private static Color NormalColor => (Color)Application.Current.Resources[ThemeConstants.Color.TextColorBright];
+        private static Color NormalColor => (Color)Application.Current!.Resources[ThemeConstants.Color.TextColorBright];
 
-        private static Color ErrorColor => (Color)Application.Current.Resources[ThemeConstants.Color.Error];
+        private static Color ErrorColor => (Color)Application.Current!.Resources[ThemeConstants.Color.Error];
 
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             Color color;
-            var propertyErrors = value as IEnumerable<string>;
-            if (propertyErrors != null && propertyErrors.Any())
+
+            if (value is IEnumerable<string> propertyErrors && propertyErrors.Any())
             {
                 color = ErrorColor;
             }
@@ -27,7 +26,7 @@ namespace Superdev.Maui.Converters
             return color;
         }
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

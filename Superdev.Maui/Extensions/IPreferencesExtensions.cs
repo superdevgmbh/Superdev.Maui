@@ -33,7 +33,7 @@ namespace Superdev.Maui.Extensions
                 var result = JsonSerializer.Deserialize<T>(stringValue, options);
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception _)
             {
                 // JsonConvert serializes values with leading and trailing quotes.
                 // Values in ISecurePreferencesService might be stored without these quotes

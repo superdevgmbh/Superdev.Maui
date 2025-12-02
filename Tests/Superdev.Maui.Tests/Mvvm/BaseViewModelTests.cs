@@ -46,7 +46,7 @@ namespace Superdev.Maui.Tests.Mvvm
             var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
             viewModel.EnableBusyRefCount = true;
 
-            var propertyChangedCallbacks = new List<string>();
+            var propertyChangedCallbacks = new List<string?>();
             viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act
@@ -71,7 +71,7 @@ namespace Superdev.Maui.Tests.Mvvm
             var viewModel = this.autoMocker.CreateInstance<TestViewModel>();
             viewModel.EnableBusyRefCount = false;
 
-            var propertyChangedCallbacks = new List<string>();
+            var propertyChangedCallbacks = new List<string?>();
             viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act

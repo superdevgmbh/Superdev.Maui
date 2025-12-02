@@ -12,7 +12,7 @@ namespace Superdev.Maui.Handlers
         public PageHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
-            var serviceProvider = IPlatformApplication.Current.Services;
+            var serviceProvider = IPlatformApplication.Current!.Services;
             this.logger = serviceProvider.GetRequiredService<ILogger<PageHandler>>();
             this.options = serviceProvider.GetRequiredService<SuperdevMauiOptions>();
         }

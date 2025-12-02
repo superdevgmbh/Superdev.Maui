@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
-using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -11,7 +10,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private string notes;
         private string logContent;
         private bool hasKeyboardOffset = true;
-        private IRelayCommand toggleHasKeyboardOffsetCommand;
+        private IRelayCommand? toggleHasKeyboardOffsetCommand;
 
         public KeyboardDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler)

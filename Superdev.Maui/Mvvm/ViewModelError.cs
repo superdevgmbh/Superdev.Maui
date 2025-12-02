@@ -5,31 +5,31 @@ namespace Superdev.Maui.Mvvm
 {
     public class ViewModelError : BindableBase, IEquatable<ViewModelError?>
     {
-        public static readonly ViewModelError None = new ViewModelError(null, null, null, null);
+        public static readonly ViewModelError None = new ViewModelError(null, null!, null!, null);
 
         private ICommand? retryCommand;
         private string? retryButtonText;
         private Func<Task>? retryTask;
         private bool isBusy;
 
-        public ViewModelError(string? icon, string? title, string? text)
+        public ViewModelError(string? icon, string title, string text)
             : this(icon, title, text, null)
         {
         }
 
-        public ViewModelError(string? icon, string? title, string? text, string? retryButtonText, Action retryAction)
+        public ViewModelError(string? icon, string title, string text, string? retryButtonText, Action retryAction)
             : this(icon, title, text, retryButtonText)
         {
             this.WithRetry(retryAction);
         }
 
-        public ViewModelError(string? icon, string? title, string? text, string? retryButtonText, Func<Task> retryTask)
+        public ViewModelError(string? icon, string title, string text, string? retryButtonText, Func<Task> retryTask)
             : this(icon, title, text, retryButtonText)
         {
             this.WithRetry(retryTask);
         }
 
-        public ViewModelError(string? icon, string? title, string? text, string? retryButtonText)
+        public ViewModelError(string? icon, string title, string text, string? retryButtonText)
         {
             this.Icon = icon;
             this.Title = title;
@@ -39,9 +39,9 @@ namespace Superdev.Maui.Mvvm
 
         public string? Icon { get; }
 
-        public string? Title { get; }
+        public string Title { get; }
 
-        public string? Text { get; }
+        public string Text { get; }
 
         public bool IsBusy
         {

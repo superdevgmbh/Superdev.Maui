@@ -13,11 +13,11 @@
                 typeof(string),
                 typeof(SwipeItemBase));
 
-        public string Text
+        public string? Text
         {
             get
             {
-                var text = (string)this.GetValue(TextProperty);
+                var text = (string?)this.GetValue(TextProperty);
                 return this.AllCaps ? text?.ToUpperInvariant() : text;
             }
             set => this.SetValue(TextProperty, value);

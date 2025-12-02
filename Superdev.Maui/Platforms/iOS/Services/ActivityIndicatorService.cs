@@ -20,8 +20,8 @@ namespace Superdev.Maui.Platforms.Services
         {
         }
 
-        private UIView nativeView;
-        private ContentPage activityIndicatorPage;
+        private UIView? nativeView;
+        private ContentPage? activityIndicatorPage;
 
         public void Init<T>(T activityIndicatorPage) where T : ContentPage, IActivityIndicatorPage
         {
@@ -33,15 +33,24 @@ namespace Superdev.Maui.Platforms.Services
             this.activityIndicatorPage = activityIndicatorPage ?? throw new ArgumentException(nameof(activityIndicatorPage));
         }
 
+        private static Page? RootPage
+        {
+            get => Application.Current?.Windows[0].Page;
+        }
+
         private void RenderPage()
         {
-            var mainPage = Application.Current?.MainPage;
+            var mainPage = RootPage;
             if (mainPage == null)
             {
                 return;
             }
 
-            var contentPage = this.activityIndicatorPage;
+            if (this.activityIndicatorPage is not ContentPage contentPage)
+            {
+                return;
+            }
+
             contentPage.Layout(new Rect(0, 0, mainPage.Width, mainPage.Height));
 
             if (contentPage.Handler == null)
@@ -73,16 +82,18 @@ namespace Superdev.Maui.Platforms.Services
                                          ?? throw new InvalidOperationException($"{nameof(WindowStateManager.Default.GetCurrentUIViewController)} returned null.");
 
                 var rootView = rootViewController.View;
+                if (rootView != null)
+                {
+                    // Set the frame to match the rootView size
+                    this.nativeView.Frame = rootView.Bounds;
 
-                // Set the frame to match the rootView size
-                this.nativeView.Frame = rootView.Bounds;
+                    // Important: disable auto-resizing mask so AutoLayout works if needed
+                    this.nativeView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 
-                // Important: disable autoresizing mask so AutoLayout works if needed
-                this.nativeView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-
-                // Add the native view
-                rootView.AddSubview(this.nativeView);
-                rootView.BringSubviewToFront(this.nativeView);
+                    // Add the native view
+                    rootView.AddSubview(this.nativeView);
+                    rootView.BringSubviewToFront(this.nativeView);
+                }
             }
         }
 

@@ -43,7 +43,7 @@ namespace Superdev.Maui.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        private void OnTextChanged(object? sender, TextChangedEventArgs e)
         {
             if (sender is not InputView inputView)
             {

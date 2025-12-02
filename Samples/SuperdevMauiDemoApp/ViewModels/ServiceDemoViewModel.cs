@@ -22,11 +22,11 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ILocalizer localizer;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        private IRelayCommand showGeolocationSettingsCommand;
-        private IRelayCommand setStatusBarColorCommand;
-        private IRelayCommand setNavigationBarColorCommand;
-        private IRelayCommand resetNavigationBarColorCommand;
-        private IRelayCommand setStatusBarStyleCommand;
+        private IRelayCommand? showGeolocationSettingsCommand;
+        private IRelayCommand? setStatusBarColorCommand;
+        private IRelayCommand? setNavigationBarColorCommand;
+        private IRelayCommand? resetNavigationBarColorCommand;
+        private IRelayCommand? setStatusBarStyleCommand;
         private Color currentStatusBarColor = Colors.Red;
         private Color currentNavigationBarColor = Colors.White;
         private StatusBarStyle currentStatusBarStyle = StatusBarStyle.Dark;
@@ -35,13 +35,13 @@ namespace SuperdevMauiDemoApp.ViewModels
         private AppTheme platformAppTheme;
         private AppTheme userAppTheme;
         private AppTheme appTheme;
-        private IRelayCommand resetThemeCommand;
-        private IAsyncRelayCommand displayAlertCommand;
-        private IAsyncRelayCommand displayActionSheetCommand;
-        private IAsyncRelayCommand tryOpenUrlCommand;
+        private IRelayCommand? resetThemeCommand;
+        private IAsyncRelayCommand? displayAlertCommand;
+        private IAsyncRelayCommand? displayActionSheetCommand;
+        private IAsyncRelayCommand? tryOpenUrlCommand;
         private IRelayCommand<string> setCurrentCultureCommand;
         private string currentCulture;
-        private IRelayCommand resetCurrentCultureCommand;
+        private IRelayCommand? resetCurrentCultureCommand;
 
         public ServiceDemoViewModel(
             ILogger<ServiceDemoViewModel> logger,

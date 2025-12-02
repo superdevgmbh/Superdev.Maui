@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Superdev.Maui.Mvvm;
+﻿using Superdev.Maui.Mvvm;
 
 namespace Superdev.Maui.Tests.Mvvm
 {
@@ -11,8 +10,8 @@ namespace Superdev.Maui.Tests.Mvvm
             // Arrange
             var viewModel = new TestViewModel();
 
-            var propertyChangedCallbacks = new List<string>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+            var propertyChangedCallbacks = new List<string?>();
+            viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act
             viewModel.UserName = "username";
@@ -30,8 +29,8 @@ namespace Superdev.Maui.Tests.Mvvm
             var viewModel = new TestViewModel();
             viewModel.UserName = "username";
 
-            var propertyChangedCallbacks = new List<string>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+            var propertyChangedCallbacks = new List<string?>();
+            viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act
             viewModel.UserName = "username";
@@ -46,8 +45,8 @@ namespace Superdev.Maui.Tests.Mvvm
             // Arrange
             var viewModel = new TestViewModel();
 
-            var propertyChangedCallbacks = new List<string>();
-            viewModel.PropertyChanged += (sender, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
+            var propertyChangedCallbacks = new List<string?>();
+            viewModel.PropertyChanged += (_, args) => { propertyChangedCallbacks.Add(args.PropertyName); };
 
             // Act
             viewModel.UserName2 = "username2";
@@ -72,11 +71,11 @@ namespace Superdev.Maui.Tests.Mvvm
 
         private class TestViewModel : BindableBase
         {
-            private string userName;
-            private string wrongProperty;
-            private User user = new User();
+            private string? userName;
+            private string? wrongProperty;
+            private User? user = new User();
 
-            public string UserName
+            public string? UserName
             {
                 get => this.userName;
                 set
@@ -88,13 +87,13 @@ namespace Superdev.Maui.Tests.Mvvm
                 }
             }
 
-            public string UserName2
+            public string? UserName2
             {
                 get => this.user?.UserName2;
                 set => this.SetProperty(this.user, value);
             }
 
-            public string WrongProperty
+            public string? WrongProperty
             {
                 get => this.wrongProperty;
                 set => this.SetProperty(this.wrongProperty, value);
@@ -102,9 +101,9 @@ namespace Superdev.Maui.Tests.Mvvm
 
             private class User
             {
-                public string UserName1 { get; set; }
+                public string? UserName1 { get; set; }
 
-                public string UserName2 { get; set; }
+                public string? UserName2 { get; set; }
             }
         }
     }
