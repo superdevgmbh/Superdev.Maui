@@ -109,7 +109,7 @@ namespace Superdev.Maui.Utils
 
             ////////////////////////////////////////////////////////////////////////////
             // using a ManualResetEventSlim as it is more efficient in small intervals.
-            // In the case where longer intervals are used, it will automatically use 
+            // In the case where longer intervals are used, it will automatically use
             // a standard WaitHandle....
             // see http://msdn.microsoft.com/en-us/library/vstudio/5hbefs30(v=vs.100).aspx
             using (var periodResetEvent = new ManualResetEventSlim(false))
@@ -182,15 +182,10 @@ namespace Superdev.Maui.Utils
         }
 
         /// <summary>
-        ///     Checks if cancelled.
+        ///     Checks if canceled.
         /// </summary>
         private static bool CheckIfCancelled(CancellationToken cancellationToken)
         {
-            if (cancellationToken == null)
-            {
-                throw new ArgumentNullException(nameof(cancellationToken));
-            }
-
             return cancellationToken.IsCancellationRequested;
         }
     }
