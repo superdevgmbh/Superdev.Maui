@@ -35,7 +35,11 @@ namespace Superdev.Maui.Platforms.Services
 
         private static Page? RootPage
         {
-            get => Application.Current?.Windows[0].Page;
+            get
+            {
+                var window = Application.Current?.Windows.ElementAtOrDefault(0);
+                return window?.Page;
+            }
         }
 
         private void RenderPage()

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using SampleApp.ViewModels;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Localization;
@@ -15,6 +16,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        private readonly ILogger logger;
         private readonly INavigationService navigationService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
@@ -40,6 +42,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool showAppThemeToolbarItem;
 
         public MainViewModel(
+            ILogger<MainViewModel> logger,
             INavigationService navigationService,
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
@@ -48,6 +51,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             IActivityIndicatorService activityIndicatorService,
             IThemeHelper themeHelper)
         {
+            this.logger = logger;
             this.navigationService = navigationService;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
@@ -212,7 +216,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void OnPostalCodeUnfocused()
         {
-            Console.WriteLine("OnPostalCodeUnfocused");
+            this.logger.LogDebug("OnPostalCodeUnfocused");
         }
 
         protected override async Task OnRefreshing()

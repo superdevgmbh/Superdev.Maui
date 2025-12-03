@@ -259,8 +259,21 @@ namespace Superdev.Maui.Navigation
 
         private static Page RootPage
         {
-            get => Application.Current!.Windows[0].Page ?? throw new InvalidOperationException("Failed to resolve root page");
-            set => Application.Current!.Windows[0].Page = value;
+            get
+            {
+                var window = Application.Current!.Windows.ElementAtOrDefault(0);
+                return window?.Page ?? throw new InvalidOperationException("Failed to resolve root page");
+            }
+            set
+            {
+                var window = Application.Current!.Windows.ElementAtOrDefault(0);
+                if (window == null)
+                {
+                    throw new InvalidOperationException("Failed to resolve root page");
+                }
+
+                window.Page = value;
+            }
         }
 
         public INavigation Navigation

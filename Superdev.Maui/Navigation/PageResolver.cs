@@ -11,8 +11,8 @@ namespace Superdev.Maui.Navigation
 
         private static IPageResolver CreateInstance()
         {
-            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<PageResolver>>();
-            var serviceProvider = IPlatformApplication.Current.Services.GetRequiredService<IServiceProvider>();
+            var serviceProvider = IPlatformApplication.Current!.Services;
+            var logger = serviceProvider.GetRequiredService<ILogger<PageResolver>>();
             return new PageResolver(logger, serviceProvider);
         }
 

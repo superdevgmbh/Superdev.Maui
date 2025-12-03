@@ -13,8 +13,8 @@ namespace Superdev.Maui.Services
 
         private static IKeyboardService CreateKeyboardService()
         {
-            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<KeyboardService>>();
-            var platformElementConfiguration = Application.Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
+            var logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<KeyboardService>>();
+            var platformElementConfiguration = Application.Current!.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
             return new KeyboardService(logger, platformElementConfiguration);
         }
 
