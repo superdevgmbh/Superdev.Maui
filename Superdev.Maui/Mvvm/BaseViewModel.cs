@@ -93,7 +93,7 @@ namespace Superdev.Maui.Mvvm
         /// <summary>
         /// Indicates the busy state of the viewmodel. This flag can be used to block the user interface with a loading message.
         /// </summary>
-        public virtual bool IsBusy
+        public bool IsBusy
         {
             get
             {
