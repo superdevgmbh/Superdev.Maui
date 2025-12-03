@@ -6,7 +6,8 @@ using Microsoft.Maui.Controls.Internals;
 namespace Superdev.Maui.Localization
 {
     [Preserve(AllMembers = true)]
-    [ContentProperty("Key")]
+    [ContentProperty(nameof(Key))]
+    [AcceptEmptyServiceProvider]
     public class TranslateExtension : IMarkupExtension<BindingBase>
     {
         private static ILocalizer Localizer = new NullLocalizer();

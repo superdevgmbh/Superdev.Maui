@@ -1,6 +1,7 @@
 ﻿namespace Superdev.Maui.Controls
 {
-    [ContentProperty("Source")]
+    [ContentProperty(nameof(Source))]
+    [AcceptEmptyServiceProvider]
     public class ImageResourceExtension : IMarkupExtension
     {
         public string? Source { get; set; }

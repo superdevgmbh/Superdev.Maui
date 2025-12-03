@@ -3,6 +3,7 @@ using System.Reflection;
 namespace Superdev.Maui.Controls
 {
     [ContentProperty(nameof(Name))]
+    [RequireService([typeof(IServiceProvider), typeof(IProvideValueTarget)])]
     public class EmbeddedResourceExtension : IMarkupExtension
     {
         private static Assembly? Assembly;
