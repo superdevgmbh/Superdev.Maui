@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Superdev.Maui.Extensions
@@ -21,14 +22,13 @@ namespace Superdev.Maui.Extensions
         ////    Array.Resize(ref hashedBytes, 16);
         ////    return new Guid(hashedBytes);
         ////}
-
         public static bool Like(this string? source, string toFind)
         {
             ArgumentNullException.ThrowIfNull(source);
 
             return new Regex(@"\A" + new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\")
                     .Replace(toFind, ch => @"\" + ch).Replace('_', '.').Replace("%", ".*") + @"\z", RegexOptions.Singleline)
-                    .IsMatch(source);
+                .IsMatch(source);
         }
 
         /// <summary>Returns a value indicating whether a specified substring <paramref name="value"/> occurs within the source string <paramref name="source"/>.</summary>
@@ -107,16 +107,12 @@ namespace Superdev.Maui.Extensions
         /// <summary>
         /// Converts the first character of <paramref name="source"/> to upper case.
         /// </summary>
+        [return: NotNullIfNotNull(nameof(source))]
         public static string? ToUpperFirst(this string? source)
         {
-            if (source == null)
+            if (string.IsNullOrEmpty(source))
             {
-                return null;
-            }
-
-            if (source == string.Empty)
-            {
-                return string.Empty;
+                return source;
             }
 
             var a = source.ToCharArray();
@@ -133,6 +129,7 @@ namespace Superdev.Maui.Extensions
         ///     The string that remains after all occurrences of trim characters are removed from the start and end of the current
         ///     string.
         /// </returns>
+        [return: NotNullIfNotNull(nameof(source))]
         public static string? TrimStartAndEnd(this string? source)
         {
             return source?.TrimStartAndEnd(TrimChars);
@@ -150,12 +147,14 @@ namespace Superdev.Maui.Extensions
         ///     If <paramref name="trimChars">trimChars</paramref> is null or an empty array, white-space characters are removed
         ///     instead.
         /// </returns>
+        [return: NotNullIfNotNull(nameof(source))]
         public static string? TrimStartAndEnd(this string? source, params char[] trimChars)
         {
             return source?.TrimStart(trimChars)
                 .TrimEnd(trimChars);
         }
 
+        [return: NotNullIfNotNull(nameof(source))]
         public static string? RemoveEmptyLines(this string? source)
         {
             if (source == null)
@@ -178,6 +177,7 @@ namespace Superdev.Maui.Extensions
         /// <summary>
         ///     Catch runs of any kind of whitespace (e.g. tabs, newlines, etc.) and replace them with a single space.
         /// </summary>
+        [return: NotNullIfNotNull(nameof(source))]
         public static string? TrimWhitespaces(this string? source)
         {
             if (string.IsNullOrEmpty(source))
