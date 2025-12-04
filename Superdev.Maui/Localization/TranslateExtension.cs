@@ -85,9 +85,10 @@ namespace Superdev.Maui.Localization
                 this.translationProvider = translationProvider;
             }
 
-            public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+            public object? Convert(object[]? values, Type targetType, object? parameter, CultureInfo culture)
             {
-                if (values.ElementAtOrDefault(0) is string key &&
+                if (values != null &&
+                    values.ElementAtOrDefault(0) is string key &&
                     values.ElementAtOrDefault(1) is CultureInfo cultureInfo)
                 {
                     var translation = this.translationProvider.Translate(key, cultureInfo);
@@ -134,9 +135,9 @@ namespace Superdev.Maui.Localization
             return null;
         }
 
-        public event EventHandler<LanguageChangingEventArgs> LanguageChanging = null!;
+        public event EventHandler<LanguageChangingEventArgs>? LanguageChanging;
 
-        public event EventHandler<LanguageChangedEventArgs> LanguageChanged = null!;
+        public event EventHandler<LanguageChangedEventArgs>? LanguageChanged;
 
         public void Reset()
         {

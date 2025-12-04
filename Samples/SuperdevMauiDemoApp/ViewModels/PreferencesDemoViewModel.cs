@@ -12,9 +12,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IPreferences preferences;
         private readonly IToastService toastService;
 
-        private ICommand getCommand;
-        private ICommand setCommand;
-        private ICommand clearCommand;
+        private ICommand? getCommand;
+        private ICommand? setCommand;
+        private ICommand? clearCommand;
 
         public PreferencesDemoViewModel(
             IPreferences preferences,
@@ -43,14 +43,11 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public EnvironmentSetting CurrentEnvironment
         {
-            get => this.currentEnvironment.Value;
+            get => this.currentEnvironment.Value!;
             set
             {
-                if (value != null)
-                {
-                    this.currentEnvironment.Value = value;
-                    this.RaisePropertyChanged(nameof(this.CurrentEnvironment));
-                }
+                this.currentEnvironment.Value = value;
+                this.RaisePropertyChanged(nameof(this.CurrentEnvironment));
             }
         }
 
@@ -61,7 +58,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void GetPreferencesValue()
         {
-            var timespan = this.preferences.Get<TimeSpan>("TimeSpan", default);
+            var timespan = this.preferences.Get<TimeSpan>("TimeSpan", TimeSpan.Zero);
 
             this.toastService.ShortAlert($"GetPreferencesValue returned TimeSpan={timespan}");
 

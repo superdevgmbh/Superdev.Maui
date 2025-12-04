@@ -52,9 +52,9 @@ namespace Superdev.Maui.Controls
             typeof(CustomWebView),
             defaultBindingMode: BindingMode.OneWayToSource);
 
-        public Func<string, Task<string>> EvaluateJavascript
+        public Func<string, Task<string>>? EvaluateJavascript
         {
-            get => (Func<string, Task<string>>)this.GetValue(EvaluateJavascriptProperty);
+            get => (Func<string, Task<string>>?)this.GetValue(EvaluateJavascriptProperty);
             set => this.SetValue(EvaluateJavascriptProperty, value);
         }
 
@@ -68,8 +68,7 @@ namespace Superdev.Maui.Controls
             get => (IDictionary<string, string>)this.GetValue(HeadersProperty);
             set => this.SetValue(HeadersProperty, value);
         }
-
-
+        
         public static readonly BindableProperty NavigatingCommandProperty = BindableProperty.Create(
             nameof(NavigatingCommand),
             typeof(ICommand),

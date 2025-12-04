@@ -9,17 +9,13 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private DateTime timerStartDate;
         private DateTime countdownEndDate;
-        private ICommand timerStartStopCommand;
-        private ICommand countdownStartStopCommand;
+        private ICommand? timerStartStopCommand;
+        private ICommand? countdownStartStopCommand;
         private CancellationTokenSource timerCts = new CancellationTokenSource();
         private CancellationTokenSource countdownCts = new CancellationTokenSource();
         private Guid timerInstance;
         private Guid countdownInstance;
         private bool isTimerRunning;
-
-        public PeriodicTaskViewModel()
-        {
-        }
 
         public string TimerString
         {
@@ -80,11 +76,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public ICommand TimerStartStopCommand
         {
-            get
-            {
-                return this.timerStartStopCommand ??
-                       (this.timerStartStopCommand = new Command(() => this.ToggleTimer()));
-            }
+            get => this.timerStartStopCommand ??= new Command(this.ToggleTimer);
         }
 
         private void ToggleTimer()
@@ -190,11 +182,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public ICommand CountdownStartStopCommand
         {
-            get
-            {
-                return this.countdownStartStopCommand ??
-                       (this.countdownStartStopCommand = new Command(() => this.ToggleCountdown()));
-            }
+            get => this.countdownStartStopCommand ??= new Command(this.ToggleCountdown);
         }
 
         private void ToggleCountdown()

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Superdev.Maui.Controls;
@@ -16,33 +15,29 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
-        private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
         private readonly IDateTime dateTime;
 
-        private string selectedString;
-        private ObservableCollection<CountryViewModel> countries;
-        private CountryViewModel country;
+        private string? selectedString;
+        private ObservableCollection<CountryViewModel> countries = new ObservableCollection<CountryViewModel>();
+        private CountryViewModel? country;
         private bool isReadonly;
         private DateTime? birthdate;
-        private ICommand toggleBirthdateCommand;
         private DateTime patentStartDate;
         private TimeSpan patentStartTime;
         private TimeSpan? patentEndTime;
-        private DateRange patentValidityRange;
+        private DateRange? patentValidityRange;
         private IRelayCommand? toggleIsReadonlyCommand;
         private int selectedInt;
 
         public PickerDemoViewModel(
             ILogger<PickerDemoViewModel> logger,
             IViewModelErrorHandler viewModelErrorHandler,
-            IDialogService dialogService,
             ICountryService countryService,
             IDateTime dateTime)
         {
             this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
-            this.dialogService = dialogService;
             this.countryService = countryService;
             this.dateTime = dateTime;
 
@@ -55,8 +50,6 @@ namespace SuperdevMauiDemoApp.ViewModels
                 "String 3",
             };
             this.SelectedString = null;
-
-            this.Countries = new ObservableCollection<CountryViewModel>();
 
             _ = this.LoadData();
         }
@@ -115,9 +108,9 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public string[] StringValues { get; private set; }
+        public string?[] StringValues { get; private set; }
 
-        public string SelectedString
+        public string? SelectedString
         {
             get => this.selectedString;
             set
@@ -135,7 +128,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             private set => this.SetProperty(ref this.countries, value);
         }
 
-        public CountryViewModel Country
+        public CountryViewModel? Country
         {
             get => this.country;
             set => this.SetProperty(ref this.country, value);
@@ -193,7 +186,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public DateRange PatentValidityRange
+        public DateRange? PatentValidityRange
         {
             get => this.patentValidityRange;
             private set => this.SetProperty(ref this.patentValidityRange, value);

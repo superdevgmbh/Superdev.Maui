@@ -25,8 +25,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IActivityIndicatorService activityIndicatorService;
         private readonly IThemeHelper themeHelper;
 
-        private string adminEmailAddress;
-
+        private string? adminEmailAddress;
         private int numberOfLoads;
         private UserDto? user;
         private ICommand? toggleSwitchCommand;
@@ -38,7 +37,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private LanguageViewModel? language;
         private IAsyncRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
-        private LanguageViewModel[] languages;
+        private LanguageViewModel[] languages = Array.Empty<LanguageViewModel>();
         private bool showAppThemeToolbarItem;
 
         public MainViewModel(
@@ -97,7 +96,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 }
 
                 // Update all bindings
-                this.RaisePropertyChanged("");
+                this.RaisePropertyChanged(string.Empty);
             }
         }
 
@@ -174,7 +173,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand NavigateToPageCommand
         {
-            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.OnNavigateToPage);
+            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.OnNavigateToPage!);
         }
 
         private async Task OnNavigateToPage(string pageName)
@@ -196,7 +195,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public string AdminEmailAddress
+        public string? AdminEmailAddress
         {
             get => this.adminEmailAddress;
             set => this.SetProperty(ref this.adminEmailAddress, value);

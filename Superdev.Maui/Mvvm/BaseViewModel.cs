@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Superdev.Maui.Utils;
@@ -14,7 +15,7 @@ namespace Superdev.Maui.Mvvm
         private string? subTitle;
         private string? icon;
         private bool isRefreshing;
-        private ViewModelError? viewModelError = ViewModelError.None;
+        private ViewModelError viewModelError = ViewModelError.None;
         private ViewModelValidation validation = new ViewModelValidation();
         private bool isInitialized;
         private bool enableBusyRefCount;
@@ -152,7 +153,7 @@ namespace Superdev.Maui.Mvvm
             set => this.SetProperty(ref this.isRefreshing, value);
         }
 
-        public virtual ViewModelError? ViewModelError
+        public virtual ViewModelError ViewModelError
         {
             get => this.viewModelError;
             set

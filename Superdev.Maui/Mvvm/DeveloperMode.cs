@@ -9,17 +9,14 @@ namespace Superdev.Maui.Mvvm
     {
         private const int UnlockCounterMax = 3;
         private static readonly TimeSpan UnlockCounterTimeSpan = TimeSpan.FromMilliseconds(2000);
+
         private int unlockCounter;
         private bool unlocked;
+        private ICommand? unlockCommand;
 
-        public DeveloperMode()
-        {
-            this.UnlockCommand = new Command(this.UnlockDeveloperMode, () => true);
-        }
+        public ICommand UnlockCommand => this.unlockCommand ??= new Command(this.Unlock);
 
-        public ICommand UnlockCommand { get; }
-
-        private void UnlockDeveloperMode()
+        public void Unlock()
         {
             Task.Factory.StartNew(async () =>
             {
@@ -48,6 +45,6 @@ namespace Superdev.Maui.Mvvm
             }
         }
 
-        public event EventHandler<EventArgs> UnlockedEvent;
+        public event EventHandler<EventArgs>? UnlockedEvent;
     }
 }

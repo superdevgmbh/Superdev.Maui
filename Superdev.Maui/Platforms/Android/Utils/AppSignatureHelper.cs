@@ -10,10 +10,10 @@ namespace Superdev.Maui.Platforms.Android.Utils
 {
     /// <summary>
     ///     AppSignatureHelper calculates the current app's hash key.
-    /// 
+    ///
     ///     Original Source:
     ///     https://github.com/googlearchive/android-credentials/blob/master/sms-verification/android/app/src/main/java/com/google/samples/smartlock/sms_verify/AppSignatureHelper.java
-    /// 
+    ///
     ///     C# Translations:
     ///     https://github.com/search?l=C%23&q=AppHashKeyHelper&type=Code
     /// </summary>
@@ -27,7 +27,7 @@ namespace Superdev.Maui.Platforms.Android.Utils
         ///     Retrieve the app signed package signature
         ///     known as 'signed keystore file hex string'.
         /// </summary>
-        private static string GetPackageSignature(Context context)
+        private static string? GetPackageSignature(Context context)
         {
             var packageManager = context.PackageManager;
             var signatures = packageManager.GetPackageInfo(context.PackageName, PackageInfoFlags.Signatures).Signatures;
@@ -39,7 +39,7 @@ namespace Superdev.Maui.Platforms.Android.Utils
         /// </summary>
         /// <returns>The app hash key.</returns>
         /// <param name="context">Android app Context.</param>
-        public static string GetAppHashKey(Context context)
+        public static string? GetAppHashKey(Context context)
         {
             var keystoreHexSignature = GetPackageSignature(context);
 
@@ -52,11 +52,11 @@ namespace Superdev.Maui.Platforms.Android.Utils
 
                 hashSignature = Arrays.CopyOfRange(hashSignature, 0, NumberOfHashedBytes);
                 var base64Hash = Base64.EncodeToString(hashSignature, Base64Flags.NoPadding | Base64Flags.NoWrap);
-                base64Hash = base64Hash.Substring(0, NumberOfBase64Chars);
+                base64Hash = base64Hash?.Substring(0, NumberOfBase64Chars);
 
                 return base64Hash;
             }
-            catch (NoSuchAlgorithmException e)
+            catch (NoSuchAlgorithmException)
             {
                 return null;
             }

@@ -72,7 +72,7 @@ namespace Superdev.Maui.Platforms.Services
             }
         }
 
-        public void SetStatusBarColor(Color color)
+        public void SetStatusBarColor(Color? color)
         {
             this.statusBarColor = color?.ToPlatform();
             this.SetStatusBarColorInternal(this.statusBarColor);
@@ -114,7 +114,7 @@ namespace Superdev.Maui.Platforms.Services
             }
         }
 
-        public void SetNavigationBarColor(Color color)
+        public void SetNavigationBarColor(Color? color)
         {
             this.navigationBarColor = color?.ToPlatform();
             this.SetNavigationBarColorInternal(this.navigationBarColor);

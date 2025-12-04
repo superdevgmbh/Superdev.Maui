@@ -24,11 +24,12 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new CustomPicker VirtualView => (CustomPicker)base.VirtualView;
+        public new CustomPicker? VirtualView => base.VirtualView as CustomPicker;
 
         protected override void ConnectHandler(MauiPicker mauiPicker)
         {
             base.ConnectHandler(mauiPicker);
+
             UpdatePlaceholderColor(this.VirtualView, mauiPicker);
         }
 

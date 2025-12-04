@@ -23,9 +23,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         private IAsyncRelayCommand? loadDataCommand;
         private IRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
-        private ColorResourceViewModel[] colors;
-        private FontResourceViewModel[] fonts;
-        private ObjectResourceViewModel[] resources;
+        private ColorResourceViewModel[] colors = Array.Empty<ColorResourceViewModel>();
+        private FontResourceViewModel[] fonts =  Array.Empty<FontResourceViewModel>();
+        private ObjectResourceViewModel[] resources = Array.Empty<ObjectResourceViewModel>();
 
         public StylesDemoViewModel(
             ILogger<StylesDemoViewModel> logger,
@@ -74,7 +74,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
 
-                var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(Application.Current.Resources, "MergedResources");
+                var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(Application.Current!.Resources, "MergedResources")!;
                 var resources = mergedResources
                     .Select(GetResourceViewModel)
                     .OrderBy(vm => vm.ResourceType)

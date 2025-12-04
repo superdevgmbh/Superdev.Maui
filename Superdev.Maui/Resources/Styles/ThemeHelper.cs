@@ -177,7 +177,7 @@ namespace Superdev.Maui.Resources.Styles
         }
 
         /// <inheritdoc />
-        public event EventHandler<AppTheme> ThemeChanged
+        public event EventHandler<AppTheme>? ThemeChanged
         {
             add
             {

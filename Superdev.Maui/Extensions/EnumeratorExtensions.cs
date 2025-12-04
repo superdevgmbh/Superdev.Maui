@@ -1,26 +1,30 @@
 ﻿using System.Collections;
-using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Extensions
 {
     public static class EnumeratorExtensions
     {
-        public static IEnumerable<T> ToEnumerable<T>(this IEnumerator enumerator)
+        public static IEnumerable<T?> ToEnumerable<T>(this IEnumerator? enumerator)
         {
-            while (enumerator?.MoveNext() == true)
+            if (enumerator is null)
             {
-                yield return (T)enumerator.Current;
+                yield break;
+            }
+
+            while (enumerator.MoveNext())
+            {
+                yield return enumerator.Current is T item ? item : default;
             }
         }
 
-        public static IEnumerable<T> ToArray<T>(this IEnumerator iterator)
+        public static T?[] ToArray<T>(this IEnumerator? enumerator)
         {
-            return iterator.ToEnumerable<T>().ToArray();
+            return enumerator.ToEnumerable<T>().ToArray();
         }
 
-        public static IEnumerable<T> ToList<T>(this IEnumerator iterator)
+        public static List<T?> ToList<T>(this IEnumerator? enumerator)
         {
-            return iterator.ToEnumerable<T>().ToList();
+            return enumerator.ToEnumerable<T>().ToList();
         }
     }
 }

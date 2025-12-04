@@ -12,7 +12,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IDialogService dialogService;
 
         private bool isReadonly;
-        private string userName;
+        private string? userName;
         private int userNameMaxLength;
         private IAsyncRelayCommand? appearingCommand;
 
@@ -70,7 +70,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.IsBusy = false;
         }
 
-        public string UserName
+        public string? UserName
         {
             get => this.userName;
             set => this.SetProperty(ref this.userName, value);

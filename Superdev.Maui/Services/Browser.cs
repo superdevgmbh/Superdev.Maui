@@ -10,7 +10,7 @@ namespace Superdev.Maui.Services
 
         private static IBrowser CreateBrowser()
         {
-            var serviceProvider = IPlatformApplication.Current.Services;
+            var serviceProvider = IPlatformApplication.Current!.Services;
             var logger = serviceProvider.GetRequiredService<ILogger<Browser>>();
             return new Browser(
                 logger,

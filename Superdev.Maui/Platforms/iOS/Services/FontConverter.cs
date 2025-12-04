@@ -22,7 +22,7 @@ namespace Superdev.Maui.Platforms.Services
 
         private FontConverter() : base()
         {
-            this.logger = IPlatformApplication.Current.Services.GetService<ILogger<FontConverter>>();
+            this.logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<FontConverter>>();
             NSNotificationCenter.DefaultCenter.AddObserver(UiContentSizeCategoryDidChangeNotificationKey, (n) =>
             {
                 this.RaiseFontScalingChangedEvent();

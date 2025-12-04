@@ -20,7 +20,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.countryService = countryService;
-            this.Countries = new ObservableCollection<CountryViewModel>();
+            this.countries = new ObservableCollection<CountryViewModel>();
         }
 
         public IAsyncRelayCommand AppearingCommand

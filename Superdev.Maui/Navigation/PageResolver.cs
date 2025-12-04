@@ -35,8 +35,8 @@ namespace Superdev.Maui.Navigation
 
         public TBindableObject ResolvePage<TBindableObject>(string pageName) where TBindableObject : BindableObject
         {
-            Type pageType = null;
-            Type viewModelType = null;
+            Type? pageType = null;
+            Type? viewModelType = null;
 
             var pageRegistration = this.serviceProvider.GetKeyedService<PageRegistration>(pageName);
             if (pageRegistration != null)

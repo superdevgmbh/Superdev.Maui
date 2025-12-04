@@ -32,7 +32,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         public CustomTabbedPageHandler()
         {
-            this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
+            this.logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
         }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)

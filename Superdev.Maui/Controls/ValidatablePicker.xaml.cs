@@ -44,13 +44,13 @@ namespace Superdev.Maui.Controls
             picker.OnPropertyChanged(nameof(picker.AnnotationText));
         }
 
-        public string Placeholder
+        public string? Placeholder
         {
-            get => (string)this.GetValue(PlaceholderProperty);
+            get => (string?)this.GetValue(PlaceholderProperty);
             set => this.SetValue(PlaceholderProperty, value);
         }
 
-        public string AnnotationText
+        public string? AnnotationText
         {
             get
             {
@@ -71,9 +71,9 @@ namespace Superdev.Maui.Controls
                 typeof(Style),
                 typeof(ValidatablePicker));
 
-        public Style PickerStyle
+        public Style? PickerStyle
         {
-            get => (Style)this.GetValue(PickerStyleProperty);
+            get => (Style?)this.GetValue(PickerStyleProperty);
             set => this.SetValue(PickerStyleProperty, value);
         }
 
@@ -91,9 +91,9 @@ namespace Superdev.Maui.Controls
             picker.OnPropertyChanged(nameof(picker.AnnotationText));
         }
 
-        public IEnumerable ItemsSource
+        public IEnumerable? ItemsSource
         {
-            get => (IEnumerable)this.GetValue(ItemsSourceProperty);
+            get => (IEnumerable?)this.GetValue(ItemsSourceProperty);
             set => this.SetValue(ItemsSourceProperty, value);
         }
 
@@ -123,9 +123,9 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        public string DisplayMemberPath
+        public string? DisplayMemberPath
         {
-            get => (string)this.GetValue(DisplayMemberPathProperty);
+            get => (string?)this.GetValue(DisplayMemberPathProperty);
             set => this.SetValue(DisplayMemberPathProperty, value);
         }
 
@@ -147,9 +147,9 @@ namespace Superdev.Maui.Controls
             picker.OnPropertyChanged(nameof(picker.ReadonlyText));
         }
 
-        public object SelectedItem
+        public object? SelectedItem
         {
-            get => this.GetValue(SelectedItemProperty);
+            get => (object?)this.GetValue(SelectedItemProperty);
             set
             {
                 this.SetValue(SelectedItemProperty, value);
@@ -165,9 +165,9 @@ namespace Superdev.Maui.Controls
                 null,
                 BindingMode.TwoWay);
 
-        public object SelectedValue
+        public object? SelectedValue
         {
-            get => this.GetValue(SelectedValueProperty);
+            get => (object?)this.GetValue(SelectedValueProperty);
             set => this.SetValue(SelectedValueProperty, value);
         }
 
@@ -177,9 +177,9 @@ namespace Superdev.Maui.Controls
                 typeof(string),
                 typeof(ValidatablePicker));
 
-        public string SelectedValuePath
+        public string? SelectedValuePath
         {
-            get => (string)this.GetValue(SelectedValuePathProperty);
+            get => (string?)this.GetValue(SelectedValuePathProperty);
             set => this.SetValue(SelectedValuePathProperty, value);
         }
 
@@ -253,7 +253,7 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ReadonlyTextProperty, value);
         }
 
-        private static bool TryGetSelectedItemText(Picker picker, object selectedItem, out string selectedItemText)
+        private static bool TryGetSelectedItemText(Picker? picker, object? selectedItem, out string? selectedItemText)
         {
             if (picker != null && selectedItem != null)
             {
@@ -279,9 +279,9 @@ namespace Superdev.Maui.Controls
                 typeof(Style),
                 typeof(ValidatablePicker));
 
-        public Style AnnotationLabelStyle
+        public Style? AnnotationLabelStyle
         {
-            get => (Style)this.GetValue(AnnotationLabelStyleProperty);
+            get => (Style?)this.GetValue(AnnotationLabelStyleProperty);
             set => this.SetValue(AnnotationLabelStyleProperty, value);
         }
 
@@ -291,9 +291,9 @@ namespace Superdev.Maui.Controls
                 typeof(Style),
                 typeof(ValidatablePicker));
 
-        public Style ReadonlyLabelStyle
+        public Style? ReadonlyLabelStyle
         {
-            get => (Style)this.GetValue(ReadonlyLabelStyleProperty);
+            get => (Style?)this.GetValue(ReadonlyLabelStyleProperty);
             set => this.SetValue(ReadonlyLabelStyleProperty, value);
         }
 
@@ -303,9 +303,9 @@ namespace Superdev.Maui.Controls
                 typeof(Style),
                 typeof(ValidatablePicker));
 
-        public Style ValidationErrorLabelStyle
+        public Style? ValidationErrorLabelStyle
         {
-            get => (Style)this.GetValue(ValidationErrorLabelStyleProperty);
+            get => (Style?)this.GetValue(ValidationErrorLabelStyleProperty);
             set => this.SetValue(ValidationErrorLabelStyleProperty, value);
         }
 
@@ -315,9 +315,9 @@ namespace Superdev.Maui.Controls
                 typeof(IEnumerable<string>),
                 typeof(ValidatablePicker));
 
-        public IEnumerable<string> ValidationErrors
+        public IEnumerable<string>? ValidationErrors
         {
-            get => (IEnumerable<string>)this.GetValue(ValidationErrorsProperty);
+            get => (IEnumerable<string>?)this.GetValue(ValidationErrorsProperty);
             set => this.SetValue(ValidationErrorsProperty, value);
         }
 

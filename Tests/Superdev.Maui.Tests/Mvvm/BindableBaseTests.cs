@@ -72,8 +72,8 @@ namespace Superdev.Maui.Tests.Mvvm
         private class TestViewModel : BindableBase
         {
             private string? userName;
-            private string? wrongProperty;
-            private User? user = new User();
+            private readonly string? wrongProperty = null!;
+            private readonly User? user = new User();
 
             public string? UserName
             {

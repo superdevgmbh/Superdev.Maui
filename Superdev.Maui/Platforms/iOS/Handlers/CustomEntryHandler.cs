@@ -1,4 +1,6 @@
 ﻿using Foundation;
+using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using UIKit;
 
@@ -18,12 +20,21 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        public new CustomEntry? VirtualView => base.VirtualView as CustomEntry;
+
+        public new MauiTextField? PlatformView => ((ElementHandler)this).PlatformView as MauiTextField;
+
+
         private static void MapTextContentType(CustomEntryHandler handler, CustomEntry customEntry)
         {
             if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
             {
                 var (textContentType, keyboardType, autocapitalizationType, autocorrectionType) = MapTextContentType(customEntry.TextContentType);
-                handler.PlatformView.TextContentType = textContentType;
+
+                if (textContentType != null)
+                {
+                    handler.PlatformView.TextContentType = textContentType;
+                }
 
                 if (keyboardType != null)
                 {
@@ -42,8 +53,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static (NSString, UIKeyboardType?, UITextAutocapitalizationType?, UITextAutocorrectionType?) MapTextContentType(
-            TextContentType textContentType)
+        private static (NSString?, UIKeyboardType?, UITextAutocapitalizationType?, UITextAutocorrectionType?) MapTextContentType(TextContentType textContentType)
         {
             if (textContentType == TextContentType.Default)
             {

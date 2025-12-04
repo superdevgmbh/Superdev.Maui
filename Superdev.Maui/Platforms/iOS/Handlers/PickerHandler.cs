@@ -1,3 +1,4 @@
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Utils;
@@ -8,7 +9,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class PickerHandler : Microsoft.Maui.Handlers.PickerHandler
     {
-        private MauiDoneAccessoryView inputAccessoryView;
+        private MauiDoneAccessoryView? inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PickerHandler.Mapper)
         {
@@ -24,6 +25,10 @@ namespace Superdev.Maui.Platforms.Handlers
             : base(Mapper)
         {
         }
+
+        public new Picker? VirtualView => ((ElementHandler)this).VirtualView as Picker;
+
+        public new MauiPicker? PlatformView => ((ElementHandler)this).PlatformView as MauiPicker;
 
         protected override MauiPicker CreatePlatformView()
         {
@@ -46,7 +51,7 @@ namespace Superdev.Maui.Platforms.Handlers
         }
 
         // TODO: React on theme change to update tint color of InputAccessoryView
-        // private void OnThemeChanged(object sender, AppTheme e)
+        // private void OnThemeChanged(object? sender, AppTheme e)
         // {
         // }
 
@@ -57,6 +62,7 @@ namespace Superdev.Maui.Platforms.Handlers
             this.inputAccessoryView = null;
 
             // ThemeHelper.Current.ThemeChanged -= this.OnThemeChanged;
+
             base.DisconnectHandler(platformView);
         }
 

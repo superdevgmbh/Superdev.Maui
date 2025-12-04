@@ -67,7 +67,7 @@ namespace Superdev.Maui.Platforms.Handlers
             var mauiDatePicker = this.PlatformView;
             var uiDatePicker = this.Picker;
 
-            if (datePicker == null || uiDatePicker == null || mauiDatePicker == null)
+            if (datePicker == null || mauiDatePicker == null || uiDatePicker == null )
             {
                 return;
             }

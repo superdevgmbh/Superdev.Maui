@@ -17,7 +17,7 @@ namespace Superdev.Maui.Localization
             return new ResxSingleTranslationProvider();
         }
 
-        private ResourceManager resourceManager;
+        private ResourceManager? resourceManager;
 
         public void Init(string baseName, Assembly assembly)
         {

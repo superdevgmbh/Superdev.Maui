@@ -16,9 +16,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         private DateTime patentStartDate;
         private TimeSpan patentStartTime;
         private TimeSpan? patentEndTime;
-        private DateRange patentValidityRange;
+        private DateRange? patentValidityRange;
         private IRelayCommand? toggleIsReadonlyCommand;
-        private DateRange birthdateValidityRange;
+        private DateRange? birthdateValidityRange;
 
         public DatePickerDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -99,7 +99,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public DateRange BirthdateValidityRange
+        public DateRange? BirthdateValidityRange
         {
             get => this.birthdateValidityRange;
             private set => this.SetProperty(ref this.birthdateValidityRange, value);
@@ -123,7 +123,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.patentEndTime, value);
         }
 
-        public DateRange PatentValidityRange
+        public DateRange? PatentValidityRange
         {
             get => this.patentValidityRange;
             private set => this.SetProperty(ref this.patentValidityRange, value);

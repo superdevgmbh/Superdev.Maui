@@ -11,9 +11,9 @@ namespace Superdev.Maui.Resources.Styles
                 typeof(FontElement),
                 null);
 
-        public string FontFamily
+        public string? FontFamily
         {
-            get => (string)this.GetValue(FontFamilyProperty);
+            get => (string?)this.GetValue(FontFamilyProperty);
             set => this.SetValue(FontFamilyProperty, value);
         }
 

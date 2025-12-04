@@ -82,8 +82,14 @@ namespace Superdev.Maui.Extensions
             return typeInfo.BaseType.GetDeclaredMethodsRecursively(methods);
         }
 
-        public static string GetFormattedName(this Type type)
+        [return: NotNullIfNotNull(nameof(type))]
+        public static string? GetFormattedName(this Type? type)
         {
+            if (type == null)
+            {
+                return null;
+            }
+
             var typeInfo = type.GetTypeInfo();
             if (!typeInfo.IsGenericType)
             {
@@ -93,8 +99,14 @@ namespace Superdev.Maui.Extensions
             return $"{type.Name.Substring(0, type.Name.IndexOf('`'))}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedName()))}>";
         }
 
-        public static string GetFormattedFullname(this Type type)
+        [return: NotNullIfNotNull(nameof(type))]
+        public static string? GetFormattedFullname(this Type? type)
         {
+            if (type == null)
+            {
+                return null;
+            }
+
             var typeInfo = type.GetTypeInfo();
             if (!typeInfo.IsGenericType)
             {

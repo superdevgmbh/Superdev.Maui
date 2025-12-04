@@ -280,36 +280,36 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(TextContentTypeProperty, value);
         }
 
-        public event EventHandler Completed
+        public event EventHandler? Completed
         {
             add => this.Entry.Completed += value;
             remove => this.Entry.Completed -= value;
         }
 
-        public new event EventHandler<FocusEventArgs> Focused
+        public new event EventHandler<FocusEventArgs>? Focused
         {
             add => this.Entry.Focused += value;
             remove => this.Entry.Focused -= value;
         }
 
-        public new event EventHandler<FocusEventArgs> Unfocused
+        public new event EventHandler<FocusEventArgs>? Unfocused
         {
             add => this.Entry.Unfocused += value;
             remove => this.Entry.Unfocused -= value;
         }
 
-        public event EventHandler<TextChangedEventArgs> TextChanged
+        public event EventHandler<TextChangedEventArgs>? TextChanged
         {
             add => this.Entry.TextChanged += value;
             remove => this.Entry.TextChanged -= value;
         }
 
-        private void Entry_OnFocused(object sender, FocusEventArgs e)
+        private void Entry_OnFocused(object? sender, FocusEventArgs e)
         {
             this.IsEntryFocused = true;
         }
 
-        private void Entry_OnUnfocused(object sender, FocusEventArgs e)
+        private void Entry_OnUnfocused(object? sender, FocusEventArgs e)
         {
             this.IsEntryFocused = false;
         }

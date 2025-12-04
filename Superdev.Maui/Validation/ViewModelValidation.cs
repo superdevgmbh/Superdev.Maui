@@ -208,7 +208,7 @@ namespace Superdev.Maui.Validation
         ///     <see cref="F:System.String.Empty" />, to retrieve entity-level errors.
         /// </param>
         /// <returns>The validation errors for the property or entity.</returns>
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
         {
             if (string.IsNullOrEmpty(propertyName))
             {

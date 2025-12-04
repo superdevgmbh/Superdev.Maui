@@ -37,6 +37,8 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        public new NullableTimePicker? VirtualView => base.VirtualView as NullableTimePicker;
+
         protected override MauiTimePicker CreatePlatformView()
         {
             var mauiTimePicker = base.CreatePlatformView();
@@ -65,8 +67,6 @@ namespace Superdev.Maui.Platforms.Handlers
             timePicker.NullableTime = time;
             mauiTimePicker.ResignFirstResponder();
         }
-
-        public new NullableTimePicker? VirtualView => base.VirtualView as NullableTimePicker;
 
         private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {

@@ -26,6 +26,10 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        public new SearchBar? VirtualView => ((ElementHandler)this).VirtualView as SearchBar;
+
+        public new MauiSearchBar? PlatformView => ((ElementHandler)this).PlatformView as MauiSearchBar;
+
         protected override MauiSearchBar CreatePlatformView()
         {
             var mauiSearchBar = base.CreatePlatformView();
@@ -54,18 +58,25 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void DoneButtonText(SearchBar searchBar)
         {
+            if (this.PlatformView is not MauiSearchBar mauiSearchBar || this.inputAccessoryView == null)
+            {
+                return;
+            }
+
             var doneButtonText = DialogExtensions.GetDoneButtonText(searchBar);
-            var mauiSearchBar = this.PlatformView;
-            mauiSearchBar.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView!, doneButtonText);
+            mauiSearchBar.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
-        private new static void MapCancelButtonColor(ISearchBarHandler searchBarHandler, ISearchBar searchBar)
+        private static void MapCancelButtonColor(SearchBarHandler searchBarHandler, SearchBar searchBar)
         {
-            var mauiSearchBar = searchBarHandler.PlatformView;
+            if (searchBarHandler.PlatformView is not MauiSearchBar mauiSearchBar)
+            {
+                return;
+            }
 
             if (searchBar.CancelButtonColor is Color cancelButtonColor && !Equals(cancelButtonColor, Colors.Transparent))
             {
-                mauiSearchBar?.UpdateCancelButton(searchBar);
+                mauiSearchBar.UpdateCancelButton(searchBar);
             }
             else
             {
@@ -75,7 +86,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void OnDoneClicked()
         {
-            var mauiSearchBar = this.PlatformView;
+            if (this.PlatformView is not MauiSearchBar mauiSearchBar)
+            {
+                return;
+            }
+
             mauiSearchBar.ResignFirstResponder();
         }
     }

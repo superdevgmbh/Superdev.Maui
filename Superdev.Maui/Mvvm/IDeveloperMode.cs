@@ -6,6 +6,8 @@ namespace Superdev.Maui.Mvvm
     {
         ICommand UnlockCommand { get; }
 
+        void Unlock();
+
         bool Unlocked { get; set; }
 
         event EventHandler<EventArgs> UnlockedEvent;

@@ -5,11 +5,9 @@ namespace Superdev.Maui.Converters
 {
     public class IsFirstItemToBoolConverter : IMultiValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[]? values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values?.Length == 2 &&
-                values[0] is object items &&
-                values[1] is object item)
+            if (values is [object items, object item])
             {
                 if (items is IEnumerable enumerable)
                 {
@@ -33,7 +31,7 @@ namespace Superdev.Maui.Converters
             return false;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

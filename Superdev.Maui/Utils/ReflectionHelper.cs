@@ -112,9 +112,10 @@ namespace Superdev.Maui.Utils
             return fieldInfo;
         }
 
-        public static MethodInfo? GetMethodInfo(Type type, string methodName, Type[] parameterTypes = null)
+        public static MethodInfo? GetMethodInfo(Type type, string methodName, Type[]? parameterTypes = null)
         {
             var targetType = type;
+            parameterTypes ??= Type.EmptyTypes;
             MethodInfo? methodInfo;
 
             do
@@ -127,7 +128,7 @@ namespace Superdev.Maui.Utils
                     BindingFlags.NonPublic |
                     BindingFlags.IgnoreCase,
                     null,
-                    parameterTypes ?? Type.EmptyTypes,
+                    parameterTypes,
                     null);
 
                 targetType = targetType.BaseType;

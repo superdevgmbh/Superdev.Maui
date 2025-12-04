@@ -29,15 +29,8 @@ namespace Superdev.Maui.Extensions
         /// </param>
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (keySelector == null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             return DistinctByInternal(source, keySelector, comparer);
         }
@@ -63,7 +56,9 @@ namespace Superdev.Maui.Extensions
         /// <param name="keySelector">Key selector.</param>
         public static IQueryable<TSource> DistinctBy<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, IEqualityComparer<TKey>? comparer = null)
         {
-            return Queryable.Select(Queryable.GroupBy(source, keySelector, comparer), g => g.First());
+            return source
+                .GroupBy(keySelector, comparer)
+                .Select(g => g.First());
         }
     }
 }

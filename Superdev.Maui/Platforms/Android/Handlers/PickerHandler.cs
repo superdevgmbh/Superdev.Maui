@@ -23,7 +23,9 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new Picker VirtualView => (Picker)base.VirtualView;
+        public new Picker? VirtualView => ((ElementHandler)this).VirtualView as Picker;
+
+        public new MauiPicker? PlatformView => ((ElementHandler)this).PlatformView as MauiPicker;
 
         protected override MauiPicker CreatePlatformView()
         {
@@ -33,9 +35,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void ConnectHandler(MauiPicker mauiPicker)
         {
-            var visualElement = (VisualElement)this.VirtualView;
-            visualElement.Loaded += this.OnVisualElementLoaded;
-            visualElement.Unloaded += this.OnVisualElementUnloaded;
+            if (this.VirtualView is Picker picker)
+            {
+                picker.Loaded += this.OnVisualElementLoaded;
+                picker.Unloaded += this.OnVisualElementUnloaded;
+            }
 
 #if !NET9_0_OR_GREATER
             this.VirtualView.AddCleanUpEvent();
@@ -48,14 +52,16 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             await Task.Delay(TimeToIgnoreClickAfterFocus);
 
-            var platformView = this.PlatformView;
-            platformView.FocusChange += this.OnFocusChange;
-            platformView.Click += this.OnClick;
+            if (this.PlatformView is MauiPicker mauiPicker)
+            {
+                mauiPicker.FocusChange += this.OnFocusChange;
+                mauiPicker.Click += this.OnClick;
+            }
         }
 
         private void OnVisualElementUnloaded(object? sender, EventArgs e)
         {
-            if (((ViewHandler)this).PlatformView is MauiPicker mauiPicker)
+            if (this.PlatformView is MauiPicker mauiPicker)
             {
                 mauiPicker.FocusChange -= this.OnFocusChange;
                 mauiPicker.Click -= this.OnClick;
@@ -64,9 +70,11 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(MauiPicker mauiPicker)
         {
-            var visualElement = (VisualElement)this.VirtualView;
-            visualElement.Unloaded -= this.OnVisualElementUnloaded;
-            visualElement.Loaded -= this.OnVisualElementLoaded;
+            if (this.VirtualView is Picker picker)
+            {
+                picker.Unloaded -= this.OnVisualElementUnloaded;
+                picker.Loaded -= this.OnVisualElementLoaded;
+            }
 
             mauiPicker.FocusChange -= this.OnFocusChange;
             mauiPicker.Click -= this.OnClick;

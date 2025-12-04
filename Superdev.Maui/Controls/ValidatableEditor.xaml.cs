@@ -185,25 +185,25 @@
             set => this.SetValue(ValidationErrorsProperty, value);
         }
 
-        public event EventHandler Completed
+        public event EventHandler? Completed
         {
             add => this.Editor.Completed += value;
             remove => this.Editor.Completed -= value;
         }
 
-        public new event EventHandler<FocusEventArgs> Focused
+        public new event EventHandler<FocusEventArgs>? Focused
         {
             add => this.Editor.Focused += value;
             remove => this.Editor.Focused -= value;
         }
 
-        public new event EventHandler<FocusEventArgs> Unfocused
+        public new event EventHandler<FocusEventArgs>? Unfocused
         {
             add => this.Editor.Unfocused += value;
             remove => this.Editor.Unfocused -= value;
         }
 
-        public event EventHandler<TextChangedEventArgs> TextChanged
+        public event EventHandler<TextChangedEventArgs>? TextChanged
         {
             add => this.Editor.TextChanged += value;
             remove => this.Editor.TextChanged -= value;

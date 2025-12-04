@@ -156,7 +156,7 @@ namespace Superdev.Maui.Resources.Styles
             return @default;
         }
 
-        private static FontAttributes TryGetFontAttributes(FontElement fontElement, FontAttributes @default = FontAttributes.None)
+        private static FontAttributes TryGetFontAttributes(FontElement? fontElement, FontAttributes @default = FontAttributes.None)
         {
             return fontElement?.FontAttributes ?? @default;
         }
@@ -181,9 +181,9 @@ namespace Superdev.Maui.Resources.Styles
                 typeof(FontConfiguration),
                 null);
 
-        public FontElement Default
+        public FontElement? Default
         {
-            get => (FontElement)this.GetValue(DefaultProperty);
+            get => (FontElement?)this.GetValue(DefaultProperty);
             set => this.SetValue(DefaultProperty, value);
         }
 
@@ -197,9 +197,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Section label font, used as header font in card views.
         /// </summary>
-        public FontElement SectionLabel
+        public FontElement? SectionLabel
         {
-            get => (FontElement)this.GetValue(SectionLabelProperty);
+            get => (FontElement?)this.GetValue(SectionLabelProperty);
             set => this.SetValue(SectionLabelProperty, value);
         }
 
@@ -213,9 +213,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Footer label, used as footer text in card views.
         /// </summary>
-        public FontElement FooterSection
+        public FontElement? FooterSection
         {
-            get => (FontElement)this.GetValue(FooterSectionProperty);
+            get => (FontElement?)this.GetValue(FooterSectionProperty);
             set => this.SetValue(FooterSectionProperty, value);
         }
 
@@ -229,9 +229,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Body 1 font, used for long-form writing and small text sizes.
         /// </summary>
-        public FontElement Body1
+        public FontElement? Body1
         {
-            get => (FontElement)this.GetValue(Body1Property);
+            get => (FontElement?)this.GetValue(Body1Property);
             set => this.SetValue(Body1Property, value);
         }
 
@@ -245,9 +245,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Body 2 font, used for long-form writing and small text sizes.
         /// </summary>
-        public FontElement Body2
+        public FontElement? Body2
         {
-            get => (FontElement)this.GetValue(Body2Property);
+            get => (FontElement?)this.GetValue(Body2Property);
             set => this.SetValue(Body2Property, value);
         }
 
@@ -258,9 +258,9 @@ namespace Superdev.Maui.Resources.Styles
                 typeof(FontConfiguration),
                 null);
 
-        public FontElement Button
+        public FontElement? Button
         {
-            get => (FontElement)this.GetValue(ButtonProperty);
+            get => (FontElement?)this.GetValue(ButtonProperty);
             set => this.SetValue(ButtonProperty, value);
         }
 
@@ -274,9 +274,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         /// Input font, used for all kinds of user input fields (text entry, auto-complete entry, pickers, etc...).
         /// </summary>
-        public FontElement Input
+        public FontElement? Input
         {
-            get => (FontElement)this.GetValue(InputProperty);
+            get => (FontElement?)this.GetValue(InputProperty);
             set => this.SetValue(InputProperty, value);
         }
 
@@ -290,9 +290,9 @@ namespace Superdev.Maui.Resources.Styles
                 typeof(FontConfiguration),
                 null);
 
-        public FontElement Caption
+        public FontElement? Caption
         {
-            get => (FontElement)this.GetValue(CaptionProperty);
+            get => (FontElement?)this.GetValue(CaptionProperty);
             set => this.SetValue(CaptionProperty, value);
         }
 
@@ -306,9 +306,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Headline 1 font, used by large text on the screen.
         /// </summary>
-        public FontElement H1
+        public FontElement? H1
         {
-            get => (FontElement)this.GetValue(H1Property);
+            get => (FontElement?)this.GetValue(H1Property);
             set => this.SetValue(H1Property, value);
         }
 
@@ -322,9 +322,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Headline 2 font, used by large text on the screen.
         /// </summary>
-        public FontElement H2
+        public FontElement? H2
         {
-            get => (FontElement)this.GetValue(H2Property);
+            get => (FontElement?)this.GetValue(H2Property);
             set => this.SetValue(H2Property, value);
         }
 
@@ -338,9 +338,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Headline 3 font, used by large text on the screen.
         /// </summary>
-        public FontElement H3
+        public FontElement? H3
         {
-            get => (FontElement)this.GetValue(H3Property);
+            get => (FontElement?)this.GetValue(H3Property);
             set => this.SetValue(H3Property, value);
         }
 
@@ -348,15 +348,14 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(H4),
                 typeof(FontElement),
-                typeof(FontConfiguration),
-                null);
+                typeof(FontConfiguration));
 
         /// <summary>
         ///     Headline 4 font, used by large text on the screen.
         /// </summary>
-        public FontElement H4
+        public FontElement? H4
         {
-            get => (FontElement)this.GetValue(H4Property);
+            get => (FontElement?)this.GetValue(H4Property);
             set => this.SetValue(H4Property, value);
         }
 
@@ -370,9 +369,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Headline 5 font, used by large text on the screen.
         /// </summary>
-        public FontElement H5
+        public FontElement? H5
         {
-            get => (FontElement)this.GetValue(H5Property);
+            get => (FontElement?)this.GetValue(H5Property);
             set => this.SetValue(H5Property, value);
         }
 
@@ -386,9 +385,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Headline 6 font, used by large text on the screen.
         /// </summary>
-        public FontElement H6
+        public FontElement? H6
         {
-            get => (FontElement)this.GetValue(H6Property);
+            get => (FontElement?)this.GetValue(H6Property);
             set => this.SetValue(H6Property, value);
         }
 
@@ -402,9 +401,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Overline font, used for annotations or to introduce a headline text.
         /// </summary>
-        public FontElement Overline
+        public FontElement? Overline
         {
-            get => (FontElement)this.GetValue(OverlineProperty);
+            get => (FontElement?)this.GetValue(OverlineProperty);
             set => this.SetValue(OverlineProperty, value);
         }
 
@@ -418,9 +417,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Title font, used by as page title, list group headers, loading indicators.
         /// </summary>
-        public FontElement Title
+        public FontElement? Title
         {
-            get => (FontElement)this.GetValue(TitleProperty);
+            get => (FontElement?)this.GetValue(TitleProperty);
             set => this.SetValue(TitleProperty, value);
         }
 
@@ -434,9 +433,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Subtitle 1 font, used by medium-emphasis text.
         /// </summary>
-        public FontElement Subtitle1
+        public FontElement? Subtitle1
         {
-            get => (FontElement)this.GetValue(Subtitle1Property);
+            get => (FontElement?)this.GetValue(Subtitle1Property);
             set => this.SetValue(Subtitle1Property, value);
         }
 
@@ -450,9 +449,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Subtitle 2 font, used by medium-emphasis text.
         /// </summary>
-        public FontElement Subtitle2
+        public FontElement? Subtitle2
         {
-            get => (FontElement)this.GetValue(Subtitle2Property);
+            get => (FontElement?)this.GetValue(Subtitle2Property);
             set => this.SetValue(Subtitle2Property, value);
         }
 

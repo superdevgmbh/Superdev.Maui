@@ -33,6 +33,8 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        public new NullableDatePicker? VirtualView => base.VirtualView as NullableDatePicker;
+
         protected override MauiDatePicker CreatePlatformView()
         {
             var mauiDatePicker = base.CreatePlatformView();
@@ -53,8 +55,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
             base.DisconnectHandler(platformView);
         }
-
-        public new NullableDatePicker? VirtualView => base.VirtualView as NullableDatePicker;
 
         private void HandleDoneButton()
         {

@@ -22,7 +22,7 @@ namespace Superdev.Maui.Platforms.Handlers
             return this.cellCore;
         }
 
-        protected override void OnCellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        protected override void OnCellPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnCellPropertyChanged(sender, e);
 

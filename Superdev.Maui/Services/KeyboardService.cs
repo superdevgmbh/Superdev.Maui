@@ -30,7 +30,7 @@ namespace Superdev.Maui.Services
         {
             this.logger = logger;
             this.platformElementConfiguration = platformElementConfiguration;
-            this.originalWindowSoftInputModeAdjust = platformElementConfiguration?.GetWindowSoftInputModeAdjust();
+            this.originalWindowSoftInputModeAdjust = platformElementConfiguration.GetWindowSoftInputModeAdjust();
         }
 
         public void UseWindowSoftInputModeAdjust(object target, WindowSoftInputModeAdjust windowSoftInputModeAdjust)

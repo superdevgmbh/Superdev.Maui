@@ -63,7 +63,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand NavigateToPageCommand
         {
-            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageAsync);
+            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageAsync!);
         }
 
         private async Task NavigateToPageAsync(string pageName)
@@ -117,7 +117,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand NavigateToPageModalCommand
         {
-            get => this.navigateToPageModalCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageModalAsync);
+            get => this.navigateToPageModalCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageModalAsync!);
         }
 
         private async Task NavigateToPageModalAsync(string pageName)

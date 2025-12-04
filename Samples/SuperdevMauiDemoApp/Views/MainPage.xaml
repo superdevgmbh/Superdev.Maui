@@ -291,7 +291,7 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="NavigationDemoPage"
+                                CommandParameter="NavigationDemoPageKey"
                                 Text="Navigation" />
                         </Grid>
                         <Grid

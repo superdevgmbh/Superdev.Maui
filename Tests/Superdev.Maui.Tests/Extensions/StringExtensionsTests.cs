@@ -84,7 +84,7 @@ namespace Superdev.Maui.Tests.Extensions
 
         [Theory]
         [ClassData(typeof(ToUpperFirstTestData))]
-        public void ShouldToUpperFirst(string input, string expectedOutput)
+        public void ShouldToUpperFirst(string? input, string? expectedOutput)
         {
             // Act
             var output = input.ToUpperFirst();
@@ -93,7 +93,7 @@ namespace Superdev.Maui.Tests.Extensions
             output.Should().Be(expectedOutput);
         }
 
-        public class ToUpperFirstTestData : TheoryData<string, string>
+        public class ToUpperFirstTestData : TheoryData<string?, string?>
         {
             public ToUpperFirstTestData()
             {
@@ -106,7 +106,7 @@ namespace Superdev.Maui.Tests.Extensions
 
         [Theory]
         [ClassData(typeof(TrimStartAndEndTestData))]
-        public void ShouldTrimStartAndEnd(string input, string expectedOutput)
+        public void ShouldTrimStartAndEnd(string? input, string? expectedOutput)
         {
             // Act
             var output = input.TrimStartAndEnd();
@@ -115,10 +115,11 @@ namespace Superdev.Maui.Tests.Extensions
             output.Should().Be(expectedOutput);
         }
 
-        public class TrimStartAndEndTestData : TheoryData<string, string>
+        public class TrimStartAndEndTestData : TheoryData<string?, string?>
         {
             public TrimStartAndEndTestData()
             {
+                this.Add(null, null);
                 this.Add($"{Environment.NewLine}", "");
                 this.Add($"test", "test");
                 this.Add($"{Environment.NewLine}test{Environment.NewLine}{Environment.NewLine}", "test");
@@ -128,7 +129,7 @@ namespace Superdev.Maui.Tests.Extensions
 
         [Theory]
         [ClassData(typeof(TrimWhitespacesTestData))]
-        public void ShouldTrimWhitespaces(string? input, string expectedOutput)
+        public void ShouldTrimWhitespaces(string? input, string? expectedOutput)
         {
             // Act
             var output = input.TrimWhitespaces();

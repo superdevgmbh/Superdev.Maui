@@ -7,8 +7,8 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        private string notes;
-        private string logContent;
+        private string? notes;
+        private string? logContent;
         private bool hasKeyboardOffset = true;
         private IRelayCommand? toggleHasKeyboardOffsetCommand;
 
@@ -67,13 +67,13 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.hasKeyboardOffset, value);
         }
 
-        public string Notes
+        public string? Notes
         {
             get => this.notes;
             set => this.SetProperty(ref this.notes, value);
         }
 
-        public string LogContent
+        public string? LogContent
         {
             get => this.logContent;
             set => this.SetProperty(ref this.logContent, value);
