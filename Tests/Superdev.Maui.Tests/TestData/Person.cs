@@ -2,9 +2,9 @@
 {
     public class Person : IEquatable<Person>
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public bool Equals(Person other)
+        public bool Equals(Person? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -19,7 +19,7 @@
             return string.Equals(this.Name, other.Name, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -41,7 +41,7 @@
 
         public override int GetHashCode()
         {
-            return (this.Name != null ? StringComparer.InvariantCultureIgnoreCase.GetHashCode(this.Name) : 0);
+            return HashCode.Combine(this.Name);
         }
 
         public static bool operator ==(Person left, Person right)
