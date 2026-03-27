@@ -11,17 +11,17 @@ namespace Superdev.Maui.Effects
             null,
             propertyChanged: OnLineColorPropertyChanged);
 
-        public static Color GetLineColor(BindableObject view)
+        public static Color? GetLineColor(BindableObject view)
         {
-            return (Color)view.GetValue(LineColorProperty);
+            return (Color?)view.GetValue(LineColorProperty);
         }
 
-        public static void SetLineColor(BindableObject view, Color value)
+        public static void SetLineColor(BindableObject view, Color? value)
         {
             view.SetValue(LineColorProperty, value);
         }
 
-        private static void OnLineColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnLineColorPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
         {
             if (bindable is not View view)
             {

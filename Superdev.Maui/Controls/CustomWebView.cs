@@ -10,7 +10,7 @@ namespace Superdev.Maui.Controls
             this.Navigated += this.OnNavigated;
         }
 
-        private void OnNavigating(object sender, WebNavigatingEventArgs args)
+        private void OnNavigating(object? sender, WebNavigatingEventArgs args)
         {
             if (this.NavigatingCommand is ICommand command)
             {
@@ -21,7 +21,7 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        private void OnNavigated(object sender, WebNavigatedEventArgs args)
+        private void OnNavigated(object? sender, WebNavigatedEventArgs args)
         {
             if (this.NavigatedCommand is ICommand command)
             {
@@ -46,15 +46,15 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        public static BindableProperty EvaluateJavascriptProperty = BindableProperty.Create(
+        public static readonly BindableProperty EvaluateJavascriptProperty = BindableProperty.Create(
             nameof(EvaluateJavascript),
             typeof(Func<string, Task<string>>),
             typeof(CustomWebView),
             defaultBindingMode: BindingMode.OneWayToSource);
 
-        public Func<string, Task<string>> EvaluateJavascript
+        public Func<string, Task<string>>? EvaluateJavascript
         {
-            get => (Func<string, Task<string>>)this.GetValue(EvaluateJavascriptProperty);
+            get => (Func<string, Task<string>>?)this.GetValue(EvaluateJavascriptProperty);
             set => this.SetValue(EvaluateJavascriptProperty, value);
         }
 
@@ -68,8 +68,7 @@ namespace Superdev.Maui.Controls
             get => (IDictionary<string, string>)this.GetValue(HeadersProperty);
             set => this.SetValue(HeadersProperty, value);
         }
-
-
+        
         public static readonly BindableProperty NavigatingCommandProperty = BindableProperty.Create(
             nameof(NavigatingCommand),
             typeof(ICommand),

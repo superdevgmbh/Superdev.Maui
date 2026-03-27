@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ViewCell
     x:Class="SuperdevMauiDemoApp.Views.ItemTemplates.CountryItemTemplate"
@@ -15,29 +15,31 @@
                     <s:NegativeSwipeItem
                         Command="{Binding DeleteCommand}"
                         CommandParameter="{Binding .}"
-                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
                         IconImageSource="{s:ImageResource rectangle_magenta_192}"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
                         Text="Negative" />
                     <s:NeutralSwipeItem
                         Command="{Binding DeleteCommand}"
                         CommandParameter="{Binding .}"
-                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
-                        IconImageSource="{s:ImageResource rectangle_magenta_192}" />
+                        IconImageSource="{s:ImageResource rectangle_magenta_192}"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}" />
                     <s:DestructiveSwipeItem
                         Command="{Binding DeleteCommand}"
                         CommandParameter="{Binding .}"
-                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
                         IconImageSource="{s:ImageResource rectangle_magenta_192}"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverter}}"
                         Text="Destruct" />
                 </SwipeItems>
             </SwipeView.RightItems>
 
             <Grid
-                BackgroundColor="{DynamicResource Theme.ViewCell.BackgroundColor}"
                 Padding="{DynamicResource Theme.Padding.Medium}"
+                BackgroundColor="{DynamicResource Theme.ViewCell.BackgroundColor}"
                 HeightRequest="66">
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ItemSelectedCommand}" />
+                    <TapGestureRecognizer
+                        Command="{Binding ItemSelectedCommand}"
+                        CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}" />
                 </Grid.GestureRecognizers>
                 <Label
                     Style="{DynamicResource EntryLabelStyle}"

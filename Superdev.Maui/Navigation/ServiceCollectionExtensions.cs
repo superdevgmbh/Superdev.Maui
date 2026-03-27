@@ -14,28 +14,35 @@ namespace Superdev.Maui.Navigation
             return serviceCollection.RegisterForNavigation(typeof(TView), typeof(TViewModel), name);
         }
 
-        public static IServiceCollection RegisterForNavigation(this IServiceCollection serviceCollection, Type view, Type? viewModel, string? name = null)
+        /// <summary>
+        /// Registers a <paramref name="pageType"/> for navigation and associates it with a <paramref name="viewModelType"/>.
+        /// </summary>
+        /// <param name="serviceCollection">The service collection.</param>
+        /// <param name="pageType">The page/view type to register.</param>
+        /// <param name="viewModelType">The associated view model type.</param>
+        /// <param name="name">The key used for navigation. If not given, the page name is used as navigation key.</param>
+        public static IServiceCollection RegisterForNavigation(this IServiceCollection serviceCollection, Type pageType, Type? viewModelType = null, string? name = null)
         {
-            ArgumentNullException.ThrowIfNull(view);
+            ArgumentNullException.ThrowIfNull(pageType);
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = view.Name;
+                name = pageType.Name;
             }
 
             var pageRegistration = new PageRegistration
             {
                 Name = name,
-                PageType = view,
-                ViewModelType = viewModel
+                PageType = pageType,
+                ViewModelType = viewModelType
             };
 
             serviceCollection.AddKeyedSingleton(name, pageRegistration);
-            serviceCollection.TryAddTransient(view);
+            serviceCollection.TryAddTransient(pageType);
 
-            if (viewModel is not null)
+            if (viewModelType is not null)
             {
-                serviceCollection.TryAddTransient(viewModel);
+                serviceCollection.TryAddTransient(viewModelType);
             }
 
             return serviceCollection;

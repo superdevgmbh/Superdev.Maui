@@ -1,10 +1,8 @@
-using System.Diagnostics;
 using Android.Webkit;
 using Microsoft.Maui.Handlers;
 using Superdev.Maui.Controls;
 using static Android.Views.ViewGroup;
 using AWebView = Android.Webkit.WebView;
-using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -74,12 +72,12 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(AWebView platformView)
         {
-            base.DisconnectHandler(platformView);
-
             if (this.VirtualView is CustomWebView customWebView)
             {
                 customWebView.Dispose();
             }
+
+            base.DisconnectHandler(platformView);
         }
     }
 }

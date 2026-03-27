@@ -17,7 +17,7 @@ namespace Superdev.Maui.Localization
             return new ResxSingleTranslationProvider();
         }
 
-        private ResourceManager resourceManager;
+        private ResourceManager? resourceManager;
 
         public void Init(string baseName, Assembly assembly)
         {
@@ -37,7 +37,7 @@ namespace Superdev.Maui.Localization
         /// <summary>
         ///     See <see cref="ITranslationProvider.Translate(string, CultureInfo)" />
         /// </summary>
-        public string Translate(string key, CultureInfo cultureInfo = null)
+        public string Translate(string key, CultureInfo? cultureInfo = null)
         {
             if (this.resourceManager == null)
             {

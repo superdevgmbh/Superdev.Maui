@@ -22,7 +22,7 @@ namespace Superdev.Maui.Localization
         /// <summary>
         /// Gets or sets the default language.
         /// </summary>
-        CultureInfo DefaultLanguage { get; set; }
+        CultureInfo? DefaultLanguage { get; set; }
 
         /// <summary>
         /// Specifies the list of supported languages.
@@ -39,12 +39,12 @@ namespace Superdev.Maui.Localization
         /// <summary>
         /// Gets the platform-specific locale as string.
         /// </summary>
-        string GetPlatformLocale();
+        string? GetPlatformLocale();
 
         /// <summary>
         /// Gets the platform-specific locale as CultureInfo.
         /// </summary>
-        CultureInfo GetPlatformCulture();
+        CultureInfo? GetPlatformCulture();
 
         /// <summary>
         /// Event is raised when the current language is going to be changed.

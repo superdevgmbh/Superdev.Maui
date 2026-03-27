@@ -20,6 +20,7 @@
             Grid.Row="0"
             Style="{Binding LabelStyle, Source={x:Reference Name=Control}}"
             Text="{Binding Text, Source={x:Reference Name=Control}}"
+            TextColor="{Binding TextColor, Source={x:Reference Name=Control}}"
             HorizontalOptions="Start"
             VerticalOptions="Start">
             <Label.Triggers>
@@ -49,7 +50,8 @@
             <!-- </Grid.Background> -->
             <ActivityIndicator
                 IsRunning="{Binding Command.IsRunning, Source={x:Reference Name=Control}, FallbackValue=False}"
-                Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}" />
+                Style="{Binding ActivityIndicatorStyle, Source={x:Reference Control}}"
+                Color="{Binding TextColor, Source={x:Reference Name=Control}}" />
         </Grid>
     </Grid>
 </ContentView>

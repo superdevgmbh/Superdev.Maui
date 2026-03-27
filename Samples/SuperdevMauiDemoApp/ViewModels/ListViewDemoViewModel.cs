@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Superdev.Maui.Controls;
+using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
-using Superdev.Maui.Extensions;
-using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -16,7 +16,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ICountryService countryService;
 
         private ObservableCollection<CountryViewModel> countries;
-        private ScrollToItem scrollToCountry;
+        private ScrollToItem? scrollToCountry;
 
         public ListViewDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -26,7 +26,8 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
             this.countryService = countryService;
-            this.Countries = new ObservableCollection<CountryViewModel>();
+
+            this.countries = new ObservableCollection<CountryViewModel>();
 
             _ = this.LoadData();
         }
@@ -76,7 +77,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             await this.dialogService.DisplayAlertAsync("SelectCountryCommand", $"country: {parameter.Name ?? "null"}", "OK");
         }
 
-        public ScrollToItem ScrollToCountry
+        public ScrollToItem? ScrollToCountry
         {
             get => this.scrollToCountry;
             set => this.SetProperty(ref this.scrollToCountry, value);
@@ -86,7 +87,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void ScrollToPositionTest()
         {
-            var nextPosition = this.ScrollToCountry.Position == ScrollToPosition.Start
+            var nextPosition = this.ScrollToCountry?.Position == ScrollToPosition.Start
                 ? ScrollToPosition.End
                 : ScrollToPosition.Start;
 

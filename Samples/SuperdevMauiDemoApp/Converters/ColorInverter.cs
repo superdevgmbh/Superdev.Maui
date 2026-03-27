@@ -8,7 +8,7 @@ namespace SuperdevMauiDemoApp.Converters
     {
         protected override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is Color color)
+            if (value is Color color)
             {
                 var invertedColor = color.Invert();
                 return invertedColor;

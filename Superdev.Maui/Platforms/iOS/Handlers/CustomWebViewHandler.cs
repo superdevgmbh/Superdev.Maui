@@ -48,12 +48,12 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void DisconnectHandler(WKWebView platformView)
         {
-            base.DisconnectHandler(platformView);
-
             if (this.VirtualView is CustomWebView customWebView)
             {
                 customWebView.Dispose();
             }
+
+            base.DisconnectHandler(platformView);
         }
     }
 }

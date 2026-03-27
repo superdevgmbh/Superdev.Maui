@@ -22,26 +22,26 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ILocalizer localizer;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        private IRelayCommand showGeolocationSettingsCommand;
-        private IRelayCommand setStatusBarColorCommand;
-        private IRelayCommand setNavigationBarColorCommand;
-        private IRelayCommand resetNavigationBarColorCommand;
-        private IRelayCommand setStatusBarStyleCommand;
-        private Color currentStatusBarColor = Colors.Red;
-        private Color currentNavigationBarColor = Colors.White;
+        private IRelayCommand? showGeolocationSettingsCommand;
+        private IRelayCommand? setStatusBarColorCommand;
+        private IRelayCommand? setNavigationBarColorCommand;
+        private IRelayCommand? resetNavigationBarColorCommand;
+        private IRelayCommand? setStatusBarStyleCommand;
+        private Color? currentStatusBarColor = Colors.Red;
+        private Color? currentNavigationBarColor = Colors.White;
         private StatusBarStyle currentStatusBarStyle = StatusBarStyle.Dark;
-        private string deviceId;
+        private string? deviceId;
         private bool useSystemTheme;
         private AppTheme platformAppTheme;
         private AppTheme userAppTheme;
         private AppTheme appTheme;
-        private IRelayCommand resetThemeCommand;
-        private IAsyncRelayCommand displayAlertCommand;
-        private IAsyncRelayCommand displayActionSheetCommand;
-        private IAsyncRelayCommand tryOpenUrlCommand;
-        private IRelayCommand<string> setCurrentCultureCommand;
-        private string currentCulture;
-        private IRelayCommand resetCurrentCultureCommand;
+        private IRelayCommand? resetThemeCommand;
+        private IAsyncRelayCommand? displayAlertCommand;
+        private IAsyncRelayCommand? displayActionSheetCommand;
+        private IAsyncRelayCommand? tryOpenUrlCommand;
+        private IRelayCommand<string>? setCurrentCultureCommand;
+        private string? currentCulture;
+        private IRelayCommand? resetCurrentCultureCommand;
 
         public ServiceDemoViewModel(
             ILogger<ServiceDemoViewModel> logger,
@@ -75,30 +75,30 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.themeHelper.ThemeChanged += this.OnThemeChanged;
             this.localizer.LanguageChanged += this.OnLanguageChanged;
 
-            _ = this.InitializeAsync();
+            this.Initialize();
         }
 
-        private void OnThemeChanged(object sender, AppTheme e)
+        private void OnThemeChanged(object? sender, AppTheme e)
         {
             this.RefreshThemeHelperValues();
         }
 
-        private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
+        private void OnLanguageChanged(object? sender, LanguageChangedEventArgs e)
         {
             this.CurrentCulture = e.CultureInfo.Name;
         }
 
-        public string CurrentCulture
+        public string? CurrentCulture
         {
             get => this.currentCulture;
             private set => this.SetProperty(ref this.currentCulture, value);
         }
 
-        private async Task InitializeAsync()
+        private void Initialize()
         {
             try
             {
-                await this.LoadData();
+                this.LoadData();
             }
             finally
             {
@@ -106,7 +106,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        private async Task LoadData()
+        private void LoadData()
         {
             this.IsBusy = true;
             this.ViewModelError = ViewModelError.None;
@@ -129,12 +129,12 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IRelayCommand<string> SetCurrentCultureCommand
         {
-            get => this.setCurrentCultureCommand ??= new RelayCommand<string>(this.SetCurrentCulture);
+            get => this.setCurrentCultureCommand ??= new RelayCommand<string>(this.SetCurrentCulture!);
         }
 
         private void SetCurrentCulture(string locale)
         {
-           this.localizer.CurrentCulture = new CultureInfo(locale);
+            this.localizer.CurrentCulture = new CultureInfo(locale);
         }
 
         public IRelayCommand ResetCurrentCultureCommand
@@ -144,10 +144,10 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void ResetCurrentCulture()
         {
-           this.localizer.Reset();
+            this.localizer.Reset();
         }
 
-        public string DeviceId
+        public string? DeviceId
         {
             get => this.deviceId;
             private set => this.SetProperty(ref this.deviceId, value);
@@ -285,7 +285,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private async Task DisplayActionSheetAsync()
         {
-            var buttons = new []
+            var buttons = new[]
             {
                 "Button1",
                 "Button2"

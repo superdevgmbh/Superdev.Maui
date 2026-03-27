@@ -12,10 +12,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IActivityIndicatorService activityIndicatorService;
 
-        private IAsyncRelayCommand busyCommand;
+        private IAsyncRelayCommand? busyCommand;
+        private IAsyncRelayCommand? contentBusyCommand;
+        private IAsyncRelayCommand? serviceBusyCommand;
         private bool isContentBusy;
-        private IAsyncRelayCommand contentBusyCommand;
-        private IAsyncRelayCommand serviceBusyCommand;
 
         public ActivityIndicatorDemoViewModel(
             ILogger<ActivityIndicatorDemoViewModel> logger,

@@ -29,11 +29,10 @@ namespace Superdev.Maui.Tests.Localization
             };
 
             // Act
-            var value = translateExtension.ProvideValue(null);
+            var value = translateExtension.ProvideValue(null!);
 
             // Assert
-            var multiBinding = value as MultiBinding;
-            multiBinding.Should().NotBeNull();
+            var multiBinding = value.Should().BeOfType<MultiBinding>().Which;
             multiBinding.Bindings.Count.Should().Be(2);
             ((Binding)multiBinding.Bindings[0]).Converter.Should().BeNull();
             multiBinding.Converter.Should().NotBeNull();
@@ -50,11 +49,10 @@ namespace Superdev.Maui.Tests.Localization
             };
 
             // Act
-            var value = translateExtension.ProvideValue(null);
+            var value = translateExtension.ProvideValue(null!);
 
             // Assert
-            var multiBinding = value as MultiBinding;
-            multiBinding.Should().NotBeNull();
+            var multiBinding = value.Should().BeOfType<MultiBinding>().Which;
             multiBinding.Bindings.Count.Should().Be(2);
 
             var converter0 = ((Binding)multiBinding.Bindings[0]).Converter;

@@ -11,10 +11,10 @@ namespace Superdev.Maui.Tests.Utils
             var obj = new MyClass(internalDateTime: null, internalString: "test value");
 
             // Act
-            var FieldValue = ReflectionHelper.GetFieldValue<string>(obj, "InternalString");
+            var fieldValue = ReflectionHelper.GetFieldValue<string>(obj, "InternalString");
 
             // Assert
-            Assert.Equal(obj.InternalString, FieldValue);
+            Assert.Equal(obj.InternalString, fieldValue);
         }
 
         [Fact]
@@ -24,10 +24,10 @@ namespace Superdev.Maui.Tests.Utils
             var obj = new MyClass(internalDateTime: new DateTime(2000, 1, 1), internalString: null);
 
             // Act
-            var FieldValue = ReflectionHelper.GetFieldValue<DateTime>(obj, "InternalDateTime");
+            var fieldValue = ReflectionHelper.GetFieldValue<DateTime>(obj, "InternalDateTime");
 
             // Assert
-            Assert.Equal(obj.InternalDateTime, FieldValue);
+            Assert.Equal(obj.InternalDateTime, fieldValue);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Superdev.Maui.Tests.Utils
             ReflectionHelper.SetFieldValue(obj, "InternalString", "new value");
 
             // Assert
-            Assert.Equal(obj.InternalString, "new value");
+            Assert.Equal("new value", obj.InternalString);
         }
 
         [Fact]
@@ -89,8 +89,8 @@ namespace Superdev.Maui.Tests.Utils
         public void ShouldRunMethod_WithParameters_WithReturnResult()
         {
             // Arrange
-            var paramA = 2;
-            var paramB = 3;
+            const int paramA = 2;
+            const int paramB = 3;
             var obj = new MyClass(internalDateTime: null, internalString: "test value");
 
             // Act
@@ -102,13 +102,13 @@ namespace Superdev.Maui.Tests.Utils
 
         public class MyClass : MyBaseClass
         {
-            public MyClass(DateTime? internalDateTime, string internalString)
+            public MyClass(DateTime? internalDateTime, string? internalString)
                 : base(internalDateTime)
             {
                 this.InternalString = internalString;
             }
 
-            internal readonly string InternalString;
+            internal readonly string? InternalString;
         }
 
         public class MyBaseClass

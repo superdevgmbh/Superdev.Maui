@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Logging;
-using Superdev.Maui.Services;
-using Preferences = Superdev.Maui.Services.Preferences;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Services;
 using Superdev.Maui.Utils;
+using Preferences = Superdev.Maui.Services.Preferences;
 
 namespace Superdev.Maui.Resources.Styles
 {
@@ -21,7 +21,7 @@ namespace Superdev.Maui.Resources.Styles
 
         private static IThemeHelper CreateThemeHelper()
         {
-            var logger = IPlatformApplication.Current.Services.GetService<ILogger<ThemeHelper>>();
+            var logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<ThemeHelper>>();
             var preferences = Preferences.Current;
             var fontConverter = IFontConverter.Current;
             return new ThemeHelper(logger, preferences, fontConverter);
@@ -35,16 +35,15 @@ namespace Superdev.Maui.Resources.Styles
 
         private readonly object eventLock = new object();
 
-        private event EventHandler<AppTheme> ThemeChangedEventHandler;
-        private EventHandler<AppThemeChangedEventArgs> systemThemeHandler;
-        private string lightThemeName;
-        private string darkThemeName;
+        private event EventHandler<AppTheme>? ThemeChangedEventHandler;
+        private EventHandler<AppThemeChangedEventArgs>? systemThemeHandler;
+        private string? lightThemeName;
+        private string? darkThemeName;
         private bool? useSystemTheme;
         private AppTheme? appTheme;
         private AppTheme? lastUsedTheme;
         private bool overrideStyles;
         private bool mergeStyles;
-        private bool isInitialized;
 
         private ThemeHelper(
             ILogger<ThemeHelper> logger,
@@ -73,6 +72,7 @@ namespace Superdev.Maui.Resources.Styles
                 }
             }
         }
+
         public bool MergeStyles
         {
             get => this.mergeStyles;
@@ -91,8 +91,8 @@ namespace Superdev.Maui.Resources.Styles
 
         private void OverrideStylesInternal(bool overrideStyles, bool mergeStyles)
         {
-            var app = Application.Current;
-            var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(app.Resources, "MergedResources")
+            var app = Application.Current!;
+            var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(app.Resources, "MergedResources")!
 #if DEBUG
                     .ToArray()
 #endif
@@ -132,15 +132,19 @@ namespace Superdev.Maui.Resources.Styles
                     this.logger.LogDebug($"OverrideStyles: Merging style x:Key={styleMerge.BaseKey} with x:Key={styleMerge.Key}");
 
                     var baseStyle = (Style)app.Resources[styleMerge.BaseKey];
-                    foreach (var setter in styleMerge.Style.Setters)
-                    {
-                        var existingSetter = baseStyle.Setters.FirstOrDefault(s => s.Property.PropertyName == setter.Property.PropertyName);
-                        if (existingSetter != null)
-                        {
-                            baseStyle.Setters.Remove(existingSetter);
-                        }
 
-                        baseStyle.Setters.Add(setter);
+                    if (styleMerge.Style is Style style)
+                    {
+                        foreach (var setter in style.Setters)
+                        {
+                            var existingSetter = baseStyle.Setters.FirstOrDefault(s => s.Property.PropertyName == setter.Property.PropertyName);
+                            if (existingSetter != null)
+                            {
+                                baseStyle.Setters.Remove(existingSetter);
+                            }
+
+                            baseStyle.Setters.Add(setter);
+                        }
                     }
                 }
             }
@@ -173,7 +177,7 @@ namespace Superdev.Maui.Resources.Styles
         }
 
         /// <inheritdoc />
-        public event EventHandler<AppTheme> ThemeChanged
+        public event EventHandler<AppTheme>? ThemeChanged
         {
             add
             {
@@ -192,13 +196,13 @@ namespace Superdev.Maui.Resources.Styles
         }
 
         /// <inheritdoc />
-        public AppTheme PlatformAppTheme => Application.Current.PlatformAppTheme;
+        public AppTheme PlatformAppTheme => Application.Current!.PlatformAppTheme;
 
         /// <inheritdoc />
         public AppTheme UserAppTheme
         {
-            get => Application.Current.UserAppTheme;
-            private set => Application.Current.UserAppTheme = value;
+            get => Application.Current!.UserAppTheme;
+            private set => Application.Current!.UserAppTheme = value;
         }
 
         /// <inheritdoc />
@@ -276,159 +280,12 @@ namespace Superdev.Maui.Resources.Styles
 
                 // Apply the initial theme
                 this.ApplyTheme();
-
-                this.isInitialized = true;
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Initialize failed with exception");
             }
         }
-
-        /// <summary>
-        ///     Initialize theme resources for light and dark themes
-        /// </summary>
-        // private void InitializeThemeResources()
-        // {
-        //     try
-        //     {
-        //         // Clear existing resources
-        //         this.lightThemeResources.Clear();
-        //         this.darkThemeResources.Clear();
-        //         this.platformLightThemeResources.Clear();
-        //         this.platformDarkThemeResources.Clear();
-        //
-        //         // Load resources from the existing theme dictionaries
-        //         this.LoadResourcesFromExistingThemes();
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         this.logger.LogError(ex, "InitializeThemeResources failed with exception");
-        //     }
-        // }
-
-        /// <summary>
-        ///     Load resources from the existing theme dictionaries in the app
-        /// </summary>
-        // private void LoadResourcesFromExistingThemes()
-        // {
-        //     try
-        //     {
-        //         if (Application.Current?.Resources?.MergedDictionaries is not { } mergedDictionaries)
-        //         {
-        //             return;
-        //         }
-        //
-        //         // Find the theme dictionaries
-        //         var colorResources = mergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString?.Contains("ColorResources.xaml") == true);
-        //         if (colorResources != null)
-        //         {
-        //             mergedDictionaries.Remove(colorResources);
-        //         }
-        //
-        //         var lightDict = mergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString?.Contains("Colors.Light.xaml") == true);
-        //
-        //         var darkDict = mergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString?.Contains("Colors.Dark.xaml") == true);
-        //         var platformDict = mergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString?.Contains("PlatformColors.xaml") == true);
-        //         var stylesDict = mergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString?.Contains("Styles.xaml") == true);
-        //
-        //         // Load light theme resources
-        //         if (lightDict != null)
-        //         {
-        //             foreach (var key in lightDict.Keys)
-        //             {
-        //                 if (key is string stringKey && lightDict[key] != null)
-        //                 {
-        //                     this.lightThemeResources[stringKey] = lightDict[key];
-        //                 }
-        //             }
-        //         }
-        //         // else
-        //         // {
-        //         //     // Fallback light theme resources if dictionary not found
-        //         //     this.lightThemeResources["BackgroundColor"] = MaterialColors.White;
-        //         //     this.lightThemeResources["ForegroundColor"] = MaterialColors.Black;
-        //         //     this.lightThemeResources["PrimaryColor"] = Color.FromArgb("#FF0078D7");
-        //         //     this.lightThemeResources["SecondaryColor"] = Color.FromArgb("#FF6C757D");
-        //         //     this.lightThemeResources["AccentColor"] = Color.FromArgb("#FF0078D7");
-        //         //     this.lightThemeResources["SurfaceColor"] = Color.FromArgb("#FFF8F9FA");
-        //         //     this.lightThemeResources["CardColor"] = MaterialColors.White;
-        //         //     this.lightThemeResources["BorderColor"] = Color.FromArgb("#FFCED4DA");
-        //         //     this.lightThemeResources["TextColor"] = MaterialColors.Black;
-        //         //     this.lightThemeResources["TextSecondaryColor"] = Color.FromArgb("#FF6C757D");
-        //         //     this.lightThemeResources["TextTertiaryColor"] = Color.FromArgb("#FF8A8A8A");
-        //         //     this.lightThemeResources["DividerColor"] = Color.FromArgb("#FFE0E0E0");
-        //         // }
-        //
-        //         // Load dark theme resources
-        //         if (darkDict != null)
-        //         {
-        //             foreach (var key in darkDict.Keys)
-        //             {
-        //                 if (key is string stringKey && darkDict[key] != null)
-        //                 {
-        //                     this.darkThemeResources[stringKey] = darkDict[key];
-        //                 }
-        //             }
-        //         }
-        //         // else
-        //         // {
-        //         //     // Fallback dark theme resources if dictionary not found
-        //         //     this.darkThemeResources["BackgroundColor"] = Color.FromArgb("#FF121212");
-        //         //     this.darkThemeResources["ForegroundColor"] = MaterialColors.White;
-        //         //     this.darkThemeResources["PrimaryColor"] = Color.FromArgb("#FF0078D7");
-        //         //     this.darkThemeResources["SecondaryColor"] = Color.FromArgb("#FF6C757D");
-        //         //     this.darkThemeResources["AccentColor"] = Color.FromArgb("#FF0078D7");
-        //         //     this.darkThemeResources["SurfaceColor"] = Color.FromArgb("#FF1E1E1E");
-        //         //     this.darkThemeResources["CardColor"] = Color.FromArgb("#FF2D2D2D");
-        //         //     this.darkThemeResources["BorderColor"] = Color.FromArgb("#FF444444");
-        //         //     this.darkThemeResources["TextColor"] = MaterialColors.White;
-        //         //     this.darkThemeResources["TextSecondaryColor"] = Color.FromArgb("#FFB0B0B0");
-        //         //     this.darkThemeResources["TextTertiaryColor"] = Color.FromArgb("#FF8A8A8A");
-        //         //     this.darkThemeResources["DividerColor"] = Color.FromArgb("#FF333333");
-        //         // }
-        //
-        //         // Load platform-specific resources
-        //         if (platformDict != null)
-        //         {
-        //             foreach (var key in platformDict.Keys)
-        //             {
-        //                 if (key is string stringKey && platformDict[key] != null)
-        //                 {
-        //                     // AppThemeBinding is not accessible in C#; just add all resources
-        //                     this.lightThemeResources[stringKey] = platformDict[key];
-        //                     this.darkThemeResources[stringKey] = platformDict[key];
-        //                 }
-        //             }
-        //         }
-        //
-        //         // Load common styles
-        //         if (stylesDict != null)
-        //         {
-        //             // Store style resources that should be applied to both themes
-        //             var styleKeys = new List<string>();
-        //
-        //             foreach (var key in stylesDict.Keys)
-        //             {
-        //                 if (key is string stringKey && !stringKey.Contains("Color") && stylesDict[key] != null)
-        //                 {
-        //                     styleKeys.Add(stringKey);
-        //                 }
-        //             }
-        //
-        //             // Apply styles to both themes
-        //             foreach (var key in styleKeys)
-        //             {
-        //                 this.lightThemeResources[key] = stylesDict[key];
-        //                 this.darkThemeResources[key] = stylesDict[key];
-        //             }
-        //         }
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         this.logger.LogError(ex, "LoadResourcesFromExistingThemes failed with exception");
-        //     }
-        // }
 
         /// <summary>
         ///     Check for system theme changes
@@ -506,14 +363,6 @@ namespace Superdev.Maui.Resources.Styles
                 : this.AppTheme;
         }
 
-        private void RaiseThemeChangedEvent(AppTheme appTheme)
-        {
-            lock (this.eventLock)
-            {
-                this.ThemeChangedEventHandler?.Invoke(null, appTheme);
-            }
-        }
-
         /// <summary>
         ///     Apply theme resources to the application
         /// </summary>
@@ -541,47 +390,45 @@ namespace Superdev.Maui.Resources.Styles
                 }
 
                 var theme = Application.Current.Resources.GetValue<ITheme>(themeName);
-                if (theme == null)
-                {
-                    this.logger.LogError($"Theme '{themeName}' could not be found");
-                    return;
-                }
 
                 var superdevMauiStyles = globalMergedDictionary.FirstOrDefault<SuperdevMauiStyles>();
-                var localMergedDictionaries = superdevMauiStyles.MergedDictionaries;
-
-                // Update ColorResources
-                var colorResources = localMergedDictionaries.FirstOrDefault<ColorResources>();
-                if (colorResources != null)
+                if (superdevMauiStyles != null)
                 {
-                    localMergedDictionaries.Remove(colorResources);
+                    var localMergedDictionaries = superdevMauiStyles.MergedDictionaries;
+
+                    // Update ColorResources
+                    var colorResources = localMergedDictionaries.FirstOrDefault<ColorResources>();
+                    if (colorResources != null)
+                    {
+                        localMergedDictionaries.Remove(colorResources);
+                    }
+
+                    var colorConfiguration = theme.ColorConfiguration ?? new ColorConfiguration();
+                    colorConfiguration.Initialize();
+                    localMergedDictionaries.Add(colorConfiguration.Resources);
+
+                    // Update SpacingResources
+                    var spacingResources = localMergedDictionaries.FirstOrDefault<SpacingResources>();
+                    if (spacingResources != null)
+                    {
+                        localMergedDictionaries.Remove(spacingResources);
+                    }
+
+                    var spacingConfiguration = theme.SpacingConfiguration ?? new SpacingConfiguration();
+                    spacingConfiguration.Initialize();
+                    localMergedDictionaries.Add(spacingConfiguration.Resources);
+
+                    // Update FontResources
+                    var fontResources = localMergedDictionaries.FirstOrDefault<FontResources>();
+                    if (fontResources != null)
+                    {
+                        localMergedDictionaries.Remove(fontResources);
+                    }
+
+                    var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
+                    fontConfiguration.Initialize();
+                    localMergedDictionaries.Add(fontConfiguration.Resources);
                 }
-
-                var colorConfiguration = theme.ColorConfiguration ?? new ColorConfiguration();
-                colorConfiguration.Initialize();
-                localMergedDictionaries.Add(colorConfiguration.Resources);
-
-                // Update SpacingResources
-                var spacingResources = localMergedDictionaries.FirstOrDefault<SpacingResources>();
-                if (spacingResources != null)
-                {
-                    localMergedDictionaries.Remove(spacingResources);
-                }
-
-                var spacingConfiguration = theme.SpacingConfiguration ?? new SpacingConfiguration();
-                spacingConfiguration.Initialize();
-                localMergedDictionaries.Add(spacingConfiguration.Resources);
-
-                // Update FontResources
-                var fontResources = localMergedDictionaries.FirstOrDefault<FontResources>();
-                if (fontResources != null)
-                {
-                    localMergedDictionaries.Remove(fontResources);
-                }
-
-                var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
-                fontConfiguration.Initialize();
-                localMergedDictionaries.Add(fontConfiguration.Resources);
 
                 if (this.OverrideStyles || this.MergeStyles)
                 {
@@ -638,41 +485,6 @@ namespace Superdev.Maui.Resources.Styles
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "ApplyThemeResources failed with exception");
-            }
-        }
-
-        /// <summary>
-        ///     Update dynamic resources that use AppThemeBinding
-        /// </summary>
-        private void UpdateDynamicResources()
-        {
-            try
-            {
-                if (Application.Current?.Resources == null)
-                {
-                    return;
-                }
-
-                // Force update of any dynamic resources
-                var temp = new ResourceDictionary();
-                var keys = Application.Current.Resources.Keys.ToList();
-
-                foreach (var key in keys)
-                {
-                    if (key is string stringKey && Application.Current.Resources[key] != null)
-                    {
-                        // Store the resource temporarily
-                        temp[stringKey] = Application.Current.Resources[key];
-
-                        // Remove and re-add to force update of AppThemeBinding
-                        Application.Current.Resources.Remove(stringKey);
-                        Application.Current.Resources[stringKey] = temp[stringKey];
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "UpdateDynamicResources failed with exception");
             }
         }
 

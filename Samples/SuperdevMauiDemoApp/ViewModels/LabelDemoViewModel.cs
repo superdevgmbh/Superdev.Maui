@@ -7,7 +7,7 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class LabelDemoViewModel : BaseViewModel
     {
         private readonly ILogger logger;
-        private IAsyncRelayCommand hyperlinkCommand;
+        private IAsyncRelayCommand? hyperlinkCommand;
 
         public LabelDemoViewModel(
             ILogger<LabelDemoViewModel> logger)

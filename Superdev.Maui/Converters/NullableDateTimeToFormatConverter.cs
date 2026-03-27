@@ -25,15 +25,15 @@ namespace Superdev.Maui.Converters
                 typeof(NullableDateTimeToFormatConverter),
                 "");
 
-        public string DateFormat
+        public string? DateFormat
         {
-            get => (string)this.GetValue(DateFormatProperty);
+            get => (string?)this.GetValue(DateFormatProperty);
             set => this.SetValue(DateFormatProperty, value);
         }
 
-        public string TimeFormat
+        public string? TimeFormat
         {
-            get => (string)this.GetValue(TimeFormatProperty);
+            get => (string?)this.GetValue(TimeFormatProperty);
             set => this.SetValue(TimeFormatProperty, value);
         }
 
@@ -43,14 +43,14 @@ namespace Superdev.Maui.Converters
             set => this.SetValue(NullableFormatProperty, value);
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is DateTime dateTime)
+            if (value is DateTime)
             {
                 return this.DateFormat ?? CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
             }
 
-            if (value is TimeSpan timeSpan)
+            if (value is TimeSpan)
             {
                 return this.TimeFormat ?? CultureInfo.CurrentUICulture.DateTimeFormat.ShortTimePattern;
             }
@@ -58,7 +58,7 @@ namespace Superdev.Maui.Converters
             return this.NullableFormat;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

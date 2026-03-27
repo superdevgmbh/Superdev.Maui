@@ -21,7 +21,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
 
-        public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public NullableDatePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

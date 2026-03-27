@@ -60,7 +60,7 @@ namespace Superdev.Maui.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
-        private void OnInputViewUnfocused(object sender, EventArgs e)
+        private void OnInputViewUnfocused(object? sender, EventArgs e)
         {
             if (sender is not InputView inputView)
             {

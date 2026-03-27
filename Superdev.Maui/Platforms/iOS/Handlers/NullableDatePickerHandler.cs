@@ -23,7 +23,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private bool isClearing;
 
-        public NullableDatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public NullableDatePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -32,6 +32,8 @@ namespace Superdev.Maui.Platforms.Handlers
             : base(Mapper)
         {
         }
+
+        public new NullableDatePicker? VirtualView => base.VirtualView as NullableDatePicker;
 
         protected override MauiDatePicker CreatePlatformView()
         {
@@ -54,8 +56,6 @@ namespace Superdev.Maui.Platforms.Handlers
             base.DisconnectHandler(platformView);
         }
 
-        private new NullableDatePicker VirtualView => (NullableDatePicker)base.VirtualView;
-
         private void HandleDoneButton()
         {
             var nullableDatePicker = this.VirtualView;
@@ -76,12 +76,16 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void OnEditingDidEnd(DateTime date)
         {
+            if (this.VirtualView is not NullableDatePicker nullableDatePicker)
+            {
+                return;
+            }
+
             if (this.isClearing)
             {
                 return;
             }
 
-            var nullableDatePicker = this.VirtualView;
             nullableDatePicker.Date = date;
             nullableDatePicker.NullableDate = date;
         }
@@ -196,7 +200,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static void UpdateUIDatePicker(UIDatePicker datePicker, DateTime? nullableDate)
+        private static void UpdateUIDatePicker(UIDatePicker? datePicker, DateTime? nullableDate)
         {
             if (datePicker != null)
             {

@@ -16,12 +16,7 @@ namespace Superdev.Maui.Services.Http
 
         private readonly ILogger logger;
 
-        public static bool Enabled
-#if DEBUG
-            = true;
-#else
-            = false;
-#endif
+        public static bool Enabled = Debugger.IsAttached;
 
         public LoggingHandler(ILogger<LoggingHandler> logger, HttpMessageHandler innerHandler)
             : base(innerHandler)
@@ -70,10 +65,24 @@ namespace Superdev.Maui.Services.Http
             }
 
             var httpStatusCode = httpResponseMessage.StatusCode;
-            var headers = FormatHeaders(httpResponseMessage.Headers, httpResponseMessage.Content?.Headers);
+            var headers = FormatHeaders(httpResponseMessage.Headers, httpResponseMessage.Content.Headers);
+
+            string httpMethod;
+            string requestUri;
+            var httpRequestMessage = httpResponseMessage.RequestMessage;
+            if (httpRequestMessage == null)
+            {
+                httpMethod = "<Method?>";
+                requestUri = "<RequestUri?>";
+            }
+            else
+            {
+                httpMethod = httpRequestMessage.Method.ToString();
+                requestUri = httpRequestMessage.RequestUri?.ToString() ?? "<RequestUri?>";
+            }
 
             var responseMessage =
-                $"{httpResponseMessage.RequestMessage.Method} {httpResponseMessage.RequestMessage.RequestUri} --> {(httpResponseMessage.IsSuccessStatusCode ? "Success" : "Failed")}{Environment.NewLine}" +
+                $"{httpMethod} {requestUri} --> {(httpResponseMessage.IsSuccessStatusCode ? "Success" : "Failed")}{Environment.NewLine}" +
                 $"> StatusCode: {(int)httpStatusCode} ({httpStatusCode}){Environment.NewLine}" +
                 $"> Duration: {stopwatchElapsed.TotalSeconds:F3}{Environment.NewLine}" +
                 $"> Response Headers:{Environment.NewLine}{headers}";
@@ -88,7 +97,7 @@ namespace Superdev.Maui.Services.Http
             return responseMessage;
         }
 
-        private static async Task<string> FormatContentAsync(HttpContent httpContent)
+        private static async Task<string> FormatContentAsync(HttpContent? httpContent)
         {
             string formattedContent;
 
@@ -98,21 +107,21 @@ namespace Superdev.Maui.Services.Http
             }
             else
             {
-                var mediaType = httpContent.Headers?.ContentType?.MediaType;
+                var mediaType = httpContent.Headers.ContentType?.MediaType;
                 if (mediaType == MediaTypeNames.Application.Json)
                 {
                     formattedContent = await httpContent.ReadAsStringAsync();
                 }
                 else
                 {
-                    formattedContent = $"{{{httpContent.GetType().Name}, {ByteFormatter.GetNamedSize(httpContent.Headers?.ContentLength ?? 0L)}}}";
+                    formattedContent = $"{{{httpContent.GetType().Name}, {ByteFormatter.GetNamedSize(httpContent.Headers.ContentLength ?? 0L)}}}";
                 }
             }
 
             return formattedContent;
         }
 
-        private static string FormatHeaders(HttpHeaders httpHeaders, HttpContentHeaders httpContentHeaders)
+        private static string FormatHeaders(HttpHeaders? httpHeaders, HttpContentHeaders? httpContentHeaders)
         {
             IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers = new List<KeyValuePair<string, IEnumerable<string>>>();
 

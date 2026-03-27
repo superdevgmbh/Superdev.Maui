@@ -5,7 +5,7 @@ namespace Superdev.Maui.Utils
         private readonly Func<T> valueFactory;
         private readonly LazyThreadSafetyMode lazyThreadSafetyMode;
 
-        private Lazy<T> lazy;
+        private Lazy<T> lazy= null!;
 
         public ResettableLazy(Func<T> valueFactory, LazyThreadSafetyMode mode = LazyThreadSafetyMode.None)
         {

@@ -15,9 +15,13 @@
     <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem
+        <s:BindableToolbarItem
             Command="{Binding SwitchThemesCommand}"
-            Text="{Binding AppTheme, StringFormat='{}[{0}]'}" />
+            IsVisible="{Binding ShowAppThemeToolbarItem}"
+            Text="{Binding AppTheme, StringFormat='[{0}]'}" />
+        <!-- <s:BindableToolbarItem -->
+        <!-- Command="{Binding SwitchThemesCommand}" -->
+        <!-- Text="X1" /> -->
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -287,7 +291,7 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="NavigationDemoPage"
+                                CommandParameter="NavigationDemoPageKey"
                                 Text="Navigation" />
                         </Grid>
                         <Grid

@@ -27,13 +27,10 @@ namespace Superdev.Maui
 {
     public static class MauiAppBuilderExtensions
     {
-        public static MauiAppBuilder UseSuperdevMaui(this MauiAppBuilder builder, Action<SuperdevMauiOptions> options = null)
+        public static MauiAppBuilder UseSuperdevMaui(this MauiAppBuilder builder, Action<SuperdevMauiOptions>? options = null)
         {
             var o = new SuperdevMauiOptions();
-            if (options != null)
-            {
-                options(o);
-            }
+            options?.Invoke(o);
 
 #if ANDROID || IOS
             builder.ConfigureMauiHandlers(handlers =>

@@ -34,4 +34,3 @@ namespace Superdev.Maui.Utils.Threading
         }
     }
 }
-

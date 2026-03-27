@@ -9,11 +9,12 @@ namespace Superdev.Maui.Handlers
         private readonly ILogger logger;
         private readonly SuperdevMauiOptions options;
 
-        public PageHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public PageHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
-            this.logger = IPlatformApplication.Current.Services.GetService<ILogger<PageHandler>>();
-            this.options = IPlatformApplication.Current.Services.GetService<SuperdevMauiOptions>();
+            var serviceProvider = IPlatformApplication.Current!.Services;
+            this.logger = serviceProvider.GetRequiredService<ILogger<PageHandler>>();
+            this.options = serviceProvider.GetRequiredService<SuperdevMauiOptions>();
         }
 
         public PageHandler()
@@ -56,7 +57,7 @@ namespace Superdev.Maui.Handlers
 
                     if (hasBehaviors || hasTriggers || hasEffects)
                     {
-                        var message = $"Cleanup for {visualElement.GetType().GetFormattedName()}: " +
+                        var message = $"Cleanup \"{visualElement.GetType().GetFormattedName()}\": " +
                                       $"{(hasBehaviors ? $"{Environment.NewLine}> Behaviors.Count={behaviorsCount}" : "")}" +
                                       $"{(hasTriggers ? $"{Environment.NewLine}> Triggers.Count={triggersCount}" : "")}" +
                                       $"{(hasEffects ? $"{Environment.NewLine}> Effects.Count={effectsCount}" : "")}";

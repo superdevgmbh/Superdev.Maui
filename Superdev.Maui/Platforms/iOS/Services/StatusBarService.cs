@@ -7,7 +7,7 @@ namespace Superdev.Maui.Platforms.Services
 {
     public class StatusBarService : IStatusBarService
     {
-        private UIColor uiColor;
+        private UIColor? uiColor;
 
         private static readonly Lazy<IStatusBarService> Implementation = new Lazy<IStatusBarService>(CreateStatusBar, LazyThreadSafetyMode.PublicationOnly);
 
@@ -28,13 +28,13 @@ namespace Superdev.Maui.Platforms.Services
             SetStatusBarColor(this.uiColor);
         }
 
-        public void SetStatusBarColor(Color color)
+        public void SetStatusBarColor(Color? color)
         {
-            var uiColor = this.uiColor = color.ToPlatform();
+            var uiColor = this.uiColor = color?.ToPlatform();
             SetStatusBarColor(uiColor);
         }
 
-        private static void SetStatusBarColor(UIColor uiColor)
+        private static void SetStatusBarColor(UIColor? uiColor)
         {
             if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
             {
@@ -45,14 +45,14 @@ namespace Superdev.Maui.Platforms.Services
             else
             {
                 var statusBar = UIApplication.SharedApplication.ValueForKey(new NSString("statusBar")) as UIView;
-                if (statusBar.RespondsToSelector(new ObjCRuntime.Selector("setBackgroundColor:")))
+                if (statusBar != null && statusBar.RespondsToSelector(new ObjCRuntime.Selector("setBackgroundColor:")))
                 {
                     statusBar.BackgroundColor = uiColor;
                 }
             }
         }
 
-        public void SetNavigationBarColor(Color color)
+        public void SetNavigationBarColor(Color? color)
         {
             // API does not exist on iOS.
         }

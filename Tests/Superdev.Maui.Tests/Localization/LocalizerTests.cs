@@ -27,7 +27,7 @@ namespace Superdev.Maui.Tests.Localization
 
             ILocalizer localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
             {
-                PlatformLocale =  platformLocale
+                PlatformLocale = platformLocale
             };
 
             // Act
@@ -49,8 +49,8 @@ namespace Superdev.Maui.Tests.Localization
 
             var localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
             {
-                PlatformLocale =  platformLocale,
-                SupportedLanguages =  SupportedLanguages.GetAll().ToArray()
+                PlatformLocale = platformLocale,
+                SupportedLanguages = SupportedLanguages.GetAll().ToArray()
             };
 
             // Act

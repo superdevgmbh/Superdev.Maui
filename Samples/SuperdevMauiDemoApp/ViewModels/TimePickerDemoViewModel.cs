@@ -1,12 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Controls;
-using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
-using SuperdevMauiDemoApp.Model;
-using SuperdevMauiDemoApp.Services;
 using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -21,8 +16,8 @@ namespace SuperdevMauiDemoApp.ViewModels
         private DateTime patentStartDate;
         private TimeSpan patentStartTime;
         private TimeSpan? patentEndTime;
-        private DateRange patentValidityRange;
-        private IRelayCommand toggleIsReadonlyCommand;
+        private DateRange? patentValidityRange;
+        private IRelayCommand? toggleIsReadonlyCommand;
 
         public TimePickerDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -119,7 +114,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.patentEndTime, value);
         }
 
-        public DateRange PatentValidityRange
+        public DateRange? PatentValidityRange
         {
             get => this.patentValidityRange;
             private set => this.SetProperty(ref this.patentValidityRange, value);

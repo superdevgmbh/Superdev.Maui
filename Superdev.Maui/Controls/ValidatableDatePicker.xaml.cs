@@ -110,7 +110,7 @@ namespace Superdev.Maui.Controls
                 typeof(string),
                 typeof(ValidatableDatePicker));
 
-        public string ReadonlyText
+        public string? ReadonlyText
         {
             get
             {
@@ -195,7 +195,7 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ValidationErrorsProperty, value);
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
             // Debug.WriteLine($"ValidatableDatePicker.OnPropertyChanged: propertyName={propertyName}");

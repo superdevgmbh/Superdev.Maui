@@ -17,7 +17,7 @@ namespace Superdev.Maui.Tests.Effects
             // Assert
             canConvert.Should().BeTrue();
         }
-        
+
         [Fact]
         public void ShouldCheckCanConvertTo_String()
         {
@@ -47,7 +47,7 @@ namespace Superdev.Maui.Tests.Effects
                 SafeAreaPaddingLayout.PaddingPosition.Right,
                 SafeAreaPaddingLayout.PaddingPosition.Bottom));
         }
-        
+
         [Fact]
         public void ShouldConvertFrom_ThrowsException()
         {
@@ -60,7 +60,7 @@ namespace Superdev.Maui.Tests.Effects
             // Assert
             action.Should().Throw<InvalidOperationException>();
         }
-        
+
         [Fact]
         public void ShouldConvertTo()
         {

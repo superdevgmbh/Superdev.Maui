@@ -14,7 +14,7 @@ namespace Superdev.Maui.Platforms.Handlers
             // [nameof(CustomButton.VerticalTextAlignment)] = MapVerticalTextAlignment,     // TODO --> Check if it works without this
         };
 
-        public CustomButtonHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomButtonHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -31,7 +31,7 @@ namespace Superdev.Maui.Platforms.Handlers
             this.UpdateHorizontalTextAlignment();
         }
 
-        public override void UpdateValue(string property)
+        public override void UpdateValue(string? property)
         {
             base.UpdateValue(property);
 

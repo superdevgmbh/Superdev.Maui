@@ -19,7 +19,6 @@ namespace Superdev.Maui.Platforms.Handlers
             Mapper.AppendToMapping(nameof(CustomTabbedPage.HideTabs), MapIsHidden);
         }
 
-        private CGRect originalFrame;
         private CGRect originalTabBarFrame;
 
         private static void MapIsHidden(TabbedRenderer tabbedRenderer, TabbedPage tabbedPage)
@@ -33,7 +32,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         public CustomTabbedPageHandler()
         {
-            this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
+            this.logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
         }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
@@ -52,7 +51,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             Debug.WriteLine($"OnElementPropertyChanged: {e.PropertyName}");
 

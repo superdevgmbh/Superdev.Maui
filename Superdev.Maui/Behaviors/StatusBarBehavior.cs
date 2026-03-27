@@ -13,7 +13,7 @@ namespace Superdev.Maui.Behaviors
     /// </remarks>
     public class StatusBarBehavior : BehaviorBase<Page>
     {
-        private readonly Queue<string> propertyChanges = new Queue<string>();
+        private readonly Queue<string?> propertyChanges = new Queue<string?>();
 
         /// <summary>
         /// <see cref="BindableProperty"/> that manages the StatusBarColor property.
@@ -97,7 +97,7 @@ namespace Superdev.Maui.Behaviors
             base.OnDetachingFrom(page);
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

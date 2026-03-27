@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class FontConverterBase : IFontConverter
     {
-        public event EventHandler FontScalingChanged;
+        public event EventHandler? FontScalingChanged;
 
         protected void RaiseFontScalingChangedEvent()
         {

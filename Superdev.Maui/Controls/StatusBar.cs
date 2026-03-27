@@ -1,6 +1,6 @@
 using Superdev.Maui.Behaviors;
-using Superdev.Maui.Services;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Services;
 
 namespace Superdev.Maui.Controls
 {

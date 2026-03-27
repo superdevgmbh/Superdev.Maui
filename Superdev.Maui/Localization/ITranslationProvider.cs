@@ -10,6 +10,6 @@ namespace Superdev.Maui.Localization
         /// <param name="key">The resource key.</param>
         /// <param name="cultureInfo">The culture info.</param>
         /// <returns>Localized string.</returns>
-        string Translate(string key, CultureInfo cultureInfo = null);
+        string Translate(string key, CultureInfo? cultureInfo = null);
     }
 }

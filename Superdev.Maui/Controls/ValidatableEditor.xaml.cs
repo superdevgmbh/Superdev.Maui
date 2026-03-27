@@ -30,9 +30,9 @@
                 BindingMode.TwoWay,
                 propertyChanged: OnTextPropertyChanged);
 
-        public string Text
+        public string? Text
         {
-            get => (string)this.GetValue(TextProperty);
+            get => (string?)this.GetValue(TextProperty);
             set => this.SetValue(TextProperty, value);
         }
 
@@ -49,9 +49,9 @@
                 typeof(ValidatableEditor),
                 propertyChanged: OnPlaceholderPropertyChanged);
 
-        public string Placeholder
+        public string? Placeholder
         {
-            get => (string)this.GetValue(PlaceholderProperty);
+            get => (string?)this.GetValue(PlaceholderProperty);
             set => this.SetValue(PlaceholderProperty, value);
         }
 
@@ -81,7 +81,7 @@
             entry.OnPropertyChanged(nameof(entry.AnnotationText));
         }
 
-        public string AnnotationText
+        public string? AnnotationText
         {
             get
             {
@@ -185,25 +185,25 @@
             set => this.SetValue(ValidationErrorsProperty, value);
         }
 
-        public event EventHandler Completed
+        public event EventHandler? Completed
         {
             add => this.Editor.Completed += value;
             remove => this.Editor.Completed -= value;
         }
 
-        public new event EventHandler<FocusEventArgs> Focused
+        public new event EventHandler<FocusEventArgs>? Focused
         {
             add => this.Editor.Focused += value;
             remove => this.Editor.Focused -= value;
         }
 
-        public new event EventHandler<FocusEventArgs> Unfocused
+        public new event EventHandler<FocusEventArgs>? Unfocused
         {
             add => this.Editor.Unfocused += value;
             remove => this.Editor.Unfocused -= value;
         }
 
-        public event EventHandler<TextChangedEventArgs> TextChanged
+        public event EventHandler<TextChangedEventArgs>? TextChanged
         {
             add => this.Editor.TextChanged += value;
             remove => this.Editor.TextChanged -= value;

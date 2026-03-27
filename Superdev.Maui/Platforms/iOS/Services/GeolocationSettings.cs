@@ -43,7 +43,7 @@ namespace Superdev.Maui.Platforms.Services
                     return UIApplication.SharedApplication.OpenUrl(nsUrl);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // Ignored
             }

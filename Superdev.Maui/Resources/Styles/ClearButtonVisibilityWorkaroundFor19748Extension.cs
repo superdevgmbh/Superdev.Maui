@@ -4,6 +4,7 @@ namespace Superdev.Maui.Resources.Styles
     /// Workaround for a MAUI bug
     /// https://github.com/dotnet/maui/issues/19748
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class ClearButtonVisibilityWorkaroundFor19748Extension : IMarkupExtension<ClearButtonVisibility>
     {
         public ClearButtonVisibility ProvideValue(IServiceProvider serviceProvider)

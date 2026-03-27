@@ -18,9 +18,9 @@
         void OnResume();
 #endif
 
-        void SetStatusBarColor(Color color);
+        void SetStatusBarColor(Color? color);
 
-        void SetNavigationBarColor(Color color);
+        void SetNavigationBarColor(Color? color);
 
         void SetStyle(StatusBarStyle statusBarStyle);
     }

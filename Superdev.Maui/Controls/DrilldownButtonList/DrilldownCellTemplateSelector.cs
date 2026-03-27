@@ -2,11 +2,11 @@
 {
     public class DrilldownCellTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate DrilldownButtonCellTemplate { get; set; }
+        public required DataTemplate DrilldownButtonCellTemplate { get; set; }
 
-        public DataTemplate DrilldownSwitchCellTemplate { get; set; }
-        
-        public DataTemplate CustomDrilldownCellTemplate { get; set; }
+        public required DataTemplate DrilldownSwitchCellTemplate { get; set; }
+
+        public required DataTemplate CustomDrilldownCellTemplate { get; set; }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {

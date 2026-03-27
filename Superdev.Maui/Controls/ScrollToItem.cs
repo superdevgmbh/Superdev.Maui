@@ -2,15 +2,15 @@ namespace Superdev.Maui.Controls
 {
     public class ScrollToItem : IEquatable<ScrollToItem>
     {
-        public object Item { get; init; }
+        public object? Item { get; init; }
 
-        public object Group { get; init; }
+        public object? Group { get; init; }
 
         public ScrollToPosition Position { get; init; } = ScrollToPosition.MakeVisible;
 
         public bool Animated { get; init; } = true;
 
-        public bool Equals(ScrollToItem other)
+        public bool Equals(ScrollToItem? other)
         {
             if (other is null)
             {
@@ -25,7 +25,7 @@ namespace Superdev.Maui.Controls
             return Equals(this.Item, other.Item) && Equals(this.Group, other.Group) && this.Position == other.Position && this.Animated == other.Animated;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null)
             {

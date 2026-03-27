@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System.Diagnostics;
+using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Model;
 
@@ -7,7 +8,8 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class CountryViewModel : BaseViewModel
     {
         private bool isSelected;
-        private IAsyncRelayCommand deleteCommand;
+        private IAsyncRelayCommand? deleteCommand;
+        private IRelayCommand<CountryViewModel>? itemSelectedCommand;
 
         public CountryViewModel(CountryDto countryDto)
         {
@@ -16,9 +18,9 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.IsInitialized = true;
         }
 
-        public int Id { get; set; }
+        public int Id { get; }
 
-        public string Name { get; set; }
+        public string? Name { get; }
 
         public bool IsSelected
         {
@@ -28,7 +30,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand DeleteCommand
         {
-            get => this.deleteCommand ??= new AsyncRelayCommand<CountryViewModel>(this.DeleteAsync);
+            get => this.deleteCommand ??= new AsyncRelayCommand<CountryViewModel>(this.DeleteAsync!);
         }
 
         private async Task DeleteAsync(CountryViewModel countryViewModel)
@@ -45,7 +47,16 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public IAsyncRelayCommand ItemSelectedCommand { get; set; }
+        public IRelayCommand ItemSelectedCommand
+        {
+            get => this.itemSelectedCommand ??= new RelayCommand<CountryViewModel>(this.ItemSelected!);
+        }
+
+        private void ItemSelected(CountryViewModel countryViewModel)
+        {
+            Debug.WriteLine($"ItemSelected: {countryViewModel.Name}");
+        }
+
 
         public override string ToString()
         {

@@ -4,12 +4,12 @@ namespace Superdev.Maui.Utils
 {
     public static class ReflectionHelper
     {
-        public static T GetPropertyValue<T>(object obj, string propertyName)
+        public static T? GetPropertyValue<T>(object obj, string propertyName)
         {
-            return (T)GetPropertyValue(obj, propertyName);
+            return (T?)GetPropertyValue(obj, propertyName);
         }
 
-        public static object GetPropertyValue(object obj, string propertyName)
+        public static object? GetPropertyValue(object obj, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(obj);
 
@@ -39,29 +39,31 @@ namespace Superdev.Maui.Utils
             propInfo.SetValue(obj, value);
         }
 
-        public static PropertyInfo GetPropertyInfo(Type type, string propertyName)
+        public static PropertyInfo? GetPropertyInfo(Type type, string propertyName)
         {
-            PropertyInfo propInfo;
+            var targetType = type;
+            PropertyInfo? propInfo;
+
             do
             {
-                propInfo = type.GetProperty(propertyName,
+                propInfo = targetType.GetProperty(propertyName,
                     BindingFlags.Instance |
                     BindingFlags.Public |
                     BindingFlags.NonPublic |
                     BindingFlags.IgnoreCase);
 
-                type = type.BaseType;
-            } while (propInfo == null && type != null);
+                targetType = targetType.BaseType;
+            } while (propInfo == null && targetType != null);
 
             return propInfo;
         }
 
-        public static T GetFieldValue<T>(object obj, string fieldName)
+        public static T? GetFieldValue<T>(object obj, string fieldName)
         {
-            return (T)GetFieldValue(obj, fieldName);
+            return (T?)GetFieldValue(obj, fieldName);
         }
 
-        public static object GetFieldValue(object obj, string fieldName)
+        public static object? GetFieldValue(object obj, string fieldName)
         {
             ArgumentNullException.ThrowIfNull(obj);
 
@@ -91,29 +93,34 @@ namespace Superdev.Maui.Utils
             fieldInfo.SetValue(obj, value);
         }
 
-        public static FieldInfo GetFieldInfo(Type type, string fieldName)
+        public static FieldInfo? GetFieldInfo(Type type, string fieldName)
         {
-            FieldInfo fieldInfo;
+            var targetType = type;
+            FieldInfo? fieldInfo;
+
             do
             {
-                fieldInfo = type.GetField(fieldName,
+                fieldInfo = targetType.GetField(fieldName,
                     BindingFlags.Instance |
                     BindingFlags.Public |
                     BindingFlags.NonPublic |
                     BindingFlags.IgnoreCase);
 
-                type = type.BaseType;
-            } while (fieldInfo == null && type != null);
+                targetType = targetType.BaseType;
+            } while (fieldInfo == null && targetType != null);
 
             return fieldInfo;
         }
 
-        public static MethodInfo GetMethodInfo(Type type, string methodName, Type[] parameterTypes = null)
+        public static MethodInfo? GetMethodInfo(Type type, string methodName, Type[]? parameterTypes = null)
         {
-            MethodInfo methodInfo;
+            var targetType = type;
+            parameterTypes ??= Type.EmptyTypes;
+            MethodInfo? methodInfo;
+
             do
             {
-                methodInfo = type.GetMethod(
+                methodInfo = targetType.GetMethod(
                     methodName,
                     BindingFlags.Instance |
                     BindingFlags.Static |
@@ -121,16 +128,16 @@ namespace Superdev.Maui.Utils
                     BindingFlags.NonPublic |
                     BindingFlags.IgnoreCase,
                     null,
-                    parameterTypes ?? Type.EmptyTypes,
+                    parameterTypes,
                     null);
 
-                type = type.BaseType;
-            } while (methodInfo == null && type != null);
+                targetType = targetType.BaseType;
+            } while (methodInfo == null && targetType != null);
 
             return methodInfo;
         }
 
-        public static object RunMethod(object target, string methodName, params object[] parameters)
+        public static object? RunMethod(object target, string methodName, params object[] parameters)
         {
             ArgumentNullException.ThrowIfNull(target);
 
@@ -139,12 +146,11 @@ namespace Superdev.Maui.Utils
                 throw new ArgumentNullException(nameof(methodName));
             }
 
-            var paramTypes = parameters?.Select(p => p?.GetType() ?? typeof(object)).ToArray() ?? Type.EmptyTypes;
+            var paramTypes = parameters.Select(p => p.GetType()).ToArray();
             var methodInfo = GetMethodInfo(target.GetType(), methodName, paramTypes);
-
             if (methodInfo == null)
             {
-                throw new MissingMethodException($"Method '{methodName}' not found.");
+                throw new MissingMethodException($"Method with name '{methodName}' not found.");
             }
 
             return methodInfo.Invoke(target, parameters);
@@ -153,14 +159,18 @@ namespace Superdev.Maui.Utils
         public static TDelegate GetMethodDelegate<TDelegate>(object target, string methodName) where TDelegate : Delegate
         {
             var methodInfo = GetMethodInfo(target.GetType(), methodName);
+            if (methodInfo == null)
+            {
+                throw new MissingMethodException($"Method with name '{methodName}' not found.");
+            }
+
             return (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), target, methodInfo);
         }
 
-        // Generic version to avoid casting manually
-        public static T RunMethod<T>(object target, string methodName, params object[] parameters)
+        public static T? RunMethod<T>(object target, string methodName, params object[] parameters)
         {
             var result = RunMethod(target, methodName, parameters);
-            return (T)result;
+            return (T?)result;
         }
     }
 }

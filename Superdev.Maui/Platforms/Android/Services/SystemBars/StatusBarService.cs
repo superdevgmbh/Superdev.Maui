@@ -2,11 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using Android.OS;
 using Android.Views;
-using AndroidX.Core.View;
 using AndroidX.Core.Content;
-using Activity = Android.App.Activity;
+using AndroidX.Core.View;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Services;
+using Activity = Android.App.Activity;
 using Color = Microsoft.Maui.Graphics.Color;
 
 namespace Superdev.Maui.Platforms.Services
@@ -72,7 +72,7 @@ namespace Superdev.Maui.Platforms.Services
             }
         }
 
-        public void SetStatusBarColor(Color color)
+        public void SetStatusBarColor(Color? color)
         {
             this.statusBarColor = color?.ToPlatform();
             this.SetStatusBarColorInternal(this.statusBarColor);
@@ -114,7 +114,7 @@ namespace Superdev.Maui.Platforms.Services
             }
         }
 
-        public void SetNavigationBarColor(Color color)
+        public void SetNavigationBarColor(Color? color)
         {
             this.navigationBarColor = color?.ToPlatform();
             this.SetNavigationBarColorInternal(this.navigationBarColor);

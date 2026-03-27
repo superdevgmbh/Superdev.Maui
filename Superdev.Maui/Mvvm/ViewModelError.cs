@@ -3,33 +3,33 @@ using Superdev.Maui.Utils.Threading;
 
 namespace Superdev.Maui.Mvvm
 {
-    public class ViewModelError : BindableBase, IEquatable<ViewModelError>
+    public class ViewModelError : BindableBase, IEquatable<ViewModelError?>
     {
-        public static readonly ViewModelError None = new ViewModelError(null, null, null, null);
+        public static readonly ViewModelError None = new ViewModelError(null, null!, null!, null);
 
-        private ICommand retryCommand;
-        private string retryButtonText;
-        private Func<Task> retryTask;
+        private ICommand? retryCommand;
+        private string? retryButtonText;
+        private Func<Task>? retryTask;
         private bool isBusy;
 
-        public ViewModelError(string icon, string title, string text)
+        public ViewModelError(string? icon, string title, string text)
             : this(icon, title, text, null)
         {
         }
 
-        public ViewModelError(string icon, string title, string text, string retryButtonText, Action retryAction)
+        public ViewModelError(string? icon, string title, string text, string? retryButtonText, Action retryAction)
             : this(icon, title, text, retryButtonText)
         {
             this.WithRetry(retryAction);
         }
 
-        public ViewModelError(string icon, string title, string text, string retryButtonText, Func<Task> retryTask)
+        public ViewModelError(string? icon, string title, string text, string? retryButtonText, Func<Task> retryTask)
             : this(icon, title, text, retryButtonText)
         {
             this.WithRetry(retryTask);
         }
 
-        public ViewModelError(string icon, string title, string text, string retryButtonText)
+        public ViewModelError(string? icon, string title, string text, string? retryButtonText)
         {
             this.Icon = icon;
             this.Title = title;
@@ -37,7 +37,7 @@ namespace Superdev.Maui.Mvvm
             this.RetryButtonText = retryButtonText;
         }
 
-        public string Icon { get; }
+        public string? Icon { get; }
 
         public string Title { get; }
 
@@ -49,7 +49,7 @@ namespace Superdev.Maui.Mvvm
             private set => this.SetProperty(ref this.isBusy, value);
         }
 
-        public string RetryButtonText
+        public string? RetryButtonText
         {
             get => this.retryButtonText;
             protected internal set
@@ -69,7 +69,7 @@ namespace Superdev.Maui.Mvvm
 
         public ViewModelError WithRetry(Action retryAction)
         {
-            return this.WithRetry(retryAction == null ? null : () => AsyncHelper.RunAsync(retryAction));
+            return this.WithRetry(() => AsyncHelper.RunAsync(retryAction));
         }
 
         public ViewModelError WithRetry(Func<Task> retryTask, string retryButtonText)
@@ -111,7 +111,7 @@ namespace Superdev.Maui.Mvvm
             this.IsBusy = false;
         }
 
-        private Func<Task> RetryTask
+        private Func<Task>? RetryTask
         {
             get => this.retryTask;
             set
@@ -127,7 +127,7 @@ namespace Superdev.Maui.Mvvm
         /// <summary>
         /// RetryCommand used for data binding.
         /// </summary>
-        public ICommand RetryCommand
+        public ICommand? RetryCommand
         {
             get => this.retryCommand;
             private set
@@ -139,7 +139,7 @@ namespace Superdev.Maui.Mvvm
             }
         }
 
-        public bool Equals(ViewModelError other)
+        public bool Equals(ViewModelError? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -158,7 +158,7 @@ namespace Superdev.Maui.Mvvm
         }
 
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -183,12 +183,12 @@ namespace Superdev.Maui.Mvvm
             return HashCode.Combine(this.Icon, this.Title, this.Text, this.RetryButtonText);
         }
 
-        public static bool operator ==(ViewModelError left, ViewModelError right)
+        public static bool operator ==(ViewModelError? left, ViewModelError? right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ViewModelError left, ViewModelError right)
+        public static bool operator !=(ViewModelError? left, ViewModelError? right)
         {
             return !Equals(left, right);
         }

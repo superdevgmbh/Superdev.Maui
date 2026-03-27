@@ -18,7 +18,7 @@ namespace Superdev.Maui.Tests.Extensions
 
         [Theory]
         [ClassData(typeof(ToEnumerableTestData))]
-        public void ShouldCastEnumeratorToList(IEnumerator input, List<Person> expectedOutput)
+        public void ShouldCastEnumeratorToList(IEnumerator? input, List<Person> expectedOutput)
         {
             // Act
             var output = input.ToList<Person>();
@@ -27,7 +27,7 @@ namespace Superdev.Maui.Tests.Extensions
             output.Should().ContainInOrder(expectedOutput);
         }
 
-        public class ToEnumerableTestData : TheoryData<IEnumerator, IEnumerable<Person>>
+        public class ToEnumerableTestData : TheoryData<IEnumerator?, IEnumerable<Person>>
         {
             public ToEnumerableTestData()
             {

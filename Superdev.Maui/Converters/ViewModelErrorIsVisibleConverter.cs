@@ -17,12 +17,12 @@ namespace Superdev.Maui.Converters
             set => this.SetValue(IsInvertedProperty, value);
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value is ViewModelError viewModelError && (viewModelError != ViewModelError.None) ^ this.IsInverted;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

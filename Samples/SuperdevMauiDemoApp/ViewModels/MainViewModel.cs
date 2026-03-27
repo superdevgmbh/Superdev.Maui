@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using SampleApp.ViewModels;
@@ -9,46 +8,43 @@ using Superdev.Maui.Mvvm;
 using Superdev.Maui.Navigation;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
-using SuperdevMauiDemoApp.Model;
-using SuperdevMauiDemoApp.Services;
-using SuperdevMauiDemoApp.Services.Validation;
 using Superdev.Maui.Validation;
+using SuperdevMauiDemoApp.Model;
+using SuperdevMauiDemoApp.Services.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly ILogger<MainViewModel> logger;
+        private readonly ILogger logger;
         private readonly INavigationService navigationService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
-        private readonly ICountryService countryService;
         private readonly IValidationService validationService;
         private readonly ILocalizer localizer;
         private readonly IActivityIndicatorService activityIndicatorService;
         private readonly IThemeHelper themeHelper;
 
-        private string adminEmailAddress;
-
+        private string? adminEmailAddress;
         private int numberOfLoads;
-        private UserDto user;
-        private ICommand toggleSwitchCommand;
+        private UserDto? user;
+        private ICommand? toggleSwitchCommand;
         private bool isReadonly;
-        private ICommand longPressCommand;
-        private ICommand normalPressCommand;
+        private ICommand? longPressCommand;
+        private ICommand? normalPressCommand;
         private DateTime? birthdate;
-        private IAsyncRelayCommand navigateToPageCommand;
-        private LanguageViewModel language;
-        private IRelayCommand switchThemesCommand;
+        private IAsyncRelayCommand? navigateToPageCommand;
+        private LanguageViewModel? language;
+        private IAsyncRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
-        private LanguageViewModel[] languages;
+        private LanguageViewModel[] languages = Array.Empty<LanguageViewModel>();
+        private bool showAppThemeToolbarItem;
 
         public MainViewModel(
             ILogger<MainViewModel> logger,
             INavigationService navigationService,
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
-            ICountryService countryService,
             IValidationService validationService,
             ILocalizer localizer,
             IActivityIndicatorService activityIndicatorService,
@@ -58,15 +54,12 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.navigationService = navigationService;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
-            this.countryService = countryService;
             this.validationService = validationService;
             this.localizer = localizer;
             this.activityIndicatorService = activityIndicatorService;
             this.themeHelper = themeHelper;
 
             this.EnableBusyRefCount = false;
-            this.ViewModelError = ViewModelError.None;
-            this.User = new UserDto();
 
             _ = this.InitializeAsync();
         }
@@ -89,7 +82,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             private set => this.SetProperty(ref this.languages, value);
         }
 
-        public LanguageViewModel Language
+        public LanguageViewModel? Language
         {
             get => this.language;
             set
@@ -103,7 +96,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 }
 
                 // Update all bindings
-                this.RaisePropertyChanged("");
+                this.RaisePropertyChanged(string.Empty);
             }
         }
 
@@ -114,23 +107,40 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.appTheme, value))
                 {
-                    this.themeHelper.AppTheme =  value;
+                    this.themeHelper.AppTheme = value;
                 }
             }
         }
 
-        public IRelayCommand SwitchThemesCommand
+        public bool ShowAppThemeToolbarItem
         {
-            get => this.switchThemesCommand ??= new RelayCommand(this.OnSwitchThemes);
+            get => this.showAppThemeToolbarItem;
+            private set => this.SetProperty(ref this.showAppThemeToolbarItem, value);
         }
 
-        private void OnSwitchThemes()
+        public IAsyncRelayCommand SwitchThemesCommand
         {
-            this.AppTheme = this.AppTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
-            this.themeHelper.AppTheme = this.AppTheme;
+            get => this.switchThemesCommand ??= new AsyncRelayCommand(this.OnSwitchThemes);
         }
 
-        private UserDto User
+        private async Task OnSwitchThemes()
+        {
+            this.ShowAppThemeToolbarItem = false;
+
+            try
+            {
+                await Task.Delay(1000);
+
+                this.AppTheme = this.AppTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
+                this.themeHelper.AppTheme = this.AppTheme;
+            }
+            finally
+            {
+                this.ShowAppThemeToolbarItem = true;
+            }
+        }
+
+        private UserDto? User
         {
             get => this.user;
             set
@@ -146,11 +156,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         public int UserId
         {
             get => this.User?.Id ?? 0;
-            set => this.SetProperty(this.User, value,
-                nameof(this.User.Id)); // Sync property value based on specified string
+            set => this.SetProperty(this.User, value, nameof(this.User.Id)); // Sync property value based on specified string
         }
 
-        public string UserName
+        public string? UserName
         {
             get => this.User?.UserName;
             set => this.SetProperty(this.User, value); // Sync property value based on property name
@@ -162,10 +171,9 @@ namespace SuperdevMauiDemoApp.ViewModels
             set => this.SetProperty(ref this.birthdate, value);
         }
 
-
         public IAsyncRelayCommand NavigateToPageCommand
         {
-            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.OnNavigateToPage);
+            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.OnNavigateToPage!);
         }
 
         private async Task OnNavigateToPage(string pageName)
@@ -187,7 +195,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
-        public string AdminEmailAddress
+        public string? AdminEmailAddress
         {
             get => this.adminEmailAddress;
             set => this.SetProperty(ref this.adminEmailAddress, value);
@@ -207,7 +215,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private void OnPostalCodeUnfocused()
         {
-            Console.WriteLine("OnPostalCodeUnfocused");
+            this.logger.LogDebug("OnPostalCodeUnfocused");
         }
 
         protected override async Task OnRefreshing()
@@ -223,10 +231,11 @@ namespace SuperdevMauiDemoApp.ViewModels
             try
             {
                 this.activityIndicatorService.ShowLoadingPage("Test loading message...");
-                await Task.Delay(3000);
+                await Task.Delay(1000);
 
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
+                this.ShowAppThemeToolbarItem = true;
 
                 this.Languages = SupportedLanguages.GetAll()
                     .Select(c => new LanguageViewModel(c))
@@ -287,7 +296,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public bool IsReadonly
         {
             get => this.isReadonly;
-            set => this.SetProperty(ref this.isReadonly, value, nameof(this.IsReadonly));
+            set => this.SetProperty(ref this.isReadonly, value);
         }
 
         public ICommand ToggleSwitchCommand

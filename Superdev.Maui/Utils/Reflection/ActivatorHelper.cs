@@ -4,7 +4,18 @@
     {
         internal static T CreateInstance<T>(params object[] paramArray)
         {
-            return (T)Activator.CreateInstance(typeof(T), args: paramArray);
+            T? instance;
+
+            try
+            {
+                instance = (T?)Activator.CreateInstance(typeof(T), args: paramArray);
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Activator.CreateInstance failed to create instance of type {typeof(T)}", e);
+            }
+
+            return instance ?? throw new InvalidOperationException($"Activator.CreateInstance failed to create instance of type {typeof(T)}");
         }
     }
 }

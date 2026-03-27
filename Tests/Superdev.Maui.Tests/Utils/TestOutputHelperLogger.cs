@@ -24,11 +24,11 @@ namespace Superdev.Maui.Tests.Utils
             this.testOutputHelper = testOutputHelper;
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             try
             {
-                var message = formatter?.Invoke(state, exception);
+                var message = formatter.Invoke(state, exception);
                 var messageLine = $"{DateTime.UtcNow} - {logLevel} - {this.targetName} - {message} {EndOfLine}";
                 this.testOutputHelper.WriteLine(messageLine);
                 Debug.WriteLine(messageLine);
@@ -45,7 +45,7 @@ namespace Superdev.Maui.Tests.Utils
             return true;
         }
 
-        public IDisposable BeginScope<TState>(TState state)
+        public IDisposable BeginScope<TState>(TState state) where TState : notnull
         {
             return new NonDisposable();
         }

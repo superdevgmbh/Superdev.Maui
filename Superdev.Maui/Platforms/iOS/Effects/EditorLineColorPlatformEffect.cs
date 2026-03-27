@@ -11,7 +11,7 @@ namespace Superdev.Maui.Platforms.Effects
 {
     public class EditorLineColorPlatformEffect : PlatformEffect
     {
-         protected override void OnAttached()
+        protected override void OnAttached()
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Superdev.Maui.Platforms.Effects
                 control.BorderStyle = UITextViewBorderStyle.None;
             }
 
-            if (this.Element is VisualElement { Height: > 0, Width: > 0} visualElement)
+            if (this.Element is VisualElement { Height: > 0, Width: > 0 } visualElement)
             {
                 var lineY = visualElement.Height - 1d;
                 lineLayer.Frame = new CGRect(0d, lineY, visualElement.Width, 1d);

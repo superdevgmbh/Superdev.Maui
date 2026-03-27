@@ -8,7 +8,7 @@ namespace Superdev.Maui.Tests.Extensions
         public void ShouldGetInnerExceptions_WithoutAnyExceptions()
         {
             // Act
-            var result = ((Exception)null).GetInnerExceptions().ToList();
+            var result = ((Exception?)null).GetInnerExceptions().ToList();
 
             // Assert
             result.Should().BeEmpty();

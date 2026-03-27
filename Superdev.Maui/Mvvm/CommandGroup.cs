@@ -30,7 +30,7 @@ namespace Superdev.Maui.Mvvm
         /// Initializes a new instance of the <see cref="CommandGroup"/> class
         /// with <param name="name">the name of the instance</param> for debugging purposes.
         /// </summary>
-        public CommandGroup(string name)
+        public CommandGroup(string? name)
         {
             this.name = name ?? Guid.NewGuid().ToString().Substring(0, 5).ToUpperInvariant();
         }
@@ -41,7 +41,16 @@ namespace Superdev.Maui.Mvvm
 
         public Command CreateCommand(ICommand command)
         {
-            return new Command(command.Execute, command.CanExecute);
+            return this.CreateCommand<object>(
+                _ => command.Execute(null),
+                _ => command.CanExecute(null));
+        }
+
+        public Command<TParameter>? CreateCommand<TParameter>(ICommand command)
+        {
+            return this.CreateCommand<TParameter>(
+                p => command.Execute(p),
+                p => command.CanExecute(p)) as Command<TParameter>;
         }
 
         public Command CreateCommand(Action execute)
@@ -58,27 +67,27 @@ namespace Superdev.Maui.Mvvm
                 _ => canExecute());
         }
 
-        public Command CreateCommand<TParameter>(Action<TParameter> execute)
+        public Command CreateCommand<TParameter>(Action<TParameter?> execute)
         {
             return this.CreateCommand(
                 execute,
                 _ => true);
         }
 
-        public Command CreateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute)
+        public Command CreateCommand<TParameter>(Action<TParameter?> execute, Func<TParameter?, bool> canExecute)
         {
             return this.CreateCommandWithFactory<Command, TParameter>(
                 p => AsyncHelper.RunAsync(() => execute(p)),
                 p => canExecute(p),
-                (e, ce) => new Command<TParameter>(async p => await e(p), ce));
+                (e, ce) => new Command<TParameter?>(p => _ = e(p), ce));
         }
 
-        public Command CreateCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute)
+        public Command CreateCommand<TParameter>(Func<TParameter?, Task> execute, Func<TParameter?, bool> canExecute)
         {
             return this.CreateCommandWithFactory<Command, TParameter>(
                 execute,
                 canExecute,
-                (e, ce) => new Command<TParameter>(async p => await e(p), ce));
+                (e, ce) => new Command<TParameter?>(p => _ = e(p), ce));
         }
 
         #endregion
@@ -88,27 +97,27 @@ namespace Superdev.Maui.Mvvm
         public T Create<T>(Func<Task> execute) where T : ICommand
         {
             return this.CreateCommandWithFactory(
-               execute,
-               () => true,
-               (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, ce }));
+                execute,
+                () => true,
+                (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, ce }));
         }
-        
+
         public T Create<T>(Func<Task> execute, Func<bool> canExecute) where T : ICommand
         {
             return this.CreateCommandWithFactory(
-               execute,
-               canExecute,
-               (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, ce }));
+                execute,
+                canExecute,
+                (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, ce }));
         }
 
-        public T Create<T, TParameter>(Func<TParameter, Task> execute) where T : ICommand
+        public T Create<T, TParameter>(Func<TParameter?, Task> execute) where T : ICommand
         {
             return this.Create<T, TParameter>(
                 execute,
                 () => true);
         }
 
-        public T Create<T, TParameter>(Func<TParameter, Task> execute, Func<bool> canExecute) where T : ICommand
+        public T Create<T, TParameter>(Func<TParameter?, Task> execute, Func<bool> canExecute) where T : ICommand
         {
             return this.Create<T, TParameter>(
                 execute,
@@ -116,13 +125,13 @@ namespace Superdev.Maui.Mvvm
         }
 
         public T Create<T, TParameter>(
-            Func<TParameter, Task> execute,
-            Func<TParameter, bool> canExecute) where T : ICommand
+            Func<TParameter?, Task> execute,
+            Func<TParameter?, bool> canExecute) where T : ICommand
         {
             return this.CreateCommandWithFactory(
                 execute,
                 canExecute,
-                (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, new Predicate<TParameter>(p => ce(p)) }));
+                (e, ce) => ActivatorHelper.CreateInstance<T>(new object[] { e, new Predicate<TParameter?>(p => ce(p)) }));
         }
 
         #endregion
@@ -140,9 +149,9 @@ namespace Superdev.Maui.Mvvm
         }
 
         private TCommand CreateCommandWithFactory<TCommand, TParameter>(
-            Func<TParameter, Task> execute,
-            Func<TParameter, bool> canExecute,
-            Func<Func<TParameter, Task>, Func<TParameter, bool>, TCommand> factory)
+            Func<TParameter?, Task> execute,
+            Func<TParameter?, bool> canExecute,
+            Func<Func<TParameter?, Task>, Func<TParameter?, bool>, TCommand> factory)
             where TCommand : ICommand
         {
             var command = factory(

@@ -11,8 +11,8 @@ namespace Superdev.Maui.Navigation
 
         private static IPageResolver CreateInstance()
         {
-            var logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<PageResolver>>();
-            var serviceProvider = IPlatformApplication.Current.Services.GetRequiredService<IServiceProvider>();
+            var serviceProvider = IPlatformApplication.Current!.Services;
+            var logger = serviceProvider.GetRequiredService<ILogger<PageResolver>>();
             return new PageResolver(logger, serviceProvider);
         }
 
@@ -35,14 +35,14 @@ namespace Superdev.Maui.Navigation
 
         public TBindableObject ResolvePage<TBindableObject>(string pageName) where TBindableObject : BindableObject
         {
-            Type pageType = null;
-            Type viewModelType = null;
+            Type? pageType = null;
+            Type? viewModelType = null;
 
             var pageRegistration = this.serviceProvider.GetKeyedService<PageRegistration>(pageName);
             if (pageRegistration != null)
             {
-                pageType =  pageRegistration.PageType;
-                viewModelType =  pageRegistration.ViewModelType;
+                pageType = pageRegistration.PageType;
+                viewModelType = pageRegistration.ViewModelType;
             }
 
             if (pageType == null)

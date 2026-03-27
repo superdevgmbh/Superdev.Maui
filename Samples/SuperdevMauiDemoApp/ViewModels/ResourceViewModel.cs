@@ -45,12 +45,12 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
         }
 
-        public T Value => base.Value as T;
+        public new T? Value => base.Value as T;
     }
 
     public class ResourceViewModel
     {
-        public ResourceViewModel(string key, object value)
+        public ResourceViewModel(string key, object? value)
         {
             this.Key = key;
             this.Value = value;
@@ -58,9 +58,9 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public string Key { get; }
 
-        public object Value { get; }
+        public object? Value { get; }
 
-        public string ResourceType
+        public string? ResourceType
         {
             get
             {

@@ -18,7 +18,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [PageExtensions.HasKeyboardOffset] = UpdateHasKeyboardOffset
         };
 
-        public ContentPageHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public ContentPageHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
             this.keyboardService = IKeyboardService.Current;

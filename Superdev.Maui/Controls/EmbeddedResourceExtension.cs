@@ -3,10 +3,11 @@ using System.Reflection;
 namespace Superdev.Maui.Controls
 {
     [ContentProperty(nameof(Name))]
+    [RequireService([typeof(IServiceProvider), typeof(IProvideValueTarget)])]
     public class EmbeddedResourceExtension : IMarkupExtension
     {
-        private static Assembly Assembly;
-        private string name;
+        private static Assembly? Assembly;
+        private string? name;
 
         static EmbeddedResourceExtension()
         {
@@ -20,7 +21,7 @@ namespace Superdev.Maui.Controls
             Assembly = assembly;
         }
 
-        public string Name
+        public string? Name
         {
             get => this.name;
             set
@@ -35,17 +36,17 @@ namespace Superdev.Maui.Controls
         {
             if (this.Name == null)
             {
-                return null;
+                return null!;
             }
 
             if (Assembly == null)
             {
-                return null;
+                return null!;
             }
 
             var valueTargetProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
 
-            Type targetType = null;
+            Type? targetType = null;
             if (valueTargetProvider?.TargetProperty is BindableProperty bindableProperty)
             {
                 targetType = bindableProperty.ReturnType;
@@ -76,7 +77,7 @@ namespace Superdev.Maui.Controls
                 }
             }
 
-            return null;
+            return null!;
         }
     }
 }
