@@ -187,5 +187,37 @@ namespace Superdev.Maui.Extensions
 
             return Regex.Replace(source, @"\s+", " ").Trim();
         }
+
+
+        /// <summary>
+        /// Truncates a string to the specified maximum length.
+        /// </summary>
+        /// <param name="source">The string to truncate, or <see langword="null" /> to return <see langword="null" />.</param>
+        /// <param name="maxLength">The maximum length of the returned string, including the truncation indicator.</param>
+        /// <param name="truncationIndicator">The optional string to append when the input is truncated.</param>
+        /// <returns>The original string when it fits within the maximum length; otherwise, a truncated string.</returns>
+        [return: NotNullIfNotNull(nameof(source))]
+        internal static string? Truncate(this string? source, int maxLength, string? truncationIndicator = null)
+        {
+            if (source is null)
+            {
+                return null;
+            }
+
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxLength);
+
+            if (source.Length <= maxLength)
+            {
+                return source;
+            }
+
+            if (truncationIndicator != null && maxLength <= truncationIndicator.Length)
+            {
+                return truncationIndicator[..maxLength];
+            }
+
+            var truncationIndicatorLength = truncationIndicator?.Length ?? 0;
+            return $"{source[..(maxLength - truncationIndicatorLength)]}{truncationIndicator}";
+        }
     }
 }

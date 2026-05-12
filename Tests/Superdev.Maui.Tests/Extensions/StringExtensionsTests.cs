@@ -172,5 +172,73 @@ namespace Superdev.Maui.Tests.Extensions
                 this.Add($"{Environment.NewLine}test{Environment.NewLine}{Environment.NewLine}", "test");
             }
         }
+
+         [Theory]
+        [ClassData(typeof(TruncateTestData))]
+        public void Truncate_WithMaxLength_ReturnsExpectedString(string? input, int maxLength, string? truncationIndicator, string? expectedOutput)
+        {
+            // Act
+            var truncatedString = input.Truncate(maxLength, truncationIndicator);
+
+            // Assert
+            truncatedString.Should().Be(expectedOutput);
+            truncatedString.Length.Should().BeLessThanOrEqualTo(maxLength);
+        }
+
+        public class TruncateTestData : TheoryData<string?, int, string?, string?>
+        {
+            public TruncateTestData()
+            {
+                this.Add("abc", 10, "(...)", "abc");
+                this.Add("abc", 3, "(...)", "abc");
+                this.Add("abcdef", 5, "(...)", "(...)");
+                this.Add("abcdef", 4, "(...)", "(...");
+                this.Add("abcdef", 5, "...", "ab...");
+                this.Add("abcdef", 3, string.Empty, "abc");
+                this.Add("abcdef", 3, null, "abc");
+            }
+        }
+
+        [Fact]
+        public void Truncate_WithNullInput_ReturnsNull()
+        {
+            // Arrange
+            const string? input = null;
+
+            // Act
+            var truncatedString = input.Truncate(3, "(...)");
+
+            // Assert
+            truncatedString.Should().BeNull();
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void Truncate_WithInvalidMaxLength_ThrowsArgumentOutOfRangeException(int maxLength)
+        {
+            // Arrange
+            const string input = "abcdef";
+
+            // Act
+            var act = () => input.Truncate(maxLength, "(...)");
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithParameterName(nameof(maxLength));
+        }
+
+        [Fact]
+        public void Truncate_WithoutTruncationIndicator_TruncatesWithoutIndicator()
+        {
+            // Arrange
+            const string input = "abcdef";
+
+            // Act
+            var truncatedString = input.Truncate(3);
+
+            // Assert
+            truncatedString.Should().Be("abc");
+        }
     }
 }
