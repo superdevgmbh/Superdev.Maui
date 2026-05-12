@@ -182,7 +182,7 @@ namespace Superdev.Maui.Tests.Extensions
 
             // Assert
             truncatedString.Should().Be(expectedOutput);
-            truncatedString.Length.Should().BeLessThanOrEqualTo(maxLength);
+            truncatedString!.Length.Should().BeLessThanOrEqualTo(maxLength);
         }
 
         public class TruncateTestData : TheoryData<string?, int, string?, string?>
