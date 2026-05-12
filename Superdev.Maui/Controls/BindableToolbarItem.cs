@@ -35,9 +35,8 @@ namespace Superdev.Maui.Controls
             BindableProperty.Create(
                 nameof(IsVisible),
                 typeof(bool),
-                typeof(ToolbarItem),
+                typeof(BindableToolbarItem),
                 true,
-                BindingMode.TwoWay,
                 propertyChanged: OnIsVisibleChanged);
 
         public bool IsVisible
