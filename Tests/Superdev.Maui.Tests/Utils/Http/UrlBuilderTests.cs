@@ -156,5 +156,66 @@ namespace Superdev.Maui.Tests.Utils.Http
             // Assert
             url.Should().Be("https://localhost/test?name=Lake%20Zurich&return%2Furl=https%3A%2F%2Fexample.test%2Fa%23b");
         }
+
+        [Fact]
+        public void SetFragment_AppendsFragmentAfterQueryString()
+        {
+            // Arrange
+            var urlBuilder = new UrlBuilder("https://localhost/test")
+                .AddQuery("name", "value");
+
+            // Act
+            var url = urlBuilder
+                .SetFragment("section 1")
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test?name=value#section%201");
+        }
+
+        [Fact]
+        public void SetFragment_LeadingHash_AppendsSingleFragmentDelimiter()
+        {
+            // Arrange
+            var urlBuilder = new UrlBuilder("https://localhost/test");
+
+            // Act
+            var url = urlBuilder
+                .SetFragment("#section")
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test#section");
+        }
+
+        [Fact]
+        public void SetFragment_ExistingFragment_ReplacesFragment()
+        {
+            // Arrange
+            var urlBuilder = new UrlBuilder("https://localhost/test#old");
+
+            // Act
+            var url = urlBuilder
+                .SetFragment("new")
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test#new");
+        }
+
+        [Fact]
+        public void ClearFragment_ExistingFragment_RemovesFragment()
+        {
+            // Arrange
+            var urlBuilder = new UrlBuilder("https://localhost/test?name=value#section");
+
+            // Act
+            var url = urlBuilder
+                .ClearFragment()
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test?name=value");
+        }
     }
 }

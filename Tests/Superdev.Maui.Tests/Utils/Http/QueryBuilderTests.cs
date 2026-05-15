@@ -69,5 +69,39 @@ namespace Superdev.Maui.Tests.Utils.Http
             queryString.Should().Be(QueryString.Empty);
             queryString.ToString().Should().BeEmpty();
         }
+
+        [Fact]
+        public void ToString_ReservedCharacters_PercentEncodesKeyAndValue()
+        {
+            // Arrange
+            var queryBuilder = new QueryBuilder
+            {
+                { "key&", "value#" },
+            };
+
+            // Act
+            var queryString = queryBuilder.ToString();
+
+            // Assert
+            queryString.Should().Be("?key%26=value%23");
+        }
+
+        [Fact]
+        public void Constructor_StringValues_SkipsEmptyStringValues()
+        {
+            // Arrange
+            var parameters = new[]
+            {
+                new KeyValuePair<string, StringValues>("key1", new StringValues(["value1", string.Empty, "value3"])),
+                new KeyValuePair<string, StringValues>("key2", string.Empty),
+                new KeyValuePair<string, StringValues>("key3", StringValues.Empty),
+            };
+
+            // Act
+            var queryString = new QueryBuilder(parameters).ToString();
+
+            // Assert
+            queryString.Should().Be("?key1=value1&key1=&key1=value3&key2=");
+        }
     }
 }

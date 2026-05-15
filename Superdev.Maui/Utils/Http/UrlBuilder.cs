@@ -145,6 +145,35 @@ namespace Superdev.Maui.Utils.Http
         }
 
         /// <summary>
+        ///     Sets the URL fragment.
+        /// </summary>
+        /// <param name="fragment">The un-encoded fragment value, with or without a leading '#'.</param>
+        /// <returns>The current <see cref="UrlBuilder" />.</returns>
+        public UrlBuilder SetFragment(string? fragment)
+        {
+            if (string.IsNullOrEmpty(fragment))
+            {
+                return this.ClearFragment();
+            }
+
+            var fragmentValue = fragment[0] == '#' ? fragment[1..] : fragment;
+            var fragmentString = new FragmentString($"#{Uri.EscapeDataString(fragmentValue)}");
+            this.uriBuilder.Fragment = fragmentString.ToUriComponent()[1..];
+
+            return this;
+        }
+
+        /// <summary>
+        ///     Clears the URL fragment.
+        /// </summary>
+        /// <returns>The current <see cref="UrlBuilder" />.</returns>
+        public UrlBuilder ClearFragment()
+        {
+            this.uriBuilder.Fragment = string.Empty;
+            return this;
+        }
+
+        /// <summary>
         ///     Initializes a new instance of <see cref="UrlBuilder" /> from a string.
         /// </summary>
         /// <param name="baseUrl">The base URL.</param>
