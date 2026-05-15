@@ -54,7 +54,7 @@ namespace Superdev.Maui.Tests.Utils.Http
         public void AddQuery_DateTime_AppendsUtcRoundTripValue()
         {
             // Arrange
-            var startDate = new DateTime(638398708340000010L);
+            var startDate = new DateTime(2026, 1, 2, 23, 58, 59, DateTimeKind.Utc).AddTicks(10);
             var urlBuilder = new UrlBuilder("https://localhost/test");
 
             // Act
@@ -63,7 +63,7 @@ namespace Superdev.Maui.Tests.Utils.Http
                 .ToString();
 
             // Assert
-            url.Should().Be("https://localhost/test?startDate=2024-01-03T08%3A27%3A14.0000010Z");
+            url.Should().Be("https://localhost/test?startDate=2026-01-02T23%3A58%3A59.0000010Z");
         }
 
         [Fact]

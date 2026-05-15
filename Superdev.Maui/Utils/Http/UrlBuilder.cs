@@ -104,7 +104,7 @@ namespace Superdev.Maui.Utils.Http
         }
 
         /// <summary>
-        ///     Appends a <see cref="DateTime" /> query parameter in UTC round-trip format.
+        ///     Appends a <see cref="DateTime" /> query parameter in UTC round-trip format (ISO 8601).
         /// </summary>
         /// <param name="name">The query parameter name.</param>
         /// <param name="value">The query parameter value.</param>
