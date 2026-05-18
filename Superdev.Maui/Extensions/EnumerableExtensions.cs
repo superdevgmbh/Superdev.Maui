@@ -311,6 +311,30 @@ namespace Superdev.Maui.Extensions
             return default;
         }
 
+        /// <summary>
+        ///     Returns the single element if the sequence contains exactly one element; otherwise <c>default</c>.
+        /// </summary>
+        internal static T? SingleOrNone<T>(this IEnumerable<T>? source)
+        {
+            if (source is null)
+            {
+                return default;
+            }
+
+            using var enumerator = source.GetEnumerator();
+
+            if (!enumerator.MoveNext())
+            {
+                return default;
+            }
+
+            var item = enumerator.Current;
+
+            return enumerator.MoveNext()
+                ? default
+                : item;
+        }
+
         public static T[] Replace<T>(this T[] list, T oldItem, T newItem)
         {
             ArgumentNullException.ThrowIfNull(list);
