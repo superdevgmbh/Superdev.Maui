@@ -314,7 +314,7 @@ namespace Superdev.Maui.Extensions
         /// <summary>
         ///     Returns the single element if the sequence contains exactly one element; otherwise <c>default</c>.
         /// </summary>
-        internal static T? SingleOrNone<T>(this IEnumerable<T>? source)
+        public static T? SingleOrNone<T>(this IEnumerable<T>? source)
         {
             if (source is null)
             {
