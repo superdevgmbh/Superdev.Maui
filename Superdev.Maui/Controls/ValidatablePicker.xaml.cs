@@ -97,9 +97,14 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ItemsSourceProperty, value);
         }
 
-        // HACK: Sadly, it's not possible to route ItemDisplayBinding (of type BindingBase)
-        // trough to the nested picker control.
-        // Sources with similar issues found on github:
+        public BindingBase ItemDisplayBinding
+        {
+            get => this.Picker?.ItemDisplayBinding!;
+            set => this.Picker.ItemDisplayBinding = value;
+        }
+
+        // HACK: If the routing to Picker.ItemDisplayBinding (of type BindingBase) causes troubles,
+        // use DisplayMemberPath (of type string).
         // https://github.com/dotnet/maui/issues/4818
         // https://github.com/sebarslan/Maui.NullableDateTimePicker/blob/2f9dcae20a43f1fc02abfc268291552b6de33d4a/Maui.NullableDateTimePicker/Controls/SelectList.cs#L44
         public static readonly BindableProperty DisplayMemberPathProperty =
