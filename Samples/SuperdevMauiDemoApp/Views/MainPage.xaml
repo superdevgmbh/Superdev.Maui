@@ -56,10 +56,15 @@
                         </VerticalStackLayout.Resources>
 
                         <s:ValidatablePicker
-                            DisplayMemberPath="NativeName"
                             ItemsSource="{Binding Languages}"
                             Placeholder="{s:Translate LanguageLabelText}"
-                            SelectedItem="{Binding Language, Mode=TwoWay}" />
+                            SelectedItem="{Binding Language, Mode=TwoWay}">
+                            <s:ValidatablePicker.ItemDisplayBinding>
+                                <Binding
+                                    x:DataType="vm:LanguageViewModel"
+                                    Path="NativeName" />
+                            </s:ValidatablePicker.ItemDisplayBinding>
+                        </s:ValidatablePicker>
 
                         <Label
                             Style="{StaticResource DemoLabelStyle}"

@@ -97,9 +97,9 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(ItemsSourceProperty, value);
         }
 
-        public BindingBase ItemDisplayBinding
+        public BindingBase? ItemDisplayBinding
         {
-            get => this.Picker?.ItemDisplayBinding!;
+            get => this.Picker?.ItemDisplayBinding;
             set => this.Picker.ItemDisplayBinding = value;
         }
 
