@@ -2,7 +2,7 @@
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 
-namespace SampleApp.ViewModels
+namespace SuperdevMauiDemoApp.ViewModels
 {
     public class LanguageViewModel : BaseViewModel, IEquatable<LanguageViewModel>
     {
