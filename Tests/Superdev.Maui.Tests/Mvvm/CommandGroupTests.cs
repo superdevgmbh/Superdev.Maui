@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
-using FluentAssertions;
+using AwesomeAssertions;
 using Superdev.Maui.Mvvm;
 using Xunit.Abstractions;
 

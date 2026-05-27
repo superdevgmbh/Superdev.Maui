@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Superdev.Maui.Effects;
 
 namespace Superdev.Maui.Tests.Effects
