@@ -18,7 +18,10 @@ namespace SuperdevMauiDemoApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseSuperdevMaui()
+                .UseSuperdevMaui(o =>
+                {
+                    o.TranslationProvider = new ResxTranslationProvider(Strings.ResourceManager);
+                })
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
@@ -38,9 +41,6 @@ namespace SuperdevMauiDemoApp
             localizer.PreferencesKey = "SuperdevMauiDemoApp_AppLanguage";
             localizer.SupportedLanguages = SupportedLanguages.GetAll().ToArray();
             localizer.LanguageChanging += (_, e) => Strings.Culture = e.CultureInfo;
-
-            var translationProvider = ResxSingleTranslationProvider.Current;
-            translationProvider.Init(Strings.ResourceManager);
 
             builder.Services.RegisterForNavigation<MainPage, MainViewModel>("MainPage");
             builder.Services.RegisterForNavigation<LabelDemoPage, LabelDemoViewModel>("LabelDemoPage");
