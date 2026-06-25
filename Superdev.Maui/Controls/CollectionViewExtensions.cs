@@ -1,10 +1,9 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Superdev.Maui.Utils.Threading;
 
 namespace Superdev.Maui.Controls
 {
-    [Obsolete("ListViewExtensions is deprecated. Use CollectionView together with CollectionViewExtensions instead.")]
-    public static class ListViewExtensions
+    public static class CollectionViewExtensions
     {
         private static readonly AsyncLock ScrollToLock = new AsyncLock();
 
@@ -15,15 +14,16 @@ namespace Superdev.Maui.Controls
         private static readonly TimeSpan ScrollToMinimumLockDuration = TimeSpan.FromMilliseconds(500);
 
         /// <summary>
-        /// ListView.ScrollTo extension which allows to scroll to a certain item in the ListView.
-        /// You can either bind the target item directly to the ListViewExtension.ScrollTo property
+        /// CollectionView.ScrollTo extension which allows to scroll to a certain item in the <see cref="ItemsView"/>
+        /// (e.g. <see cref="CollectionView"/> or <see cref="CarouselView"/>).
+        /// You can either bind the target item directly to the CollectionViewExtensions.ScrollTo property
         /// or use a <see cref="ScrollToItem"/> object to also define the ScrollPosition as well as the Animated flag.
         /// </summary>
         public static readonly BindableProperty ScrollToProperty =
             BindableProperty.CreateAttached(
                 "ScrollTo",
                 typeof(object),
-                typeof(ListViewExtensions),
+                typeof(CollectionViewExtensions),
                 null,
                 propertyChanged: OnScrollToPropertyChanged);
 
@@ -39,7 +39,7 @@ namespace Superdev.Maui.Controls
 
         private static async void OnScrollToPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is not ListView listView)
+            if (bindable is not ItemsView itemsView)
             {
                 return;
             }
@@ -51,7 +51,7 @@ namespace Superdev.Maui.Controls
 
             if (newValue is ScrollToItem scrollToTarget)
             {
-                item = scrollToTarget.Item ?? TryGetItem(listView, scrollToTarget.Position);
+                item = scrollToTarget.Item ?? TryGetItem(itemsView, scrollToTarget.Position);
                 group = scrollToTarget.Group;
                 scrollToPosition = scrollToTarget.Position;
                 animated = scrollToTarget.Animated;
@@ -73,24 +73,17 @@ namespace Superdev.Maui.Controls
             {
                 Debug.WriteLine($"OnScrollToPropertyChanged: scrollToPosition={scrollToPosition}");
 
-                if (group == null)
-                {
-                    listView.ScrollTo(item, scrollToPosition, animated);
-                }
-                else
-                {
-                    listView.ScrollTo(item, group, scrollToPosition, animated);
-                }
+                itemsView.ScrollTo(item, group, scrollToPosition, animated);
 
                 await Task.Delay(ScrollToMinimumLockDuration);
             }
         }
 
-        private static object? TryGetItem(ListView listView, ScrollToPosition scrollToPosition)
+        private static object? TryGetItem(ItemsView itemsView, ScrollToPosition scrollToPosition)
         {
             try
             {
-                var listOfObjects = listView.ItemsSource?.Cast<object>().ToArray();
+                var listOfObjects = itemsView.ItemsSource?.Cast<object>().ToArray();
                 if (listOfObjects == null)
                 {
                     return null;

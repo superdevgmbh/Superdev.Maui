@@ -61,6 +61,7 @@ namespace SuperdevMauiDemoApp
             builder.Services.RegisterForNavigation<CheckBoxDemoPage, CheckBoxDemoViewModel>();
             builder.Services.RegisterForNavigation<ButtonDemoPage, ButtonDemoViewModel>();
             builder.Services.RegisterForNavigation<ListViewDemoPage, ListViewDemoViewModel>();
+            builder.Services.RegisterForNavigation<CollectionViewDemoPage, CollectionViewDemoViewModel>();
             builder.Services.RegisterForNavigation<CustomTabbedPageDemoPage>();
             builder.Services.RegisterForNavigation<PreferencesDemoPage, PreferencesDemoViewModel>();
             builder.Services.RegisterForNavigation<StylesDemoPage, StylesDemoViewModel>();

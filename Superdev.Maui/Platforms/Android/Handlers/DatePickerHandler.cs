@@ -52,7 +52,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected virtual DateTime GetSelectedDate()
         {
-            return this.VirtualView.Date;
+            // Note: VirtualView?.Date yields DateTime? on both net9 (via null-conditional) and
+            // net10 (where DatePicker.Date itself became nullable), so this compiles for all target frameworks.
+            return this.VirtualView?.Date ?? DateTime.Today;
         }
 
         private void ShowDialog()

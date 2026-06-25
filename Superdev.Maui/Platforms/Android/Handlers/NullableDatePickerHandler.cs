@@ -35,7 +35,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override DateTime GetSelectedDate()
         {
-            return this.VirtualView.NullableDate ?? DateTime.Now;
+            return this.VirtualView.NullableDate ?? DateTime.Today;
         }
 
         protected override DatePickerDialog CreateDatePickerDialog(int year, int month, int day)
@@ -120,7 +120,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static string GetNeutralButtonText(BindableObject element)
+        private static string? GetNeutralButtonText(BindableObject element)
         {
             if (DialogExtensions.GetNeutralButtonText(element) is string neutralButtonText)
             {

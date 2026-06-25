@@ -67,10 +67,12 @@ steps:
     DisableTelemetry: true
 
 - task: UseDotNet@2
-  displayName: 'Use .NET 9.0.x'
+  displayName: 'Use .NET SDK from global.json'
   inputs:
-    version: 9.0.x
-    
+    packageType: 'sdk'
+    useGlobalJson: true
+    workingDirectory: '$(Build.SourcesDirectory)'
+
 - task: Bash@3
   displayName: Install .NET MAUI
   inputs:
