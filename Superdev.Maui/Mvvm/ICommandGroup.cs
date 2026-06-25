@@ -12,11 +12,13 @@ namespace Superdev.Maui.Mvvm
 
         Command CreateCommand(ICommand command);
 
-        Command CreateCommand<TParameter>(Action<TParameter?> execute);
+        Command<TParameter?> CreateCommand<TParameter>(ICommand command);
 
-        Command CreateCommand<TParameter>(Action<TParameter?> execute, Func<TParameter?, bool> canExecute);
+        Command<TParameter?> CreateCommand<TParameter>(Action<TParameter?> execute);
 
-        Command CreateCommand<TParameter>(Func<TParameter?, Task> execute, Func<TParameter?, bool> canExecute);
+        Command<TParameter?> CreateCommand<TParameter>(Action<TParameter?> execute, Func<TParameter?, bool> canExecute);
+
+        Command<TParameter?> CreateCommand<TParameter>(Func<TParameter?, Task> execute, Func<TParameter?, bool> canExecute);
 
         TCommand Create<TCommand>(Func<Task> execute) where TCommand : ICommand;
 
