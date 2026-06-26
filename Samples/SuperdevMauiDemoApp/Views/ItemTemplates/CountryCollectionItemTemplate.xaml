@@ -36,11 +36,12 @@
                 Padding="{DynamicResource Theme.Padding.Medium}"
                 BackgroundColor="{DynamicResource Theme.ViewCell.BackgroundColor}"
                 HeightRequest="66">
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Command="{Binding ItemSelectedCommand}"
-                        CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}" />
-                </Grid.GestureRecognizers>
+                <!-- Tap handling is provided by ItemTappedBehavior on the CollectionView (see CollectionViewDemoPage). -->
+                <!-- <Grid.GestureRecognizers> -->
+                <!-- <TapGestureRecognizer -->
+                <!-- Command="{Binding ItemSelectedCommand}" -->
+                <!-- CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}" /> -->
+                <!-- </Grid.GestureRecognizers> -->
                 <Label
                     Style="{DynamicResource EntryLabelStyle}"
                     Text="{Binding Name}"

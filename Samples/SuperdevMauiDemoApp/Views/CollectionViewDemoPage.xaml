@@ -28,7 +28,11 @@
                     s:CollectionViewExtensions.ScrollTo="{Binding ScrollToCountry}"
                     ItemSizingStrategy="MeasureFirstItem"
                     ItemTemplate="{StaticResource CountryItemTemplate}"
-                    ItemsSource="{Binding Countries}" />
+                    ItemsSource="{Binding Countries}">
+                    <CollectionView.Behaviors>
+                        <s:ItemTappedBehavior Command="{Binding SelectCountryCommand}" />
+                    </CollectionView.Behaviors>
+                </CollectionView>
             </RefreshView>
             <Button
                 Grid.Row="1"
