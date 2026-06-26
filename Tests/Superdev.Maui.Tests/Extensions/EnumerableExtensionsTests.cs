@@ -16,13 +16,7 @@ namespace Superdev.Maui.Tests.Extensions
             sourceCollection.Sort(i => i);
 
             // Assert.
-            Assert.True(sourceCollection[0] == expectedSortCollection[0]);
-            Assert.True(sourceCollection[1] == expectedSortCollection[1]);
-            Assert.True(sourceCollection[2] == expectedSortCollection[2]);
-            Assert.True(sourceCollection[3] == expectedSortCollection[3]);
-            Assert.True(sourceCollection[4] == expectedSortCollection[4]);
-            Assert.True(sourceCollection[5] == expectedSortCollection[5]);
-            Assert.True(sourceCollection[6] == expectedSortCollection[6]);
+            sourceCollection.Should().Equal(expectedSortCollection);
         }
 
         [Fact]
@@ -37,13 +31,7 @@ namespace Superdev.Maui.Tests.Extensions
             sourceCollection.ForEach(x => expectedCollection.Add(x + AddedOffset));
 
             // Assert.
-            Assert.True(sourceCollection[0] == expectedCollection[0] - AddedOffset);
-            Assert.True(sourceCollection[1] == expectedCollection[1] - AddedOffset);
-            Assert.True(sourceCollection[2] == expectedCollection[2] - AddedOffset);
-            Assert.True(sourceCollection[3] == expectedCollection[3] - AddedOffset);
-            Assert.True(sourceCollection[4] == expectedCollection[4] - AddedOffset);
-            Assert.True(sourceCollection[5] == expectedCollection[5] - AddedOffset);
-            Assert.True(sourceCollection[6] == expectedCollection[6] - AddedOffset);
+            expectedCollection.Should().Equal(sourceCollection.Select(x => x + AddedOffset));
         }
 
         [Fact]
@@ -57,13 +45,7 @@ namespace Superdev.Maui.Tests.Extensions
             var resultCollection = sourceCollection.ToObservableCollection();
 
             // Assert.
-            Assert.True(resultCollection[0] == expectedCollection[0]);
-            Assert.True(resultCollection[1] == expectedCollection[1]);
-            Assert.True(resultCollection[2] == expectedCollection[2]);
-            Assert.True(resultCollection[3] == expectedCollection[3]);
-            Assert.True(resultCollection[4] == expectedCollection[4]);
-            Assert.True(resultCollection[5] == expectedCollection[5]);
-            Assert.True(resultCollection[6] == expectedCollection[6]);
+            resultCollection.Should().Equal(expectedCollection);
         }
 
         [Fact]

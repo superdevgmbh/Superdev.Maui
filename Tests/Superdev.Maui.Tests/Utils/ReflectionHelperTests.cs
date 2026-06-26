@@ -14,7 +14,7 @@ namespace Superdev.Maui.Tests.Utils
             var fieldValue = ReflectionHelper.GetFieldValue<string>(obj, "InternalString");
 
             // Assert
-            Assert.Equal(obj.InternalString, fieldValue);
+            fieldValue.Should().Be(obj.InternalString);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Superdev.Maui.Tests.Utils
             var fieldValue = ReflectionHelper.GetFieldValue<DateTime>(obj, "InternalDateTime");
 
             // Assert
-            Assert.Equal(obj.InternalDateTime, fieldValue);
+            fieldValue.Should().Be(obj.InternalDateTime);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Superdev.Maui.Tests.Utils
             Action action = () => ReflectionHelper.GetFieldValue<string>(obj, "NonExistentField");
 
             // Assert
-            Assert.Throws<ArgumentException>(action);
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Superdev.Maui.Tests.Utils
             ReflectionHelper.SetFieldValue(obj, "InternalString", "new value");
 
             // Assert
-            Assert.Equal("new value", obj.InternalString);
+            obj.InternalString.Should().Be("new value");
         }
 
         [Fact]
