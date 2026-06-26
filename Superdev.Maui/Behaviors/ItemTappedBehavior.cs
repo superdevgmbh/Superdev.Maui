@@ -4,10 +4,10 @@ using System.Windows.Input;
 namespace Superdev.Maui.Behaviors
 {
     /// <summary>
-    /// Emulates the legacy <c>ListView.ItemTapped</c> behavior on a <see cref="SelectableItemsView"/>
-    /// (e.g. <see cref="CollectionView"/>): runs <see cref="Command"/> with the tapped item on every tap,
-    /// then clears the selection so the same item can be tapped again. This avoids a sticky selection and
-    /// removes the need for a dedicated <c>SelectedItem</c> property in the view model.
+    /// Runs <see cref="Command"/> with the tapped item of a <see cref="SelectableItemsView"/>
+    /// (e.g. <see cref="CollectionView"/>) on every tap, then clears the selection so the same item can be
+    /// tapped again. This avoids a sticky selection and removes the need for a dedicated <c>SelectedItem</c>
+    /// property in the view model.
     /// </summary>
     /// <remarks>
     /// The behavior forces <see cref="SelectableItemsView.SelectionMode"/> to <see cref="SelectionMode.Single"/>;
@@ -112,7 +112,7 @@ namespace Superdev.Maui.Behaviors
             }
             finally
             {
-                // Clear the selection so the same item can be tapped again (ItemTapped semantics).
+                // Clear the selection so the same item can be tapped again.
                 this.isClearing = true;
                 try
                 {
