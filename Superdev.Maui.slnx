@@ -1,0 +1,36 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="Device" />
+    <Platform Name="Simulator" />
+  </Configurations>
+  <Folder Name="/Samples/">
+    <Project Path="Samples/SuperdevMauiDemoApp/SuperdevMauiDemoApp.csproj">
+      <Platform Solution="*|Device" Project="Device" />
+      <Platform Solution="*|Simulator" Project="Simulator" />
+      <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="azure-pipelines.yml" />
+    <File Path="clean.bat" />
+    <File Path="clean.sh" />
+    <File Path="Directory.Build.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="Settings.XamlStyler" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Superdev.Maui.Tests/Superdev.Maui.Tests.csproj">
+      <Platform Solution="*|Device" Project="Device" />
+      <Platform Solution="*|Simulator" Project="Simulator" />
+    </Project>
+  </Folder>
+  <Project Path="Superdev.Maui/Superdev.Maui.csproj">
+    <Platform Solution="*|Device" Project="Device" />
+    <Platform Solution="*|Simulator" Project="Simulator" />
+  </Project>
+</Solution>
