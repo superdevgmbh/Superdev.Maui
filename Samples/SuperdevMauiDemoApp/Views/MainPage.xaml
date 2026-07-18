@@ -141,6 +141,15 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="CollectionViewDemoPage"
+                                Text="CollectionView" />
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                            <s:CustomButton
+                                Grid.Column="0"
+                                Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="BindableItemsSourceDemoPage"
                                 Text="Bindable&#10;ItemsSource" />
                         </Grid>

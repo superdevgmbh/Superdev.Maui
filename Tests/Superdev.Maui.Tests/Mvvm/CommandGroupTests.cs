@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
-using AwesomeAssertions;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using Xunit.Abstractions;
 
 namespace Superdev.Maui.Tests.Mvvm
@@ -18,7 +18,7 @@ namespace Superdev.Maui.Tests.Mvvm
         public void ShouldReturnIsAnyRunningFalse()
         {
             // Arrange
-            var commandGroup = new CommandGroup();
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
 
             // Act
             var isAnyRunning = commandGroup.IsAnyRunning;
@@ -32,7 +32,7 @@ namespace Superdev.Maui.Tests.Mvvm
         {
             // Arrange
             var isAnyRunningChanges = new List<bool>();
-            var commandGroup = new CommandGroup();
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
             commandGroup.PropertyChanged += (_, args) =>
             {
                 if (args.PropertyName == nameof(CommandGroup.IsAnyRunning))
@@ -51,9 +51,7 @@ namespace Superdev.Maui.Tests.Mvvm
             await command.ExecuteAsync(null);
 
             // Assert
-            Assert.Equal(2, isAnyRunningChanges.Count);
-            Assert.True(isAnyRunningChanges.ElementAt(0));
-            Assert.False(isAnyRunningChanges.ElementAt(1));
+            isAnyRunningChanges.Should().Equal(true, false);
         }
 
         [Fact]
@@ -61,7 +59,7 @@ namespace Superdev.Maui.Tests.Mvvm
         {
             // Arrange
             const int numberOfParallelCalls = 1000;
-            var commandGroup = new CommandGroup();
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
             var counter = 0;
 
             Task task(int id)
@@ -88,9 +86,9 @@ namespace Superdev.Maui.Tests.Mvvm
             await Task.WhenAll(tasks);
 
             // Assert
-            Assert.Equal(numberOfParallelCalls, commands.Length);
-            Assert.Equal(numberOfParallelCalls, tasks.Length);
-            Assert.Equal(1, counter);
+            commands.Length.Should().Be(numberOfParallelCalls);
+            tasks.Length.Should().Be(numberOfParallelCalls);
+            counter.Should().Be(1);
         }
 
         [Fact]
@@ -98,14 +96,14 @@ namespace Superdev.Maui.Tests.Mvvm
         {
             // Arrange
             const int numberOfParallelCalls = 1000;
-            var commandGroup = new CommandGroup();
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
             var counter = 0;
 
             Task task(int id)
             {
                 return Task.Run(async () =>
                 {
-                    // Simulate a long running task here
+                    // Simulate a long-running task here
                     await Task.Delay(200);
 
                     // Access a shared resource, variable counter
@@ -133,13 +131,13 @@ namespace Superdev.Maui.Tests.Mvvm
             var canExecutes = await Task.WhenAll(tasks);
 
             // Assert
-            Assert.Equal(numberOfParallelCalls, commands.Length);
-            Assert.Equal(numberOfParallelCalls, tasks.Length);
-            Assert.Equal(numberOfParallelCalls, canExecutes.Length);
-            Assert.Equal(1, counter);
+            commands.Length.Should().Be(numberOfParallelCalls);
+            tasks.Length.Should().Be(numberOfParallelCalls);
+            canExecutes.Length.Should().Be(numberOfParallelCalls);
+            counter.Should().Be(1);
 
-            Assert.Equal(canExecutes.Length / 2, canExecutes.Count(ce => ce == true));
-            Assert.Equal(canExecutes.Length / 2, canExecutes.Count(ce => ce == false));
+            canExecutes.Count(ce => ce == true).Should().Be(canExecutes.Length / 2);
+            canExecutes.Count(ce => ce == false).Should().Be(canExecutes.Length / 2);
         }
 
         [Fact]
@@ -147,7 +145,7 @@ namespace Superdev.Maui.Tests.Mvvm
         {
             // Arrange
             const int numberOfParallelCalls = 1000;
-            var commandGroup = new CommandGroup();
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
             var counter = 0;
 
             Task task(int id)
@@ -175,9 +173,9 @@ namespace Superdev.Maui.Tests.Mvvm
             await Task.WhenAll(tasks);
 
             // Assert
-            Assert.Equal(numberOfParallelCalls, commands.Length);
-            Assert.Equal(numberOfParallelCalls, tasks.Length);
-            Assert.Equal(1, counter);
+            commands.Length.Should().Be(numberOfParallelCalls);
+            tasks.Length.Should().Be(numberOfParallelCalls);
+            counter.Should().Be(1);
         }
 
         [Fact]
@@ -185,7 +183,7 @@ namespace Superdev.Maui.Tests.Mvvm
         {
             // Arrange
             const int numberOfParallelCalls = 1000;
-            var commandGroup = new CommandGroup();
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
             var counter = 0;
 
             Task task(int id)
@@ -218,13 +216,13 @@ namespace Superdev.Maui.Tests.Mvvm
             await Task.WhenAll(tasks.Select(t => t.ExecutionTask));
 
             // Assert
-            Assert.Equal(numberOfParallelCalls, commands.Length);
-            Assert.Equal(numberOfParallelCalls, tasks.Length);
-            Assert.Equal(1, counter);
+            commands.Length.Should().Be(numberOfParallelCalls);
+            tasks.Length.Should().Be(numberOfParallelCalls);
+            counter.Should().Be(1);
 
             var canExecutes = tasks.Select(t => t.CanExecute).ToArray();
-            Assert.Equal(canExecutes.Length / 2, canExecutes.Count(ce => ce == true));
-            Assert.Equal(canExecutes.Length / 2, canExecutes.Count(ce => ce == false));
+            canExecutes.Count(ce => ce == true).Should().Be(canExecutes.Length / 2);
+            canExecutes.Count(ce => ce == false).Should().Be(canExecutes.Length / 2);
         }
     }
 }

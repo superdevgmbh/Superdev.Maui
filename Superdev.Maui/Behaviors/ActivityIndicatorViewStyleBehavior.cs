@@ -3,7 +3,7 @@ using Superdev.Maui.Platforms.Behaviors;
 
 namespace Superdev.Maui.Behaviors
 {
-    public class ActivityIndicatorViewStyleBehavior : Behavior<ActivityIndicator>
+    public static class ActivityIndicatorViewStyleBehavior
     {
         public static readonly BindableProperty ViewStyleProperty =
             BindableProperty.CreateAttached(

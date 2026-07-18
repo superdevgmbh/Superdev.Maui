@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Net;
-using Superdev.Maui.Extensions;
-using Superdev.Maui.Internals;
 
 namespace Superdev.Maui.Extensions
 {
@@ -249,11 +247,21 @@ namespace Superdev.Maui.Extensions
             return current!;
         }
 
+#if !NET10_0_OR_GREATER
+        /// <summary>
+        ///     Returns the elements of <paramref name="source" /> in random order.
+        ///     The returned sequence is deferred and reshuffles on each enumeration.
+        /// </summary>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
             return source.Shuffle(Rng);
         }
+#endif
 
+        /// <summary>
+        ///     Returns the elements of <paramref name="source" /> in random order using the given
+        ///     <paramref name="rng" />. The returned sequence is deferred and reshuffles on each enumeration.
+        /// </summary>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
         {
             ArgumentNullException.ThrowIfNull(source);

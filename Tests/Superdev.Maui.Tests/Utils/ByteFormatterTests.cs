@@ -22,7 +22,7 @@ namespace Superdev.Maui.Tests.Utils
             // Assert
             this.testOutputHelper.WriteLine($"{byteLength} bytes = {namedSize}");
 
-            Assert.Equal(expectedNamedSize, namedSize);
+            namedSize.Should().Be(expectedNamedSize);
         }
 
         public class GetNamedSizeTestdata : TheoryData<long, int, string>

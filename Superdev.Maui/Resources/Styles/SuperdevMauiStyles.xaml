@@ -575,6 +575,17 @@
         BasedOn="{StaticResource ListViewStyle}"
         TargetType="ListView" />
 
+    <!-- CollectionView -->
+    <Style
+        x:Key="CollectionViewStyle"
+        TargetType="CollectionView">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource CollectionViewStyle}"
+        TargetType="CollectionView" />
+
     <!-- ViewCell -->
     <Style
         ApplyToDerivedTypes="True"

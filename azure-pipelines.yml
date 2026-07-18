@@ -1,7 +1,7 @@
 ####################################################################
-# VSTS Build Configuration, Version 1.4
+# Azure DevOps Build Configuration
 #
-# (c)2022 superdev GmbH
+# (c)2026 superdev GmbH
 ####################################################################
 
 name: $[format('{0}', variables['buildName'])]
@@ -12,14 +12,12 @@ pool:
 trigger:
   branches:
     include:
-    - main
-    - develop
-    - feature/*
-    - bugfix/*
+      - main
+      - develop
 
   paths:
     exclude:
-    - Docs/*
+      - Docs/*
 
 variables:
   buildPlatform: 'Any CPU'
@@ -40,11 +38,11 @@ variables:
 
 steps:
 - task: Bash@3
-  displayName: 'Print all variables'
+  displayName: 'Print All Variables'
   inputs:
     targetType: 'inline'
     script: 'env | sort'
-   
+
 - task: Assembly-Info-NetCore@3
   displayName: 'Update Assembly Info'
   inputs:
@@ -67,22 +65,23 @@ steps:
     DisableTelemetry: true
 
 - task: UseDotNet@2
-  displayName: 'Use .NET 9.0.x'
+  displayName: 'Use .NET SDK from global.json'
   inputs:
-    version: 9.0.x
-    
+    packageType: 'sdk'
+    useGlobalJson: true
+    workingDirectory: '$(Build.SourcesDirectory)'
+
 - task: Bash@3
-  displayName: Install .NET MAUI
+  displayName: 'Install .NET MAUI'
   inputs:
     targetType: 'inline'
     script: |
-      dotnet nuget locals all --clear 
-      dotnet workload install maui maui-android maui-ios --source https://api.nuget.org/v3/index.json
+      dotnet workload install maui
 
 - task: JavaToolInstaller@0
-  displayName: "Install Java"
+  displayName: 'Install Java'
   inputs:
-    versionSpec: '17'
+    versionSpec: '21'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 
@@ -92,38 +91,37 @@ steps:
     versionSpec: 6.x
 
 - task: DotNetCoreCLI@2
-  displayName: 'NuGet restore'
+  displayName: 'NuGet Restore'
   inputs:
     command: restore
     projects: |
       Superdev.Maui/**/*.csproj
       Tests/**/*.Tests.csproj
-    
+
 - task: DotNetCoreCLI@2
-  displayName: 'Build solution'
+  displayName: 'Build Projects'
   inputs:
     projects: |
       Superdev.Maui/**/*.csproj
       Tests/**/*.Tests.csproj
     arguments: >
-      --no-restore 
-      --configuration $(buildConfiguration)
-    
+      --no-restore --configuration $(buildConfiguration)
+
 - task: DotNetCoreCLI@2
-  displayName: 'Run UnitTests'
+  displayName: 'Run Unit Tests'
   inputs:
     command: test
     projects: 'Tests/**/*.Tests.csproj'
     arguments: >
-      --no-restore 
-      --no-build 
-      --configuration $(buildConfiguration) 
-      /p:CollectCoverage=true 
-      /p:Exclude="[Microsoft*]*%2C[Mono*]*%2C[xunit*]*%2C[*.Testdata]*" 
-      /p:CoverletOutput=UnitTests.coverage.cobertura.xml 
-      /p:MergeWith=$(Build.SourcesDirectory)/Tests/CoverletOutput/coverage.json 
+      --no-restore
+      --no-build
+      --configuration $(buildConfiguration)
+      /p:CollectCoverage=true
+      /p:Exclude="[Microsoft*]*%2C[Mono*]*%2C[xunit*]*%2C[*.Testdata]*"
+      /p:CoverletOutput=UnitTests.coverage.cobertura.xml
+      /p:MergeWith=$(Build.SourcesDirectory)/Tests/CoverletOutput/coverage.json
       /p:CoverletOutputFormat=cobertura
-      
+
 - task: reportgenerator@5
   displayName: 'Create Code Coverage Report'
   inputs:
@@ -131,9 +129,10 @@ steps:
     targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
     reporttypes: 'Cobertura'
     assemblyfilters: '-xunit*'
-    
+
 - task: DotNetCoreCLI@2
-  displayName: 'Pack Superdev.Maui'
+  displayName: 'Create NuGet Package'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     command: pack
     packagesToPack: Superdev.Maui/Superdev.Maui.csproj
@@ -142,16 +141,17 @@ steps:
     nobuild: true
 
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy Files To: $(Build.ArtifactStagingDirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: |
       **\bin\*.nupkg
       **\bin\*.snupkg
+      **\ReleaseNotes.txt
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-     
+
 - task: PublishCodeCoverageResults@2
-  displayName: 'Publish code coverage'
+  displayName: 'Publish Code Coverage'
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
