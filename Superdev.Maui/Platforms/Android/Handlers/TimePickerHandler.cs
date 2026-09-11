@@ -1,8 +1,11 @@
 using System.Diagnostics;
 using Android.App;
 using Android.Content;
-using Android.Text.Format;
+using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
+using DateFormat = Android.Text.Format.DateFormat;
+using TimePicker = Microsoft.Maui.Controls.TimePicker;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -11,7 +14,7 @@ namespace Superdev.Maui.Platforms.Handlers
         private const int PositiveButtonId = (int)DialogButtonType.Positive;
         private const int NegativeButtonId = (int)DialogButtonType.Negative;
 
-        public TimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public TimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -21,38 +24,47 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private bool Use24HourView => this.VirtualView != null && ((DateFormat.Is24HourFormat(this.PlatformView?.Context)
-                                                                    && this.VirtualView.Format == "t") || this.VirtualView.Format == "HH:mm");
+        public new ITimePicker? VirtualView => ((ElementHandler)this).VirtualView as ITimePicker;
+
+        public new MauiTimePicker? PlatformView => ((ElementHandler)this).PlatformView as MauiTimePicker;
+
+        private bool Use24HourView => this.VirtualView is TimePicker timePicker && ((DateFormat.Is24HourFormat(this.PlatformView?.Context) &&
+                                                                                     timePicker.Format == "t") || timePicker.Format == "HH:mm");
 
         protected override TimePickerDialog CreateTimePickerDialog(int hours, int minutes)
         {
-            void OnTimeSetCallback(object obj, TimePickerDialog.TimeSetEventArgs args)
+            var dialog = new TimePickerDialog(this.Context, this.OnTimeSetCallback, hours, minutes, this.Use24HourView);
+
+            if (this.VirtualView is TimePicker timePicker)
             {
-                if (this.VirtualView == null || this.PlatformView == null)
-                {
-                    return;
-                }
-
-                this.HandlePositiveButtonTap(new TimeSpan(args.HourOfDay, args.Minute, 0));
-                this.VirtualView.IsFocused = false;
-
-                // if (_dialog != null)
-                // {
-                //     _dialog = null;
-                // }
+                this.UpdatePositiveButton(timePicker, dialog);
+                this.UpdateNegativeButton(timePicker, dialog);
             }
-
-            var dialog = new TimePickerDialog(this.Context!, OnTimeSetCallback, hours, minutes, this.Use24HourView);
-
-            this.UpdatePositiveButton(this.VirtualView, dialog);
-            this.UpdateNegativeButton(this.VirtualView, dialog);
 
             return dialog;
         }
 
-        private void UpdatePositiveButton(ITimePicker timePicker, TimePickerDialog dialog)
+
+        private void OnTimeSetCallback(object? obj, TimePickerDialog.TimeSetEventArgs args)
         {
-            var positiveButtonText = GetPositiveButtonText((BindableObject)timePicker);
+            if (this.VirtualView is not ITimePicker timePicker || this.PlatformView == null)
+            {
+                return;
+            }
+
+            this.HandlePositiveButtonTap(new TimeSpan(args.HourOfDay, args.Minute, 0));
+            timePicker.IsFocused = false;
+
+            // if (_dialog != null)
+            // {
+            //     _dialog = null;
+            // }
+        }
+
+
+        private void UpdatePositiveButton(TimePicker timePicker, TimePickerDialog dialog)
+        {
+            var positiveButtonText = GetPositiveButtonText(timePicker);
             Debug.WriteLine($"UpdatePositiveButton --> positiveButtonText={positiveButtonText}");
 
             dialog.SetButton(PositiveButtonId, positiveButtonText, (_, a) =>
@@ -63,12 +75,17 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected virtual void HandlePositiveButtonTap(TimeSpan time)
         {
-            this.VirtualView.Time = time;
+            if (this.VirtualView is not TimePicker timePicker)
+            {
+                return;
+            }
+
+            timePicker.Time = time;
         }
 
-        private void UpdateNegativeButton(ITimePicker timePicker, TimePickerDialog dialog)
+        private void UpdateNegativeButton(TimePicker timePicker, TimePickerDialog dialog)
         {
-            var negativeButtonText = GetNegativeButtonText((BindableObject)timePicker);
+            var negativeButtonText = GetNegativeButtonText(timePicker);
             Debug.WriteLine($"UpdateNegativeButton --> negativeButtonText={negativeButtonText}");
 
             dialog.SetButton(NegativeButtonId, negativeButtonText, (_, a) =>
@@ -91,7 +108,7 @@ namespace Superdev.Maui.Platforms.Handlers
                 return positiveButtonText;
             }
 
-            positiveButtonText = AApplication.Context.Resources.GetString(AR.String.Ok);
+            positiveButtonText = AApplication.Context.Resources!.GetString(AR.String.Ok);
             return positiveButtonText;
         }
 
@@ -102,7 +119,7 @@ namespace Superdev.Maui.Platforms.Handlers
                 return negativeButtonText;
             }
 
-            negativeButtonText = AApplication.Context.Resources.GetString(AR.String.Cancel);
+            negativeButtonText = AApplication.Context.Resources!.GetString(AR.String.Cancel);
             return negativeButtonText;
         }
     }

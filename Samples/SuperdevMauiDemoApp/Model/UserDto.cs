@@ -1,14 +1,14 @@
 ﻿namespace SuperdevMauiDemoApp.Model
 {
-    internal class UserDto : IEquatable<UserDto>
+    internal class UserDto : IEquatable<UserDto?>
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; init; }
 
-        public bool Equals(UserDto other)
+        public bool Equals(UserDto? other)
         {
-            if (ReferenceEquals(null, other))
+            if (other is null)
             {
                 return false;
             }
@@ -18,13 +18,12 @@
                 return true;
             }
 
-            return this.Id == other.Id &&
-                   string.Equals(this.UserName, other.UserName, StringComparison.InvariantCultureIgnoreCase);
+            return this.Id == other.Id && string.Equals(this.UserName, other.UserName, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return false;
             }
@@ -44,19 +43,18 @@
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return this.Id * 397 ^
-                       (this.UserName != null ? StringComparer.InvariantCultureIgnoreCase.GetHashCode(this.UserName) : 0);
-            }
+            var hashCode = new HashCode();
+            hashCode.Add(this.Id);
+            hashCode.Add(this.UserName, StringComparer.InvariantCultureIgnoreCase);
+            return hashCode.ToHashCode();
         }
 
-        public static bool operator ==(UserDto left, UserDto right)
+        public static bool operator ==(UserDto? left, UserDto? right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(UserDto left, UserDto right)
+        public static bool operator !=(UserDto? left, UserDto? right)
         {
             return !Equals(left, right);
         }

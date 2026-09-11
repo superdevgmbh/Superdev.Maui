@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Superdev.Maui.Extensions
@@ -11,26 +12,6 @@ namespace Superdev.Maui.Extensions
         public static readonly char[] TrimChars = "\r\n ".ToCharArray();
 
         /// <summary>
-        ///     To the URI.
-        /// </summary>
-        /// <param name="url">The URL.</param>
-        /// <returns>Uri.</returns>
-        public static Uri ToUri(this string url)
-        {
-            if (string.IsNullOrEmpty(url))
-            {
-                return null;
-            }
-
-            if (url.ToLower().StartsWith(HttpPrefix))
-            {
-                return new Uri(url);
-            }
-
-            return new Uri($"{HttpPrefix}{url}");
-        }
-
-        /// <summary>
         ///     To the unique identifier.
         /// </summary>
         /// <returns>Guid.</returns>
@@ -41,11 +22,13 @@ namespace Superdev.Maui.Extensions
         ////    Array.Resize(ref hashedBytes, 16);
         ////    return new Guid(hashedBytes);
         ////}
-        public static bool Like(this string toSearch, string toFind)
+        public static bool Like(this string? source, string toFind)
         {
-            return
-                new Regex(@"\A" + new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\").Replace(toFind, ch => @"\" + ch).Replace('_', '.').Replace("%", ".*") + @"\z", RegexOptions.Singleline).IsMatch(
-                    toSearch);
+            ArgumentNullException.ThrowIfNull(source);
+
+            return new Regex(@"\A" + new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\")
+                    .Replace(toFind, ch => @"\" + ch).Replace('_', '.').Replace("%", ".*") + @"\z", RegexOptions.Singleline)
+                .IsMatch(source);
         }
 
         /// <summary>Returns a value indicating whether a specified substring <paramref name="value"/> occurs within the source string <paramref name="source"/>.</summary>
@@ -55,7 +38,7 @@ namespace Superdev.Maui.Extensions
         /// <returns>true if the <paramref name="value">value</paramref> parameter occurs within this string, or if <paramref name="value">value</paramref> is the empty string (""); otherwise, false.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="value">value</paramref> is null.</exception>
         /// <exception cref="T:System.ArgumentException"><paramref name="comparisonType">comparisonType</paramref> is not a valid <see cref="T:System.StringComparison"></see> value.</exception>
-        public static bool Contains(this string source, string value, StringComparison comparisonType)
+        public static bool Contains(this string? source, string value, StringComparison comparisonType)
         {
             return source?.IndexOf(value, comparisonType) >= 0;
         }
@@ -65,8 +48,13 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         /// <param name="source">The source string.</param>
         /// <param name="strings">The enumeration of strings to be compared against the source string.</param>
-        public static bool ContainsAny(this string source, IEnumerable<string> strings)
+        public static bool ContainsAny(this string? source, IEnumerable<string> strings)
         {
+            if (source == null)
+            {
+                return false;
+            }
+
             return strings.Any(source.Contains);
         }
 
@@ -76,49 +64,58 @@ namespace Superdev.Maui.Extensions
         /// <param name="source">The source string.</param>
         /// <param name="strings">The enumeration of strings to be compared against the source string.</param>
         /// <param name="comparisonType">One of the enumeration values that specifies the rules for the search.</param>
-        public static bool ContainsAny(this string source, IEnumerable<string> strings, StringComparison comparisonType)
+        public static bool ContainsAny(this string? source, IEnumerable<string> strings, StringComparison comparisonType)
         {
+            if (source == null)
+            {
+                return false;
+            }
+
             return strings.Any(s => source.Contains(s, comparisonType));
         }
 
         /// <summary>
-        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="value"/>
+        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="source"/>
         /// </summary>
-        public static bool StartsWithAny(this string value, IEnumerable<string> values)
+        public static bool StartsWithAny(this string? source, IEnumerable<string> values)
         {
-            ArgumentNullException.ThrowIfNull(value, nameof(value));
-            ArgumentNullException.ThrowIfNull(values, nameof(values));
+            ArgumentNullException.ThrowIfNull(values);
 
-            return values.Any(value.StartsWith);
+            if (source == null)
+            {
+                return false;
+            }
+
+            return values.Any(source.StartsWith);
         }
 
         /// <summary>
-        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="value"/>
+        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="source"/>
         /// </summary>
-        public static bool StartsWithAny(this string value, IEnumerable<string> values,  StringComparison comparisonType)
+        public static bool StartsWithAny(this string? source, IEnumerable<string> values, StringComparison comparisonType)
         {
-            ArgumentNullException.ThrowIfNull(value, nameof(value));
-            ArgumentNullException.ThrowIfNull(values, nameof(values));
+            ArgumentNullException.ThrowIfNull(values);
 
-            return values.Any(s => value.StartsWith(s, comparisonType));
+            if (source == null)
+            {
+                return false;
+            }
+
+            return values.Any(s => source.StartsWith(s, comparisonType));
         }
 
         /// <summary>
-        /// Converts the first character of <paramref name="s"/> to upper case.
+        /// Converts the first character of <paramref name="source"/> to upper case.
         /// </summary>
-        public static string ToUpperFirst(this string s)
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? ToUpperFirst(this string? source)
         {
-            if (s == null)
+            if (string.IsNullOrEmpty(source))
             {
-                return null;
+                return source;
             }
 
-            if (s == "")
-            {
-                return "";
-            }
-
-            var a = s.ToCharArray();
+            var a = source.ToCharArray();
             a[0] = char.ToUpper(a[0]);
             return new string(a);
         }
@@ -127,21 +124,22 @@ namespace Superdev.Maui.Extensions
         ///     Removes all leading and trailing occurrences of new line (\n\r) as well as white-space characters in an array from
         ///     the current <see cref="T:System.String"></see> object.
         /// </summary>
-        /// <param name="str">Input string.</param>
+        /// <param name="source">Input string.</param>
         /// <returns>
         ///     The string that remains after all occurrences of trim characters are removed from the start and end of the current
         ///     string.
         /// </returns>
-        public static string TrimStartAndEnd(this string str)
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? TrimStartAndEnd(this string? source)
         {
-            return str.TrimStartAndEnd(TrimChars);
+            return source?.TrimStartAndEnd(TrimChars);
         }
 
         /// <summary>
         ///     Removes all leading and trailing occurrences of a set of characters specified in an array from the current
         ///     <see cref="T:System.String"></see> object.
         /// </summary>
-        /// <param name="str">Input string.</param>
+        /// <param name="source">Input string.</param>
         /// <param name="trimChars">An array of Unicode characters to remove, or null.</param>
         /// <returns>
         ///     The string that remains after all occurrences of characters in the <paramref name="trimChars">trimChars</paramref>
@@ -149,28 +147,24 @@ namespace Superdev.Maui.Extensions
         ///     If <paramref name="trimChars">trimChars</paramref> is null or an empty array, white-space characters are removed
         ///     instead.
         /// </returns>
-        public static string TrimStartAndEnd(this string str, params char[] trimChars)
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? TrimStartAndEnd(this string? source, params char[] trimChars)
         {
-            if (str == null)
-            {
-                return null;
-            }
-
-            return str
-                .TrimStart(trimChars)
+            return source?.TrimStart(trimChars)
                 .TrimEnd(trimChars);
         }
 
-        public static string RemoveEmptyLines(this string str)
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? RemoveEmptyLines(this string? source)
         {
-            if (str == null)
+            if (source == null)
             {
                 return null;
             }
 
-            var lines = str.Split(TrimNewLineChars, StringSplitOptions.RemoveEmptyEntries);
+            var lines = source.Split(TrimNewLineChars, StringSplitOptions.RemoveEmptyEntries);
 
-            var stringBuilder = new StringBuilder(str.Length);
+            var stringBuilder = new StringBuilder(source.Length);
 
             foreach (var line in lines)
             {
@@ -183,14 +177,46 @@ namespace Superdev.Maui.Extensions
         /// <summary>
         ///     Catch runs of any kind of whitespace (e.g. tabs, newlines, etc.) and replace them with a single space.
         /// </summary>
-        public static string TrimWhitespaces(this string input)
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? TrimWhitespaces(this string? source)
         {
-            if (string.IsNullOrEmpty(input))
+            if (string.IsNullOrEmpty(source))
             {
-                return input;
+                return source;
             }
 
-            return Regex.Replace(input, @"\s+", " ").Trim();
+            return Regex.Replace(source, @"\s+", " ").Trim();
+        }
+
+        /// <summary>
+        /// Truncates a string to the specified maximum length.
+        /// </summary>
+        /// <param name="source">The string to truncate, or <see langword="null" /> to return <see langword="null" />.</param>
+        /// <param name="maxLength">The maximum length of the returned string, including the truncation indicator.</param>
+        /// <param name="truncationIndicator">The optional string to append when the input is truncated.</param>
+        /// <returns>The original string when it fits within the maximum length; otherwise, a truncated string.</returns>
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? Truncate(this string? source, int maxLength, string? truncationIndicator = null)
+        {
+            if (source is null)
+            {
+                return null;
+            }
+
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxLength);
+
+            if (source.Length <= maxLength)
+            {
+                return source;
+            }
+
+            if (truncationIndicator != null && maxLength <= truncationIndicator.Length)
+            {
+                return truncationIndicator[..maxLength];
+            }
+
+            var truncationIndicatorLength = truncationIndicator?.Length ?? 0;
+            return $"{source[..(maxLength - truncationIndicatorLength)]}{truncationIndicator}";
         }
     }
 }

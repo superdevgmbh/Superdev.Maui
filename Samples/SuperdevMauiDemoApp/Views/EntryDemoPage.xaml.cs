@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+using Application = Microsoft.Maui.Controls.Application;
 
 namespace SuperdevMauiDemoApp.Views
 {
@@ -15,7 +16,7 @@ namespace SuperdevMauiDemoApp.Views
         {
             base.OnAppearing();
 
-            var platformElementConfiguration = App.Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
+            var platformElementConfiguration = Application.Current!.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
             this.originalWindowSoftInputModeAdjust = platformElementConfiguration.GetWindowSoftInputModeAdjust();
             platformElementConfiguration.UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
@@ -24,7 +25,7 @@ namespace SuperdevMauiDemoApp.Views
         {
             base.OnDisappearing();
 
-            var platformElementConfiguration = App.Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
+            var platformElementConfiguration = Application.Current!.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>();
             platformElementConfiguration.UseWindowSoftInputModeAdjust(this.originalWindowSoftInputModeAdjust);
         }
     }

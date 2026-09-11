@@ -8,22 +8,24 @@ namespace Superdev.Maui.Tests.Services
     public class PageResolverTests
     {
         private readonly AutoMocker autoMocker;
+        private readonly Mock<IKeyedServiceProvider> serviceProviderMock;
 
         public PageResolverTests(ITestOutputHelper testOutputHelper)
         {
             this.autoMocker = new AutoMocker();
             this.autoMocker.UseTestOutputHelperLogger<KeyboardService>(testOutputHelper);
 
-            var serviceProviderMock = this.autoMocker.GetMock<IServiceProvider>();
-            serviceProviderMock.Setup(s => s.GetService(It.IsAny<Type>()))
+            this.serviceProviderMock = new Mock<IKeyedServiceProvider>();
+            this.autoMocker.Use<IServiceProvider>(this.serviceProviderMock.Object);
+            this.serviceProviderMock.Setup(s => s.GetService(It.IsAny<Type>()))
                 .Returns<Type>(Activator.CreateInstance);
         }
 
         [Fact]
-        public void ShouldResolvePageWithoutViewModel_Success()
+        public void ShouldResolvePage_AutoResolve_WithoutViewModel_Success()
         {
             // Arrange
-            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(enablePrivate: true);
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(true);
 
             // Act
             var page = pageResolver.ResolvePage("TestResolveWPage");
@@ -34,10 +36,10 @@ namespace Superdev.Maui.Tests.Services
         }
 
         [Fact]
-        public void ShouldResolvePageWithViewModel_Success()
+        public void ShouldResolvePage_AutoResolve_WithViewModel_Success()
         {
             // Arrange
-            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(enablePrivate: true);
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(true);
 
             // Act
             var page = pageResolver.ResolvePage("TestResolvePage");
@@ -48,10 +50,32 @@ namespace Superdev.Maui.Tests.Services
         }
 
         [Fact]
+        public void ShouldResolvePage_FromRegistration_WithViewModel()
+        {
+            // Arrange
+            this.serviceProviderMock.Setup(s => s.GetKeyedService(It.Is<Type>(t => t == typeof(PageRegistration)), It.IsAny<object?>()))
+                .Returns((Type _, string key) => new PageRegistration
+                {
+                    PageType = typeof(TestPopupPage),
+                    ViewModelType = typeof(TestPopupViewModel),
+                    Name = "TestPopup"
+                });
+
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(true);
+
+            // Act
+            var page = pageResolver.ResolvePage("TestPopup");
+
+            // Assert
+            page.Should().BeOfType<TestPopupPage>();
+            page.BindingContext.Should().BeOfType<TestPopupViewModel>();
+        }
+
+        [Fact]
         public void ShouldResolvePage_ThrowsPageResolveException_PageNotFound()
         {
             // Arrange
-            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(enablePrivate: true);
+            IPageResolver pageResolver = this.autoMocker.CreateInstance<PageResolver>(true);
 
             // Act
             Action action = () => pageResolver.ResolvePage("NonExistingPage");
@@ -70,6 +94,14 @@ namespace Superdev.Maui.Tests.Services
         }
 
         public class TestResolveViewModel : BindableObject
+        {
+        }
+
+        public class TestPopupPage : ContentPage
+        {
+        }
+
+        public class TestPopupViewModel : BindableObject
         {
         }
     }

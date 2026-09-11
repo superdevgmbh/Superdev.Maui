@@ -9,7 +9,8 @@ namespace SuperdevMauiDemoApp.ViewModels
     public abstract class DrilldownBaseViewModel : BaseViewModel, IDrilldownView
     {
         private readonly IDialogService dialogService;
-        private IAsyncRelayCommand command;
+
+        private IAsyncRelayCommand? command;
 
         protected DrilldownBaseViewModel(IDialogService dialogService)
         {
@@ -33,6 +34,8 @@ namespace SuperdevMauiDemoApp.ViewModels
             }
         }
 
+        public new required string Title { get; set; }
+
         public bool IsEnabled { get; set; } = true;
 
         public ICommand Command
@@ -40,6 +43,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.command ??= new AsyncRelayCommand(this.ExecuteCommandAsync);
         }
 
-        public object CommandParameter { get; set; }
+        public object? CommandParameter { get; set; }
     }
 }

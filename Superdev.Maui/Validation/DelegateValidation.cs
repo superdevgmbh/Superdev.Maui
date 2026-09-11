@@ -30,7 +30,7 @@ namespace Superdev.Maui.Validation
 
         public override async Task<Dictionary<string, List<string>>> GetErrors()
         {
-            Debug.WriteLine($"GetErrors");
+            Debug.WriteLine("GetErrors");
 
             Dictionary<string, List<string>> result;
             if (this.delay > TimeSpan.Zero)
@@ -42,7 +42,7 @@ namespace Superdev.Maui.Validation
                 result = await this.errorFunction().ConfigureAwait(false);
             }
 
-            Debug.WriteLine($"GetErrors (result={(result == null ? "null" : $"{result.Count}")})");
+            Debug.WriteLine($"GetErrors (result.Count={result.Count})");
 
             return result;
         }

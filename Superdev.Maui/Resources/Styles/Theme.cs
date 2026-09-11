@@ -17,7 +17,7 @@ namespace Superdev.Maui.Resources.Styles
 
         private static void OnColorConfigurationPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is not Theme theme)
+            if (bindable is not Theme)
             {
                 return;
             }
@@ -28,9 +28,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Gets or sets the color configuration of the theme.
         /// </summary>
-        public ColorConfiguration ColorConfiguration
+        public ColorConfiguration? ColorConfiguration
         {
-            get => (ColorConfiguration)this.GetValue(ColorConfigurationProperty);
+            get => (ColorConfiguration?)this.GetValue(ColorConfigurationProperty);
             set => this.SetValue(ColorConfigurationProperty, value);
         }
 
@@ -44,9 +44,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Gets or sets the spacing configuration of the theme.
         /// </summary>
-        public SpacingConfiguration SpacingConfiguration
+        public SpacingConfiguration? SpacingConfiguration
         {
-            get => (SpacingConfiguration)this.GetValue(SpacingConfigurationProperty);
+            get => (SpacingConfiguration?)this.GetValue(SpacingConfigurationProperty);
             set => this.SetValue(SpacingConfigurationProperty, value);
         }
 
@@ -62,9 +62,9 @@ namespace Superdev.Maui.Resources.Styles
         /// <summary>
         ///     Gets or sets the font configuration of the theme.
         /// </summary>
-        public FontConfiguration FontConfiguration
+        public FontConfiguration? FontConfiguration
         {
-            get => (FontConfiguration)this.GetValue(FontConfigurationProperty);
+            get => (FontConfiguration?)this.GetValue(FontConfigurationProperty);
             set => this.SetValue(FontConfigurationProperty, value);
         }
     }

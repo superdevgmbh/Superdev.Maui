@@ -23,7 +23,7 @@
 
             var content = template.CreateContent();
 
-            View view;
+            View? view;
             if (content is ViewCell viewCell)
             {
                 view = viewCell.View;

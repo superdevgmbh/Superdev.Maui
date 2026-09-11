@@ -37,11 +37,11 @@ namespace Superdev.Maui.Resources.Styles
 
         private void SetPaddings(SpacingConfiguration spacingConfiguration)
         {
-            this.Resources.SetValue(ThemeConstants.Paddings.SmallPadding,  spacingConfiguration.SmallPadding);
-            this.Resources.SetValue(ThemeConstants.Paddings.MediumPadding,  spacingConfiguration.MediumPadding);
-            this.Resources.SetValue(ThemeConstants.Paddings.LargePadding,  spacingConfiguration.LargePadding);
-            this.Resources.SetValue(ThemeConstants.Paddings.CardViewPadding,  spacingConfiguration.CardViewPadding);
-            this.Resources.SetValue(ThemeConstants.Paddings.CardPadding,  spacingConfiguration.CardPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.SmallPadding, spacingConfiguration.SmallPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.MediumPadding, spacingConfiguration.MediumPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.LargePadding, spacingConfiguration.LargePadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.CardViewPadding, spacingConfiguration.CardViewPadding);
+            this.Resources.SetValue(ThemeConstants.Paddings.CardPadding, spacingConfiguration.CardPadding);
         }
 
         public static readonly BindableProperty SmallSpacingProperty = BindableProperty.Create(

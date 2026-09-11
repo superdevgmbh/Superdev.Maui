@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-using MauiPreferences = Microsoft.Maui.Storage.Preferences;
 using Superdev.Maui.Extensions;
+using MauiPreferences = Microsoft.Maui.Storage.Preferences;
 
 namespace Superdev.Maui.Services
 {
@@ -41,7 +41,7 @@ namespace Superdev.Maui.Services
             return MauiPreferences.Default.GetFromJson(key, defaultValue, sharedName, options);
         }
 
-        public void Set<T>(string key, T value)
+        public void Set<T>(string key, T? value)
         {
             this.Set(key, value, sharedName: null);
         }

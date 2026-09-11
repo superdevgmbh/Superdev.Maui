@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Services;
-using Superdev.Maui.Extensions;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -12,7 +12,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ICountryService countryService;
 
         private ObservableCollection<CountryViewModel> countries;
-        private IAsyncRelayCommand appearingCommand;
+        private IAsyncRelayCommand? appearingCommand;
 
         public BindableItemsSourceDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -20,7 +20,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.countryService = countryService;
-            this.Countries = new ObservableCollection<CountryViewModel>();
+            this.countries = new ObservableCollection<CountryViewModel>();
         }
 
         public IAsyncRelayCommand AppearingCommand

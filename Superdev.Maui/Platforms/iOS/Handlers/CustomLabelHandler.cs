@@ -14,7 +14,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomLabel.JustifyText)] = MapJustifyText,
         };
 
-        public CustomLabelHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomLabelHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Android.App;
 using Android.Content;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 
@@ -11,9 +12,9 @@ namespace Superdev.Maui.Platforms.Handlers
         private const int PositiveButtonId = (int)DialogButtonType.Positive;
         private const int NegativeButtonId = (int)DialogButtonType.Negative;
 
-        private DatePickerDialog dialog;
+        private DatePickerDialog? dialog;
 
-        public DatePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public DatePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -22,6 +23,10 @@ namespace Superdev.Maui.Platforms.Handlers
             : base(Mapper)
         {
         }
+
+        public new DatePicker? VirtualView => ((ElementHandler)this).VirtualView as DatePicker;
+
+        public new MauiDatePicker? PlatformView => ((ElementHandler)this).PlatformView as MauiDatePicker;
 
         protected override MauiDatePicker CreatePlatformView()
         {
@@ -47,7 +52,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected virtual DateTime GetSelectedDate()
         {
-            return this.VirtualView.Date;
+            // Note: VirtualView?.Date yields DateTime? on both net9 (via null-conditional) and
+            // net10 (where DatePicker.Date itself became nullable), so this compiles for all target frameworks.
+            return this.VirtualView?.Date ?? DateTime.Today;
         }
 
         private void ShowDialog()

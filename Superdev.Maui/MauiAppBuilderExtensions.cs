@@ -27,13 +27,10 @@ namespace Superdev.Maui
 {
     public static class MauiAppBuilderExtensions
     {
-        public static MauiAppBuilder UseSuperdevMaui(this MauiAppBuilder builder, Action<SuperdevMauiOptions> options = null)
+        public static MauiAppBuilder UseSuperdevMaui(this MauiAppBuilder builder, Action<SuperdevMauiOptions>? options = null)
         {
             var o = new SuperdevMauiOptions();
-            if (options != null)
-            {
-                options(o);
-            }
+            options?.Invoke(o);
 
 #if ANDROID || IOS
             builder.ConfigureMauiHandlers(handlers =>
@@ -118,7 +115,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<IDialogService>(_ => IDialogService.Current);
             builder.Services.AddSingleton<ILocalizer>(_ => ILocalizer.Current);
             builder.Services.AddSingleton<IPreferences>(_ => IPreferences.Current);
-            builder.Services.AddSingleton<ITranslationProvider>(_ => ResxSingleTranslationProvider.Current);
+            builder.Services.AddSingleton<ITranslationProvider>(_ => o.TranslationProvider);
             builder.Services.AddSingleton<IMainThread>(_ => IMainThread.Current);
             builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();
             builder.Services.AddSingleton<IKeyboardService>(_ => IKeyboardService.Current);
@@ -130,7 +127,7 @@ namespace Superdev.Maui
             builder.Services.AddSingleton<INavigationService>(_ => INavigationService.Current);
             builder.Services.AddSingleton<IPageResolver>(_ => IPageResolver.Current);
 
-            TranslateExtension.Init(Localizer.Current, ResxSingleTranslationProvider.Current);
+            TranslateExtension.Init(Localizer.Current, o.TranslationProvider);
 
             return builder;
         }

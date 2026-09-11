@@ -12,6 +12,10 @@ namespace Superdev.Maui.Services
         {
         }
 
+#if !(ANDROID || IOS)
+        public string? DeviceId => null;
+#endif
+
         public string Model => this.deviceInfo.Model;
 
         public string Manufacturer => this.deviceInfo.Manufacturer;
@@ -27,9 +31,5 @@ namespace Superdev.Maui.Services
         public DeviceIdiom Idiom => this.deviceInfo.Idiom;
 
         public DeviceType DeviceType => this.deviceInfo.DeviceType;
-
-#if !(ANDROID || IOS)
-        public string DeviceId => null;
-#endif
     }
 }

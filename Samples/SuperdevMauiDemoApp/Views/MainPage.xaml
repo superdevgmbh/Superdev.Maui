@@ -10,14 +10,18 @@
     x:DataType="vm:MainViewModel"
     ios:Page.UseSafeArea="False"
     BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
-    Title="Test">
+    Title="Superdev.Maui Sample App">
 
     <!-- s:SafeAreaPadding.Layout="Top,Bottom" -->
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem
+        <s:BindableToolbarItem
             Command="{Binding SwitchThemesCommand}"
-            Text="{Binding AppTheme, StringFormat='{}[{0}]'}" />
+            IsVisible="{Binding ShowAppThemeToolbarItem}"
+            Text="{Binding AppTheme, StringFormat='[{0}]'}" />
+        <!-- <s:BindableToolbarItem -->
+        <!-- Command="{Binding SwitchThemesCommand}" -->
+        <!-- Text="X1" /> -->
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -52,10 +56,15 @@
                         </VerticalStackLayout.Resources>
 
                         <s:ValidatablePicker
-                            DisplayMemberPath="NativeName"
                             ItemsSource="{Binding Languages}"
                             Placeholder="{s:Translate LanguageLabelText}"
-                            SelectedItem="{Binding Language, Mode=TwoWay}" />
+                            SelectedItem="{Binding Language, Mode=TwoWay}">
+                            <s:ValidatablePicker.ItemDisplayBinding>
+                                <Binding
+                                    x:DataType="vm:LanguageViewModel"
+                                    Path="NativeName" />
+                            </s:ValidatablePicker.ItemDisplayBinding>
+                        </s:ValidatablePicker>
 
                         <Label
                             Style="{StaticResource DemoLabelStyle}"
@@ -131,6 +140,15 @@
                                 Text="ListView" />
                             <s:CustomButton
                                 Grid.Column="1"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="CollectionViewDemoPage"
+                                Text="CollectionView" />
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                            <s:CustomButton
+                                Grid.Column="0"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="BindableItemsSourceDemoPage"
                                 Text="Bindable&#10;ItemsSource" />
@@ -287,7 +305,7 @@
                             <s:CustomButton
                                 Grid.Column="1"
                                 Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="NavigationDemoPage"
+                                CommandParameter="NavigationDemoPageKey"
                                 Text="Navigation" />
                         </Grid>
                         <Grid

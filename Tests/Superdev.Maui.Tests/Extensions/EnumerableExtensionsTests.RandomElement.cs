@@ -8,7 +8,7 @@ namespace Superdev.Maui.Tests.Extensions
         public void NullSourceTest()
         {
             // Arrange
-            int[] values = null;
+            int[] values = null!;
 
             // Act
             Action action = () => values.RandomElement();
@@ -41,7 +41,7 @@ namespace Superdev.Maui.Tests.Extensions
             var result2 = values.RandomElement(new Random(2));
 
             // Assert
-            Assert.NotEqual(result1, result2);
+            result1.Should().NotBe(result2);
         }
 
         [Fact]
@@ -55,19 +55,19 @@ namespace Superdev.Maui.Tests.Extensions
             var result2 = values.RandomElement(new Random(2));
 
             // Assert
-            Assert.NotEqual(result1, result2);
+            result1.Should().NotBe(result2);
         }
 
         [Fact]
         public void SingleElementTest()
         {
             var values1 = Enumerable.Range(10, 1);
-            int result1 = values1.RandomElement(new Random(1));
-            Assert.Equal(10, result1);
+            var result1 = values1.RandomElement(new Random(1));
+            result1.Should().Be(10);
 
             var values2 = values1.ToList();
-            int result2 = values2.RandomElement(new Random(2));
-            Assert.Equal(10, result2);
+            var result2 = values2.RandomElement(new Random(2));
+            result2.Should().Be(10);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Superdev.Maui.Tests.Extensions
             }
 
             // Assert
-            Assert.True(foundDifferent);
+            foundDifferent.Should().BeTrue();
         }
 
         //[Fact]

@@ -6,22 +6,22 @@ namespace Superdev.Maui.Tests.Converters
     public class EnumerableToFirstOrDefaultConverterTests
     {
         [Theory]
-        [ClassData(typeof(EnumerableToFirstOrDefaultConverterTestdata))]
+        [ClassData(typeof(EnumerableToFirstOrDefaultConverterTestData))]
         public void ShouldConvert(object input, object expectedOutput)
         {
             // Arrange
             IValueConverter converter = new EnumerableToFirstOrDefaultConverter();
 
             // Act
-            var convertedOutput = converter.Convert(input, null, null, null);
+            var convertedOutput = converter.Convert(input, null!, null, null!);
 
             // Assert
-            Assert.Equal(expectedOutput, convertedOutput);
+            convertedOutput.Should().Be(expectedOutput);
         }
 
-        public class EnumerableToFirstOrDefaultConverterTestdata : TheoryData<object, object>
+        public class EnumerableToFirstOrDefaultConverterTestData : TheoryData<object?, object?>
         {
-            public EnumerableToFirstOrDefaultConverterTestdata()
+            public EnumerableToFirstOrDefaultConverterTestData()
             {
                 this.Add(null, null);
                 this.Add("null", 'n');
@@ -41,10 +41,10 @@ namespace Superdev.Maui.Tests.Converters
             IValueConverter converter = new EnumerableToFirstOrDefaultConverter();
 
             // Act
-            Action action = () => converter.ConvertBack(null, null, null, null);
+            Action action = () => converter.ConvertBack(null, null!, null, null!);
 
             // Assert
-            Assert.Throws<NotSupportedException>(action);
+            action.Should().Throw<NotSupportedException>();
         }
     }
 }

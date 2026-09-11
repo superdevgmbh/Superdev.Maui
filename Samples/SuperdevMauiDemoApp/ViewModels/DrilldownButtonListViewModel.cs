@@ -8,12 +8,13 @@ namespace SuperdevMauiDemoApp.ViewModels
 {
     public class DrilldownButtonListViewModel : BaseViewModel
     {
-        private int numberOfLoads = 0;
-        private ICommand toggleSwitchCommand;
+        private readonly IDialogService dialogService;
+
+        private int numberOfLoads;
+        private ICommand? toggleSwitchCommand;
         private bool isToggled;
         private bool isNavigatingToTermsAndConditions;
         private bool isNavigatingToPrivacyPolicy;
-        private readonly IDialogService dialogService;
 
         public DrilldownButtonListViewModel(IDialogService dialogService)
         {

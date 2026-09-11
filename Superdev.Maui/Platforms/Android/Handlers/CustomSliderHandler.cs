@@ -1,16 +1,14 @@
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
 using Android.Util;
 using Android.Widget;
-using Superdev.Maui.Controls;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Superdev.Maui.Controls;
 using BlendMode = Android.Graphics.BlendMode;
 using Color = Android.Graphics.Color;
-using ShapeDrawable = Android.Graphics.Drawables.ShapeDrawable;
 using OvalShape = Android.Graphics.Drawables.Shapes.OvalShape;
-using Superdev.Maui.Utils;
+using ShapeDrawable = Android.Graphics.Drawables.ShapeDrawable;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -26,7 +24,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomSlider.ThumbSize)] = MapThumbSize
         };
 
-        public CustomSliderHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomSliderHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -35,6 +33,10 @@ namespace Superdev.Maui.Platforms.Handlers
             : base(Mapper)
         {
         }
+
+        public new CustomSlider? VirtualView => ((ElementHandler)this).VirtualView as CustomSlider;
+
+        public new SeekBar? PlatformView => ((ElementHandler)this).PlatformView as SeekBar;
 
         protected override void ConnectHandler(SeekBar platformView)
         {
@@ -62,7 +64,10 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void UpdateThumbSize(CustomSlider customSlider)
         {
-            var seekBar = this.PlatformView;
+            if (this.PlatformView is not SeekBar seekBar)
+            {
+                return;
+            }
 
             if (customSlider.ThumbSize is int thumbSize)
             {
@@ -83,20 +88,24 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void SetThumb(Color color, int intrinsicWidth, int intrinsicHeight)
         {
+            if (this.PlatformView is not SeekBar seekBar)
+            {
+                return;
+            }
+
             var drawable = new ShapeDrawable(new OvalShape());
             drawable.SetIntrinsicWidth(intrinsicWidth);
             drawable.SetIntrinsicHeight(intrinsicHeight);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+            if (OperatingSystem.IsAndroidVersionAtLeast(29))
             {
-                drawable.SetColorFilter(new BlendModeColorFilter(color, BlendMode.SrcOver));
+                drawable.SetColorFilter(new BlendModeColorFilter(color, BlendMode.SrcOver!));
             }
             else
             {
-                drawable.SetColorFilter(color, PorterDuff.Mode.SrcOver);
+                drawable.SetColorFilter(color, PorterDuff.Mode.SrcOver!);
             }
 
-            var seekBar = this.PlatformView;
             seekBar.SetThumb(drawable);
         }
     }

@@ -1,3 +1,5 @@
+using Superdev.Maui.Localization;
+
 namespace Superdev.Maui
 {
     public class SuperdevMauiOptions
@@ -15,5 +17,10 @@ namespace Superdev.Maui
         /// from all UI elements once a page is no longer in use.
         /// </summary>
         public bool AutoCleanupPage { get; set; } = true;
+
+        /// <summary>
+        /// Defines the translation provider used to resolve translation keys to localized strings.
+        /// </summary>
+        public ITranslationProvider TranslationProvider { get; set; } = new DefaultTranslationProvider();
     }
 }

@@ -15,7 +15,7 @@
         /// <summary>
         /// Pushes the given <paramref name="page"/> with parameter <paramref name="parameter"/> to the navigation stack.
         /// </summary>
-        Task PushAsync<T>(string page, T parameter, bool animated = true);
+        Task PushAsync<T>(string page, T? parameter, bool animated = true);
 
         /// <summary>
         /// Pushes the given <paramref name="page"/> to the navigation stack in a modal context.
@@ -25,7 +25,7 @@
         /// <summary>
         /// Pushes the given <paramref name="page"/> with parameter <paramref name="parameter"/> to the navigation stack in a modal context.
         /// </summary>
-        Task PushModalAsync<T>(string page, T parameter, bool animated = true);
+        Task PushModalAsync<T>(string page, T? parameter, bool animated = true);
 
         /// <summary>
         /// Pops back from the current page.

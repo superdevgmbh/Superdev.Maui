@@ -10,6 +10,6 @@ namespace Superdev.Maui.Controls
 
         ICommand Command { get; }
 
-        object CommandParameter { get; }
+        object? CommandParameter { get; }
     }
 }

@@ -3,6 +3,7 @@ using Superdev.Maui.Utils.Threading;
 
 namespace Superdev.Maui.Controls
 {
+    [Obsolete("ListViewExtensions is deprecated. Use CollectionView together with CollectionViewExtensions instead.")]
     public static class ListViewExtensions
     {
         private static readonly AsyncLock ScrollToLock = new AsyncLock();
@@ -11,7 +12,7 @@ namespace Superdev.Maui.Controls
         /// The minimum duration between ScrollTo calls.
         /// This delay is helpful to avoid exceptions if users issue ScrollTo updates with high frequency.
         /// </summary>
-        private static TimeSpan ScrollToMinimumLockDuration = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan ScrollToMinimumLockDuration = TimeSpan.FromMilliseconds(500);
 
         /// <summary>
         /// ListView.ScrollTo extension which allows to scroll to a certain item in the ListView.
@@ -43,8 +44,8 @@ namespace Superdev.Maui.Controls
                 return;
             }
 
-            object item;
-            object group;
+            object? item;
+            object? group;
             ScrollToPosition scrollToPosition;
             bool animated;
 
@@ -85,11 +86,11 @@ namespace Superdev.Maui.Controls
             }
         }
 
-        private static object TryGetItem(ListView listView, ScrollToPosition scrollToPosition)
+        private static object? TryGetItem(ListView listView, ScrollToPosition scrollToPosition)
         {
             try
             {
-                var listOfObjects = listView.ItemsSource?.Cast<object>();
+                var listOfObjects = listView.ItemsSource?.Cast<object>().ToArray();
                 if (listOfObjects == null)
                 {
                     return null;
@@ -102,7 +103,7 @@ namespace Superdev.Maui.Controls
 
                 if (scrollToPosition == ScrollToPosition.Center)
                 {
-                    var centerIndex = listOfObjects.Count() / 2;
+                    var centerIndex = listOfObjects.Length / 2;
                     return listOfObjects.ElementAtOrDefault(centerIndex);
                 }
 

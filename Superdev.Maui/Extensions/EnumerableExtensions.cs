@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Net;
-using Superdev.Maui.Extensions;
-using Superdev.Maui.Internals;
 
 namespace Superdev.Maui.Extensions
 {
@@ -12,7 +10,7 @@ namespace Superdev.Maui.Extensions
 
         public static IList CreateList(this IEnumerable enumerable)
         {
-            Guard.ArgumentNotNull(enumerable, nameof(enumerable));
+            ArgumentNullException.ThrowIfNull(enumerable);
 
             var list = new Collection<object>();
 
@@ -26,8 +24,8 @@ namespace Superdev.Maui.Extensions
 
         public static void Sort<TSource, TKey>(this ICollection<TSource> source, Func<TSource, TKey> keySelector)
         {
-            Guard.ArgumentNotNull(source, nameof(source));
-            Guard.ArgumentNotNull(keySelector, nameof(keySelector));
+            ArgumentNullException.ThrowIfNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
 
             IList<TSource> sortedList = source.OrderBy(keySelector).ToList();
             source.Clear();
@@ -39,8 +37,8 @@ namespace Superdev.Maui.Extensions
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            Guard.ArgumentNotNull(source, nameof(source));
-            Guard.ArgumentNotNull(action, nameof(action));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(action);
 
             foreach (var item in source)
             {
@@ -64,6 +62,9 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> collection)
         {
+            ArgumentNullException.ThrowIfNull(list);
+            ArgumentNullException.ThrowIfNull(collection);
+
             foreach (var item in collection)
             {
                 list.Add(item);
@@ -79,9 +80,9 @@ namespace Superdev.Maui.Extensions
         /// <param name="updateAction">The update action.</param>
         public static void Update<T>(this IEnumerable<T> source, Func<T, bool> selectorFunc, Action<T> updateAction)
         {
-            Guard.ArgumentNotNull(source, nameof(source));
-            Guard.ArgumentNotNull(selectorFunc, nameof(selectorFunc));
-            Guard.ArgumentNotNull(updateAction, nameof(updateAction));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(selectorFunc);
+            ArgumentNullException.ThrowIfNull(updateAction);
 
             foreach (var item in source.Where(selectorFunc))
             {
@@ -117,7 +118,7 @@ namespace Superdev.Maui.Extensions
         /// <returns><c>true</c> if the specified search list contains duplicates; otherwise, <c>false</c>.</returns>
         public static bool AnyDuplicates<T, TResult>(this IEnumerable<T> searchList, Func<T, TResult> selectionCriteria)
         {
-            Guard.ArgumentNotNull(searchList, nameof(searchList));
+            ArgumentNullException.ThrowIfNull(searchList);
 
             return searchList.Select(selectionCriteria)
                 .GroupBy(x => x)
@@ -133,7 +134,7 @@ namespace Superdev.Maui.Extensions
         /// <exception cref="InvalidOperationException">The source enumerable does not contain any elements.</exception>
         public static object Last(this IEnumerable source)
         {
-            Guard.ArgumentNotNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var lastOrDefault = source.LastOrDefault();
             if (lastOrDefault != null)
@@ -150,9 +151,9 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         /// <exception cref="ArgumentNullException">The source enumerable is null.</exception>
         /// <exception cref="InvalidOperationException">The source enumerable does not contain any elements.</exception>
-        public static object LastOrDefault(this IEnumerable source)
+        public static object? LastOrDefault(this IEnumerable source)
         {
-            Guard.ArgumentNotNull(source, nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             if (source is IList list)
             {
@@ -188,6 +189,8 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         public static IEnumerable<T> Add<T>(this IEnumerable<T> source, T item)
         {
+            ArgumentNullException.ThrowIfNull(source);
+
             foreach (var sourceItem in source)
             {
                 yield return sourceItem;
@@ -201,6 +204,8 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         public static int GetCount(this IEnumerable enumerable)
         {
+            ArgumentNullException.ThrowIfNull(enumerable);
+
             var enumerator = enumerable.GetEnumerator();
             var num = 0;
             while (enumerator.MoveNext())
@@ -218,13 +223,12 @@ namespace Superdev.Maui.Extensions
 
         public static T RandomElement<T>(this IEnumerable<T> source, Random rng)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(rng);
 
-            var current = default(T);
+            T? current = default;
             var count = 0;
+
             foreach (var element in source)
             {
                 count++;
@@ -239,16 +243,29 @@ namespace Superdev.Maui.Extensions
                 throw new InvalidOperationException("Sequence was empty");
             }
 
-            return current;
+            // Here current is guaranteed to be assigned by the reservoir algorithm.
+            return current!;
         }
 
+#if !NET10_0_OR_GREATER
+        /// <summary>
+        ///     Returns the elements of <paramref name="source" /> in random order.
+        ///     The returned sequence is deferred and reshuffles on each enumeration.
+        /// </summary>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
             return source.Shuffle(Rng);
         }
+#endif
 
+        /// <summary>
+        ///     Returns the elements of <paramref name="source" /> in random order using the given
+        ///     <paramref name="rng" />. The returned sequence is deferred and reshuffles on each enumeration.
+        /// </summary>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
         {
+            ArgumentNullException.ThrowIfNull(source);
+
             var elements = source.ToArray();
             for (var i = elements.Length - 1; i >= 0; i--)
             {
@@ -259,7 +276,7 @@ namespace Superdev.Maui.Extensions
         }
 
         /// <summary>
-        /// Finds duplicates in a given collection <seealso cref="source"/>.
+        ///     Finds duplicates in a given collection <seealso cref="source" />.
         /// </summary>
         /// <typeparam name="T">The collection item type.</typeparam>
         /// <param name="source">The source collection.</param>
@@ -268,6 +285,9 @@ namespace Superdev.Maui.Extensions
         /// <returns></returns>
         public static IEnumerable<T> FindDuplicates<T>(this IEnumerable<T> source, Func<T, object> propertySelector, int numberOfDuplicates = 2)
         {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(propertySelector);
+
             var skip = numberOfDuplicates - 1;
             return source
                 .GroupBy(propertySelector)
@@ -276,18 +296,22 @@ namespace Superdev.Maui.Extensions
         }
 
         /// <summary>
-        /// Concatenates all <paramref name="parameters"/> into a ampersand-separated string, e.g. param1=value1&param2=value2
+        ///     Concatenates all <paramref name="parameters" /> into a ampersand-separated string, e.g. param1=value1&param2=value2
         /// </summary>
         /// <param name="parameters">List of parameters and values.</param>
         /// <returns>Ampersand-separated URI parameter string.</returns>
         public static string ToQueryString(this IEnumerable<KeyValuePair<string, string>> parameters)
         {
+            ArgumentNullException.ThrowIfNull(parameters);
+
             return string.Join("&", parameters.Select(p => $"{WebUtility.UrlEncode(p.Key)}={WebUtility.UrlEncode(p.Value)}"));
         }
 
-        public static T FirstOrDefault<T>(this IEnumerable items)
+        public static T? FirstOrDefault<T>(this IEnumerable source)
         {
-            foreach (var item in items.OfType<T>())
+            ArgumentNullException.ThrowIfNull(source);
+
+            foreach (var item in source.OfType<T>())
             {
                 return item;
             }
@@ -295,19 +319,72 @@ namespace Superdev.Maui.Extensions
             return default;
         }
 
+        /// <summary>
+        ///     Returns the single element if the sequence contains exactly one element; otherwise <c>default</c>.
+        /// </summary>
+        public static T? SingleOrNone<T>(this IEnumerable<T>? source)
+        {
+            if (source is null)
+            {
+                return default;
+            }
+
+            using var enumerator = source.GetEnumerator();
+
+            if (!enumerator.MoveNext())
+            {
+                return default;
+            }
+
+            var item = enumerator.Current;
+
+            return enumerator.MoveNext()
+                ? default
+                : item;
+        }
+
         public static T[] Replace<T>(this T[] list, T oldItem, T newItem)
         {
+            ArgumentNullException.ThrowIfNull(list);
+
             list.Replace(i => Equals(i, oldItem), newItem);
             return list;
         }
 
-        public static void Replace<T>(this T[] list, Predicate<T> oldItemSelector , T newItem)
+        public static void Replace<T>(this T[] list, Predicate<T> oldItemSelector, T newItem)
         {
+            ArgumentNullException.ThrowIfNull(list);
+            ArgumentNullException.ThrowIfNull(oldItemSelector);
+            ArgumentNullException.ThrowIfNull(newItem);
+
             //check for different situations here and throw exception
             //if list contains multiple items that match the predicate
             //or check for nullability of list and etc ...
             var oldItemIndex = Array.FindIndex(list, oldItemSelector);
             list[oldItemIndex] = newItem;
+        }
+
+        /// <summary>
+        ///     Removes all items from <paramref name="source" /> which match with the given <paramref name="predicate" />.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="predicate">The condition for which items will be removed from the source collection.</param>
+        /// <typeparam name="T">Generic type T.</typeparam>
+        /// <returns>The number of removed items.</returns>
+        public static int RemoveBy<T>(this ICollection<T> source, Func<T, bool> predicate)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
+
+            var itemsToRemove = source.Where(predicate).ToList();
+            var removedCount = 0;
+            foreach (var itemToRemove in itemsToRemove)
+            {
+                source.Remove(itemToRemove);
+                removedCount++;
+            }
+
+            return removedCount;
         }
     }
 }

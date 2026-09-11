@@ -9,7 +9,7 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         /// <param name="exception">The source exception.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IEnumerable<Exception> GetInnerExceptions(this Exception exception)
+        public static IEnumerable<Exception> GetInnerExceptions(this Exception? exception)
         {
             if (exception == null)
             {
@@ -49,7 +49,7 @@ namespace Superdev.Maui.Extensions
             return GetInnerExceptionsWithDepth(exception, 0);
         }
 
-        private static IEnumerable<(Exception Exception, int Depth)> GetInnerExceptionsWithDepth(Exception exception, int depth)
+        private static IEnumerable<(Exception Exception, int Depth)> GetInnerExceptionsWithDepth(Exception? exception, int depth)
         {
             if (exception == null)
             {

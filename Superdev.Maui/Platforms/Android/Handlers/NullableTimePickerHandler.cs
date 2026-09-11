@@ -23,7 +23,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
 
-        public NullableTimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public NullableTimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -33,7 +33,7 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new NullableTimePicker VirtualView => (NullableTimePicker)base.VirtualView;
+        public new NullableTimePicker? VirtualView => base.VirtualView as NullableTimePicker;
 
         protected override TimePickerDialog CreateTimePickerDialog(int hours, int minutes)
         {
@@ -75,8 +75,11 @@ namespace Superdev.Maui.Platforms.Handlers
         protected override void HandlePositiveButtonTap(TimeSpan time)
         {
             var nullableTimePicker = this.VirtualView;
-            nullableTimePicker.Time = time;
-            nullableTimePicker.NullableTime = time;
+            if (nullableTimePicker != null)
+            {
+                nullableTimePicker.Time = time;
+                nullableTimePicker.NullableTime = time;
+            }
         }
 
         private void UpdateNeutralButton(MauiTimePicker mauiTimePicker, NullableTimePicker nullableTimePicker, TimePickerDialog dialog)
@@ -117,7 +120,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static string GetNeutralButtonText(BindableObject element)
+        private static string? GetNeutralButtonText(BindableObject element)
         {
             if (DialogExtensions.GetNeutralButtonText(element) is string neutralButtonText)
             {

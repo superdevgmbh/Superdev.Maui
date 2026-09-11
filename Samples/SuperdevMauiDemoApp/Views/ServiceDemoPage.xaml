@@ -18,6 +18,21 @@
             Spacing="{DynamicResource Theme.Spacing.Medium}">
             <Label
                 Style="{StaticResource DemoLabelStyle}"
+                Text="ILocalizer" />
+            <Label Text="{Binding CurrentCulture, StringFormat='CurrentCulture={0}'}" />
+            <Button
+                Command="{Binding SetCurrentCultureCommand}"
+                CommandParameter="en-US"
+                Text="CurrentCulture=en-US" />
+            <Button
+                Command="{Binding SetCurrentCultureCommand}"
+                CommandParameter="de-XX"
+                Text="CurrentCulture=de-XX" />
+            <Button
+                Command="{Binding ResetCurrentCultureCommand}"
+                Text="Reset" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
                 Text="IDeviceInfo" />
             <s:ValidatableEntry
                 IsReadonly="True"

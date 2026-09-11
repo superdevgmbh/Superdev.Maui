@@ -10,9 +10,9 @@ namespace Superdev.Maui.Platforms.Handlers
 {
     using PM = PropertyMapper<CustomTabbedPage, CustomTabbedPageHandler>;
 
-    public partial class CustomTabbedPageHandler : TabbedViewHandler
+    public class CustomTabbedPageHandler : TabbedViewHandler
     {
-        private ILogger logger;
+        private readonly ILogger logger;
 
         public new static readonly PM Mapper = new PM(TabbedViewHandler.Mapper)
         {
@@ -27,18 +27,18 @@ namespace Superdev.Maui.Platforms.Handlers
         public CustomTabbedPageHandler()
             : base(Mapper)
         {
-            this.logger = IPlatformApplication.Current.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
+            this.logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<CustomTabbedPageHandler>>();
         }
 
         protected override void ConnectHandler(AView platformView)
         {
+            base.ConnectHandler(platformView);
+
             if (this.VirtualView is CustomTabbedPage customTabbedPage)
             {
                 //this.VirtualView.AddCleanUpEvent(); // Not needed because, pages call DisconnectHandler automagically
                 customTabbedPage.Loaded += this.TabbedPage_Loaded;
             }
-
-            base.ConnectHandler(platformView);
         }
 
         private void UpdateBottomNavigationVisibility(CustomTabbedPage customTabbedPage)
@@ -59,7 +59,7 @@ namespace Superdev.Maui.Platforms.Handlers
                 if (toolbarPlacement is ToolbarPlacement.Default or ToolbarPlacement.Top)
                 {
                     var toptabs = coordinatorLayout.FindViewById(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_toptabs);
-                    if (toptabs.LayoutParameters is LayoutParams layoutParams)
+                    if (toptabs?.LayoutParameters is LayoutParams layoutParams)
                     {
                         if (customTabbedPage.HideTabs)
                         {
@@ -110,7 +110,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        private static AView FindParent(AView view, Func<AView, bool> searchExpression)
+        private static AView? FindParent(AView? view, Func<AView, bool> searchExpression)
         {
             if (view?.Parent is AView pv)
             {
@@ -122,10 +122,10 @@ namespace Superdev.Maui.Platforms.Handlers
                 return FindParent(pv, searchExpression);
             }
 
-            return default;
+            return null;
         }
 
-        private void TabbedPage_Loaded(object sender, EventArgs e)
+        private void TabbedPage_Loaded(object? sender, EventArgs e)
         {
             if (sender is CustomTabbedPage customTabbedPage)
             {
@@ -139,8 +139,6 @@ namespace Superdev.Maui.Platforms.Handlers
             {
                 customTabbedPage.Loaded -= this.TabbedPage_Loaded;
             }
-
-            this.logger = null;
 
             base.DisconnectHandler(platformView);
         }

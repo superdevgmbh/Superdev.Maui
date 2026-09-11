@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.Input;
-using Superdev.Maui.Mvvm;
-using Superdev.Maui.Services;
 using Superdev.Maui.Extensions;
+using Superdev.Maui.Mvvm;
 using Superdev.Maui.Navigation;
+using Superdev.Maui.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -12,14 +12,14 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
 
-        private IAsyncRelayCommand navigateToPageCommand;
-        private IAsyncRelayCommand popCommand;
-        private IAsyncRelayCommand popToRootCommand;
-        private IAsyncRelayCommand navigateToPageModalCommand;
-        private IAsyncRelayCommand popModalCommand;
-        private IRelayCommand toggleHasNavigationBarCommand;
+        private IAsyncRelayCommand? navigateToPageCommand;
+        private IAsyncRelayCommand? popCommand;
+        private IAsyncRelayCommand? popToRootCommand;
+        private IAsyncRelayCommand? navigateToPageModalCommand;
+        private IAsyncRelayCommand? popModalCommand;
+        private IRelayCommand? toggleHasNavigationBarCommand;
         private bool hasNavigationBar = true;
-        private IRelayCommand toggleSwipeBackEnabledCommand;
+        private IRelayCommand? toggleSwipeBackEnabledCommand;
         private bool swipeBackEnabled = true;
 
         public NavigationDemoViewModel(
@@ -63,7 +63,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand NavigateToPageCommand
         {
-            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageAsync);
+            get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageAsync!);
         }
 
         private async Task NavigateToPageAsync(string pageName)
@@ -117,7 +117,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand NavigateToPageModalCommand
         {
-            get => this.navigateToPageModalCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageModalAsync);
+            get => this.navigateToPageModalCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageModalAsync!);
         }
 
         private async Task NavigateToPageModalAsync(string pageName)

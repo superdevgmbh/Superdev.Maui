@@ -62,7 +62,7 @@ namespace Superdev.Maui.Platforms.Services
             this.paint.Alpha = alpha;
         }
 
-        public override void SetColorFilter(ColorFilter colorFilter)
+        public override void SetColorFilter(ColorFilter? colorFilter)
         {
             this.paint.SetColorFilter(colorFilter);
         }

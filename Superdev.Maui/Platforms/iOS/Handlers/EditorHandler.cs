@@ -1,3 +1,4 @@
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using UIKit;
@@ -8,14 +9,14 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class EditorHandler : Microsoft.Maui.Handlers.EditorHandler
     {
-        private MauiDoneAccessoryView inputAccessoryView;
+        private MauiDoneAccessoryView? inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.EditorHandler.Mapper)
         {
             [nameof(DialogExtensions.DoneButtonText)] = MapDoneButtonText,
         };
 
-        public EditorHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public EditorHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -25,7 +26,9 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new Editor VirtualView => (Editor)base.VirtualView;
+        public new Editor? VirtualView => ((ElementHandler)this).VirtualView as Editor;
+
+        public new MauiTextView? PlatformView => ((ElementHandler)this).PlatformView as MauiTextView;
 
         protected override MauiTextView CreatePlatformView()
         {
@@ -60,14 +63,19 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private void DoneButtonText(Editor editor)
         {
+            if (this.PlatformView is not MauiTextView mauiTextView || this.inputAccessoryView == null)
+            {
+                return;
+            }
+
             var doneButtonText = DialogExtensions.GetDoneButtonText(editor);
-            var mauiTextView = this.PlatformView;
             mauiTextView.InputAccessoryView = MauiDoneAccessoryView.SetDoneButtonText(ref this.inputAccessoryView, doneButtonText);
         }
 
         protected override void ConnectHandler(MauiTextView platformView)
         {
             base.ConnectHandler(platformView);
+
             this.UpdateTextInsets();
             this.FixScrollingIssue();
         }

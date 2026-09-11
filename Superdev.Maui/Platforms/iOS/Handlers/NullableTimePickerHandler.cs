@@ -27,7 +27,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private bool isClearing;
 
-        public NullableTimePickerHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public NullableTimePickerHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -36,6 +36,8 @@ namespace Superdev.Maui.Platforms.Handlers
             : base(Mapper)
         {
         }
+
+        public new NullableTimePicker? VirtualView => base.VirtualView as NullableTimePicker;
 
         protected override MauiTimePicker CreatePlatformView()
         {
@@ -65,8 +67,6 @@ namespace Superdev.Maui.Platforms.Handlers
             timePicker.NullableTime = time;
             mauiTimePicker.ResignFirstResponder();
         }
-
-        private new NullableTimePicker VirtualView => (NullableTimePicker)base.VirtualView;
 
         private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
         {

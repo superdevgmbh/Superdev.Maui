@@ -31,7 +31,7 @@ namespace Superdev.Maui.Effects
                 null,
                 propertyChanged: OnSafeAreaPaddingLayoutChanged);
 
-        private static void OnSafeAreaPaddingLayoutChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnSafeAreaPaddingLayoutChanged(BindableObject bindable, object? oldValue, object? newValue)
         {
             if (newValue is SafeAreaPaddingLayout layout && layout.Positions.Any())
             {

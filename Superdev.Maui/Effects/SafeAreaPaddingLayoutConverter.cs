@@ -9,27 +9,22 @@ namespace Superdev.Maui.Effects
     {
         private static readonly char[] CommaSeparator = new[] { ',' };
 
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
         {
             return sourceType == typeof(string);
         }
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
         {
             return destinationType == typeof(string);
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
         {
-            var strValue = value?.ToString();
+            var strValue = value.ToString();
 
-            if (value == null)
-            {
-                throw new InvalidOperationException(string.Format("Cannot convert null into {0}", typeof(SafeAreaPaddingLayout)));
-            }
-
-            var strArray = strValue.Split(CommaSeparator, StringSplitOptions.RemoveEmptyEntries);
-            if (strArray.Length < 1 || strArray.Length > 4)
+            var strArray = strValue?.Split(CommaSeparator, StringSplitOptions.RemoveEmptyEntries);
+            if (strArray == null || strArray.Length < 1 || strArray.Length >4)
             {
                 throw new InvalidOperationException($"Cannot convert \"{value}\" into {typeof(SafeAreaPaddingLayout)}");
             }
@@ -38,7 +33,7 @@ namespace Superdev.Maui.Effects
             return new SafeAreaPaddingLayout(paddingPositions);
         }
 
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
         {
             if (value is not SafeAreaPaddingLayout t)
             {

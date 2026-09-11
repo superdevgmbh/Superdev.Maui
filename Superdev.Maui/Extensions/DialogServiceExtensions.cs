@@ -21,7 +21,7 @@ namespace Superdev.Maui.Extensions
                 var retry = await dialogService.DisplayAlertAsync(
                     viewModelError.Title,
                     viewModelError.Text,
-                    viewModelError.RetryButtonText,
+                    viewModelError.RetryButtonText!,
                     cancel);
 
                 if (retry)

@@ -7,7 +7,7 @@ namespace Superdev.Maui.Platforms.Behaviors
 {
     public partial class ActivityIndicatorViewStylePlatformBehavior
     {
-        private MauiActivityIndicator control;
+        private MauiActivityIndicator? control;
 
         /// <inheritdoc/>
         protected override void OnAttachedTo(ActivityIndicator bindable, UIView platformView)
@@ -27,7 +27,7 @@ namespace Superdev.Maui.Platforms.Behaviors
         {
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -44,6 +44,11 @@ namespace Superdev.Maui.Platforms.Behaviors
 
         private void UpdateViewStyle()
         {
+            if (this.control == null)
+            {
+                return;
+            }
+
             if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
             {
                 return;

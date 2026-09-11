@@ -4,12 +4,12 @@
     {
         public TestClass9()
         {
-            
+
         }
 
         internal TestClass9(string param)
         {
-            
+
         }
     }
 }

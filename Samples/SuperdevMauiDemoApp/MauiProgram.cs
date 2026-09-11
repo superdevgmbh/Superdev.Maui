@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Superdev.Maui;
 using Superdev.Maui.Localization;
+using Superdev.Maui.Navigation;
 using SuperdevMauiDemoApp.Services;
 using SuperdevMauiDemoApp.Services.Validation;
 using SuperdevMauiDemoApp.Translations;
@@ -17,7 +18,10 @@ namespace SuperdevMauiDemoApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseSuperdevMaui()
+                .UseSuperdevMaui(o =>
+                {
+                    o.TranslationProvider = new ResxTranslationProvider(Strings.ResourceManager);
+                })
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
@@ -33,68 +37,45 @@ namespace SuperdevMauiDemoApp
                 b.AddSimpleConsole();
             });
 
-            var localize = ILocalizer.Current;
-            localize.LanguageChanging += (_, e) =>
-            {
-                Strings.Culture = e.CultureInfo;
-            };
+            var localizer = ILocalizer.Current;
+            localizer.PreferencesKey = "SuperdevMauiDemoApp_AppLanguage";
+            localizer.SupportedLanguages = SupportedLanguages.GetAll().ToArray();
+            localizer.LanguageChanging += (_, e) => Strings.Culture = e.CultureInfo;
 
-            var translationProvider = ResxSingleTranslationProvider.Current;
-            translationProvider.Init(Strings.ResourceManager);
+            builder.Services.RegisterForNavigation<MainPage, MainViewModel>("MainPage");
+            builder.Services.RegisterForNavigation<LabelDemoPage, LabelDemoViewModel>("LabelDemoPage");
+            builder.Services.RegisterForNavigation<CardViewDemoPage, CardViewDemoViewModel>();
+            builder.Services.RegisterForNavigation<DrilldownButtonListPage, DrilldownButtonListViewModel>();
+            builder.Services.RegisterForNavigation<EntryDemoPage, EntryDemoViewModel>();
+            builder.Services.RegisterForNavigation<ServiceDemoPage, ServiceDemoViewModel>();
+            builder.Services.RegisterForNavigation<NavigationDemoPage, NavigationDemoViewModel>("NavigationDemoPageKey");
+            builder.Services.RegisterForNavigation<ViewModelErrorDemoPage, ViewModelErrorDemoViewModel>();
+            builder.Services.RegisterForNavigation<SliderDemoPage>();
+            builder.Services.RegisterForNavigation<ActivityIndicatorDemoPage, ActivityIndicatorDemoViewModel>();
+            builder.Services.RegisterForNavigation<PickerDemoPage, PickerDemoViewModel>();
+            builder.Services.RegisterForNavigation<DatePickerDemoPage, DatePickerDemoViewModel>();
+            builder.Services.RegisterForNavigation<TimePickerDemoPage, TimePickerDemoViewModel>();
+            builder.Services.RegisterForNavigation<EditorDemoPage, EditorDemoViewModel>();
+            builder.Services.RegisterForNavigation<KeyboardDemoPage, KeyboardDemoViewModel>();
+            builder.Services.RegisterForNavigation<SwitchDemoPage, SwitchDemoViewModel>();
+            builder.Services.RegisterForNavigation<CheckBoxDemoPage, CheckBoxDemoViewModel>();
+            builder.Services.RegisterForNavigation<ButtonDemoPage, ButtonDemoViewModel>();
+            builder.Services.RegisterForNavigation<ListViewDemoPage, ListViewDemoViewModel>();
+            builder.Services.RegisterForNavigation<CollectionViewDemoPage, CollectionViewDemoViewModel>();
+            builder.Services.RegisterForNavigation<CustomTabbedPageDemoPage>();
+            builder.Services.RegisterForNavigation<PreferencesDemoPage, PreferencesDemoViewModel>();
+            builder.Services.RegisterForNavigation<StylesDemoPage, StylesDemoViewModel>();
+            builder.Services.RegisterForNavigation<WebViewDemoPage, WebViewDemoViewModel>();
+            builder.Services.RegisterForNavigation<SearchBarDemoPage>();
+            builder.Services.RegisterForNavigation<SpacingDemoPage>();
+            builder.Services.RegisterForNavigation<RadioButtonDemoPage>();
+            builder.Services.RegisterForNavigation<ProgressBarDemoPage>();
+            builder.Services.RegisterForNavigation<MarkupExtensionsDemoPage>();
+            builder.Services.RegisterForNavigation<BindableItemsSourceDemoPage, BindableItemsSourceDemoViewModel>();
 
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<MainViewModel>();
-            builder.Services.AddTransient<LabelDemoPage>();
-            builder.Services.AddTransient<LabelDemoViewModel>();
-            builder.Services.AddTransient<CardViewDemoPage>();
-            builder.Services.AddTransient<CardViewDemoViewModel>();
-            builder.Services.AddTransient<DrilldownButtonListPage>();
-            builder.Services.AddTransient<DrilldownButtonListViewModel>();
-            builder.Services.AddTransient<EntryDemoPage>();
-            builder.Services.AddTransient<EntryDemoViewModel>();
-            builder.Services.AddTransient<ServiceDemoPage>();
-            builder.Services.AddTransient<ServiceDemoViewModel>();
-            builder.Services.AddTransient<NavigationDemoPage>();
-            builder.Services.AddTransient<NavigationDemoViewModel>();
-            builder.Services.AddTransient<ViewModelErrorDemoPage>();
-            builder.Services.AddTransient<ViewModelErrorDemoViewModel>();
-            builder.Services.AddTransient<ActivityIndicatorDemoPage>();
-            builder.Services.AddTransient<ActivityIndicatorDemoViewModel>();
-            builder.Services.AddTransient<PickerDemoPage>();
-            builder.Services.AddTransient<PickerDemoViewModel>();
-            builder.Services.AddTransient<DatePickerDemoPage>();
-            builder.Services.AddTransient<DatePickerDemoViewModel>();
-            builder.Services.AddTransient<TimePickerDemoPage>();
-            builder.Services.AddTransient<TimePickerDemoViewModel>();
-            builder.Services.AddTransient<EditorDemoPage>();
-            builder.Services.AddTransient<EditorDemoViewModel>();
-            builder.Services.AddTransient<KeyboardDemoPage>();
-            builder.Services.AddTransient<KeyboardDemoViewModel>();
-            builder.Services.AddTransient<SwitchDemoPage>();
-            builder.Services.AddTransient<SwitchDemoViewModel>();
-            builder.Services.AddTransient<CheckBoxDemoPage>();
-            builder.Services.AddTransient<CheckBoxDemoViewModel>();
-            builder.Services.AddTransient<ButtonDemoPage>();
-            builder.Services.AddTransient<ButtonDemoViewModel>();
-            builder.Services.AddTransient<ListViewDemoPage>();
-            builder.Services.AddTransient<ListViewDemoViewModel>();
-            builder.Services.AddTransient<CustomTabbedPageDemoPage>();
-            builder.Services.AddTransient<PreferencesDemoPage>();
-            builder.Services.AddTransient<PreferencesDemoViewModel>();
-            builder.Services.AddTransient<StylesDemoPage>();
-            builder.Services.AddTransient<StylesDemoViewModel>();
-            builder.Services.AddTransient<SliderDemoPage>();
-            builder.Services.AddTransient<WebViewDemoPage>();
-            builder.Services.AddTransient<WebViewDemoViewModel>();
-            builder.Services.AddTransient<SearchBarDemoPage>();
-            builder.Services.AddTransient<SpacingDemoPage>();
-            builder.Services.AddTransient<RadioButtonDemoPage>();
-            builder.Services.AddTransient<ProgressBarDemoPage>();
+            // Demo: Transient page/viewmodel registration (instead of RegisterForNavigation)
             builder.Services.AddTransient<BehaviorDemoPage>();
             builder.Services.AddTransient<BehaviorDemoViewModel>();
-            builder.Services.AddTransient<MarkupExtensionsDemoPage>();
-            builder.Services.AddTransient<BindableItemsSourceDemoPage>();
-            builder.Services.AddTransient<BindableItemsSourceDemoViewModel>();
 
             builder.Services.AddSingleton<ICountryService, CountryService>();
             builder.Services.AddSingleton<IValidationService, ValidationService>();

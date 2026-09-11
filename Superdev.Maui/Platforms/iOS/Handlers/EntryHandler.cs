@@ -1,3 +1,4 @@
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 
@@ -7,14 +8,14 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class EntryHandler : Microsoft.Maui.Handlers.EntryHandler
     {
-        private MauiDoneAccessoryView inputAccessoryView;
+        private MauiDoneAccessoryView? inputAccessoryView;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.EntryHandler.Mapper)
         {
             [nameof(DialogExtensions.DoneButtonText)] = MapDoneButtonText,
         };
 
-        public EntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public EntryHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -24,7 +25,9 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        private new Entry VirtualView => (Entry)base.VirtualView;
+        public new Entry? VirtualView => ((ElementHandler)this).VirtualView as Entry;
+
+        public new MauiTextField? PlatformView => ((ElementHandler)this).PlatformView as MauiTextField;
 
         protected override MauiTextField CreatePlatformView()
         {

@@ -2,8 +2,8 @@
 {
     public class EnvironmentSetting
     {
-        public string EnvironmentName { get; set; }
+        public required string EnvironmentName { get; init; }
 
-        public string BaseUrl { get; set; }
+        public required string BaseUrl { get; init; }
     }
 }

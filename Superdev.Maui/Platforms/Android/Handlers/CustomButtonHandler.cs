@@ -16,7 +16,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(CustomButton.AllCaps)] = MapAllCaps,
         };
 
-        public CustomButtonHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomButtonHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -34,7 +34,7 @@ namespace Superdev.Maui.Platforms.Handlers
             UpdateHorizontalTextAlignment(customButton, platformView);
         }
 
-        public override void UpdateValue(string property)
+        public override void UpdateValue(string? property)
         {
             base.UpdateValue(property);
 

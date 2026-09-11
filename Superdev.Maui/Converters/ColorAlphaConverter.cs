@@ -17,7 +17,7 @@ namespace Superdev.Maui.Converters
             set => this.SetValue(AlphaProperty, value);
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is Color color)
             {
@@ -27,7 +27,7 @@ namespace Superdev.Maui.Converters
             return null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
         }

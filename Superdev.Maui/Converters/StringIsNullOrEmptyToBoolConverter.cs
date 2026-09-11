@@ -16,7 +16,7 @@ namespace Superdev.Maui.Converters
             set => this.SetValue(IsInvertedProperty, value);
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (this.IsInverted)
             {
@@ -26,7 +26,7 @@ namespace Superdev.Maui.Converters
             return string.IsNullOrEmpty(value as string);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

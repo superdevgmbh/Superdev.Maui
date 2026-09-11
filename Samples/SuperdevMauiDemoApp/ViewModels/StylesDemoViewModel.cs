@@ -1,10 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Superdev.Maui;
-using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
@@ -22,14 +18,14 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IClipboard clipboard;
         private readonly IEmail email;
 
-        private IAsyncRelayCommand dumpResourcesCommand;
-        private IRelayCommand updateColorsCommand;
-        private IAsyncRelayCommand loadDataCommand;
-        private IRelayCommand switchThemesCommand;
+        private IAsyncRelayCommand? dumpResourcesCommand;
+        private IRelayCommand? updateColorsCommand;
+        private IAsyncRelayCommand? loadDataCommand;
+        private IRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
-        private ColorResourceViewModel[] colors;
-        private FontResourceViewModel[] fonts;
-        private ObjectResourceViewModel[] resources;
+        private ColorResourceViewModel[] colors = Array.Empty<ColorResourceViewModel>();
+        private FontResourceViewModel[] fonts =  Array.Empty<FontResourceViewModel>();
+        private ObjectResourceViewModel[] resources = Array.Empty<ObjectResourceViewModel>();
 
         public StylesDemoViewModel(
             ILogger<StylesDemoViewModel> logger,
@@ -78,7 +74,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.appTheme = this.themeHelper.AppTheme;
                 this.RaisePropertyChanged(nameof(this.AppTheme));
 
-                var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(Application.Current.Resources, "MergedResources");
+                var mergedResources = ReflectionHelper.GetPropertyValue<IEnumerable<KeyValuePair<string, object>>>(Application.Current!.Resources, "MergedResources")!;
                 var resources = mergedResources
                     .Select(GetResourceViewModel)
                     .OrderBy(vm => vm.ResourceType)
@@ -202,7 +198,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 if (this.SetProperty(ref this.appTheme, value))
                 {
-                    this.themeHelper.AppTheme =  value;
+                    this.themeHelper.AppTheme = value;
                 }
             }
         }

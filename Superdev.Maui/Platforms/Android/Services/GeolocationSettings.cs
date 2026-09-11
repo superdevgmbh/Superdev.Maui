@@ -24,7 +24,7 @@ namespace Superdev.Maui.Platforms.Services
                 intent.SetFlags(ActivityFlags.NewTask);
 
                 var currentActivity = Platform.CurrentActivity;
-                currentActivity.StartActivityForResult(intent, 0);
+                currentActivity?.StartActivityForResult(intent, 0);
             }
             catch (Exception ex)
             {

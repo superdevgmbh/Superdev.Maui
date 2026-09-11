@@ -10,9 +10,9 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        private IAsyncRelayCommand appearingCommand;
-        private IAsyncRelayCommand saveProfileButtonCommand;
-        private IAsyncRelayCommand loadDataButtonCommand;
+        private IAsyncRelayCommand? appearingCommand;
+        private IAsyncRelayCommand? saveProfileButtonCommand;
+        private IAsyncRelayCommand? loadDataButtonCommand;
         private bool isSaving;
 
         public ButtonDemoViewModel(

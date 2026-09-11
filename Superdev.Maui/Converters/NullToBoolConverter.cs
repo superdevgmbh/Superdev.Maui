@@ -6,7 +6,7 @@ namespace Superdev.Maui.Converters
     {
         public bool Inverted { get; set; }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value == null)
             {
@@ -16,7 +16,7 @@ namespace Superdev.Maui.Converters
             return false;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException("Convert back is not supported");
         }

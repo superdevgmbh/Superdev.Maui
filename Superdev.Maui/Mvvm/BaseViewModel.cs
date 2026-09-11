@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Superdev.Maui.Utils;
@@ -10,35 +11,34 @@ namespace Superdev.Maui.Mvvm
     {
         private readonly RefCountBool busyRefCount = new RefCountBool();
 
-        private string title;
-        private string subTitle;
-        private string icon;
+        private string? title;
+        private string? subTitle;
+        private string? icon;
         private bool isRefreshing;
-        private ViewModelError viewModelError;
-        private ViewModelValidation validation;
+        private ViewModelError viewModelError = ViewModelError.None;
+        private ViewModelValidation validation = new ViewModelValidation();
         private bool isInitialized;
         private bool enableBusyRefCount;
         private bool isBusy;
 
         protected BaseViewModel()
         {
-            this.ViewModelError = ViewModelError.None;
             this.SetupValidationInternal();
         }
 
-        public virtual string Title
+        public virtual string? Title
         {
             get => this.title;
             set => this.SetProperty(ref this.title, value);
         }
 
-        public string Subtitle
+        public string? Subtitle
         {
             get => this.subTitle;
             set => this.SetProperty(ref this.subTitle, value);
         }
 
-        public string Icon
+        public string? Icon
         {
             get => this.icon;
             set => this.SetProperty(ref this.icon, value);
@@ -94,7 +94,7 @@ namespace Superdev.Maui.Mvvm
         /// <summary>
         /// Indicates the busy state of the viewmodel. This flag can be used to block the user interface with a loading message.
         /// </summary>
-        public virtual bool IsBusy
+        public bool IsBusy
         {
             get
             {
@@ -191,7 +191,7 @@ namespace Superdev.Maui.Mvvm
         /// <summary>
         /// Overriding <see cref="SetupValidation"/> activates user input validation for this view model.
         /// </summary>
-        protected virtual ViewModelValidation SetupValidation()
+        protected virtual ViewModelValidation? SetupValidation()
         {
             return null;
         }
@@ -202,7 +202,7 @@ namespace Superdev.Maui.Mvvm
             this.Validation?.HandlePropertyChange(args.PropertyName);
         }
 
-        protected virtual bool SetProperty(RefCountBool refCountBool, bool value, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty(RefCountBool refCountBool, bool value, [CallerMemberName] string? propertyName = null)
         {
             var hasChanged = refCountBool.SetValue(value);
             if (hasChanged)

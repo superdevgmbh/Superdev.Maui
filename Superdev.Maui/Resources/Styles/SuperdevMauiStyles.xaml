@@ -24,19 +24,42 @@
 
     <!-- Page -->
     <Style
+        x:Key="PageStyle"
         ApplyToDerivedTypes="True"
         TargetType="Page">
         <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
     </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource PageStyle}"
+        TargetType="Page" />
+
+    <!-- ContentPage -->
+    <Style
+        x:Key="ContentPageStyle"
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource PageStyle}"
+        TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.ContentPage.BackgroundColor}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource ContentPageStyle}"
+        TargetType="ContentPage" />
 
     <!-- NavigationPage -->
     <Style
+        x:Key="NavigationPageStyle"
         ApplyToDerivedTypes="True"
         TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{DynamicResource Theme.Color.Primary}" />
         <Setter Property="BarTextColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
         <Setter Property="IconColor" Value="{DynamicResource Theme.Color.OnPrimary}" />
     </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource NavigationPageStyle}"
+        TargetType="NavigationPage" />
 
     <!-- TabbedPage -->
     <Style
@@ -551,6 +574,17 @@
         ApplyToDerivedTypes="True"
         BasedOn="{StaticResource ListViewStyle}"
         TargetType="ListView" />
+
+    <!-- CollectionView -->
+    <Style
+        x:Key="CollectionViewStyle"
+        TargetType="CollectionView">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
+    </Style>
+    <Style
+        ApplyToDerivedTypes="True"
+        BasedOn="{StaticResource CollectionViewStyle}"
+        TargetType="CollectionView" />
 
     <!-- ViewCell -->
     <Style

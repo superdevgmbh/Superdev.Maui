@@ -2,7 +2,7 @@
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 
-namespace SampleApp.ViewModels
+namespace SuperdevMauiDemoApp.ViewModels
 {
     public class LanguageViewModel : BaseViewModel, IEquatable<LanguageViewModel>
     {
@@ -19,7 +19,7 @@ namespace SampleApp.ViewModels
 
         public string DisplayName { get; }
 
-        public bool Equals(LanguageViewModel other)
+        public bool Equals(LanguageViewModel? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -34,7 +34,7 @@ namespace SampleApp.ViewModels
             return Equals(this.Dto, other.Dto);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {

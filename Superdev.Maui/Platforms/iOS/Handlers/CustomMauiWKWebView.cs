@@ -2,8 +2,8 @@ using CoreGraphics;
 using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using WebKit;
 using Superdev.Maui.Platforms.Extensions;
+using WebKit;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
@@ -24,9 +24,9 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        public IDictionary<string,string> AdditionalHttpHeaders { get; set; }
+        public IDictionary<string, string> AdditionalHttpHeaders { get; set; }
 
-        public override WKNavigation LoadRequest(NSUrlRequest request)
+        public override WKNavigation? LoadRequest(NSUrlRequest request)
         {
             var webRequest = new NSMutableUrlRequest(request.Url);
 

@@ -15,10 +15,10 @@ namespace SuperdevMauiDemoApp.Converters
             "Random Validation Error 3: Very short.",
         };
 
-        protected override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var randomErrorMessages = ErrorMessages.Shuffle();
-            var first = randomErrorMessages.First();
+            var first = randomErrorMessages.FirstOrDefault();
             if (first == null)
             {
                 return Enumerable.Empty<string>();

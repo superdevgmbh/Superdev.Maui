@@ -10,7 +10,7 @@
 
         public TestClass6()
         {
-            
+
         }
 
         public TestClass6(ITestClass1 myProperty)

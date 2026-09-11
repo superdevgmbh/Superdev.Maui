@@ -25,13 +25,13 @@
         public Task DisplayAlertAsync(string title, string message, string cancel)
         {
             return this.mainThread.InvokeOnMainThreadAsync(
-                () => GetMainPage().DisplayAlert(title, message, cancel));
+                () => RootPage.DisplayAlert(title, message, cancel));
         }
 
         public Task<bool> DisplayAlertAsync(string title, string message, string confirm, string cancel)
         {
             return this.mainThread.InvokeOnMainThreadAsync(
-                () => GetMainPage().DisplayAlert(title, message, confirm, cancel));
+                () => RootPage.DisplayAlert(title, message, confirm, cancel));
         }
 
         public Task<bool> DisplayDestructiveAlertAsync(string title, string message, string destructiveButton, string cancelButton)
@@ -40,12 +40,12 @@
             {
                 if (this.deviceInfo.Platform == DevicePlatform.iOS)
                 {
-                    var result = await GetMainPage().DisplayActionSheet(message, cancelButton, destructiveButton);
+                    var result = await RootPage.DisplayActionSheet(message, cancelButton, destructiveButton);
                     return result == destructiveButton;
                 }
                 else
                 {
-                    var result = await GetMainPage().DisplayAlert(title, message, destructiveButton, cancelButton);
+                    var result = await RootPage.DisplayAlert(title, message, destructiveButton, cancelButton);
                     return result;
                 }
             });
@@ -54,12 +54,12 @@
         public Task<string> DisplayActionSheetAsync(string title, string cancel, string destruction, params string[] buttons)
         {
             return this.mainThread.InvokeOnMainThreadAsync(
-                () => GetMainPage().DisplayActionSheet(title, cancel, destruction, buttons));
+                () => RootPage.DisplayActionSheet(title, cancel, destruction, buttons));
         }
 
-        private static Page GetMainPage()
+        private static Page RootPage
         {
-            return Application.Current.MainPage;
+            get => Application.Current!.Windows[0].Page ?? throw new InvalidOperationException("Failed to resolve root page");
         }
     }
 }

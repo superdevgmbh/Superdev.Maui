@@ -1,14 +1,14 @@
-﻿using Android.OS;
-using Android.Views;
-using Microsoft.Maui.Handlers;
+﻿using Android.Views;
 using Superdev.Maui.Controls;
 using View = Android.Views.View;
+using AndroidX.AppCompat.Widget;
+using Microsoft.Maui.Handlers;
 
 namespace Superdev.Maui.Platforms.Handlers
 {
     using PM = PropertyMapper<CustomEntry, CustomEntryHandler>;
 
-    public class CustomEntryHandler : EntryHandler
+    public class CustomEntryHandler : Microsoft.Maui.Handlers.EntryHandler
     {
         private static readonly string[] AutofillHintOneTimeCode = { "otp", "one-time-code" };
         private static readonly string[] AutofillHintFirstName = { "firstname", "first-name", "givenname", "given-name", "cc-given-name" };
@@ -19,12 +19,12 @@ namespace Superdev.Maui.Platforms.Handlers
         private static readonly string[] AutofillHintPassword = { View.AutofillHintPassword };
         private static readonly string[] AutofillHintNewPassword = { "new-password" };
 
-        public new static readonly PM Mapper = new PM(EntryHandler.Mapper)
+        public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.EntryHandler.Mapper)
         {
             [nameof(CustomEntry.TextContentType)] = MapTextContentType,
         };
 
-        public CustomEntryHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null)
+        public CustomEntryHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
         {
         }
@@ -34,9 +34,13 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
+        public new CustomEntry? VirtualView => base.VirtualView as CustomEntry;
+
+        public new AppCompatEditText? PlatformView => ((ElementHandler)this).PlatformView as AppCompatEditText;
+
         private static void MapTextContentType(CustomEntryHandler handler, CustomEntry customEntry)
         {
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            if (OperatingSystem.IsAndroidVersionAtLeast(26))
             {
                 var textView = handler.PlatformView;
                 if (customEntry.TextContentType == TextContentType.Default)
