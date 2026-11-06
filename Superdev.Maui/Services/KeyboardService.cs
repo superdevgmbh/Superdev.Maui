@@ -21,7 +21,12 @@ namespace Superdev.Maui.Services
         private readonly ILogger logger;
         private readonly IPlatformElementConfiguration<Microsoft.Maui.Controls.PlatformConfiguration.Android, Application> platformElementConfiguration;
         private readonly object lockObj = new object();
-        private readonly HashSet<string> windowSoftInputModeAdjusts = new HashSet<string>();
+
+        /// <summary>
+        /// The targets which currently need the adjusted input mode, by instance: two pages of the same type
+        /// are two targets, and the original mode is only restored once the last of them resets.
+        /// </summary>
+        private readonly HashSet<object> targets = new HashSet<object>(ReferenceEqualityComparer.Instance);
         private readonly WindowSoftInputModeAdjust? originalWindowSoftInputModeAdjust;
 
         internal KeyboardService(
@@ -35,54 +40,53 @@ namespace Superdev.Maui.Services
 
         public void UseWindowSoftInputModeAdjust(object target, WindowSoftInputModeAdjust windowSoftInputModeAdjust)
         {
+            ArgumentNullException.ThrowIfNull(target);
+
             if (this.originalWindowSoftInputModeAdjust == null)
             {
                 return;
             }
 
-            var targetName = GetKey(target);
-
             lock (this.lockObj)
             {
-                this.windowSoftInputModeAdjusts.Add(targetName);
+                this.targets.Add(target);
 
-                this.logger.LogDebug($"UseWindowSoftInputModeAdjust: target={targetName}, windowSoftInputModeAdjust={windowSoftInputModeAdjust}");
+                this.logger.LogDebug($"UseWindowSoftInputModeAdjust: target={GetTargetName(target)}, windowSoftInputModeAdjust={windowSoftInputModeAdjust}");
                 this.platformElementConfiguration.UseWindowSoftInputModeAdjust(windowSoftInputModeAdjust);
             }
         }
 
         public void ResetWindowSoftInputModeAdjust(object target)
         {
+            ArgumentNullException.ThrowIfNull(target);
+
             if (this.originalWindowSoftInputModeAdjust is not WindowSoftInputModeAdjust originalWindowSoftInputModeAdjust)
             {
                 return;
             }
 
-            var targetName = GetKey(target);
-
             lock (this.lockObj)
             {
-                if (this.windowSoftInputModeAdjusts.Remove(targetName))
+                if (this.targets.Remove(target))
                 {
-                    // Check if the creation date of the entry is older than anything else in the adjustments list:
-                    if (this.windowSoftInputModeAdjusts.Count != 0)
+                    if (this.targets.Count != 0)
                     {
-                        this.logger.LogDebug($"ResetWindowSoftInputModeAdjust: target={targetName} --> Reset not required");
+                        this.logger.LogDebug($"ResetWindowSoftInputModeAdjust: target={GetTargetName(target)} --> Reset not required, {this.targets.Count} target(s) still adjusted");
                     }
                     else
                     {
-                        this.logger.LogDebug($"ResetWindowSoftInputModeAdjust: target={targetName}");
+                        this.logger.LogDebug($"ResetWindowSoftInputModeAdjust: target={GetTargetName(target)}");
                         this.platformElementConfiguration.UseWindowSoftInputModeAdjust(originalWindowSoftInputModeAdjust);
                     }
                 }
                 else
                 {
-                    this.logger.LogDebug($"ResetWindowSoftInputModeAdjust: target={targetName} --> Target not found");
+                    this.logger.LogDebug($"ResetWindowSoftInputModeAdjust: target={GetTargetName(target)} --> Target not found");
                 }
             }
         }
 
-        private static string GetKey(object target)
+        private static string GetTargetName(object target)
         {
             return target.GetType().Name;
         }

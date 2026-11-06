@@ -2,7 +2,11 @@
 
 namespace Superdev.Maui.Controls
 {
-    public partial class ValidationErrorBox : Frame
+    /// <summary>
+    /// A bordered summary of every message of a form — its fields, its form-level messages and its children's — which
+    /// hides itself while there is none.
+    /// </summary>
+    public partial class ValidationErrorBox : Border
     {
         public ValidationErrorBox()
         {

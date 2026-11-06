@@ -25,6 +25,20 @@ namespace Superdev.Maui.Tests.Utils
             namedSize.Should().Be(expectedNamedSize);
         }
 
+        [Theory]
+        [InlineData(long.MinValue, "-8.0 EB")]
+        [InlineData(long.MinValue + 1, "-8.0 EB")]
+        [InlineData(long.MaxValue, "8.0 EB")]
+        [InlineData(-1024L, "-1.0 KB")]
+        public void ShouldGetNamedSize_ForExtremeValues(long byteLength, string expectedNamedSize)
+        {
+            // Act
+            var namedSize = ByteFormatter.GetNamedSize(byteLength);
+
+            // Assert
+            namedSize.Should().Be(expectedNamedSize);
+        }
+
         public class GetNamedSizeTestdata : TheoryData<long, int, string>
         {
             public GetNamedSizeTestdata()

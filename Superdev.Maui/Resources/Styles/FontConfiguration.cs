@@ -48,17 +48,18 @@ namespace Superdev.Maui.Resources.Styles
             this.SetFonts(fontSizes);
         }
 
+        /// <param name="fontSizes">The font sizes, already scaled by the font converter; they are stored as they are.</param>
         private void SetFontSizes(IFontSizeConfiguration fontSizes)
         {
-            this.Resources.SetValue(ThemeConstants.FontSize.Micro, this.fontConverter.GetScaledFontSize(fontSizes.Micro));
-            this.Resources.SetValue(ThemeConstants.FontSize.XSmall, this.fontConverter.GetScaledFontSize(fontSizes.XSmall));
-            this.Resources.SetValue(ThemeConstants.FontSize.Small, this.fontConverter.GetScaledFontSize(fontSizes.Small));
-            this.Resources.SetValue(ThemeConstants.FontSize.MidMedium, this.fontConverter.GetScaledFontSize(fontSizes.MidMedium));
-            this.Resources.SetValue(ThemeConstants.FontSize.Medium, this.fontConverter.GetScaledFontSize(fontSizes.Medium));
-            this.Resources.SetValue(ThemeConstants.FontSize.Large, this.fontConverter.GetScaledFontSize(fontSizes.Large));
-            this.Resources.SetValue(ThemeConstants.FontSize.XLarge, this.fontConverter.GetScaledFontSize(fontSizes.XLarge));
-            this.Resources.SetValue(ThemeConstants.FontSize.XXLarge, this.fontConverter.GetScaledFontSize(fontSizes.XXLarge));
-            this.Resources.SetValue(ThemeConstants.FontSize.XXXLarge, this.fontConverter.GetScaledFontSize(fontSizes.XXXLarge));
+            this.Resources.SetValue(ThemeConstants.FontSize.Micro, fontSizes.Micro);
+            this.Resources.SetValue(ThemeConstants.FontSize.XSmall, fontSizes.XSmall);
+            this.Resources.SetValue(ThemeConstants.FontSize.Small, fontSizes.Small);
+            this.Resources.SetValue(ThemeConstants.FontSize.MidMedium, fontSizes.MidMedium);
+            this.Resources.SetValue(ThemeConstants.FontSize.Medium, fontSizes.Medium);
+            this.Resources.SetValue(ThemeConstants.FontSize.Large, fontSizes.Large);
+            this.Resources.SetValue(ThemeConstants.FontSize.XLarge, fontSizes.XLarge);
+            this.Resources.SetValue(ThemeConstants.FontSize.XXLarge, fontSizes.XXLarge);
+            this.Resources.SetValue(ThemeConstants.FontSize.XXXLarge, fontSizes.XXXLarge);
         }
 
         private void SetFonts(IFontSizeConfiguration fontSizes)
@@ -455,10 +456,16 @@ namespace Superdev.Maui.Resources.Styles
             set => this.SetValue(Subtitle2Property, value);
         }
 
+        /// <summary>
+        /// Detaches this configuration from the font converter.
+        /// </summary>
+        /// <remarks>
+        /// The font converter is a singleton which this configuration does not own, so it is not disposed
+        /// here: doing so would stop font scaling for the rest of the application.
+        /// </remarks>
         public void Dispose()
         {
             this.fontConverter.FontScalingChanged -= this.FontConverterUIContentSizeChanged;
-            this.fontConverter?.Dispose();
         }
     }
 }

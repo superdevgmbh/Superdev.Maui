@@ -20,12 +20,14 @@ namespace Superdev.Maui.Platforms.Controls
         }
 
         public MauiDoneAccessoryView(Action? done)
-            : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 44))
+            : base(new CGRect(0, 0, 0, 44))
         {
             this.doneAction = done;
             this.BarStyle = UIBarStyle.Default;
             this.Translucent = true;
-            this.AutoresizingMask = UIViewAutoresizing.FlexibleHeight;
+
+            // UIKit sizes an input accessory view to the keyboard; a flexible width lets it follow rotation and split view.
+            this.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 
             var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
             var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, this.OnDoneButtonClicked);

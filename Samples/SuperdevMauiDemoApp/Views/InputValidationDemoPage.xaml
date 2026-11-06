@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.InputValidationDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:SuperdevMauiDemoApp.Converters"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:InputValidationDemoViewModel"
+    Title="Input Validation">
+
+    <ContentPage.Resources>
+        <converters:ErrorCodesConverter x:Key="ErrorCodesConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout
+            Padding="{DynamicResource Theme.Padding.CardPadding}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+
+            <!-- Policy bar -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Policy" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <Label
+                            Style="{StaticResource DemoLabelStyle}"
+                            Text="Mode: when a field validates for the first time. ReValidateMode: once it has an error." />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <s:ValidatablePicker
+                                Grid.Column="0"
+                                ItemsSource="{Binding Modes}"
+                                Placeholder="Mode"
+                                SelectedItem="{Binding Mode, Mode=TwoWay}" />
+                            <s:ValidatablePicker
+                                Grid.Column="1"
+                                ItemsSource="{Binding ReValidateModes}"
+                                Placeholder="ReValidateMode"
+                                SelectedItem="{Binding ReValidateMode, Mode=TwoWay}" />
+                        </Grid>
+                        <s:ValidatablePicker
+                            ItemsSource="{Binding Cultures}"
+                            Placeholder="Culture for numbers and dates typed as text"
+                            SelectedItem="{Binding Culture, Mode=TwoWay}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <s:CustomButton
+                                Grid.Column="0"
+                                Command="{Binding LoadSampleCommand}"
+                                Text="Load sample (background thread)" />
+                            <s:CustomButton
+                                Grid.Column="1"
+                                Command="{Binding ResetCommand}"
+                                Text="Reset to pristine" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Presence & text: the library's own controls, wired with one attribute -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Presence &amp; text" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="UserName"
+                            Keyboard="Plain"
+                            Placeholder="User name (async availability check, 400 ms debounce)"
+                            Text="{Binding UserName, Mode=TwoWay}" />
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="Email"
+                            Keyboard="Email"
+                            Placeholder="E-mail"
+                            Text="{Binding Email, Mode=TwoWay}" />
+                        <s:ValidatableEditor
+                            s:Validation.PropertyName="Notes"
+                            Placeholder="Notes (required and 20+ characters when publishing)"
+                            Text="{Binding Notes, Mode=TwoWay}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Plain MAUI controls: the case where you do not own the control -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Plain MAUI controls" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <Entry
+                            s:Validation.PropertyName="Nickname"
+                            Placeholder="Nickname (max. 10)"
+                            Text="{Binding Nickname, Mode=TwoWay}" />
+                        <s:ValidationErrorLabel PropertyName="Nickname" />
+                        <Picker
+                            s:Validation.PropertyName="Country"
+                            ItemsSource="{Binding Countries}"
+                            SelectedItem="{Binding Country, Mode=TwoWay}"
+                            Title="Country" />
+                        <s:ValidationErrorLabel PropertyName="Country" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Numbers as text -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Numbers as text" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="AgeText"
+                            Keyboard="Numeric"
+                            Placeholder="Age (whole number)"
+                            Text="{Binding AgeText, Mode=TwoWay}" />
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="AmountText"
+                            Keyboard="Numeric"
+                            Placeholder="Amount as text (1,5 under de-DE, 1.5 under en-US and de-CH)"
+                            Text="{Binding AmountText, Mode=TwoWay}" />
+                        <Label Text="{Binding Amount, StringFormat='Amount as a number: {0} (0 to 1000)'}" />
+                        <Slider
+                            s:Validation.PropertyName="Amount"
+                            Maximum="1500"
+                            Minimum="0"
+                            Value="{Binding Amount, Mode=TwoWay}" />
+                        <s:ValidationErrorLabel PropertyName="Amount" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Dates -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Dates" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <s:ValidatableDatePicker
+                            s:Validation.PropertyName="Birthdate"
+                            Date="{Binding Birthdate, Mode=TwoWay}"
+                            Placeholder="Birthdate (required, in the past)" />
+                        <s:ValidatableDatePicker
+                            s:Validation.PropertyName="Appointment"
+                            Date="{Binding Appointment, Mode=TwoWay}"
+                            Placeholder="Appointment (in the future)" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Cross-field & conditional -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Cross-field &amp; conditional" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="Password"
+                            IsPassword="True"
+                            Placeholder="Password (validates on every change)"
+                            Text="{Binding Password, Mode=TwoWay}" />
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="PasswordConfirm"
+                            IsPassword="True"
+                            Placeholder="Confirm password (re-validates when either side changes)"
+                            Text="{Binding PasswordConfirm, Mode=TwoWay}" />
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Switch
+                                Grid.Column="0"
+                                IsToggled="{Binding HasDiscount, Mode=TwoWay}"
+                                VerticalOptions="Center" />
+                            <s:ValidatableEntry
+                                Grid.Column="1"
+                                s:Validation.PropertyName="DiscountPercentText"
+                                Keyboard="Numeric"
+                                Placeholder="Discount % (only when the switch is on)"
+                                Text="{Binding DiscountPercentText, Mode=TwoWay}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <CheckBox
+                                Grid.Column="0"
+                                IsChecked="{Binding AcceptsTerms, Mode=TwoWay}"
+                                VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="I accept the terms (required when publishing)" />
+                                <s:ValidationErrorLabel PropertyName="AcceptsTerms" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Nested form: the address is its own view model with its own validation -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Nested form (Address)" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        BindingContext="{Binding Address}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}"
+                        x:DataType="vm:AddressFormViewModel">
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="Street"
+                            Placeholder="Street"
+                            Text="{Binding Street, Mode=TwoWay}" />
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="PostalCode"
+                            Keyboard="Numeric"
+                            Placeholder="Postal code (4 digits)"
+                            Text="{Binding PostalCode, Mode=TwoWay}" />
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="Place"
+                            Placeholder="Place"
+                            Text="{Binding Place, Mode=TwoWay}" />
+                        <s:ValidatablePicker
+                            s:Validation.PropertyName="Country"
+                            ItemsSource="{Binding Countries}"
+                            Placeholder="Country"
+                            SelectedItem="{Binding Country, Mode=TwoWay}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- Groups and the validate-and-act loop -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="Validate and act" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Medium}">
+                        <Label
+                            Style="{StaticResource DemoLabelStyle}"
+                            Text="Save draft runs the ungrouped rules; Publish adds the Submit group (and Create for a new item). Save runs everything and then asks the fake backend." />
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Switch
+                                Grid.Column="0"
+                                IsToggled="{Binding IsNewItem, Mode=TwoWay}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="New item (adds the Create group)"
+                                VerticalOptions="Center" />
+                        </Grid>
+                        <s:ValidatablePicker
+                            ItemsSource="{Binding Outcomes}"
+                            Placeholder="Fake backend answers with"
+                            SelectedItem="{Binding Outcome, Mode=TwoWay}" />
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                            <s:CustomButton
+                                Grid.Column="0"
+                                Command="{Binding SaveDraftCommand}"
+                                Text="Save draft" />
+                            <s:CustomButton
+                                Grid.Column="1"
+                                Command="{Binding PublishCommand}"
+                                Text="Publish" />
+                            <s:CustomButton
+                                Grid.Column="2"
+                                Command="{Binding SaveCommand}"
+                                IsEnabled="{Binding Validation.IsValidating, Converter={StaticResource BoolInverter}}"
+                                Text="Save" />
+                        </Grid>
+                        <Label Text="{Binding LastResult}" />
+                        <s:ValidationErrorBox Validation="{Binding Validation}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+
+            <!-- State inspector -->
+            <s:CardView>
+                <VerticalStackLayout>
+                    <s:LabelSection Text="State inspector" />
+                    <s:HeaderDivider />
+                    <VerticalStackLayout
+                        Padding="{DynamicResource Theme.Padding.CardViewPadding}"
+                        BackgroundColor="{DynamicResource CardViewStyle.BackgroundColor}"
+                        Spacing="{DynamicResource Theme.Spacing.Small}">
+                        <Grid ColumnDefinitions="2*,*,*,*,2*">
+                            <Label Grid.Column="0" FontAttributes="Bold" Text="Field" />
+                            <Label Grid.Column="1" FontAttributes="Bold" Text="Touched" />
+                            <Label Grid.Column="2" FontAttributes="Bold" Text="Dirty" />
+                            <Label Grid.Column="3" FontAttributes="Bold" Text="Pending" />
+                            <Label Grid.Column="4" FontAttributes="Bold" Text="Errors" />
+                        </Grid>
+                        <VerticalStackLayout
+                            BindableLayout.ItemsSource="{Binding Validation.Fields}"
+                            Spacing="2">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="s:FieldState">
+                                    <Grid ColumnDefinitions="2*,*,*,*,2*">
+                                        <Label Grid.Column="0" Text="{Binding PropertyName}" />
+                                        <Label Grid.Column="1" Text="{Binding IsTouched}" />
+                                        <Label Grid.Column="2" Text="{Binding IsDirty}" />
+                                        <Label Grid.Column="3" Text="{Binding IsPending}" />
+                                        <Label Grid.Column="4" Text="{Binding Errors, Converter={StaticResource ErrorCodesConverter}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="*,*,*">
+                            <Label Grid.Column="0" Text="{Binding Validation.IsValid, StringFormat='IsValid: {0}'}" />
+                            <Label Grid.Column="1" Text="{Binding Validation.IsDirty, StringFormat='IsDirty: {0}'}" />
+                            <Label Grid.Column="2" Text="{Binding Validation.HasValidated, StringFormat='Validated: {0}'}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </s:CardView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

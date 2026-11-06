@@ -19,7 +19,12 @@ namespace Superdev.Maui.Platforms.Effects
         {
             var safeAreaPadding = base.GetSafeAreaPadding(originalPadding, this.safeAreaPaddingLayout, safeAreaInsets, includeStatusBar);
 
-            Logger.LogDebug($"SafeAreaTopPaddingEffect.GetSafeAreaPadding returns safeAreaPadding={{{safeAreaPadding.Left}, {safeAreaPadding.Top}, {safeAreaPadding.Right}, {safeAreaPadding.Bottom}}}");
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("SafeAreaTopPaddingEffect computed the padding {Left}, {Top}, {Right}, {Bottom}",
+                    safeAreaPadding.Left, safeAreaPadding.Top, safeAreaPadding.Right, safeAreaPadding.Bottom);
+            }
+
             return safeAreaPadding;
         }
     }

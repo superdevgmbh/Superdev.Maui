@@ -5,6 +5,13 @@ namespace Superdev.Maui.Effects
 {
     public static class SafeAreaPadding
     {
+        /// <summary>
+        /// Logs, at debug level, what the iOS safe-area padding effects do: attaching, detaching, rotations and every
+        /// padding they set. Off by default, because the effects log on every rotation and property change; switch it
+        /// on while developing.
+        /// </summary>
+        public static bool LoggingEnabled;
+
         public static readonly BindableProperty EnableSafeAreaPaddingProperty =
             BindableProperty.CreateAttached(
                 "EnableSafeAreaPadding",

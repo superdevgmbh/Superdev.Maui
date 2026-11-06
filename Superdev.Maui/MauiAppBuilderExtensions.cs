@@ -13,14 +13,19 @@ using PickerHandler = Superdev.Maui.Platforms.Handlers.PickerHandler;
 using TimePickerHandler = Superdev.Maui.Platforms.Handlers.TimePickerHandler;
 #endif
 
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Effects;
 using Superdev.Maui.Localization;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Navigation;
+using Superdev.Maui.Navigation.Hosts;
+using Superdev.Maui.Navigation.Internals;
 using Superdev.Maui.Resources.Styles;
 using Superdev.Maui.Services;
+using Superdev.Maui.Validation;
 using IBrowser = Superdev.Maui.Services.IBrowser;
 
 namespace Superdev.Maui
@@ -76,6 +81,7 @@ namespace Superdev.Maui
             .ConfigureEffects(effects =>
             {
                 effects.Add(typeof(TintImageEffect), typeof(TintImagePlatformEffect));
+                effects.Add(typeof(LongPressEffect), typeof(LongPressPlatformEffect));
                 effects.Add(typeof(EntryLineColorEffect), typeof(EntryLineColorPlatformEffect));
                 effects.Add(typeof(EditorLineColorEffect), typeof(EditorLineColorPlatformEffect));
                 effects.Add(typeof(PickerLineColorEffect), typeof(PickerLineColorPlatformEffect));
@@ -91,7 +97,6 @@ namespace Superdev.Maui
             {
 #if ANDROID
                 events.AddAndroid(a => a
-                    // .OnStart(activity => IStatusBarService.Current.OnStart(activity))
                     .OnResume(_ => IStatusBarService.Current.OnResume())
                     .OnResume(_ => IThemeHelper.Current.OnResume())
                     .OnResume(_ => IActivityIndicatorService.Current.OnResume()));
@@ -100,34 +105,57 @@ namespace Superdev.Maui
 #endif
 
 #if ANDROID || IOS
-            builder.Services.AddSingleton<IToastService>(_ => IToastService.Current);
-            builder.Services.AddSingleton<IGeolocationSettings, GeolocationSettings>();
-            builder.Services.AddSingleton<IStatusBarService>(_ => IStatusBarService.Current);
-            builder.Services.AddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
+            builder.Services.TryAddSingleton<IToastService>(_ => IToastService.Current);
+            builder.Services.TryAddSingleton<IGeolocationSettings, GeolocationSettings>();
+            builder.Services.TryAddSingleton<IStatusBarService>(_ => IStatusBarService.Current);
+            builder.Services.TryAddSingleton<IActivityIndicatorService>(_ => IActivityIndicatorService.Current);
 #endif
             builder.Services.AddSingleton(o);
 
-            // Microsoft.Maui
-            builder.Services.AddSingleton<Superdev.Maui.Services.IDeviceInfo>(_ => Superdev.Maui.Services.DeviceInfo.Current);
-            builder.Services.AddSingleton<Microsoft.Maui.Devices.IDeviceInfo>(_ => Microsoft.Maui.Devices.DeviceInfo.Current);
+            // TryAdd: a registration the app made before this call wins, a registration made afterwards wins too.
 
-            builder.Services.AddSingleton<IDateTime>(_ => SystemDateTime.Current);
-            builder.Services.AddSingleton<IDialogService>(_ => IDialogService.Current);
-            builder.Services.AddSingleton<ILocalizer>(_ => ILocalizer.Current);
-            builder.Services.AddSingleton<IPreferences>(_ => IPreferences.Current);
-            builder.Services.AddSingleton<ITranslationProvider>(_ => o.TranslationProvider);
-            builder.Services.AddSingleton<IMainThread>(_ => IMainThread.Current);
-            builder.Services.AddSingleton<IDeveloperMode, DeveloperMode>();
-            builder.Services.AddSingleton<IKeyboardService>(_ => IKeyboardService.Current);
-            builder.Services.AddSingleton<IViewModelErrorRegistry>(_ => IViewModelErrorRegistry.Current);
-            builder.Services.AddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
-            builder.Services.AddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
-            builder.Services.AddSingleton<IFontConverter>(_ => IFontConverter.Current);
-            builder.Services.AddSingleton<IBrowser>(_ => IBrowser.Current);
-            builder.Services.AddSingleton<INavigationService>(_ => INavigationService.Current);
-            builder.Services.AddSingleton<IPageResolver>(_ => IPageResolver.Current);
+            // Microsoft.Maui
+            builder.Services.TryAddSingleton<Superdev.Maui.Services.IDeviceInfo>(_ => Superdev.Maui.Services.DeviceInfo.Current);
+            builder.Services.TryAddSingleton<Microsoft.Maui.Devices.IDeviceInfo>(_ => Microsoft.Maui.Devices.DeviceInfo.Current);
+
+            builder.Services.TryAddSingleton<IDateTime>(_ => SystemDateTime.Current);
+            builder.Services.TryAddSingleton<IDialogService>(_ => IDialogService.Current);
+            builder.Services.TryAddSingleton<ILocalizer>(_ => ILocalizer.Current);
+            builder.Services.TryAddSingleton<IPreferences>(_ => IPreferences.Current);
+            builder.Services.TryAddSingleton<ITranslationProvider>(_ => o.TranslationProvider);
+            builder.Services.TryAddSingleton<IMainThread>(_ => IMainThread.Current);
+            builder.Services.TryAddSingleton<IDeveloperMode, DeveloperMode>();
+            builder.Services.TryAddSingleton<IKeyboardService>(_ => IKeyboardService.Current);
+            builder.Services.TryAddSingleton<IViewModelErrorRegistry>(_ => IViewModelErrorRegistry.Current);
+            builder.Services.TryAddSingleton<IViewModelErrorHandler>(_ => IViewModelErrorHandler.Current);
+            builder.Services.TryAddSingleton<IThemeHelper>(_ => IThemeHelper.Current);
+            builder.Services.TryAddSingleton<IFontConverter>(_ => IFontConverter.Current);
+            builder.Services.TryAddSingleton<IBrowser>(_ => IBrowser.Current);
+
+            // Navigation
+            builder.Services.TryAddSingleton(o.Navigation);
+            builder.Services.RegisterForNavigation<CustomNavigationPage>(nameof(NavigationPage));
+            builder.Services.TryAddSingleton<INavigationHost, MauiNavigationHost>();
+            builder.Services.TryAddSingleton<INavigationRegistry, NavigationRegistry>();
+            builder.Services.TryAddSingleton<IPageFactory, PageFactory>();
+            builder.Services.TryAddSingleton<LifecycleDispatcher>();
+            builder.Services.TryAddSingleton<NavigationGuardEvaluator>();
+            builder.Services.TryAddSingleton<NavigationCleanup>();
+            builder.Services.TryAddSingleton(sp => new NavigationServiceContext(
+                sp.GetRequiredService<ILogger<NavigationService>>(),
+                sp,
+                sp.GetRequiredService<IMainThread>(),
+                sp.GetRequiredService<INavigationHost>(),
+                sp.GetRequiredService<INavigationRegistry>(),
+                sp.GetRequiredService<IPageFactory>(),
+                sp.GetRequiredService<LifecycleDispatcher>(),
+                sp.GetRequiredService<NavigationGuardEvaluator>(),
+                sp.GetRequiredService<NavigationCleanup>(),
+                sp.GetRequiredService<NavigationOptions>()));
+            builder.Services.TryAddSingleton<INavigationService, NavigationService>();
 
             TranslateExtension.Init(Localizer.Current, o.TranslationProvider);
+            ViewModelValidation.DefaultMessageProvider = new DefaultValidationMessageProvider(o.TranslationProvider);
 
             return builder;
         }

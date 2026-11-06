@@ -14,7 +14,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private bool isReadonly;
         private string? userName;
         private int userNameMaxLength;
-        private IAsyncRelayCommand? appearingCommand;
 
         public EntryDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -24,30 +23,17 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.dialogService = dialogService;
         }
 
-        public IAsyncRelayCommand AppearingCommand
+        protected override Task InitializeAsync()
         {
-            get => this.appearingCommand ??= new AsyncRelayCommand(this.InitializeAsync);
-        }
-
-        private async Task InitializeAsync()
-        {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         protected override ViewModelValidation SetupValidation()
         {
-            var viewModelValidation = new ViewModelValidation();
+            // No validate button on this page: fields validate as they change.
+            var viewModelValidation = new ViewModelValidation { Mode = ValidationMode.OnChange };
 
-            viewModelValidation.AddValidationFor(nameof(this.UserName))
-                .When(() => string.IsNullOrWhiteSpace(this.UserName))
-                .Show(() => $"Username must not be empty");
+            viewModelValidation.Property(() => this.UserName).NotEmpty();
 
             return viewModelValidation;
         }

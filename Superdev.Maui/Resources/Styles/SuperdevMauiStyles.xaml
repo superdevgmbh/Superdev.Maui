@@ -40,7 +40,7 @@
         ApplyToDerivedTypes="True"
         BasedOn="{StaticResource PageStyle}"
         TargetType="ContentPage">
-        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.ContentPage.BackgroundColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Theme.Page.BackgroundColor}" />
     </Style>
     <Style
         ApplyToDerivedTypes="True"
@@ -699,7 +699,7 @@
         x:Key="CustomListItemDetailTextStyle"
         BaseResourceKey="ListItemDetailTextStyle"
         TargetType="Label">
-        <Setter Property="FontSize" Value="{DynamicResource ListItemDetailTextStyleSize}" />
+        <Setter Property="FontSize" Value="{DynamicResource CustomListItemDetailTextStyleSize}" />
         <Setter Property="TextColor" Value="{DynamicResource Theme.Color.TextColorBright}" />
     </Style>
 

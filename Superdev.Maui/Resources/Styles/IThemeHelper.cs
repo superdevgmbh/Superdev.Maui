@@ -27,7 +27,8 @@ namespace Superdev.Maui.Resources.Styles
         event EventHandler<AppTheme> ThemeChanged;
 
         /// <summary>
-        /// Gets the current app theme.
+        /// Gets the theme the app is pinned to, <see cref="Application.UserAppTheme"/>. It is
+        /// <see cref="AppTheme.Unspecified"/> while the app follows the system theme.
         /// </summary>
         AppTheme UserAppTheme { get; }
 
@@ -37,7 +38,8 @@ namespace Superdev.Maui.Resources.Styles
         AppTheme PlatformAppTheme { get; }
 
         /// <summary>
-        /// Gets or sets whether the app should follow the system theme.
+        /// Gets or sets whether the app should follow the system theme, also when the system theme changes while the
+        /// app runs.
         /// </summary>
         bool UseSystemTheme { get; set; }
 

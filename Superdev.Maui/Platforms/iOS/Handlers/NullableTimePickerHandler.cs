@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Foundation;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
@@ -22,6 +23,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(NullableTimePicker.NullableTime)] = MapNullableTime,
             [nameof(NullableTimePicker.Placeholder)] = MapPlaceholder,
             [nameof(NullableTimePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(NullableTimePicker.HorizontalTextAlignment)] = MapHorizontalTextAlignment,
             [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
@@ -66,6 +68,11 @@ namespace Superdev.Maui.Platforms.Handlers
             timePicker.Time = time;
             timePicker.NullableTime = time;
             mauiTimePicker.ResignFirstResponder();
+        }
+
+        private static void MapHorizontalTextAlignment(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
+        {
+            nullableTimePickerHandler.PlatformView.TextAlignment = nullableTimePicker.HorizontalTextAlignment.ToPlatformHorizontal();
         }
 
         private static void MapPlaceholder(NullableTimePickerHandler nullableTimePickerHandler, NullableTimePicker nullableTimePicker)
@@ -124,7 +131,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
             finally
             {
-                this.isClearing = true;
+                this.isClearing = false;
             }
         }
 
@@ -184,60 +191,66 @@ namespace Superdev.Maui.Platforms.Handlers
         private static void UpdateTime(MauiTimePicker mauiTimePicker, NullableTimePicker nullableTimePicker, UIDatePicker uiDatePicker, TimeSpan? nullableTime)
         {
             var cultureInfo = Culture.CurrentCulture;
-
             var format = nullableTimePicker.Format;
 
-            // if (string.IsNullOrEmpty(format))
+            if (uiDatePicker != null)
             {
-                var locale = new NSLocale(cultureInfo.TwoLetterISOLanguageName);
-
-                if (uiDatePicker != null)
-                {
-                    uiDatePicker.Locale = locale;
-                }
+                uiDatePicker.Locale = GetPickerLocale(cultureInfo, format);
             }
 
             try
             {
-                var text1 = nullableTime.ToStringExtended(format, cultureInfo);
-                // var text2 = time.ToFormattedString(format, cultureInfo);
-                mauiTimePicker.Text = text1;
-                // Debug.WriteLine($"UpdateTime: mauiTimePicker.Text with format={format}, cultureInfo={cultureInfo} {Environment.NewLine}" +
-                //                 $"> {text1}{Environment.NewLine}" +
-                //                 $"> {text2}");
+                mauiTimePicker.Text = nullableTime.ToStringExtended(format, cultureInfo);
             }
             catch (Exception ex)
             {
-                mauiTimePicker.Text = ex.Message;
-            }
-
-            if (format != null)
-            {
-                if (format.IndexOf('H') != -1)
-                {
-                    var locale = new NSLocale("de");
-
-                    if (uiDatePicker != null)
-                    {
-                        uiDatePicker.Locale = locale;
-                    }
-                }
-                else if (format.IndexOf('h') != -1)
-                {
-                    var locale = new NSLocale("en");
-
-                    if (uiDatePicker != null)
-                    {
-                        uiDatePicker.Locale = locale;
-                    }
-                }
-                else
-                {
-                    // uiDatePicker.Locale ???
-                }
+                // The placeholder shows instead of a value the format cannot write.
+                IPlatformApplication.Current?.Services.GetService<ILogger<NullableTimePickerHandler>>()?
+                    .LogError(ex, "Failed to format {Time} with format '{Format}'", nullableTime, format);
+                mauiTimePicker.Text = string.Empty;
             }
 
             mauiTimePicker.UpdateCharacterSpacing(nullableTimePicker);
+        }
+
+        /// <summary>
+        /// The native picker follows the user's culture - language, digits and separators - and only takes the
+        /// hour cycle from <paramref name="format"/>, so that a 24-hour format is not paired with an AM/PM picker
+        /// or vice versa. The hour cycle is set through ICU's "hours" locale keyword.
+        /// </summary>
+        internal static NSLocale GetPickerLocale(System.Globalization.CultureInfo cultureInfo, string? format)
+        {
+            var localeIdentifier = string.IsNullOrEmpty(cultureInfo.Name)
+                ? NSLocale.CurrentLocale.Identifier
+                : cultureInfo.Name.Replace('-', '_');
+
+            var hourCycle = GetHourCycle(format);
+            if (hourCycle != null)
+            {
+                localeIdentifier += (localeIdentifier.Contains('@') ? ";" : "@") + $"hours={hourCycle}";
+            }
+
+            return new NSLocale(localeIdentifier);
+        }
+
+        private static string? GetHourCycle(string? format)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return null;
+            }
+
+            if (format.Contains('H'))
+            {
+                return "h23";
+            }
+
+            if (format.Contains('h'))
+            {
+                return "h12";
+            }
+
+            return null;
         }
     }
 }

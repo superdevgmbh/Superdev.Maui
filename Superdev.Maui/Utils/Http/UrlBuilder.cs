@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Encodings.Web;
 
 namespace Superdev.Maui.Utils.Http
@@ -94,13 +95,42 @@ namespace Superdev.Maui.Utils.Http
                 return this;
             }
 
-            var stringValue = value.ToString();
+            // A boxed date, e.g. from a DateTime?, gets the round-trip format of the DateTime overload.
+            if (value is DateTime dateTime)
+            {
+                return this.AddQuery(name, dateTime);
+            }
+
+            if (value is DateTimeOffset dateTimeOffset)
+            {
+                return this.AppendQuery(name, dateTimeOffset.ToUniversalTime().ToString("O"));
+            }
+
+            // Query strings are read by a server, so numbers must not be formatted with the device locale.
+            var stringValue = Convert.ToString(value, CultureInfo.InvariantCulture);
             if (stringValue == null)
             {
                 return this;
             }
 
             return this.AppendQuery(name, stringValue);
+        }
+
+        /// <summary>
+        ///     Appends a nullable <see cref="DateTime" /> query parameter in UTC round-trip format (ISO 8601).
+        ///     A null value appends nothing.
+        /// </summary>
+        /// <param name="name">The query parameter name.</param>
+        /// <param name="value">The query parameter value.</param>
+        /// <returns>The current <see cref="UrlBuilder" />.</returns>
+        public UrlBuilder AddQuery(string? name, DateTime? value)
+        {
+            if (name == null || value == null)
+            {
+                return this;
+            }
+
+            return this.AddQuery(name, value.Value);
         }
 
         /// <summary>

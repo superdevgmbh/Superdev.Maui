@@ -1,29 +1,21 @@
 ﻿using System.Globalization;
+using Superdev.Maui.Internals;
 using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Converters
 {
+    /// <summary>
+    /// The underline colour of a validatable control: the theme's error colour while it has errors, its bright text
+    /// colour otherwise. A missing theme key, or no application at all, yields the fallback instead of an exception
+    /// inside the binding.
+    /// </summary>
     internal class PropertyErrorsToColorConverter : BindableObject, IValueConverter
     {
-        private static Color NormalColor => (Color)Application.Current!.Resources[ThemeConstants.Color.TextColorBright];
-
-        private static Color ErrorColor => (Color)Application.Current!.Resources[ThemeConstants.Color.Error];
-
-        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            Color color;
-
-            if (value is IEnumerable<string> propertyErrors && propertyErrors.Any())
-            {
-                color = ErrorColor;
-            }
-            else
-            {
-                color = NormalColor;
-            }
-
-            // Debug.WriteLine($"PropertyErrorsToColorConverter.Convert: color={color.ToHex()}");
-            return color;
+            return value is IEnumerable<string> propertyErrors && propertyErrors.Any()
+                ? ResourceColors.Error(Colors.Red)
+                : ResourceColors.Get(ThemeConstants.Color.TextColorBright);
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

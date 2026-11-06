@@ -1,4 +1,6 @@
-﻿namespace Superdev.Maui.Utils
+﻿using System.Globalization;
+
+namespace Superdev.Maui.Utils
 {
     /// <summary>
     /// Source:
@@ -28,20 +30,29 @@
 
             if (byteLength < 0)
             {
-                return "-" + GetNamedSize(-byteLength);
+                // The magnitude is taken as an unsigned value because long.MinValue has no positive
+                // counterpart: negating it as a long yields long.MinValue again, which used to recurse
+                // here until the stack ran out.
+                var magnitude = (ulong)(-(byteLength + 1)) + 1;
+                return "-" + FormatMagnitude(magnitude, decimalPlaces);
             }
 
+            return FormatMagnitude((ulong)byteLength, decimalPlaces);
+        }
+
+        private static string FormatMagnitude(ulong byteLength, int decimalPlaces)
+        {
             if (byteLength == 0)
             {
-                return string.Format("{0:n" + decimalPlaces + "} bytes", 0);
+                return string.Format(CultureInfo.InvariantCulture, "{0:n" + decimalPlaces + "} bytes", 0);
             }
 
             // mag is 0 for bytes, 1 for KB, 2, for MB, etc.
             var mag = (int)Math.Log(byteLength, 1024);
 
-            // 1L << (mag * 10) == 2 ^ (10 * mag)
+            // 1UL << (mag * 10) == 2 ^ (10 * mag)
             // [i.e. the number of bytes in the unit corresponding to mag]
-            var adjustedSize = (decimal)byteLength / (1L << (mag * 10));
+            var adjustedSize = (decimal)byteLength / (1UL << (mag * 10));
 
             // make adjustment when the value is large enough that
             // it would round up to 1000 or more
@@ -51,7 +62,7 @@
                 adjustedSize /= 1024;
             }
 
-            return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
+            return string.Format(CultureInfo.InvariantCulture, "{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
         }
     }
 }

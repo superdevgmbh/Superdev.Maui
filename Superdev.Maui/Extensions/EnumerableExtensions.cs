@@ -6,8 +6,6 @@ namespace Superdev.Maui.Extensions
 {
     public static partial class EnumerableExtensions
     {
-        private static readonly Random Rng = new Random();
-
         public static IList CreateList(this IEnumerable enumerable)
         {
             ArgumentNullException.ThrowIfNull(enumerable);
@@ -128,18 +126,17 @@ namespace Superdev.Maui.Extensions
         }
 
         /// <summary>
-        ///     Returns the last object of source enumerable.
+        ///     Returns the last object of source enumerable, which may be null.
         /// </summary>
         /// <exception cref="ArgumentNullException">The source enumerable is null.</exception>
         /// <exception cref="InvalidOperationException">The source enumerable does not contain any elements.</exception>
-        public static object Last(this IEnumerable source)
+        public static object? Last(this IEnumerable source)
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            var lastOrDefault = source.LastOrDefault();
-            if (lastOrDefault != null)
+            if (TryGetLast(source, out var last))
             {
-                return lastOrDefault;
+                return last;
             }
 
             throw new InvalidOperationException("The source enumerable does not contain any elements.");
@@ -150,17 +147,25 @@ namespace Superdev.Maui.Extensions
         ///     If there are no items in source enumerable, it returns null.
         /// </summary>
         /// <exception cref="ArgumentNullException">The source enumerable is null.</exception>
-        /// <exception cref="InvalidOperationException">The source enumerable does not contain any elements.</exception>
         public static object? LastOrDefault(this IEnumerable source)
         {
             ArgumentNullException.ThrowIfNull(source);
 
+            return TryGetLast(source, out var last) ? last : null;
+        }
+
+        /// <summary>
+        ///     Emptiness is decided by enumerating, not by the value of the last element: a null element is still an element.
+        /// </summary>
+        private static bool TryGetLast(IEnumerable source, out object? last)
+        {
             if (source is IList list)
             {
                 var count = list.Count;
                 if (count > 0)
                 {
-                    return list[count - 1];
+                    last = list[count - 1];
+                    return true;
                 }
             }
             else
@@ -170,18 +175,20 @@ namespace Superdev.Maui.Extensions
                 {
                     if (e.MoveNext())
                     {
-                        object result;
+                        object? result;
                         do
                         {
                             result = e.Current;
                         } while (e.MoveNext());
 
-                        return result;
+                        last = result;
+                        return true;
                     }
                 }
             }
 
-            return null;
+            last = null;
+            return false;
         }
 
         /// <summary>
@@ -218,7 +225,8 @@ namespace Superdev.Maui.Extensions
 
         public static T RandomElement<T>(this IEnumerable<T> source)
         {
-            return source.RandomElement(Rng);
+            // Random.Shared is safe to use from any thread; a shared instance of Random is not.
+            return source.RandomElement(Random.Shared);
         }
 
         public static T RandomElement<T>(this IEnumerable<T> source, Random rng)
@@ -254,7 +262,7 @@ namespace Superdev.Maui.Extensions
         /// </summary>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
-            return source.Shuffle(Rng);
+            return source.Shuffle(Random.Shared);
         }
 #endif
 
@@ -343,6 +351,10 @@ namespace Superdev.Maui.Extensions
                 : item;
         }
 
+        /// <summary>
+        ///     Replaces the first occurrence of <paramref name="oldItem"/> with <paramref name="newItem"/>.
+        ///     The array is left untouched if it does not contain <paramref name="oldItem"/>.
+        /// </summary>
         public static T[] Replace<T>(this T[] list, T oldItem, T newItem)
         {
             ArgumentNullException.ThrowIfNull(list);
@@ -351,17 +363,24 @@ namespace Superdev.Maui.Extensions
             return list;
         }
 
-        public static void Replace<T>(this T[] list, Predicate<T> oldItemSelector, T newItem)
+        /// <summary>
+        ///     Replaces the first item which matches <paramref name="oldItemSelector"/> with <paramref name="newItem"/>.
+        /// </summary>
+        /// <returns><c>true</c> if an item was replaced; <c>false</c> if no item matches.</returns>
+        public static bool Replace<T>(this T[] list, Predicate<T> oldItemSelector, T newItem)
         {
             ArgumentNullException.ThrowIfNull(list);
             ArgumentNullException.ThrowIfNull(oldItemSelector);
             ArgumentNullException.ThrowIfNull(newItem);
 
-            //check for different situations here and throw exception
-            //if list contains multiple items that match the predicate
-            //or check for nullability of list and etc ...
             var oldItemIndex = Array.FindIndex(list, oldItemSelector);
+            if (oldItemIndex < 0)
+            {
+                return false;
+            }
+
             list[oldItemIndex] = newItem;
+            return true;
         }
 
         /// <summary>

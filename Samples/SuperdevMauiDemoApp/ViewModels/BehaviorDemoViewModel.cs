@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
 
@@ -22,7 +22,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         public IAsyncRelayCommand AppearingCommand
         {
-            get => this.appearingCommand ??= new AsyncRelayCommand(this.InitializeAsync);
+            get => this.appearingCommand ??= new AsyncRelayCommand(this.OnAppearingAsync);
         }
 
         public IAsyncRelayCommand DisappearingCommand
@@ -38,20 +38,17 @@ namespace SuperdevMauiDemoApp.ViewModels
                 "OK");
         }
 
-        private async Task InitializeAsync()
+        private async Task OnAppearingAsync()
         {
-            try
-            {
-                await this.dialogService.DisplayAlertAsync(
-                    "Appearing",
-                    "Appearing event has triggered AppearingCommand",
-                    "OK");
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            await this.dialogService.DisplayAlertAsync(
+                "Appearing",
+                "Appearing event has triggered AppearingCommand",
+                "OK");
+        }
+
+        protected override Task InitializeAsync()
+        {
+            return this.LoadData();
         }
 
         private async Task LoadData()

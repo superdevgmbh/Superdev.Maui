@@ -8,12 +8,7 @@ namespace Superdev.Maui.Converters
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value == null)
-            {
-                return true ^ this.Inverted;
-            }
-
-            return false;
+            return (value == null) ^ this.Inverted;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

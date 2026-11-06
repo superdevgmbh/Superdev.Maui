@@ -1,36 +1,65 @@
 ﻿namespace Superdev.Maui.Utils.Threading
 {
-    // http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266988.aspx
+    /// <summary>
+    /// An asynchronous mutual exclusion lock: <c>using (await asyncLock.LockAsync()) { ... }</c>.
+    /// </summary>
+    /// <remarks>
+    /// Built on <see cref="SemaphoreSlim"/>, so the continuation of a waiter never runs inside the
+    /// <see cref="Releaser.Dispose"/> which released it, and a <see cref="Releaser"/> releases the lock
+    /// once, no matter how many copies of it are disposed.
+    /// </remarks>
     public class AsyncLock
     {
-        private readonly AsyncSemaphore semaphore;
-        private readonly Task<Releaser> releaser;
-
-        public AsyncLock()
-        {
-            this.semaphore = new AsyncSemaphore(1);
-            this.releaser = Task.FromResult(new Releaser(this));
-        }
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         public Task<Releaser> LockAsync()
         {
-            var wait = this.semaphore.WaitAsync();
-            return wait.IsCompleted
-                ? this.releaser
-                : wait.ContinueWith((_, state) => new Releaser(state as AsyncLock),
-                    this, CancellationToken.None,
-                    TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+            return this.LockAsync(CancellationToken.None);
         }
 
-        public struct Releaser : IDisposable
+        /// <summary>
+        /// Acquires the lock, or gives up when <paramref name="cancellationToken"/> is cancelled.
+        /// </summary>
+        /// <exception cref="OperationCanceledException">If the wait was cancelled. The lock is not held.</exception>
+        public async Task<Releaser> LockAsync(CancellationToken cancellationToken)
         {
-            private readonly AsyncLock? toRelease;
+            await this.semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+            return new Releaser(this.semaphore);
+        }
 
-            internal Releaser(AsyncLock? toRelease) { this.toRelease = toRelease; }
+        /// <summary>
+        /// Releases the lock when disposed. The default value releases nothing.
+        /// </summary>
+        public readonly struct Releaser : IDisposable
+        {
+            private readonly ReleaseOnce? release;
+
+            internal Releaser(SemaphoreSlim semaphore)
+            {
+                this.release = new ReleaseOnce(semaphore);
+            }
 
             public void Dispose()
             {
-                this.toRelease?.semaphore.Release();
+                this.release?.Release();
+            }
+        }
+
+        /// <summary>
+        /// Shared by every copy of a <see cref="Releaser"/>, so that the lock is released exactly once.
+        /// </summary>
+        private sealed class ReleaseOnce
+        {
+            private SemaphoreSlim? semaphore;
+
+            public ReleaseOnce(SemaphoreSlim semaphore)
+            {
+                this.semaphore = semaphore;
+            }
+
+            public void Release()
+            {
+                Interlocked.Exchange(ref this.semaphore, null)?.Release();
             }
         }
     }

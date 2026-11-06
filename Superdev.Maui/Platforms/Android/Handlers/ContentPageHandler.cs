@@ -45,16 +45,6 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        // protected override void ConnectHandler(ContentViewGroup platformView)
-        // {
-        //     base.ConnectHandler(platformView);
-        //
-        //     if (this.VirtualView is ContentPage contentPage)
-        //     {
-        //         UpdateHasKeyboardOffset(this, contentPage);
-        //     }
-        // }
-
         protected override void DisconnectHandler(ContentViewGroup platformView)
         {
             if (this.VirtualView is ContentPage contentPage)

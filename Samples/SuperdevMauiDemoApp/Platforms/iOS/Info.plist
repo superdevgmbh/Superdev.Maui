@@ -4,6 +4,10 @@
 <dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- Required for IStatusBarService.SetStyle: iOS ignores the application-level status bar
+	     style unless the app opts out of view-controller-based status bar appearance. -->
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

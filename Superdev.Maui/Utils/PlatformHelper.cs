@@ -2,7 +2,8 @@
 {
     public static class PlatformHelper
     {
-        private static readonly string CurrentPlatform = DeviceInfo.Current.Platform.ToString();
+        // Resolved on first use: a type initializer which touches the MAUI runtime would fail outside of an app.
+        private static readonly Lazy<string> CurrentPlatform = new Lazy<string>(() => DeviceInfo.Current.Platform.ToString());
 
         public static T OnPlatform<T>(T ios, T android)
         {
@@ -75,7 +76,8 @@
         public static T? GetValue<T>(object res)
         {
             var onPlatform = (OnPlatform<T>)res;
-            var value = onPlatform.Platforms.FirstOrDefault(p => p.Platform[0] == CurrentPlatform)?.Value;
+            // An On element may list several platforms ("iOS, Android"), so all of them are compared.
+            var value = onPlatform.Platforms.FirstOrDefault(p => p.Platform.Contains(CurrentPlatform.Value))?.Value;
             if (value != null)
             {
                 return (T)Convert.ChangeType(value, typeof(T));

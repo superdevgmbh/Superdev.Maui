@@ -10,12 +10,12 @@ namespace Superdev.Maui.Services
         public static IPreferences Current => Preferences.Current;
 
         /// <summary>
-		/// Checks for the existence of a given key.
-		/// </summary>
-		/// <param name="key">The key to check.</param>
-		/// <param name="sharedName">Shared container name.</param>
-		/// <returns><see langword="true"/> if the key exists in the preferences, otherwise <see langword="false"/>.</returns>
-		bool ContainsKey(string key, string? sharedName = null);
+        /// Checks for the existence of a given key.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <param name="sharedName">Shared container name.</param>
+        /// <returns><see langword="true"/> if the key exists in the preferences, otherwise <see langword="false"/>.</returns>
+        bool ContainsKey(string key, string? sharedName = null);
 
         /// <summary>
         /// Removes a key and its associated value if it exists.

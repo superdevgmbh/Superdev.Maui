@@ -12,7 +12,17 @@
             Padding="{DynamicResource Theme.Padding.Medium}"
             Spacing="{DynamicResource Theme.Spacing.Medium}">
 
-            <Image Source="{s:EmbeddedResource embedded_resource_logo.png}" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="EmbeddedResource" />
+            <Image
+                x:Name="EmbeddedImage"
+                Source="{s:EmbeddedResource embedded_resource_logo.png}" />
+
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="The same image source again: each image opens its own resource stream" />
+            <Image Source="{Binding Source, Source={x:Reference EmbeddedImage}}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

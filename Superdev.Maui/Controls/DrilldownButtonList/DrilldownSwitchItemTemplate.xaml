@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    x:Class="Superdev.Maui.Controls.DrilldownSwitchItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:b="clr-namespace:Superdev.Maui.Behaviors"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Name="Control"
+    x:DataType="controls:DrilldownSwitchItemTemplate"
+    IsClippedToBounds="True">
+
+    <!--
+        Every binding sources from the item template itself, so that its properties are the API:
+        DrilldownButtonList feeds them from the item, and an item template used on its own works with plain values.
+    -->
+    <Grid>
+        <controls:CustomButton
+            Grid.Row="0"
+            AllCaps="False"
+            Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+            CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}"
+            CornerRadius="0"
+            FontAttributes="None"
+            IsEnabled="{Binding IsEnabled, Source={x:Reference Control}, Mode=OneWay}"
+            Style="{DynamicResource DrilldownButtonStyle}"
+            Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center">
+
+            <controls:CustomButton.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On
+                        Platform="Android"
+                        Value="8, 0, 64, 0" />
+                    <On
+                        Platform="iOS"
+                        Value="16, 10, 64, 10" />
+                </OnPlatform>
+            </controls:CustomButton.Padding>
+        </controls:CustomButton>
+
+        <Switch
+            Grid.Row="0"
+            HeightRequest="24"
+            IsEnabled="{Binding IsEnabled, Source={x:Reference Control}, Mode=OneWay}"
+            IsToggled="{Binding IsToggled, Source={x:Reference Control}, Mode=TwoWay}"
+            HorizontalOptions="End"
+            VerticalOptions="Center">
+            <Switch.Behaviors>
+                <b:EventToCommandBehavior
+                    Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+                    CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}"
+                    EventName="Toggled" />
+            </Switch.Behaviors>
+
+            <!--
+                Switch inside DrilldownSwitchItemTemplate uses a custom style
+                in order to perfectly align with Theme.Color.TextColor
+            -->
+            <Switch.Style>
+                <Style TargetType="Switch">
+                    <Setter Property="Margin" Value="{OnPlatform Android='0, 0, 8, 0', iOS='0, -4, 8, 0'}" />
+                </Style>
+            </Switch.Style>
+        </Switch>
+
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+                CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}" />
+        </Grid.GestureRecognizers>
+    </Grid>
+</ContentView>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TodoApp.Views.Todos.AddTodoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:TodoApp.ViewModels.Todos"
+    Title="{Binding Title}"
+    x:DataType="vm:AddTodoViewModel">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding CloseCommand}"
+            IconImageSource="ic_close"
+            Text="Close" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.Large}"
+                Spacing="{DynamicResource Theme.Spacing.Large}">
+
+                <s:CustomEntry
+                    Placeholder="What needs to be done?"
+                    Text="{Binding TodoTitle}" />
+
+                <s:CustomEditor
+                    AutoSize="TextChanges"
+                    HeightRequest="120"
+                    Placeholder="Notes (optional)"
+                    Text="{Binding Notes}" />
+
+                <Button
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding CanSave}"
+                    Text="Save" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <s:PageActivityIndicator IsBusy="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

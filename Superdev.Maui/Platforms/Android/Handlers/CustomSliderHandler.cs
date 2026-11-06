@@ -38,14 +38,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
         public new SeekBar? PlatformView => ((ElementHandler)this).PlatformView as SeekBar;
 
-        protected override void ConnectHandler(SeekBar platformView)
-        {
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-            base.ConnectHandler(platformView);
-        }
-
         protected override void DisconnectHandler(SeekBar platformView)
         {
             this.originalIntrinsicHeight = null;

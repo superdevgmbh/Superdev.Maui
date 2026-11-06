@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Validation;
@@ -10,7 +10,6 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly ILogger logger;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
 
-        private IAsyncRelayCommand? appearingCommand;
         private IAsyncRelayCommand? saveProfileButtonCommand;
         private IAsyncRelayCommand? loadDataButtonCommand;
         private bool isSaving;
@@ -23,21 +22,9 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.viewModelErrorHandler = viewModelErrorHandler;
         }
 
-        public IAsyncRelayCommand AppearingCommand
+        protected override Task InitializeAsync()
         {
-            get => this.appearingCommand ??= new AsyncRelayCommand(this.InitializeAsync);
-        }
-
-        private async Task InitializeAsync()
-        {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()
@@ -112,7 +99,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 await Task.Delay(3000);
 
-                // var isValid = await this.Validation.IsValidAsync();
+                // var isValid = await this.Validation.ValidateAsync();
                 // if (isValid)
                 // {
                 //     // TODO Save...

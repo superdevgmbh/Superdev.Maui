@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<s:PopupPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.TooltipPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    BackgroundColor="#80000000"
+    CloseWhenBackgroundIsClicked="True">
+
+    <s:PopupPage.Animation>
+        <s:ScaleAnimation DurationIn="150" DurationOut="150" />
+    </s:PopupPage.Animation>
+
+    <Border
+        Margin="{DynamicResource Theme.Padding.Medium}"
+        Padding="{DynamicResource Theme.Padding.Medium}"
+        BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <Label Text="A centered card. Tap the dimmed background to close it." />
+    </Border>
+</s:PopupPage>

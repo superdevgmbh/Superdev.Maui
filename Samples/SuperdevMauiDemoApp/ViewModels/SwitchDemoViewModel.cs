@@ -1,4 +1,4 @@
-using Superdev.Maui.Mvvm;
+﻿using Superdev.Maui.Mvvm;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -10,20 +10,11 @@ namespace SuperdevMauiDemoApp.ViewModels
             IViewModelErrorHandler viewModelErrorHandler)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
-
-            _ = this.InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()

@@ -55,7 +55,6 @@ namespace Superdev.Maui.Controls
                 typeof(BindableItemsSource),
                 GridLength.Auto);
 
-        [System.ComponentModel.TypeConverter(typeof(GridLengthTypeConverter))]
         public GridLength Spacing
         {
             get => (GridLength)this.GetValue(SpacingProperty);

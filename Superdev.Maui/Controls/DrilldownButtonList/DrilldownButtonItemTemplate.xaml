@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Superdev.Maui.Controls.DrilldownButtonItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Superdev.Maui.Controls"
+    x:Name="Control"
+    x:DataType="controls:DrilldownButtonItemTemplate"
+    IsClippedToBounds="True">
+
+    <!--
+        Every binding sources from the item template itself, so that its properties are the API:
+        DrilldownButtonList feeds them from the item, and an item template used on its own works with plain values.
+    -->
+    <Grid>
+        <controls:CustomButton
+            Grid.Row="0"
+            AllCaps="False"
+            Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+            CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}"
+            CornerRadius="0"
+            FontAttributes="None"
+            IsEnabled="{Binding IsEnabled, Source={x:Reference Control}, Mode=OneWay}"
+            Style="{DynamicResource DrilldownButtonStyle}"
+            Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center">
+
+            <controls:CustomButton.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On
+                        Platform="Android"
+                        Value="8, 0, 0, 0" />
+                    <On
+                        Platform="iOS"
+                        Value="16, 10, 16, 10" />
+                </OnPlatform>
+            </controls:CustomButton.Padding>
+        </controls:CustomButton>
+
+        <Image
+            Grid.Row="0"
+            Margin="0,0,8,0"
+            HeightRequest="24"
+            IsVisible="{Binding IsBusy, Source={x:Reference Control}, Converter={StaticResource BoolInverter}, Mode=OneWay}"
+            Source="{Binding ImageSource, Source={x:Reference Control}, Mode=OneWay}"
+            WidthRequest="24"
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
+
+        <ActivityIndicator
+            x:Name="ActivityIndicator"
+            Grid.Row="0"
+            Margin="0,0,8,0"
+            HeightRequest="24"
+            IsRunning="{Binding IsBusy, Source={x:Reference Control}, Mode=OneWay}"
+            IsVisible="{Binding IsBusy, Source={x:Reference Control}, Mode=OneWay}"
+            WidthRequest="24"
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
+
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Command, Source={x:Reference Control}, Mode=OneWay}"
+                CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}" />
+        </Grid.GestureRecognizers>
+    </Grid>
+</ContentView>

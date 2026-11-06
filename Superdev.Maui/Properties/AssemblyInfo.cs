@@ -10,6 +10,8 @@ using XmlnsPrefix = Microsoft.Maui.Controls.XmlnsPrefixAttribute;
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Controls")]
+[assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Navigation")]
+[assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Controls.Animations")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Controls.CardView")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Converters")]
 [assembly: XmlnsDefinition("http://schemas.superdev.ch/dotnet/2021/maui", "Superdev.Maui.Effects")]

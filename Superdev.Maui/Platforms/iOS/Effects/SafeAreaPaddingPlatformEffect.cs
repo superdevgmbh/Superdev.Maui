@@ -11,13 +11,6 @@ namespace Superdev.Maui.Platforms.Effects
 {
     public class SafeAreaPaddingPlatformEffect : PlatformEffect
     {
-        private const bool LoggingEnabled
-#if DEBUG
-            = false;
-#else
-            = false;
-#endif
-
         protected static readonly ILogger Logger;
 
         private readonly Dictionary<UIInterfaceOrientation, UIEdgeInsets> orientationToInsetsMapping = new Dictionary<UIInterfaceOrientation, UIEdgeInsets>();
@@ -26,14 +19,21 @@ namespace Superdev.Maui.Platforms.Effects
 
         static SafeAreaPaddingPlatformEffect()
         {
-            Logger = LoggingEnabled
-                ? IPlatformApplication.Current.Services.GetService<ILogger<TintImagePlatformEffect>>()
-                : new NullLogger<TintImagePlatformEffect>();
+            Logger = IPlatformApplication.Current?.Services.GetService<ILogger<SafeAreaPaddingPlatformEffect>>()
+                ?? NullLogger<SafeAreaPaddingPlatformEffect>.Instance;
         }
+
+        /// <summary>
+        /// Debug messages are written only while <see cref="SafeAreaPadding.LoggingEnabled"/> is on.
+        /// </summary>
+        private protected static bool IsDebugLogging => SafeAreaPadding.LoggingEnabled && Logger.IsEnabled(LogLevel.Debug);
 
         protected override void OnAttached()
         {
-            Logger.LogDebug($"SafeAreaPaddingEffect.OnAttached to {this.Element?.GetType().GetFormattedName()}");
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("SafeAreaPaddingEffect attached to {Element}", this.Element?.GetType().GetFormattedName());
+            }
 
             this.orientationObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIApplication.DidChangeStatusBarOrientationNotification, this.DeviceOrientationDidChange);
             UIDevice.CurrentDevice.BeginGeneratingDeviceOrientationNotifications();
@@ -43,7 +43,11 @@ namespace Superdev.Maui.Platforms.Effects
 
         private void DeviceOrientationDidChange(NSNotification obj)
         {
-            Logger.LogDebug($"SafeAreaPaddingEffect.DeviceOrientationDidChange on {this.Element?.GetType().GetFormattedName()}");
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("SafeAreaPaddingEffect saw the orientation change on {Element}", this.Element?.GetType().GetFormattedName());
+            }
+
             this.UpdatePadding();
         }
 
@@ -75,7 +79,7 @@ namespace Superdev.Maui.Platforms.Effects
                 }
 
                 layout.Padding = this.GetSafeAreaPadding(this.originalPadding.Value, safeAreaPaddingLayout, safeAreaInsets, includeStatusBar);
-                Logger.LogDebug($"SafeAreaPaddingEffect.SetSafeArea set {element.GetType().GetFormattedName()}.Padding={{{layout.Padding.Left}, {layout.Padding.Top}, {layout.Padding.Right}, {layout.Padding.Bottom}}}");
+                LogPadding(element, layout.Padding);
             }
 
             if (element is Page page)
@@ -86,13 +90,21 @@ namespace Superdev.Maui.Platforms.Effects
                 }
 
                 page.Padding = this.GetSafeAreaPadding(this.originalPadding.Value, safeAreaPaddingLayout, safeAreaInsets, includeStatusBar);
-                Logger.LogDebug($"SafeAreaPaddingEffect.SetSafeArea set {element.GetType().GetFormattedName()}.Padding={{{page.Padding.Left}, {page.Padding.Top}, {page.Padding.Right}, {page.Padding.Bottom}}}");
+                LogPadding(element, page.Padding);
+            }
+        }
+
+        private static void LogPadding(Element element, Thickness padding)
+        {
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("SafeAreaPaddingEffect set the padding of {Element} to {Left}, {Top}, {Right}, {Bottom}",
+                    element.GetType().GetFormattedName(), padding.Left, padding.Top, padding.Right, padding.Bottom);
             }
         }
 
         private void UpdatePadding()
         {
-            Logger.LogDebug($"SafeAreaPaddingEffect.UpdatePadding for {this.Element.GetType().GetFormattedName()}");
             var layout = SafeAreaPadding.GetLayout(this.Element);
             var safeAreaInsets = SafeAreaPadding.GetSafeAreaInsets(this.Element);
             var includeStatusBar = SafeAreaPadding.GetShouldIncludeStatusBar(this.Element);
@@ -146,7 +158,10 @@ namespace Superdev.Maui.Platforms.Effects
 
         protected override void OnDetached()
         {
-            Logger.LogDebug($"SafeAreaPaddingEffect.OnDetached from {this.Element?.GetType().GetFormattedName()}");
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("SafeAreaPaddingEffect detached from {Element}", this.Element?.GetType().GetFormattedName());
+            }
 
             if (this.Element is Layout layout && this.originalPadding != null)
             {
@@ -159,20 +174,12 @@ namespace Superdev.Maui.Platforms.Effects
 
             this.originalPadding = null;
             NSNotificationCenter.DefaultCenter.RemoveObserver(this.orientationObserver);
+
+            // Paired with BeginGeneratingDeviceOrientationNotifications in OnAttached; the notifications are
+            // reference counted by UIKit, so every attached effect has to end what it began.
+            UIDevice.CurrentDevice.EndGeneratingDeviceOrientationNotifications();
         }
 
-        private UIEdgeInsets SafeAreaInsets
-        {
-            get
-            {
-                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
-                {
-                    var insets = UIApplication.SharedApplication.Windows[0].SafeAreaInsets;
-                    return insets;
-                }
-
-                return new UIEdgeInsets(0, 0, 0, 0);
-            }
-        }
+        private UIEdgeInsets SafeAreaInsets => UIApplication.SharedApplication.Windows[0].SafeAreaInsets;
     }
 }

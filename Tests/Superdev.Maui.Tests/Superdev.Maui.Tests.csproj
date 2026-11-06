@@ -15,23 +15,38 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.10.0" />
+    <PackageReference Include="Mocks.Maui" Version="1.2.8-pre" />
     <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="Moq.AutoMock" Version="4.0.2" />
-    <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="Moq.AutoMock" Version="4.0.3" />
+    <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Superdev.Maui\Superdev.Maui.csproj" />
+    <ProjectReference Include="../../Superdev.Maui\Superdev.Maui.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- Tests which inspect source files (e.g. XamlResourceKeyTests) are told where the sources are,
+       rather than guessing by walking up from the output directory. -->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>LibraryDirectory</_Parameter1>
+      <_Parameter2>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../Superdev.Maui'))</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>SamplesDirectory</_Parameter1>
+      <_Parameter2>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../Samples'))</_Parameter2>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

@@ -47,7 +47,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
             if (e.OldElement != null)
             {
-                this.Element.PropertyChanged -= this.OnElementPropertyChanged;
+                // The base class assigns the new element before this method runs, so unsubscribing from
+                // this.Element would detach from the new element and leave the old one subscribed.
+                e.OldElement.PropertyChanged -= this.OnElementPropertyChanged;
             }
         }
 

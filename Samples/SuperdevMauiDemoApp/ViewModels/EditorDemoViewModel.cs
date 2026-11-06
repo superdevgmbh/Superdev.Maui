@@ -1,5 +1,6 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -16,20 +17,23 @@ namespace SuperdevMauiDemoApp.ViewModels
             IViewModelErrorHandler viewModelErrorHandler)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
-
-            _ = this.InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        protected override ViewModelValidation SetupValidation()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            // No validate button on this page: fields validate as they change.
+            var viewModelValidation = new ViewModelValidation { Mode = ValidationMode.OnChange };
+
+            // The editor's MaxLength already stops input at NotesMaxLength, so a length rule could never fail here.
+            viewModelValidation.Property(() => this.Notes)
+                .NotEmpty();
+
+            return viewModelValidation;
+        }
+
+        protected override Task InitializeAsync()
+        {
+            return this.LoadData();
         }
 
         private async Task LoadData()

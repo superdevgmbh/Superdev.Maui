@@ -36,7 +36,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
             if (this.VirtualView is CustomTabbedPage customTabbedPage)
             {
-                //this.VirtualView.AddCleanUpEvent(); // Not needed because, pages call DisconnectHandler automagically
                 customTabbedPage.Loaded += this.TabbedPage_Loaded;
             }
         }
@@ -75,30 +74,6 @@ namespace Superdev.Maui.Platforms.Handlers
                         toptabs.LayoutParameters = layoutParams;
                     }
                 }
-                //else if (this.toolbarPlacement == ToolbarPlacement.Bottom)
-                //{
-                //    var bottomtabs = coordinatorLayout.FindViewById(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_bottomtabs) as FragmentContainerView;
-                //    var fragment = bottomtabs.Fragment as Fragment;
-                //    var bottomNavigationView = fragment.View as BottomNavigationView;
-
-
-                //    if (bottomNavigationView.LayoutParameters is LayoutParams layoutParams)
-                //    {
-                //        if (customTabbedPage.HideTabs)
-                //        {
-                //            layoutParams.Height = 0;
-                //            bottomNavigationView.Visibility = ViewStates.Gone;
-                //        }
-                //        else
-                //        {
-                //            layoutParams.Height = LayoutParams.WrapContent;
-                //            bottomNavigationView.Visibility = ViewStates.Visible;
-                //        }
-
-                //        bottomNavigationView.LayoutParameters = layoutParams;
-                //    }
-
-                //}
                 else
                 {
                     this.logger.LogWarning($"ToolbarPlacement '{toolbarPlacement}' is currently not supported");

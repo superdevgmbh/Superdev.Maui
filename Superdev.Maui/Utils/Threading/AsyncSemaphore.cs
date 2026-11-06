@@ -1,11 +1,16 @@
 ﻿namespace Superdev.Maui.Utils.Threading
 {
-    // http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266983.aspx
+    /// <summary>
+    /// An asynchronous semaphore.
+    /// </summary>
+    /// <remarks>
+    /// A thin wrapper around <see cref="SemaphoreSlim"/>, kept for compatibility; new code can use
+    /// <see cref="SemaphoreSlim"/> directly. The continuation of a waiter never runs inside the
+    /// <see cref="Release"/> call which released it.
+    /// </remarks>
     public class AsyncSemaphore
     {
-        private static readonly Task CompletedTask = Task.FromResult(true);
-        private readonly Queue<TaskCompletionSource<bool>> waiters = new Queue<TaskCompletionSource<bool>>();
-        private int currentCount;
+        private readonly SemaphoreSlim semaphore;
 
         public AsyncSemaphore(int initialCount)
         {
@@ -14,41 +19,26 @@
                 throw new ArgumentOutOfRangeException(nameof(initialCount));
             }
 
-            this.currentCount = initialCount;
+            this.semaphore = new SemaphoreSlim(initialCount);
         }
 
         public Task WaitAsync()
         {
-            lock (this.waiters)
-            {
-                if (this.currentCount > 0)
-                {
-                    --this.currentCount;
-                    return CompletedTask;
-                }
+            return this.semaphore.WaitAsync();
+        }
 
-                var waiter = new TaskCompletionSource<bool>();
-                this.waiters.Enqueue(waiter);
-                return waiter.Task;
-            }
+        /// <summary>
+        /// Waits to enter the semaphore, or gives up when <paramref name="cancellationToken"/> is cancelled.
+        /// </summary>
+        /// <exception cref="OperationCanceledException">If the wait was cancelled.</exception>
+        public Task WaitAsync(CancellationToken cancellationToken)
+        {
+            return this.semaphore.WaitAsync(cancellationToken);
         }
 
         public void Release()
         {
-            TaskCompletionSource<bool>? toRelease = null;
-            lock (this.waiters)
-            {
-                if (this.waiters.Count > 0)
-                {
-                    toRelease = this.waiters.Dequeue();
-                }
-                else
-                {
-                    ++this.currentCount;
-                }
-            }
-
-            toRelease?.SetResult(true);
+            this.semaphore.Release();
         }
     }
 }

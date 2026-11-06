@@ -1,6 +1,9 @@
 ﻿namespace Superdev.Maui.Controls
 {
-    public partial class ErrorBox : Frame
+    /// <summary>
+    /// A bordered box showing an error message; it hides itself while <see cref="Text"/> is empty.
+    /// </summary>
+    public partial class ErrorBox : Border
     {
         public ErrorBox()
         {

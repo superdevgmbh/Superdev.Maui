@@ -9,7 +9,7 @@ namespace Superdev.Maui.Resources.Styles
     /// <summary>
     ///     Helper class for managing application themes with platform-aware adaptations
     /// </summary>
-    public partial class ThemeHelper : IThemeHelper
+    public partial class ThemeHelper : IThemeHelper, IDisposable
     {
         private const string OverrideStylesSuffix = "_Override";
         private const string MergeStylesSuffix = "_Merge";
@@ -37,15 +37,41 @@ namespace Superdev.Maui.Resources.Styles
 
         private event EventHandler<AppTheme>? ThemeChangedEventHandler;
         private EventHandler<AppThemeChangedEventArgs>? systemThemeHandler;
+
+        /// <summary>
+        /// The application instance <see cref="systemThemeHandler"/> is subscribed to, so that the subscription
+        /// is released from that instance even if <see cref="Application.Current"/> was replaced since.
+        /// </summary>
+        private Application? subscribedApplication;
         private string? lightThemeName;
         private string? darkThemeName;
         private bool? useSystemTheme;
         private AppTheme? appTheme;
         private AppTheme? lastUsedTheme;
+
+        /// <summary>
+        /// The theme the last application of resources used, which decides whether <see cref="ThemeChanged"/> is raised.
+        /// Kept apart from <see cref="lastUsedTheme"/>, which the system theme handler updates as soon as
+        /// <see cref="Application.UserAppTheme"/> changes, before the resources are applied.
+        /// </summary>
+        private AppTheme? appliedTheme;
+
+        /// <summary>
+        /// Set while this helper changes <see cref="Application.UserAppTheme"/>. MAUI raises
+        /// <see cref="Application.RequestedThemeChanged"/> from that setter, and the theme it applies next is
+        /// applied by the caller, not again by the system theme handler.
+        /// </summary>
+        private bool isUpdatingUserAppTheme;
+
+        /// <summary>
+        /// The font configuration this helper created itself, and therefore has to dispose when it is
+        /// replaced. A configuration supplied by the theme is owned by that theme.
+        /// </summary>
+        private FontConfiguration? ownedFontConfiguration;
         private bool overrideStyles;
         private bool mergeStyles;
 
-        private ThemeHelper(
+        internal ThemeHelper(
             ILogger<ThemeHelper> logger,
             IPreferences preferences,
             IFontConverter fontConverter)
@@ -195,6 +221,28 @@ namespace Superdev.Maui.Resources.Styles
             }
         }
 
+        /// <summary>
+        ///     Raises <see cref="ThemeChanged" />.
+        /// </summary>
+        private void RaiseThemeChangedEvent(AppTheme appTheme)
+        {
+            EventHandler<AppTheme>? themeChangedEventHandler;
+
+            lock (this.eventLock)
+            {
+                themeChangedEventHandler = this.ThemeChangedEventHandler;
+            }
+
+            try
+            {
+                themeChangedEventHandler?.Invoke(this, appTheme);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "A {EventName} handler failed with exception", nameof(this.ThemeChanged));
+            }
+        }
+
         /// <inheritdoc />
         public AppTheme PlatformAppTheme => Application.Current!.PlatformAppTheme;
 
@@ -211,10 +259,8 @@ namespace Superdev.Maui.Resources.Styles
             get => this.useSystemTheme ?? (this.useSystemTheme = this.preferences.Get(UseSystemThemeSettingsKey, DefaultUseSystemTheme)) ?? DefaultUseSystemTheme;
             set
             {
-                if (this.useSystemTheme != value)
+                if (this.StoreUseSystemTheme(value))
                 {
-                    this.useSystemTheme = value;
-                    this.preferences.Set(UseSystemThemeSettingsKey, value);
                     this.ApplyTheme();
                 }
             }
@@ -222,22 +268,64 @@ namespace Superdev.Maui.Resources.Styles
 
         public AppTheme AppTheme
         {
-            get => this.appTheme ?? (this.appTheme = this.preferences.Get(AppThemeSettingsKey, this.UserAppTheme)) ?? this.UserAppTheme;
+            get
+            {
+                if (this.appTheme is AppTheme appTheme)
+                {
+                    return appTheme;
+                }
+
+                if (this.preferences.ContainsKey(AppThemeSettingsKey))
+                {
+                    return (this.appTheme = this.preferences.Get(AppThemeSettingsKey, AppTheme.Unspecified)).Value;
+                }
+
+                // Until a theme is chosen, the preferred theme is the one shown, so that no longer following the
+                // system theme keeps it. Not cached: while the system theme is followed, the shown theme changes.
+                return Application.Current?.RequestedTheme ?? AppTheme.Unspecified;
+            }
             set
             {
-                if (this.appTheme != value)
+                if (this.StoreAppTheme(value))
                 {
-                    this.UseSystemTheme = false;
-
-                    this.appTheme = value;
-                    this.preferences.Set(AppThemeSettingsKey, value);
-
-                    if (!this.UseSystemTheme) // TODO: This is always false (because we set it to false!)
-                    {
-                        this.ApplyTheme();
-                    }
+                    // Choosing a theme stops following the system theme. Both values are stored before
+                    // the theme is applied, so it is applied once, with the new value.
+                    this.StoreUseSystemTheme(false);
+                    this.ApplyTheme();
                 }
             }
+        }
+
+        /// <summary>
+        /// Stores <paramref name="value"/> as <see cref="UseSystemTheme"/> without applying the theme.
+        /// </summary>
+        /// <returns><c>true</c> if the stored value changed.</returns>
+        private bool StoreUseSystemTheme(bool value)
+        {
+            if (this.useSystemTheme == value)
+            {
+                return false;
+            }
+
+            this.useSystemTheme = value;
+            this.preferences.Set(UseSystemThemeSettingsKey, value);
+            return true;
+        }
+
+        /// <summary>
+        /// Stores <paramref name="value"/> as <see cref="AppTheme"/> without applying the theme.
+        /// </summary>
+        /// <returns><c>true</c> if the stored value changed.</returns>
+        private bool StoreAppTheme(AppTheme value)
+        {
+            if (this.appTheme == value)
+            {
+                return false;
+            }
+
+            this.appTheme = value;
+            this.preferences.Set(AppThemeSettingsKey, value);
+            return true;
         }
 
         private void Initialize()
@@ -253,11 +341,7 @@ namespace Superdev.Maui.Resources.Styles
                 // Initialize theme resources
                 // this.InitializeThemeResources();
 
-                // Unsubscribe existing handler if any
-                if (this.systemThemeHandler != null)
-                {
-                    Application.Current.RequestedThemeChanged -= this.systemThemeHandler;
-                }
+                this.UnsubscribeFromSystemTheme();
 
                 // Register for system theme changes
                 this.systemThemeHandler = (s, e) =>
@@ -265,15 +349,15 @@ namespace Superdev.Maui.Resources.Styles
                     // Store the last detected system theme
                     this.lastUsedTheme = e.RequestedTheme;
 
-                    if (this.UseSystemTheme)
+                    if (this.UseSystemTheme && !this.isUpdatingUserAppTheme)
                     {
                         // If following system theme, update when system changes
                         this.ApplyTheme();
                     }
                 };
 
-                // Register for system theme changes // TODO: Unregister in Dispose
-                Application.Current.RequestedThemeChanged += this.systemThemeHandler;
+                this.subscribedApplication = Application.Current;
+                this.subscribedApplication.RequestedThemeChanged += this.systemThemeHandler;
 
                 // Store initial system theme
                 this.lastUsedTheme = this.GetCurrentTheme();
@@ -334,21 +418,19 @@ namespace Superdev.Maui.Resources.Styles
                 // Determine which theme to use
                 var currentTheme = this.GetCurrentTheme();
 
-                // Apply the theme
-                if (application.UserAppTheme != currentTheme)
-                {
-                    application.UserAppTheme = currentTheme;
-                }
+                this.UpdateUserAppTheme(application);
 
                 // Apply theme resources
                 this.ApplyThemeResources(currentTheme);
 
-                // TODO: Notify listeners of theme change
-                // var hasThemeChanged = this.lastUsedTheme != currentTheme;
-                // if (hasThemeChanged)
-                // {
-                //     this.RaiseThemeChangedEvent(currentTheme);
-                // }
+                var hasThemeChanged = this.appliedTheme != currentTheme;
+                this.appliedTheme = currentTheme;
+                this.lastUsedTheme = currentTheme;
+
+                if (hasThemeChanged)
+                {
+                    this.RaiseThemeChangedEvent(currentTheme);
+                }
             }
             catch (Exception ex)
             {
@@ -361,6 +443,35 @@ namespace Superdev.Maui.Resources.Styles
             return this.UseSystemTheme
                 ? this.PlatformAppTheme
                 : this.AppTheme;
+        }
+
+        /// <summary>
+        /// Pins <see cref="Application.UserAppTheme"/> to the chosen theme, or leaves it
+        /// <see cref="AppTheme.Unspecified"/> while the system theme is followed.
+        /// </summary>
+        /// <remarks>
+        /// A pinned user theme overrides the platform's theme, so a change of the system theme would no longer reach
+        /// the app. MAUI passes the user theme on to the platform only when the requested theme changes, which pinning
+        /// the theme the system already shows does not do, so the handler is asked to pass it on here.
+        /// </remarks>
+        private void UpdateUserAppTheme(Application application)
+        {
+            var userAppTheme = this.UseSystemTheme ? AppTheme.Unspecified : this.AppTheme;
+            if (application.UserAppTheme == userAppTheme)
+            {
+                return;
+            }
+
+            try
+            {
+                this.isUpdatingUserAppTheme = true;
+                application.UserAppTheme = userAppTheme;
+                application.Handler?.UpdateValue(nameof(IApplication.UserAppTheme));
+            }
+            finally
+            {
+                this.isUpdatingUserAppTheme = false;
+            }
         }
 
         /// <summary>
@@ -388,6 +499,8 @@ namespace Superdev.Maui.Resources.Styles
                 {
                     return;
                 }
+
+                this.logger.LogDebug("ApplyThemeResources: {AppTheme} theme {ThemeName}", appTheme, themeName);
 
                 var theme = Application.Current.Resources.GetValue<ITheme>(themeName);
 
@@ -425,7 +538,19 @@ namespace Superdev.Maui.Resources.Styles
                         localMergedDictionaries.Remove(fontResources);
                     }
 
-                    var fontConfiguration = theme.FontConfiguration ?? new FontConfiguration(this.fontConverter);
+                    // A font configuration subscribes to the font converter, which is a singleton, so an
+                    // instance this helper created has to be released before it is replaced. Otherwise
+                    // every theme change leaves one behind, permanently reachable from that singleton.
+                    this.ownedFontConfiguration?.Dispose();
+                    this.ownedFontConfiguration = null;
+
+                    var fontConfiguration = theme.FontConfiguration;
+                    if (fontConfiguration == null)
+                    {
+                        fontConfiguration = new FontConfiguration(this.fontConverter);
+                        this.ownedFontConfiguration = fontConfiguration;
+                    }
+
                     fontConfiguration.Initialize();
                     localMergedDictionaries.Add(fontConfiguration.Resources);
                 }
@@ -491,34 +616,52 @@ namespace Superdev.Maui.Resources.Styles
         /// <inheritdoc />
         public void ToggleTheme()
         {
-            // If following system, switch to manual mode
-            if (this.UseSystemTheme)
-            {
-                this.UseSystemTheme = false;
-                this.AppTheme = Application.Current?.PlatformAppTheme == AppTheme.Dark
-                    ? AppTheme.Light
-                    : AppTheme.Dark;
-            }
-            else
-            {
-                // Toggle between light and dark
-                this.AppTheme = this.AppTheme == AppTheme.Dark
-                    ? AppTheme.Light
-                    : AppTheme.Dark;
-            }
+            // Switches to the manual theme opposite to the one shown, and applies it once.
+            var shownTheme = this.UseSystemTheme
+                ? Application.Current?.PlatformAppTheme
+                : this.AppTheme;
+            var toggledTheme = shownTheme == AppTheme.Dark
+                ? AppTheme.Light
+                : AppTheme.Dark;
+
+            this.StoreAppTheme(toggledTheme);
+            this.StoreUseSystemTheme(false);
+            this.ApplyTheme();
         }
 
 #if ANDROID
         public void OnResume()
         {
             var currentTheme = this.GetCurrentTheme();
-            if (currentTheme != this.lastUsedTheme)
+            if (currentTheme != this.appliedTheme)
             {
                 this.ApplyTheme();
             }
-
         }
 #endif
+
+        private void UnsubscribeFromSystemTheme()
+        {
+            if (this.subscribedApplication != null && this.systemThemeHandler != null)
+            {
+                this.subscribedApplication.RequestedThemeChanged -= this.systemThemeHandler;
+            }
+
+            this.subscribedApplication = null;
+            this.systemThemeHandler = null;
+        }
+
+        /// <summary>
+        /// Releases the subscription to the system theme and the font configuration this helper created itself.
+        /// <see cref="Reset"/> or <see cref="ApplyTheme(string)"/> subscribe again.
+        /// </summary>
+        public void Dispose()
+        {
+            this.UnsubscribeFromSystemTheme();
+
+            this.ownedFontConfiguration?.Dispose();
+            this.ownedFontConfiguration = null;
+        }
 
         /// <inheritdoc />
         public void Reset()

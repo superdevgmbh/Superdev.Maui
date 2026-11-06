@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.FlyoutHomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels.Navigation"
+    x:DataType="vm:FlyoutHomeViewModel"
+    Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label
+                FontAttributes="Bold"
+                Text="Flyout home" />
+            <Label
+                FontAttributes="Bold"
+                Text="Lifecycle log (shared, survives page disposal)" />
+            <VerticalStackLayout
+                BindableLayout.ItemsSource="{Binding NavigationDebugLog.Entries}"
+                Spacing="2">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Label
+                            FontSize="11"
+                            Text="{Binding .}" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

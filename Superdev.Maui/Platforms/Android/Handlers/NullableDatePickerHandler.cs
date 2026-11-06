@@ -1,4 +1,5 @@
 using Android.App;
+using Android.Views;
 using Android.Content;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
@@ -16,7 +17,8 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(DatePicker.Date)] = MapDate,
             [nameof(NullableDatePicker.NullableDate)] = MapNullableDate,
             [nameof(NullableDatePicker.Placeholder)] = MapPlaceholder,
-            [nameof(NullableDatePicker.PlaceholderColor)] = MapPlaceholderColor
+            [nameof(NullableDatePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(NullableDatePicker.HorizontalTextAlignment)] = MapHorizontalTextAlignment
         };
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
@@ -45,6 +47,16 @@ namespace Superdev.Maui.Platforms.Handlers
             this.UpdateNeutralButton(this.PlatformView, this.VirtualView, dialog);
 
             return dialog;
+        }
+
+        private static void MapHorizontalTextAlignment(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)
+        {
+            var platformView = datePickerHandler.PlatformView;
+            var verticalGravity = platformView.Gravity & GravityFlags.VerticalGravityMask;
+            platformView.Gravity = nullableDatePicker.HorizontalTextAlignment.ToHorizontalGravityFlags() | verticalGravity;
+
+            // Any other TextAlignment than Gravity overrides the horizontal gravity, as it does on the time picker.
+            platformView.TextAlignment = global::Android.Views.TextAlignment.Gravity;
         }
 
         private static void MapPlaceholder(NullableDatePickerHandler datePickerHandler, NullableDatePicker nullableDatePicker)

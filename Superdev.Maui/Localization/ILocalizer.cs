@@ -20,7 +20,10 @@ namespace Superdev.Maui.Localization
         string PreferencesKey { get; set; }
 
         /// <summary>
-        /// Gets or sets the default language.
+        /// Gets or sets the language used when the platform's language is not one of the
+        /// <see cref="SupportedLanguages"/>, or the platform reports no language at all.
+        /// While it is <c>null</c>, the first supported language is used instead, or, without supported languages,
+        /// <see cref="CultureInfo.CurrentUICulture"/>, the language .NET picks resources in.
         /// </summary>
         CultureInfo? DefaultLanguage { get; set; }
 

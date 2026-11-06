@@ -2,7 +2,6 @@
 using Superdev.Maui.Controls;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
-using Superdev.Maui.Validation;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
@@ -31,17 +30,6 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.Birthdate = referenceDate;
 
             _ = this.LoadData();
-        }
-
-        protected override ViewModelValidation SetupValidation()
-        {
-            var viewModelValidation = new ViewModelValidation();
-
-            viewModelValidation.AddValidationFor(nameof(this.Birthdate))
-                .When(() => this.Birthdate == null)
-                .Show(() => "Birthdate must be set");
-
-            return viewModelValidation;
         }
 
         private async Task LoadData()
@@ -87,10 +75,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.birthdate;
             set
             {
-                if (this.SetProperty(ref this.birthdate, value))
-                {
-                    _ = this.Validation.IsValidAsync();
-                }
+                this.SetProperty(ref this.birthdate, value);
             }
         }
 

@@ -41,20 +41,15 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.themeHelper = themeHelper;
             this.clipboard = clipboard;
             this.email = email;
-
-            _ = this.InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            // The resource dump is loaded on demand ("Load Data"): rendering every merged resource in the
+            // non-virtualized stacks of this page takes seconds on Android and would stall the navigation.
+            this.appTheme = this.themeHelper.AppTheme;
+            this.RaisePropertyChanged(nameof(this.AppTheme));
+            return Task.CompletedTask;
         }
 
         public IAsyncRelayCommand LoadDataCommand

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<s:PopupPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.FormPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels.Navigation"
+    x:DataType="vm:FormPopupViewModel"
+    BackgroundColor="#80000000"
+    CloseWhenBackgroundIsClicked="False"
+    HasKeyboardOffset="True">
+
+    <s:PopupPage.Animation>
+        <s:MoveAnimation
+            DurationIn="150"
+            DurationOut="150"
+            PositionIn="Bottom"
+            PositionOut="Bottom" />
+    </s:PopupPage.Animation>
+
+    <Border
+        Margin="{DynamicResource Theme.Padding.Medium}"
+        Padding="{DynamicResource Theme.Padding.Medium}"
+        BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
+        VerticalOptions="End">
+        <VerticalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label Text="A sheet with a text input. The content moves up when the keyboard appears." />
+            <s:CustomEntry Placeholder="Comment" Text="{Binding Comment, Mode=TwoWay}" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                <Button
+                    Grid.Column="0"
+                    Command="{Binding CancelCommand}"
+                    Text="Cancel" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding SaveCommand}"
+                    Text="Save" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</s:PopupPage>

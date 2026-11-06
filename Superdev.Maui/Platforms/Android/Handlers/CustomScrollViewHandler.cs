@@ -10,7 +10,7 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class CustomScrollViewHandler : ScrollViewHandler
     {
-        private global::Android.Views.OverScrollMode originalOverScrollMode;
+        private global::Android.Views.OverScrollMode? originalOverScrollMode;
 
         public new static readonly PM Mapper = new PM(ScrollViewHandler.Mapper)
         {
@@ -39,9 +39,13 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void MapIsBounceEnabled(CustomScrollViewHandler scrollViewHandler, CustomScrollView customScrollView)
         {
-            scrollViewHandler.originalOverScrollMode = scrollViewHandler.PlatformView.OverScrollMode;
+            // Captured once: re-reading it here would capture the value this mapper set last time, so
+            // bounce could be switched off but never switched back on.
+            scrollViewHandler.originalOverScrollMode ??= scrollViewHandler.PlatformView.OverScrollMode;
 
-            scrollViewHandler.PlatformView.OverScrollMode = !customScrollView.IsBounceEnabled ? global::Android.Views.OverScrollMode.Never : scrollViewHandler.originalOverScrollMode;
+            scrollViewHandler.PlatformView.OverScrollMode = customScrollView.IsBounceEnabled
+                ? scrollViewHandler.originalOverScrollMode.Value
+                : global::Android.Views.OverScrollMode.Never;
         }
 
         private static void MapIsScrollEnabled(CustomScrollViewHandler handler, CustomScrollView view)

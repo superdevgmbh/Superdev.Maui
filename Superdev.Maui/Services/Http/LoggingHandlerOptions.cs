@@ -35,11 +35,44 @@ namespace Superdev.Maui.Services.Http
         /// <summary>
         /// Header names whose values are replaced with <c>{suppressed}</c> in the log output
         /// (e.g. to keep secrets out of the logs). Matching is case-insensitive.
-        /// <para>Default: <c>Authorization</c>.</para>
+        /// <para>
+        /// Default: every header which commonly carries a credential. Add to this list rather than
+        /// replacing it if your API carries secrets in a header of its own.
+        /// </para>
         /// </summary>
         public IList<string> SuppressedHeaderNames { get; set; } = new List<string>
         {
             "Authorization",
+            "Proxy-Authorization",
+            "WWW-Authenticate",
+            "Proxy-Authenticate",
+            "Cookie",
+            "Set-Cookie",
+            "X-Api-Key",
+            "Api-Key",
+            "X-Auth-Token",
         };
+
+        /// <summary>
+        /// Logs the request and response bodies of the media types listed in <see cref="SupportedMediaTypes" />.
+        /// <para>
+        /// Default: <c>false</c>. Bodies routinely carry credentials and personal data, so logging them
+        /// is opt-in even in a debug build.
+        /// </para>
+        /// </summary>
+        public bool LogContent { get; set; }
+
+        /// <summary>
+        /// The maximum number of characters of a body which are written to the log. Longer bodies are
+        /// truncated. <para>Default: <c>4096</c>.</para>
+        /// </summary>
+        public int MaxContentLength { get; set; } = 4096;
+
+        /// <summary>
+        /// Logs the query string of a request URI. Query strings carry API keys and signed-URL tokens,
+        /// so the query is replaced with <c>?{redacted}</c> by default.
+        /// <para>Default: <c>false</c>.</para>
+        /// </summary>
+        public bool LogQueryString { get; set; }
     }
 }

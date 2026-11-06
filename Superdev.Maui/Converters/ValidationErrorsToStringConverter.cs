@@ -35,21 +35,21 @@ namespace Superdev.Maui.Converters
 
         public virtual object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is ViewModelValidation { HasErrors: true } viewModelValidation)
+            var messages = value switch
             {
-                string? bulletString = null;
-                var showBullets = this.ShowBullets;
-                if (showBullets)
-                {
-                    bulletString = this.Bullet;
-                }
+                ViewModelValidation validation => validation.Errors.All,
+                ValidationErrors errors => errors.All,
+                IEnumerable<string> strings => strings.ToArray(),
+                _ => Array.Empty<string>(),
+            };
 
-                var errorLines = viewModelValidation.GetErrors().SelectMany(e => e.Value).Select(s => $"{bulletString}{s}");
-                var errorString = string.Join(Environment.NewLine, errorLines);
-                return errorString;
+            if (messages.Count == 0)
+            {
+                return null;
             }
 
-            return null;
+            var bullet = this.ShowBullets ? this.Bullet : null;
+            return string.Join(Environment.NewLine, messages.Select(m => $"{bullet}{m}"));
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

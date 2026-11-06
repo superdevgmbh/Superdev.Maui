@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -9,35 +11,26 @@ namespace SuperdevMauiDemoApp.ViewModels
     public class BindableItemsSourceDemoViewModel : BaseViewModel
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
+        private readonly IDialogService dialogService;
         private readonly ICountryService countryService;
 
         private ObservableCollection<CountryViewModel> countries;
-        private IAsyncRelayCommand? appearingCommand;
+        private ICommand? selectCountryCommand;
 
         public BindableItemsSourceDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
+            IDialogService dialogService,
             ICountryService countryService)
         {
             this.viewModelErrorHandler = viewModelErrorHandler;
+            this.dialogService = dialogService;
             this.countryService = countryService;
             this.countries = new ObservableCollection<CountryViewModel>();
         }
 
-        public IAsyncRelayCommand AppearingCommand
+        protected override Task InitializeAsync()
         {
-            get => this.appearingCommand ??= new AsyncRelayCommand(this.InitializeAsync);
-        }
-
-        private async Task InitializeAsync()
-        {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()
@@ -50,7 +43,7 @@ namespace SuperdevMauiDemoApp.ViewModels
                 var countryDtos = await this.countryService.GetAllAsync();
                 this.Countries = countryDtos
                     .Take(5)
-                    .Select(c => new CountryViewModel(c))
+                    .Select(c => new CountryViewModel(c, this.SelectCountryCommand))
                     .ToObservableCollection();
             }
             catch (Exception ex)
@@ -66,6 +59,13 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.countries;
             private set => this.SetProperty(ref this.countries, value);
+        }
+
+        public ICommand SelectCountryCommand => this.selectCountryCommand ??= new AsyncRelayCommand<CountryViewModel>(this.OnSelectCountryAsync);
+
+        private async Task OnSelectCountryAsync(CountryViewModel? countryViewModel)
+        {
+            await this.dialogService.DisplayAlertAsync("SelectCountryCommand", $"country: {countryViewModel?.Name ?? "null"}", "OK");
         }
     }
 }

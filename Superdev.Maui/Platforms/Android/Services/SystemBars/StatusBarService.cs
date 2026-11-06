@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Android.OS;
+using Android.Util;
 using Android.Views;
-using AndroidX.Core.Content;
 using AndroidX.Core.View;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Services;
@@ -29,29 +29,6 @@ namespace Superdev.Maui.Platforms.Services
 
         private StatusBarService()
         {
-        }
-
-        public void OnStart(Activity activity)
-        {
-            if (this.statusBarColor == null)
-            {
-                var statusBarColorId = activity.Resources.GetIdentifier("colorPrimaryDark", "color", activity.PackageName);
-                if (statusBarColorId == 0)
-                {
-                    statusBarColorId = activity.Resources.GetIdentifier("statusBarColor", "color", activity.PackageName);
-                }
-
-                if (statusBarColorId != 0)
-                {
-                    this.statusBarColor = new AColor(ContextCompat.GetColor(activity, statusBarColorId));
-                }
-                else
-                {
-                    this.statusBarColor = AColor.Magenta;
-                }
-            }
-
-            // var navigationBarColor = new Color(ContextCompat.GetColor(activity, Resource.Color.navigationBarColor));
         }
 
         public void OnResume()
@@ -85,7 +62,7 @@ namespace Superdev.Maui.Platforms.Services
                 return;
             }
 
-            if ((int)Build.VERSION.SdkInt >= 35)
+            if (IsEdgeToEdgeEnforced(activity))
             {
                 if (color == null && this.navigationBarColor == null)
                 {
@@ -127,7 +104,7 @@ namespace Superdev.Maui.Platforms.Services
                 return;
             }
 
-            if ((int)Build.VERSION.SdkInt >= 35)
+            if (IsEdgeToEdgeEnforced(activity))
             {
                 if (color == null && this.statusBarColor == null)
                 {
@@ -170,6 +147,29 @@ namespace Superdev.Maui.Platforms.Services
             return activity != null && decorView != null && rootView != null;
         }
 
+        /// <summary>
+        /// Android 15 (API 35) forces edge-to-edge on apps which target API 35 or higher. Apps can opt out
+        /// via <c>android:windowOptOutEdgeToEdgeEnforcement</c> - which is exactly what MAUI's default theme does.
+        /// While opted out, the system still reserves the status bar area and the legacy window APIs keep working,
+        /// so the inset-based drawing below must not be used: MAUI would offset the toolbar a second time.
+        /// </summary>
+        private static bool IsEdgeToEdgeEnforced(Activity activity)
+        {
+            if ((int)Build.VERSION.SdkInt < 35 || (int)activity.ApplicationInfo.TargetSdkVersion < 35)
+            {
+                return false;
+            }
+
+            var typedValue = new TypedValue();
+            if (activity.Theme is global::Android.Content.Res.Resources.Theme theme &&
+                theme.ResolveAttribute(global::Android.Resource.Attribute.WindowOptOutEdgeToEdgeEnforcement, typedValue, true))
+            {
+                return typedValue.Data == 0;
+            }
+
+            return true;
+        }
+
         private void CreateInsetsListenerIfNotExists(AView rootView)
         {
             if (this.insetsListener == null)
@@ -181,6 +181,7 @@ namespace Superdev.Maui.Platforms.Services
             {
                 if (!Equals(this.insetsListener.RootView, rootView))
                 {
+                    this.insetsListener.Detach();
                     this.insetsListener.RootView = rootView;
                     ViewCompat.SetOnApplyWindowInsetsListener(rootView, null);
                     ViewCompat.SetOnApplyWindowInsetsListener(rootView, this.insetsListener);
@@ -190,49 +191,28 @@ namespace Superdev.Maui.Platforms.Services
 
         private void ResetInsetsListener(AView rootView, Activity activity)
         {
+            this.insetsListener?.Detach();
+
             ViewCompat.SetOnApplyWindowInsetsListener(rootView, null);
             WindowCompat.SetDecorFitsSystemWindows(activity.Window, true);
             ViewCompat.RequestApplyInsets(rootView);
-
-            rootView.Background = null;
-            rootView.SetBackgroundColor(AColor.Transparent);
-            rootView.SetPadding(0, 0, 0, 0);
 
             this.insetsListener = null;
         }
 
         public void SetStyle(StatusBarStyle statusBarStyle)
         {
-            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
-            {
-                return;
-            }
-
             this.statusBarStyle = statusBarStyle;
 
-            var currentActivity = Platform.CurrentActivity;
-            if (currentActivity == null)
+            if (!TryGetActivityAndDecorView(out var activity, out var decorView, out _))
             {
                 return;
             }
 
-            var decorView = currentActivity.Window?.DecorView;
-            if (decorView == null)
-            {
-                return;
-            }
-
-            var newUiVisibility = (int)decorView.SystemUiVisibility;
-            if (statusBarStyle == StatusBarStyle.Light)
-            {
-                newUiVisibility |= (int)SystemUiFlags.LightStatusBar;
-            }
-            else
-            {
-                newUiVisibility &= ~(int)SystemUiFlags.LightStatusBar;
-            }
-
-            decorView.SystemUiVisibility = (StatusBarVisibility)newUiVisibility;
+            // The compat controller uses the window insets controller from API 30 on - the only path which
+            // works on edge-to-edge windows - and the (deprecated) system UI visibility flags below it.
+            var insetsController = WindowCompat.GetInsetsController(activity.Window, decorView);
+            insetsController.AppearanceLightStatusBars = statusBarStyle == StatusBarStyle.Light;
         }
     }
 }

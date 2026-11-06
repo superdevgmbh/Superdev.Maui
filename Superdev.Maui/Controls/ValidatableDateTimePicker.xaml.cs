@@ -1,4 +1,5 @@
 using System.Globalization;
+using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Controls
 {
@@ -77,6 +78,7 @@ namespace Superdev.Maui.Controls
         {
             var validatableDateTimePicker = (ValidatableDateTimePicker)bindable;
             validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.AnnotationText));
+            validatableDateTimePicker.OnPropertyChanged(nameof(validatableDateTimePicker.ReadonlyText));
         }
 
         public TimeSpan? Time
@@ -137,21 +139,19 @@ namespace Superdev.Maui.Controls
                 var readonlyText = (string)this.GetValue(ReadonlyTextProperty);
                 if (readonlyText == null && this.Date is DateTime date)
                 {
-                    // if (this.Time is TimeSpan time)
-                    // {
-                    //     date += time;
-                    // }
+                    // ReadonlyText defaults to the date, followed by the time if one is set,
+                    // each formatted the way its picker formats it.
+                    var localDate = date.ToLocalTime();
+                    var dateFormat = this.DatePicker?.Format;
 
-                    // In case ReadonlyText is null, we try to take Format(Date+Time) as ReadonlyText
-                    var localDateTime = date.ToLocalTime();
+                    readonlyText = string.IsNullOrEmpty(dateFormat)
+                        ? localDate.ToString("d", CultureInfo.CurrentCulture)
+                        : localDate.ToString(dateFormat, CultureInfo.CurrentCulture);
 
-                    if (this.DatePicker?.Format is string dateFormat && !string.IsNullOrEmpty(dateFormat))
+                    if (this.Time is TimeSpan time)
                     {
-                        readonlyText = localDateTime.ToString(dateFormat);
-                    }
-                    else
-                    {
-                        readonlyText = localDateTime.ToString(CultureInfo.CurrentCulture);
+                        var timeFormat = this.TimePicker?.Format ?? string.Empty;
+                        readonlyText += $" {((TimeSpan?)time).ToStringExtended(timeFormat, CultureInfo.CurrentCulture)}";
                     }
                 }
 

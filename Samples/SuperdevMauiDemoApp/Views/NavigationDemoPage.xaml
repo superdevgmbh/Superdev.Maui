@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="SuperdevMauiDemoApp.Views.NavigationDemoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -16,6 +16,42 @@
         <VerticalStackLayout
             Padding="{DynamicResource Theme.Padding.Medium}"
             Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="Navigation demos" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="LifecycleDemoPage"
+                Text="Lifecycle and events" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="ParameterDemoPage"
+                Text="Parameters and results" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="GuardDemoPage"
+                Text="Navigation guard" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="PopupDemoPage"
+                Text="Popups" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="TabsDemoPage"
+                Text="Tabs" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="UriDemoPage"
+                Text="Navigation URIs and deep links" />
+            <Button
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="LeakDemoPage"
+                Text="Leak playground" />
+            <Button
+                Command="{Binding NavigateToUriCommand}"
+                CommandParameter="/FlyoutDemoPage/NavigationPage/FlyoutHomePage"
+                Text="Flyout shell (replaces the root page)" />
+
             <Label
                 Style="{StaticResource DemoLabelStyle}"
                 Text="Navigation" />
@@ -36,6 +72,11 @@
                 Command="{Binding NavigateToPageModalCommand}"
                 CommandParameter="NavigationDemoPage"
                 Text="PushModalAsync" />
+            <!--  A guarded page is presented full screen on iOS, so that it cannot be swiped away past its guard.  -->
+            <Button
+                Command="{Binding NavigateToPageModalCommand}"
+                CommandParameter="GuardDemoPage"
+                Text="PushModalAsync (guarded page)" />
             <Button
                 Command="{Binding PopModalCommand}"
                 Text="PopModalAsync" />

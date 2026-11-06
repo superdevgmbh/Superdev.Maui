@@ -93,7 +93,7 @@ namespace Superdev.Maui.Controls
                 }
                 else
                 {
-                    existingBehavior.StatusBarColor = navigationBarColor;
+                    existingBehavior.NavigationBarColor = navigationBarColor;
                 }
             }
             else

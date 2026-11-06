@@ -19,7 +19,10 @@ namespace Superdev.Maui.Converters
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return value is ViewModelError viewModelError && (viewModelError != ViewModelError.None) ^ this.IsInverted;
+            // The inversion is applied to the whole result, not just to the error comparison: exclusive-or
+            // binds tighter than the logical and, so inlining it here would leave a non-error value visible.
+            var hasError = value is ViewModelError viewModelError && viewModelError != ViewModelError.None;
+            return hasError ^ this.IsInverted;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

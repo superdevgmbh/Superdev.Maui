@@ -157,6 +157,14 @@ namespace Superdev.Maui.Controls
             get => (object?)this.GetValue(SelectedItemProperty);
             set
             {
+                // The inner picker echoes every selection back through its two-way binding. Writing an unchanged value
+                // would still count as a value set in code, which outranks a one-way binding of this property, so a
+                // read-only picker would stop following its view model.
+                if (Equals(this.SelectedItem, value))
+                {
+                    return;
+                }
+
                 this.SetValue(SelectedItemProperty, value);
                 this.OnPropertyChanged(nameof(this.AnnotationText));
             }
@@ -200,7 +208,16 @@ namespace Superdev.Maui.Controls
         public int SelectedIndex
         {
             get => (int)this.GetValue(SelectedIndexProperty);
-            set => this.SetValue(SelectedIndexProperty, value);
+            set
+            {
+                // See SelectedItem: an unchanged echo from the inner picker must not replace a one-way binding.
+                if (this.SelectedIndex == value)
+                {
+                    return;
+                }
+
+                this.SetValue(SelectedIndexProperty, value);
+            }
         }
 
         private static void OnSelectedIndexPropertyChanged(BindableObject bindable, object oldValue, object newValue)

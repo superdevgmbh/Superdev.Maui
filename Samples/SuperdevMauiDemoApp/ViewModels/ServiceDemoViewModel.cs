@@ -42,6 +42,8 @@ namespace SuperdevMauiDemoApp.ViewModels
         private IRelayCommand<string>? setCurrentCultureCommand;
         private string? currentCulture;
         private IRelayCommand? resetCurrentCultureCommand;
+        private IRelayCommand? runPlatformUtilityCommand;
+        private string? platformUtilityResult;
 
         public ServiceDemoViewModel(
             ILogger<ServiceDemoViewModel> logger,
@@ -313,6 +315,42 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             var result = await this.browser.TryOpenAsync("https://www.github.com/thomasgalliker");
             this.logger.LogDebug($"TryOpenUrlAsync: result={result}");
+        }
+
+        public string? PlatformUtilityResult
+        {
+            get => this.platformUtilityResult;
+            private set => this.SetProperty(ref this.platformUtilityResult, value);
+        }
+
+        public IRelayCommand RunPlatformUtilityCommand
+        {
+            get => this.runPlatformUtilityCommand ??= new RelayCommand(this.RunPlatformUtility);
+        }
+
+        /// <summary>
+        /// Runs the platform helper each platform has: the app hash key for the SMS retriever on Android,
+        /// the exclusion of the app's folders from backups on iOS.
+        /// </summary>
+        private void RunPlatformUtility()
+        {
+            try
+            {
+#if ANDROID
+                var appHashKey = Superdev.Maui.Platforms.Android.Utils.AppSignatureHelper.GetAppHashKey(Platform.AppContext);
+                this.PlatformUtilityResult = $"AppHashKey={appHashKey}";
+#elif IOS
+                Superdev.Maui.Platforms.iOS.Utils.NSFileManagerHelper.DisableBackup();
+                var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var skipBackup = Foundation.NSFileManager.GetSkipBackupAttribute(documentsFolder);
+                this.PlatformUtilityResult = $"SkipBackup(Documents)={skipBackup}";
+#endif
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "RunPlatformUtility failed with exception");
+                this.PlatformUtilityResult = ex.Message;
+            }
         }
     }
 }

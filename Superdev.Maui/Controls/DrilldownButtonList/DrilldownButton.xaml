@@ -27,7 +27,6 @@
                 CommandParameter="{Binding CommandParameter, Source={x:Reference Control}, Mode=OneWay}"
                 CornerRadius="0"
                 FontAttributes="None"
-                FontSize="{DynamicResource LargeSize}"
                 IsEnabled="{Binding IsEnabled, Source={x:Reference Control}, Mode=OneWay}"
                 Style="{DynamicResource DrilldownButtonStyle}"
                 Text="{Binding Text, Source={x:Reference Control}, Mode=OneWay}"

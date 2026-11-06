@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows.Input;
 using Superdev.Maui.Utils.Threading;
 
 namespace Superdev.Maui.Mvvm
@@ -11,6 +12,7 @@ namespace Superdev.Maui.Mvvm
         private string? retryButtonText;
         private Func<Task>? retryTask;
         private bool isBusy;
+        private int retryRunning;
 
         public ViewModelError(string? icon, string title, string text)
             : this(icon, title, text, null)
@@ -46,7 +48,13 @@ namespace Superdev.Maui.Mvvm
         public bool IsBusy
         {
             get => this.isBusy;
-            private set => this.SetProperty(ref this.isBusy, value);
+            private set
+            {
+                if (this.SetProperty(ref this.isBusy, value))
+                {
+                    (this.retryCommand as Command)?.ChangeCanExecute();
+                }
+            }
         }
 
         public string? RetryButtonText
@@ -54,6 +62,8 @@ namespace Superdev.Maui.Mvvm
             get => this.retryButtonText;
             protected internal set
             {
+                this.ThrowIfNone();
+
                 if (this.SetProperty(ref this.retryButtonText, value))
                 {
                     this.RaisePropertyChanged(nameof(this.CanRetry));
@@ -80,8 +90,21 @@ namespace Superdev.Maui.Mvvm
 
         public ViewModelError WithRetry(Func<Task> retryTask)
         {
+            this.ThrowIfNone();
+
             this.RetryTask = retryTask;
             return this;
+        }
+
+        /// <summary>
+        /// <see cref="None"/> is shared by every view model, so it must not be given a retry or a button text.
+        /// </summary>
+        private void ThrowIfNone()
+        {
+            if (ReferenceEquals(this, None))
+            {
+                throw new InvalidOperationException($"{nameof(ViewModelError)}.{nameof(None)} is shared and cannot be modified.");
+            }
         }
 
         /// <summary>
@@ -94,21 +117,34 @@ namespace Superdev.Maui.Mvvm
         /// </summary>
         public async Task RetryAsync()
         {
+            if (this.RetryTask is not Func<Task> task)
+            {
+                return;
+            }
+
+            if (Interlocked.CompareExchange(ref this.retryRunning, 1, 0) != 0)
+            {
+                // A retry is already running: a second tap must not start another one.
+                return;
+            }
+
             this.IsBusy = true;
 
             try
             {
-                if (this.RetryTask is Func<Task> task)
-                {
-                    await task();
-                }
+                await task();
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore
+                // A retry has no caller which could observe the exception. The error stays displayed and the
+                // failure is traced, so that it does not vanish silently.
+                Trace.WriteLine($"{nameof(ViewModelError)}.{nameof(this.RetryAsync)} failed with exception: {ex}");
             }
-
-            this.IsBusy = false;
+            finally
+            {
+                this.IsBusy = false;
+                Interlocked.Exchange(ref this.retryRunning, 0);
+            }
         }
 
         private Func<Task>? RetryTask
@@ -119,7 +155,7 @@ namespace Superdev.Maui.Mvvm
                 if (this.retryTask != value)
                 {
                     this.retryTask = value;
-                    this.RetryCommand = value != null ? new Command(() => _ = this.RetryAsync()) : null;
+                    this.RetryCommand = value != null ? new Command(() => _ = this.RetryAsync(), () => !this.IsBusy) : null;
                 }
             }
         }
@@ -151,10 +187,13 @@ namespace Superdev.Maui.Mvvm
                 return true;
             }
 
+            // The retry takes part in the comparison: an error with the same text but another retry closure
+            // is a different error, otherwise replacing it would be dropped and the stale closure kept running.
             return
                 this.Icon == other.Icon && this.Title == other.Title &&
                 this.Text == other.Text &&
-                this.RetryButtonText == other.RetryButtonText;
+                this.RetryButtonText == other.RetryButtonText &&
+                Equals(this.retryTask, other.retryTask);
         }
 
 

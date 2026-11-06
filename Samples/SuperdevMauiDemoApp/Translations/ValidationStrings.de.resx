@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- Validation messages and field names for the demo: Validation_{ErrorCode} and ValidationField_{PropertyName}. -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Validation_NotEmpty" xml:space="preserve">
+    <value>{PropertyName} darf nicht leer sein.</value>
+  </data>
+  <data name="Validation_NotNull" xml:space="preserve">
+    <value>{PropertyName} darf nicht leer sein.</value>
+  </data>
+  <data name="Validation_IsTrue" xml:space="preserve">
+    <value>{PropertyName} ist erforderlich.</value>
+  </data>
+  <data name="Validation_MinimumLength" xml:space="preserve">
+    <value>{PropertyName} muss mindestens {MinimumLength} Zeichen lang sein.</value>
+  </data>
+  <data name="Validation_MaximumLength" xml:space="preserve">
+    <value>{PropertyName} darf höchstens {MaximumLength} Zeichen lang sein.</value>
+  </data>
+  <data name="Validation_Length" xml:space="preserve">
+    <value>{PropertyName} muss zwischen {MinimumLength} und {MaximumLength} Zeichen lang sein.</value>
+  </data>
+  <data name="Validation_Matches" xml:space="preserve">
+    <value>{PropertyName} hat ein ungültiges Format.</value>
+  </data>
+  <data name="Validation_EmailAddress" xml:space="preserve">
+    <value>{PropertyName} ist keine gültige E-Mail-Adresse.</value>
+  </data>
+  <data name="Validation_EqualToOtherProperty" xml:space="preserve">
+    <value>{PropertyName} muss mit {OtherPropertyName} übereinstimmen.</value>
+  </data>
+  <data name="Validation_Between" xml:space="preserve">
+    <value>{PropertyName} muss zwischen {From} und {To} liegen.</value>
+  </data>
+  <data name="Validation_InThePast" xml:space="preserve">
+    <value>{PropertyName} muss in der Vergangenheit liegen.</value>
+  </data>
+  <data name="Validation_InTheFuture" xml:space="preserve">
+    <value>{PropertyName} muss in der Zukunft liegen.</value>
+  </data>
+  <data name="Validation_IsInteger" xml:space="preserve">
+    <value>{PropertyName} muss eine ganze Zahl sein.</value>
+  </data>
+  <data name="Validation_IsDecimal" xml:space="preserve">
+    <value>{PropertyName} muss eine Zahl sein.</value>
+  </data>
+  <data name="ValidationField_UserName" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="ValidationField_Email" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="ValidationField_Nickname" xml:space="preserve">
+    <value>Spitzname</value>
+  </data>
+  <data name="ValidationField_Notes" xml:space="preserve">
+    <value>Notizen</value>
+  </data>
+  <data name="ValidationField_AgeText" xml:space="preserve">
+    <value>Alter</value>
+  </data>
+  <data name="ValidationField_AmountText" xml:space="preserve">
+    <value>Betrag (Text)</value>
+  </data>
+  <data name="ValidationField_Amount" xml:space="preserve">
+    <value>Betrag</value>
+  </data>
+  <data name="ValidationField_Birthdate" xml:space="preserve">
+    <value>Geburtsdatum</value>
+  </data>
+  <data name="ValidationField_Appointment" xml:space="preserve">
+    <value>Termin</value>
+  </data>
+  <data name="ValidationField_PatentStartDate" xml:space="preserve">
+    <value>Patentbeginn</value>
+  </data>
+  <data name="ValidationField_Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="ValidationField_PasswordConfirm" xml:space="preserve">
+    <value>Passwort-Bestätigung</value>
+  </data>
+  <data name="ValidationField_DiscountPercentText" xml:space="preserve">
+    <value>Rabatt</value>
+  </data>
+  <data name="ValidationField_Street" xml:space="preserve">
+    <value>Strasse</value>
+  </data>
+  <data name="ValidationField_PostalCode" xml:space="preserve">
+    <value>Postleitzahl</value>
+  </data>
+  <data name="ValidationField_Place" xml:space="preserve">
+    <value>Ort</value>
+  </data>
+</root>

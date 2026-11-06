@@ -107,6 +107,13 @@
             <Button
                 Command="{Binding TryOpenUrlCommand}"
                 Text="TryOpenAsync" />
+            <Label
+                Style="{StaticResource DemoLabelStyle}"
+                Text="Platform utilities" />
+            <Button
+                Command="{Binding RunPlatformUtilityCommand}"
+                Text="{OnPlatform Android='AppSignatureHelper.GetAppHashKey', iOS='NSFileManagerHelper.DisableBackup'}" />
+            <Label Text="{Binding PlatformUtilityResult}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

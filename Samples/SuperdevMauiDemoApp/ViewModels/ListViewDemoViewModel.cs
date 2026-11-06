@@ -17,6 +17,7 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         private ObservableCollection<CountryViewModel> countries;
         private ScrollToItem? scrollToCountry;
+        private ICommand? selectCountryCommand;
 
         public ListViewDemoViewModel(
             IViewModelErrorHandler viewModelErrorHandler,
@@ -39,10 +40,10 @@ namespace SuperdevMauiDemoApp.ViewModels
 
             try
             {
-                var defaultCountryViewModel = new CountryViewModel(new CountryDto { Name = null });
+                var defaultCountryViewModel = new CountryViewModel(new CountryDto { Name = null }, this.SelectCountryCommand);
                 var countryDtos = await this.countryService.GetAllAsync();
                 this.Countries = countryDtos
-                    .Select(c => new CountryViewModel(c))
+                    .Select(c => new CountryViewModel(c, this.SelectCountryCommand))
                     .Prepend(defaultCountryViewModel)
                     .ToObservableCollection();
 
@@ -70,7 +71,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             private set => this.SetProperty(ref this.countries, value);
         }
 
-        public ICommand SelectCountryCommand => new Command<CountryViewModel>(this.OnSelectCountry);
+        public ICommand SelectCountryCommand => this.selectCountryCommand ??= new Command<CountryViewModel>(this.OnSelectCountry);
 
         private async void OnSelectCountry(CountryViewModel parameter)
         {

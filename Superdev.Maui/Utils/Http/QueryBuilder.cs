@@ -13,6 +13,10 @@ namespace Superdev.Maui.Utils.Http
     /// <summary>
     ///     Allows constructing a query string.
     /// </summary>
+    /// <remarks>
+    ///     A builder is mutable and compares by reference. Compare the results of <see cref="ToQueryString" />
+    ///     where two queries should be equal by value.
+    /// </remarks>
     public class QueryBuilder : IEnumerable<KeyValuePair<string, string>>
     {
         private readonly IList<KeyValuePair<string, string>> parameters;
@@ -102,18 +106,6 @@ namespace Superdev.Maui.Utils.Http
         public QueryString ToQueryString()
         {
             return new QueryString(this.ToString());
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return this.ToQueryString().GetHashCode();
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object? obj)
-        {
-            return this.ToQueryString().Equals(obj);
         }
     }
 }

@@ -74,39 +74,20 @@
 
             <s:SpacingConfiguration x:Key="SpacingConfiguration" />
 
-            <!-- Fonts -->
-            <OnPlatform
-                x:TypeArguments="x:String"
-                x:Key="SampleApp.FontFamily.OswaldLight">
-                <On
-                    Platform="Android"
-                    Value="Fonts/Oswald-Light.ttf#Oswald Light" />
-                <On
-                    Platform="iOS"
-                    Value="Oswald-Light" />
-            </OnPlatform>
-
-            <OnPlatform
-                x:TypeArguments="x:String"
-                x:Key="SampleApp.FontFamily.OswaldMedium">
-                <On
-                    Platform="Android"
-                    Value="Fonts/Oswald-Medium.ttf#Oswald Medium" />
-                <On
-                    Platform="iOS"
-                    Value="Oswald-Medium" />
-            </OnPlatform>
+            <!-- Fonts: the aliases registered with ConfigureFonts in MauiProgram.cs, the same on every platform -->
+            <x:String x:Key="SampleApp.FontFamily.Regular">OpenSansRegular</x:String>
+            <x:String x:Key="SampleApp.FontFamily.Semibold">OpenSansSemibold</x:String>
 
             <!-- Sets the default font configuration which serves as fallback for all fonts -->
             <s:FontElement
                 x:Key="DefaultFont"
-                FontFamily="{StaticResource SampleApp.FontFamily.OswaldMedium}" />
+                FontFamily="{StaticResource SampleApp.FontFamily.Regular}" />
 
             <!-- Overrides the all font-related properties -->
             <s:FontElement
                 x:Key="DebugFont"
                 FontAttributes="Bold,Italic"
-                FontFamily="{StaticResource SampleApp.FontFamily.OswaldLight}"
+                FontFamily="{StaticResource SampleApp.FontFamily.Semibold}"
                 FontSize="99" />
 
             <!-- Overrides the FontAttributes property only -->

@@ -108,6 +108,9 @@ namespace Superdev.Maui.Platforms.Services
 
         public void Dispose()
         {
+            // A disposed view which is still in the hierarchy stays on screen and swallows all touch input.
+            this.nativeView?.RemoveFromSuperview();
+
             if (this.activityIndicatorPage is Page p)
             {
                 p.Handler?.DisconnectHandler();

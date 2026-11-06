@@ -41,20 +41,5 @@ namespace Superdev.Maui.Extensions
 
             return null;
         }
-
-        internal static VisualElement? AsVisualElement(this VisualElement bindable)
-        {
-            if (bindable is VisualElement visualElement)
-            {
-                return visualElement;
-            }
-
-            if (bindable is ValidatableEntry validatableEntry)
-            {
-                return validatableEntry.Entry;
-            }
-
-            return null;
-        }
     }
 }

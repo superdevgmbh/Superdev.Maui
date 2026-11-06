@@ -116,14 +116,6 @@ namespace Superdev.Maui.Platforms.Handlers
         {
         }
 
-        protected override void ConnectHandler(MauiDatePicker platformView)
-        {
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-            base.ConnectHandler(platformView);
-        }
-
         protected override void DisconnectHandler(MauiDatePicker platformView)
         {
             this.HideAndDisposeDialog();

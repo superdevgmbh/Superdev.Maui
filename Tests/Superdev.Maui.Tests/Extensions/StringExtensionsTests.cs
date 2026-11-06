@@ -1,4 +1,5 @@
-﻿using Superdev.Maui.Extensions;
+﻿using System.Globalization;
+using Superdev.Maui.Extensions;
 
 namespace Superdev.Maui.Tests.Extensions
 {
@@ -102,6 +103,110 @@ namespace Superdev.Maui.Tests.Extensions
                 this.Add("t", "T");
                 this.Add("test", "Test");
             }
+        }
+
+        [Fact]
+        public void ToUpperFirst_UnderTurkishCulture_UsesInvariantCasing()
+        {
+            // Arrange
+            using var cultureScope = new CultureScope("tr-TR");
+
+            // Act
+            var output = "italiano".ToUpperFirst();
+
+            // Assert
+            output.Should().Be("Italiano", "Turkish casing would turn the i into a dotted İ");
+        }
+
+        [Fact]
+        public void ToUpperFirst_WithCulture_UsesItsCasing()
+        {
+            // Act
+            var output = "istanbul".ToUpperFirst(CultureInfo.GetCultureInfo("tr-TR"));
+
+            // Assert
+            output.Should().Be("İstanbul");
+        }
+
+        [Fact]
+        public void StartsWithAny_WithMatchingPrefix_ReturnsTrue()
+        {
+            // Act
+            var startsWith = "Superdev.Maui".StartsWithAny(new[] { "Xamarin", "Superdev" });
+
+            // Assert
+            startsWith.Should().BeTrue();
+        }
+
+        [Fact]
+        public void StartsWithAny_WithCanonicallyEquivalentPrefix_ComparesOrdinally()
+        {
+            // Arrange
+            const string decomposed = "été";
+
+            // Act
+            var startsWith = decomposed.StartsWithAny(new[] { "é" });
+
+            // Assert
+            startsWith.Should().BeFalse("a culture-sensitive comparison would treat e + combining accent as é");
+        }
+
+        [Fact]
+        public void StartsWithAny_WithNullSource_ReturnsFalse()
+        {
+            // Arrange
+            const string? source = null;
+
+            // Act
+            var startsWith = source.StartsWithAny(new[] { "a" });
+
+            // Assert
+            startsWith.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData("Superdev.Maui", "Super%", true)]
+        [InlineData("Superdev.Maui", "%Maui", true)]
+        [InlineData("Superdev.Maui", "%dev%", true)]
+        [InlineData("Superdev.Maui", "Maui%", false)]
+        [InlineData("cat", "c_t", true)]
+        [InlineData("coat", "c_t", false)]
+        [InlineData("line1\nline2", "line1%line2", true)]
+        [InlineData("Maui", "maui", false)]
+        public void Like_WithPattern_ReturnsExpectedMatch(string source, string pattern, bool expected)
+        {
+            // Act
+            var matches = source.Like(pattern);
+
+            // Assert
+            matches.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(@"a.b(c)*d+e?[f]{g}|h$^i\j#k l")]
+        [InlineData(@"\A.*\z")]
+        public void Like_WithRegexMetacharacters_MatchesThemLiterally(string text)
+        {
+            // Act
+            var matchesItself = text.Like(text);
+            var matchesOther = "x".Like(text);
+
+            // Assert
+            matchesItself.Should().BeTrue();
+            matchesOther.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Like_WithNullSource_ThrowsArgumentNullException()
+        {
+            // Arrange
+            const string? source = null;
+
+            // Act
+            var act = () => source.Like("%");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("source");
         }
 
         [Theory]

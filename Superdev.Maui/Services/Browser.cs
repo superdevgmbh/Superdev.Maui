@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Superdev.Maui.Resources.Styles;
 
 namespace Superdev.Maui.Services
 {
@@ -97,12 +98,27 @@ namespace Superdev.Maui.Services
 
         private Color? GetPreferredToolbarColor()
         {
-            return this.application.Resources["Theme.Color.Primary"] as Color;
+            return this.GetThemeColor(ThemeConstants.Color.Primary);
         }
 
         private Color? GetPreferredControlColor()
         {
-            return this.application.Resources["Theme.Color.OnPrimary"] as Color;
+            return this.GetThemeColor(ThemeConstants.Color.OnPrimary);
+        }
+
+        /// <summary>
+        /// Reads a theme color, or returns <c>null</c> if the application does not use the library's theme.
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="ResourceDictionary" /> indexer throws when a key is absent, and these keys only
+        /// exist once an application applied a <see cref="ColorConfiguration" />. Looking them up with the
+        /// indexer therefore made the browser fail to open in every application which does not.
+        /// </remarks>
+        private Color? GetThemeColor(string resourceKey)
+        {
+            return this.application.Resources.TryGetValue(resourceKey, out var value) && value is Color color
+                ? color
+                : null;
         }
 
         private static BrowserLaunchOptions GetDefaultBrowserLaunchOptions()

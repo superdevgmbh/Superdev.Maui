@@ -44,11 +44,6 @@ namespace Superdev.Maui.Platforms.Services
                 canvas.DrawRect(bounds.Left, bounds.Top, bounds.Right, bounds.Top + this.statusBarHeight, this.paint);
             }
 
-            // Draw middle section
-            this.paint.Color = Color.Transparent;
-            canvas.DrawRect(bounds.Left, bounds.Top + this.statusBarHeight, bounds.Right, bounds.Bottom - this.navigationBarHeight,
-                this.paint);
-
             // Draw navigation bar
             if (this.navigationBarColor is Color navigationBarColor)
             {

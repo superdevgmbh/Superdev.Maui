@@ -110,6 +110,20 @@
                                 IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
                                 NullableDate="{Binding Birthdate, Mode=TwoWay}"
                                 Placeholder="NullableDatePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableDatePicker with HorizontalTextAlignment=Center and End" />
+                            <s:NullableDatePicker
+                                HorizontalTextAlignment="Center"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="Centered" />
+                            <s:NullableDatePicker
+                                HorizontalTextAlignment="End"
+                                IsEnabled="{Binding IsReadonly, Mode=OneWay, Converter={StaticResource BoolInverter}}"
+                                NullableDate="{Binding Birthdate, Mode=TwoWay}"
+                                Placeholder="End-aligned" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>

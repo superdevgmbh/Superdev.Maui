@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using SuperdevMauiDemoApp.Model;
@@ -9,7 +9,6 @@ namespace SuperdevMauiDemoApp.ViewModels
     {
         private bool isSelected;
         private IAsyncRelayCommand? deleteCommand;
-        private IRelayCommand<CountryViewModel>? itemSelectedCommand;
 
         public CountryViewModel(CountryDto countryDto)
         {
@@ -18,9 +17,20 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.IsInitialized = true;
         }
 
+        public CountryViewModel(CountryDto countryDto, ICommand selectCommand)
+            : this(countryDto)
+        {
+            this.SelectCommand = selectCommand;
+        }
+
         public int Id { get; }
 
         public string? Name { get; }
+
+        /// <summary>
+        /// Runs when the row is tapped, with this item as parameter. The owning page provides it.
+        /// </summary>
+        public ICommand? SelectCommand { get; }
 
         public bool IsSelected
         {
@@ -46,17 +56,6 @@ namespace SuperdevMauiDemoApp.ViewModels
                 this.IsBusy = false;
             }
         }
-
-        public IRelayCommand ItemSelectedCommand
-        {
-            get => this.itemSelectedCommand ??= new RelayCommand<CountryViewModel>(this.ItemSelected!);
-        }
-
-        private void ItemSelected(CountryViewModel countryViewModel)
-        {
-            Debug.WriteLine($"ItemSelected: {countryViewModel.Name}");
-        }
-
 
         public override string ToString()
         {

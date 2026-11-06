@@ -12,7 +12,8 @@ namespace Superdev.Maui.Platforms.Handlers
     {
         private new static readonly PM Mapper = new PM(WebViewHandler.Mapper)
         {
-            [nameof(CustomWebView.Headers)] = MapHeaders
+            [nameof(CustomWebView.Headers)] = MapHeaders,
+            [nameof(CustomWebView.AllowMixedContent)] = MapAllowMixedContent
         };
 
         public CustomWebViewHandler()
@@ -34,17 +35,15 @@ namespace Superdev.Maui.Platforms.Handlers
             platformView.Settings.SetSupportMultipleWindows(false);
 
             platformView.Settings.JavaScriptCanOpenWindowsAutomatically = true;
-            platformView.Settings.JavaScriptEnabled = true;
-            platformView.Settings.MixedContentMode = MixedContentHandling.AlwaysAllow;
 
-            if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.Kitkat)
-            {
+            // The mixed content mode is not set here: it follows CustomWebView.AllowMixedContent, which the
+            // mapper applies on connect and on every later change.
+
 #if DEBUG
-                global::Android.Webkit.WebView.SetWebContentsDebuggingEnabled(true);
+            global::Android.Webkit.WebView.SetWebContentsDebuggingEnabled(true);
 #else
-                global::Android.Webkit.WebView.SetWebContentsDebuggingEnabled(false);
+            global::Android.Webkit.WebView.SetWebContentsDebuggingEnabled(false);
 #endif
-            }
 
             return platformView;
         }
@@ -52,6 +51,16 @@ namespace Superdev.Maui.Platforms.Handlers
         private static void MapHeaders(CustomWebViewHandler customWebViewHandler, CustomWebView customWebView)
         {
             customWebViewHandler.UpdateHeaders(customWebView);
+        }
+
+        private static void MapAllowMixedContent(CustomWebViewHandler customWebViewHandler, CustomWebView customWebView)
+        {
+            // NeverAllow is the platform's own default on every API level this library supports. Overriding
+            // it with AlwaysAllow let a secure page silently load insecure scripts in every consumer of the
+            // control, so it is opt-in per control instead.
+            customWebViewHandler.PlatformView.Settings.MixedContentMode = customWebView.AllowMixedContent
+                ? MixedContentHandling.AlwaysAllow
+                : MixedContentHandling.NeverAllow;
         }
 
         private void UpdateHeaders(CustomWebView customWebView)
@@ -62,21 +71,11 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        protected override void ConnectHandler(AWebView platformView)
-        {
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-            base.ConnectHandler(platformView);
-        }
-
         protected override void DisconnectHandler(AWebView platformView)
         {
-            if (this.VirtualView is CustomWebView customWebView)
-            {
-                customWebView.Dispose();
-            }
-
+            // The virtual view is deliberately not disposed here. Disconnecting a handler does not end
+            // the life of the control it was connected to, and disposing it detaches the command
+            // forwarding permanently, so a control which is reconnected later stops raising its commands.
             base.DisconnectHandler(platformView);
         }
     }

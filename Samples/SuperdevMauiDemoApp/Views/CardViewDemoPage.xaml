@@ -18,7 +18,7 @@
                 <Label
                     Style="{StaticResource DemoLabelStyle}"
                     Text="Demo: AddressControl uses CardView" />
-                <controls:AddressControl BindingContext="{Binding .}" />
+                <controls:AddressControl BindingContext="{Binding Address}" />
 
                 <Label
                     Style="{StaticResource DemoLabelStyle}"

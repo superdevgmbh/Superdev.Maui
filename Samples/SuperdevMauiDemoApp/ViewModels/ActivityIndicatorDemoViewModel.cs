@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
@@ -25,19 +25,10 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.activityIndicatorService = activityIndicatorService;
-
-            _ = this.InitializeAsync();
         }
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()

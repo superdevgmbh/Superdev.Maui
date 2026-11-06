@@ -23,25 +23,41 @@
                 </ContentView>
             </DataTemplate>
 
-            <DataTemplate x:Key="DrilldownButtonCell">
-                <controls:DrilldownButtonCell />
+            <!--  The item templates expose their content as properties; the item of the template feeds them.  -->
+            <DataTemplate
+                x:Key="DrilldownButtonItemTemplate"
+                x:DataType="controls:DrilldownButtonView">
+                <controls:DrilldownButtonItemTemplate
+                    Command="{Binding Command, Mode=OneWay}"
+                    CommandParameter="{Binding CommandParameter, Mode=OneWay}"
+                    ImageSource="{Binding ImageSource, Mode=OneWay}"
+                    IsBusy="{Binding IsBusy, Mode=OneWay}"
+                    IsEnabled="{Binding IsEnabled, Mode=OneWay}"
+                    Text="{Binding Title, Mode=OneWay}" />
             </DataTemplate>
 
-            <DataTemplate x:Key="DrilldownSwitchCell">
-                <controls:DrilldownSwitchCell />
+            <DataTemplate
+                x:Key="DrilldownSwitchItemTemplate"
+                x:DataType="controls:DrilldownSwitchView">
+                <controls:DrilldownSwitchItemTemplate
+                    Command="{Binding Command, Mode=OneWay}"
+                    CommandParameter="{Binding CommandParameter, Mode=OneWay}"
+                    IsEnabled="{Binding IsEnabled, Mode=OneWay}"
+                    IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                    Text="{Binding Title, Mode=OneWay}" />
             </DataTemplate>
 
-            <controls:DrilldownCellTemplateSelector
-                x:Key="DrilldownCellTemplateSelector"
-                CustomDrilldownCellTemplate="{StaticResource CustomDrilldownTemplate}"
-                DrilldownButtonCellTemplate="{StaticResource DrilldownButtonCell}"
-                DrilldownSwitchCellTemplate="{StaticResource DrilldownSwitchCell}" />
+            <controls:DrilldownItemTemplateSelector
+                x:Key="DrilldownItemTemplateSelector"
+                CustomDrilldownTemplate="{StaticResource CustomDrilldownTemplate}"
+                DrilldownButtonTemplate="{StaticResource DrilldownButtonItemTemplate}"
+                DrilldownSwitchTemplate="{StaticResource DrilldownSwitchItemTemplate}" />
         </ResourceDictionary>
     </Grid.Resources>
 
     <VerticalStackLayout
         BackgroundColor="{DynamicResource CardViewStyle.DividerColor}"
-        BindableLayout.ItemTemplateSelector="{StaticResource DrilldownCellTemplateSelector}"
+        BindableLayout.ItemTemplateSelector="{StaticResource DrilldownItemTemplateSelector}"
         BindableLayout.ItemsSource="{Binding ItemsSource, Source={x:Reference Control}, Mode=OneWay}"
         Spacing="1" />
 </Grid>

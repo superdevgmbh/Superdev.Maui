@@ -119,6 +119,28 @@ namespace Superdev.Maui.Tests.Extensions
         }
 
         [Fact]
+        public void ShouldGetTypeNameOfTypeNestedInGenericType()
+        {
+            // Arrange - a nested type is generic through its declaring type, but its own name has no arity suffix.
+            var type = typeof(GenericOuter<int>.Nested);
+
+            // Act
+            var typeName = type.GetFormattedName();
+            var fullName = type.GetFormattedFullname();
+
+            // Assert
+            typeName.Should().Be("Nested<Int32>");
+            fullName.Should().Be($"{type.Namespace}.Nested<System.Int32>");
+        }
+
+        public class GenericOuter<T>
+        {
+            public class Nested
+            {
+            }
+        }
+
+        [Fact]
         public void ShouldGetTypeNameOfNullableType()
         {
             // Arrange

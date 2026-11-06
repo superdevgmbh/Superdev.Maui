@@ -41,11 +41,8 @@ namespace Superdev.Maui.Platforms.Handlers
                 picker.Unloaded += this.OnVisualElementUnloaded;
             }
 
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-
-            // base.ConnectHandler(platformView);
+            // base.ConnectHandler is deliberately not called: it subscribes MAUI's own focus and click handlers,
+            // which open a second dialog. This handler subscribes its own once the picker is loaded.
         }
 
         private async void OnVisualElementLoaded(object? sender, EventArgs e)
@@ -122,10 +119,8 @@ namespace Superdev.Maui.Platforms.Handlers
                         else
                         {
                             var title = new SpannableString(picker.Title ?? string.Empty);
-#pragma warning disable CA1416 // https://github.com/xamarin/xamarin-android/issues/6962
                             title.SetSpan(new ForegroundColorSpan(picker.TitleColor.ToPlatform()), 0, title.Length(),
                                 SpanTypes.ExclusiveExclusive);
-#pragma warning restore CA1416
                             builder.SetTitle(title);
                         }
                     }

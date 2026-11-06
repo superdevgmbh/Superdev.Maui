@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.GuardDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels.Navigation"
+    x:DataType="vm:GuardDemoViewModel"
+    Title="{Binding Title}">
+
+    <VerticalStackLayout
+        Padding="{DynamicResource Theme.Padding.Medium}"
+        Spacing="{DynamicResource Theme.Spacing.Medium}">
+        <Label Text="While this page has unsaved changes, leaving it asks for confirmation - no matter whether you use the button below, the back button or the hardware back button." />
+        <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Switch IsToggled="{Binding HasUnsavedChanges, Mode=TwoWay}" />
+            <Label Text="Has unsaved changes" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+        <Button Command="{Binding PopCommand}" Text="Leave this page (PopAsync / PopModalAsync)" />
+        <Label
+            FontSize="12"
+            Text="On iOS the swipe back gesture is disabled automatically while a page implements a navigation guard, because the gesture cannot be cancelled once it started." />
+    </VerticalStackLayout>
+</ContentPage>

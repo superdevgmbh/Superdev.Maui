@@ -11,27 +11,29 @@ namespace Superdev.Maui.Platforms.Effects
 {
     public class TintImagePlatformEffect : PlatformEffect
     {
-        private const bool LoggingEnabled
-#if DEBUG
-            = false;
-#else
-            = false;
-#endif
-
         private static readonly ILogger Logger;
 
         private readonly NSObject tintLock = new();
 
         static TintImagePlatformEffect()
         {
-            Logger = LoggingEnabled
-                ? IPlatformApplication.Current.Services.GetService<ILogger<TintImagePlatformEffect>>()
-                : new NullLogger<TintImagePlatformEffect>();
+            Logger = IPlatformApplication.Current?.Services.GetService<ILogger<TintImagePlatformEffect>>()
+                ?? NullLogger<TintImagePlatformEffect>.Instance;
         }
+
+        /// <summary>
+        /// Debug messages are written only while <see cref="TintImageEffect.LoggingEnabled"/> is on.
+        /// </summary>
+        private static bool IsDebugLogging => TintImageEffect.LoggingEnabled && Logger.IsEnabled(LogLevel.Debug);
+
+        private string? ElementName => this.Element?.AutomationId is { Length: > 0 } automationId ? automationId : this.Element?.GetType().Name;
 
         protected override void OnAttached()
         {
-            this.Log("TintImageEffect.OnAttached");
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("TintImageEffect attached to {Element}", this.ElementName);
+            }
 
             this.UpdateTintColor();
         }
@@ -72,16 +74,16 @@ namespace Superdev.Maui.Platforms.Effects
                             {
                                 imageView.Image = image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
                             }
-                            else
-                            {
-                                this.Log("UpdateTintColor RenderingMode is already set to AlwaysTemplate");
-                            }
 
-                            var oldTintColorString = $"{imageView.TintColor}";
+                            var previousTintColor = imageView.TintColor;
                             var newTintColor = tintColor.ToPlatform();
                             imageView.TintColor = newTintColor;
 
-                            this.Log($"UpdateTintColor successful with TintColor {oldTintColorString} >> {newTintColor}");
+                            if (IsDebugLogging)
+                            {
+                                Logger.LogDebug("TintImageEffect on {Element} changed the tint from {PreviousTintColor} to {TintColor}",
+                                    this.ElementName, previousTintColor, newTintColor);
+                            }
                         }
                         else
                         {
@@ -94,21 +96,15 @@ namespace Superdev.Maui.Platforms.Effects
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "UpdateTintColor failed with exception");
+                Logger.LogError(ex, "TintImageEffect on {Element} failed to update the tint", this.ElementName);
             }
         }
 
         protected override void OnDetached()
         {
-            this.Log("TintImageEffect.OnDetached");
-        }
-
-        private void Log(string message)
-        {
-            if (LoggingEnabled)
+            if (IsDebugLogging)
             {
-                var automationId = !string.IsNullOrEmpty(this.Element.AutomationId) ? $"{this.Element.AutomationId}: " : "";
-                Logger.LogDebug($"{automationId}{message}");
+                Logger.LogDebug("TintImageEffect detached from {Element}", this.ElementName);
             }
         }
     }

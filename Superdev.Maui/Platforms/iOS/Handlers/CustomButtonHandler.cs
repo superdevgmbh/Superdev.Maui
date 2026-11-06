@@ -8,11 +8,9 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class CustomButtonHandler : ButtonHandler
     {
-        public new static readonly PM Mapper = new PM(ButtonHandler.Mapper)
-        {
-            // [nameof(CustomButton.HorizontalTextAlignment)] = MapHorizontalTextAlignment, // TODO --> Check if it works without this
-            // [nameof(CustomButton.VerticalTextAlignment)] = MapVerticalTextAlignment,     // TODO --> Check if it works without this
-        };
+        // The alignment properties need no mapper entry: UpdateValue below is invoked for every
+        // property change of the virtual view, and applies both of them.
+        public new static readonly PM Mapper = new PM(ButtonHandler.Mapper);
 
         public CustomButtonHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null)
             : base(mapper ?? Mapper, commandMapper ?? CommandMapper)
@@ -28,7 +26,7 @@ namespace Superdev.Maui.Platforms.Handlers
         {
             base.ConnectHandler(platformView);
 
-            this.UpdateHorizontalTextAlignment();
+            this.UpdateTextAlignment();
         }
 
         public override void UpdateValue(string? property)
@@ -38,11 +36,11 @@ namespace Superdev.Maui.Platforms.Handlers
             if (property == CustomButton.HorizontalTextAlignmentProperty.PropertyName ||
                 property == CustomButton.VerticalTextAlignmentProperty.PropertyName)
             {
-                this.UpdateHorizontalTextAlignment();
+                this.UpdateTextAlignment();
             }
         }
 
-        private void UpdateHorizontalTextAlignment()
+        private void UpdateTextAlignment()
         {
             if (this.VirtualView is CustomButton customButton)
             {
@@ -54,7 +52,7 @@ namespace Superdev.Maui.Platforms.Handlers
                     _ => UIKit.UIControlContentHorizontalAlignment.Center,
                 };
 
-                this.PlatformView.VerticalAlignment = customButton.HorizontalTextAlignment switch
+                this.PlatformView.VerticalAlignment = customButton.VerticalTextAlignment switch
                 {
                     TextAlignment.Start => UIKit.UIControlContentVerticalAlignment.Top,
                     TextAlignment.Center => UIKit.UIControlContentVerticalAlignment.Center,

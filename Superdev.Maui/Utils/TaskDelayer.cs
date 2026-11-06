@@ -1,92 +1,102 @@
-﻿namespace Superdev.Maui.Utils
+namespace Superdev.Maui.Utils
 {
+    /// <summary>
+    /// Runs a callback after a sliding delay: a call which arrives before the delay elapsed
+    /// supersedes the pending one, so only the most recent call runs.
+    /// </summary>
     public class TaskDelayer
     {
-        private CancellationTokenSource throttleCts = new CancellationTokenSource();
-
-        public TaskDelayer()
-        {
-        }
+        private CancellationTokenSource? throttleCts;
 
         /// <summary>
-        ///     Runs the given <paramref name="action" /> in a background thread with a sliding <paramref name="delay" />.
+        /// Runs the given <paramref name="action" /> on a background thread after a sliding <paramref name="delay" />.
         /// </summary>
+        /// <returns>
+        /// A task which completes when the action completed, or immediately when a later call superseded this one.
+        /// Exceptions thrown by the action fault the returned task.
+        /// </returns>
         public Task RunWithDelay(TimeSpan delay, Action action)
         {
+            ArgumentNullException.ThrowIfNull(action);
+
             return this.RunWithDelay(delay, () =>
             {
                 action();
-#if NETFX
-                return Task.FromResult(false);
-#else
                 return Task.CompletedTask;
-#endif
             });
         }
 
         /// <summary>
-        ///     Runs the given <paramref name="task" /> in a background thread with a sliding <paramref name="delay" />.
+        /// Runs the given <paramref name="task" /> on a background thread after a sliding <paramref name="delay" />.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="delay">Sliding delay.</param>
-        /// <param name="task">The task to be executed after delay.</param>
-        /// <param name="defaultValue">The default value to be returned in case of a cancellation</param>
-        /// <returns></returns>
-        public Task<T> RunWithDelay<T>(TimeSpan delay, Func<Task<T>> task, Func<T> defaultValue)
+        /// <returns>
+        /// A task which completes when <paramref name="task" /> completed, or immediately when a later call
+        /// superseded this one. Exceptions thrown by <paramref name="task" /> fault the returned task.
+        /// </returns>
+        public Task RunWithDelay(TimeSpan delay, Func<Task> task)
         {
-            var tcs = new TaskCompletionSource<T>();
+            ArgumentNullException.ThrowIfNull(task);
 
-            Task.Factory.StartNew(async () =>
-            {
-                try
+            return this.RunWithDelayCoreAsync<object?>(
+                delay,
+                async () =>
                 {
-                    Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                    await Task.Delay(delay, this.throttleCts.Token)
-                        .ContinueWith(async ct =>
-                            {
-                                try
-                                {
-                                    var result = await task().ConfigureAwait(false);
-                                    tcs.TrySetResult(result);
-                                }
-                                catch (Exception ex)
-                                {
-                                    tcs.TrySetException(ex);
-                                }
-                            },
-                            CancellationToken.None,
-                            TaskContinuationOptions.OnlyOnRanToCompletion,
-                            TaskScheduler.Default);
-                }
-                catch
-                {
-                    // Ignore any Threading errors
-                    tcs.TrySetResult(defaultValue());
-                }
-            }).ConfigureAwait(false);
-
-            return tcs.Task;
+                    await task().ConfigureAwait(false);
+                    return null;
+                },
+                static () => null);
         }
 
         /// <summary>
-        ///     Runs the given <paramref name="task" /> in a background thread with a sliding <paramref name="delay" />.
+        /// Runs the given <paramref name="task" /> on a background thread after a sliding <paramref name="delay" />.
         /// </summary>
+        /// <typeparam name="T">The type of the result.</typeparam>
         /// <param name="delay">Sliding delay.</param>
-        /// <param name="task">The task to be executed after delay.</param>
-        public async Task RunWithDelay(TimeSpan delay, Func<Task> task)
+        /// <param name="task">The task to be executed after the delay.</param>
+        /// <param name="defaultValue">The value which is returned when a later call superseded this one.</param>
+        public Task<T> RunWithDelay<T>(TimeSpan delay, Func<Task<T>> task, Func<T> defaultValue)
         {
+            ArgumentNullException.ThrowIfNull(task);
+            ArgumentNullException.ThrowIfNull(defaultValue);
+
+            return this.RunWithDelayCoreAsync(delay, task, defaultValue);
+        }
+
+        private async Task<T> RunWithDelayCoreAsync<T>(TimeSpan delay, Func<Task<T>> task, Func<T> defaultValue)
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // The token is taken from the source this call owns rather than re-read from the field,
+            // so that two concurrent calls cannot both observe the newest source and both run.
+            var previous = Interlocked.Exchange(ref this.throttleCts, cancellationTokenSource);
+            if (previous != null)
+            {
+                previous.Cancel();
+                previous.Dispose();
+            }
+
             try
             {
-                Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(delay, this.throttleCts.Token)
-                    .ContinueWith(async ct => await task().ConfigureAwait(false),
-                        CancellationToken.None,
-                        TaskContinuationOptions.OnlyOnRanToCompletion,
-                        TaskScheduler.FromCurrentSynchronizationContext());
+                try
+                {
+                    await Task.Delay(delay, cancellationTokenSource.Token).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    // A later call superseded this one.
+                    return defaultValue();
+                }
+
+                return await task().ConfigureAwait(false);
             }
-            catch
+            finally
             {
-                // Ignore any Threading errors
+                // Only the call which is still the current one owns the source; a superseded call had
+                // its source disposed by whoever replaced it.
+                if (Interlocked.CompareExchange(ref this.throttleCts, null, cancellationTokenSource) == cancellationTokenSource)
+                {
+                    cancellationTokenSource.Dispose();
+                }
             }
         }
     }

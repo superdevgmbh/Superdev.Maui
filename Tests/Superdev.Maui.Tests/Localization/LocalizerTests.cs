@@ -5,13 +5,97 @@ using IPreferences = Superdev.Maui.Services.IPreferences;
 
 namespace Superdev.Maui.Tests.Localization
 {
-    public class LocalizerTests
+    [Collection(ProcessCultureCollection.Name)]
+    public class LocalizerTests : IDisposable
     {
         private readonly IMainThread mainThread;
+        private readonly CultureInfo previousCulture = CultureInfo.CurrentCulture;
+        private readonly CultureInfo previousUICulture = CultureInfo.CurrentUICulture;
+        private readonly CultureInfo? previousDefaultCulture = CultureInfo.DefaultThreadCurrentCulture;
+        private readonly CultureInfo? previousDefaultUICulture = CultureInfo.DefaultThreadCurrentUICulture;
 
         public LocalizerTests()
         {
             this.mainThread = new StaticMainThread();
+        }
+
+        public void Dispose()
+        {
+            // The localizer applies the language it resolves to the whole process.
+            CultureInfo.CurrentCulture = this.previousCulture;
+            CultureInfo.CurrentUICulture = this.previousUICulture;
+            CultureInfo.DefaultThreadCurrentCulture = this.previousDefaultCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = this.previousDefaultUICulture;
+        }
+
+        [Fact]
+        public void CurrentCulture_NoPlatformLocaleAndNoSupportedLanguages_UsesTheUICulture()
+        {
+            // Arrange
+            CultureInfo.CurrentCulture = new CultureInfo("fr-CH");
+            CultureInfo.CurrentUICulture = new CultureInfo("de-CH");
+            var preferencesMock = new Mock<IPreferences>();
+
+            // Act
+            var localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
+            {
+                PlatformLocale = null
+            };
+
+            // Assert
+            localizer.CurrentCulture.Name.Should().Be("de-CH", "resources are looked up in the UI culture, formats in the culture");
+        }
+
+        [Fact]
+        public void CurrentCulture_NoPlatformLocaleWithSupportedLanguages_UsesTheFirstSupportedLanguage()
+        {
+            // Arrange
+            var preferencesMock = new Mock<IPreferences>();
+
+            // Act
+            var localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
+            {
+                PlatformLocale = null,
+                SupportedLanguages = [SupportedLanguages.German, SupportedLanguages.English]
+            };
+
+            // Assert
+            localizer.CurrentCulture.Should().Be(SupportedLanguages.German);
+        }
+
+        [Fact]
+        public void CurrentCulture_NoPlatformLocaleWithDefaultLanguage_UsesTheDefaultLanguage()
+        {
+            // Arrange
+            var preferencesMock = new Mock<IPreferences>();
+
+            // Act
+            var localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
+            {
+                PlatformLocale = null,
+                SupportedLanguages = [SupportedLanguages.German, SupportedLanguages.English],
+                DefaultLanguage = SupportedLanguages.English
+            };
+
+            // Assert
+            localizer.CurrentCulture.Should().Be(SupportedLanguages.English);
+        }
+
+        [Fact]
+        public void CurrentCulture_SetToInvariantWithoutSupportedLanguages_KeepsTheUICulture()
+        {
+            // Arrange
+            var preferencesMock = new Mock<IPreferences>();
+            var localizer = new TestLocalizer(preferencesMock.Object, this.mainThread)
+            {
+                PlatformLocale = "it-CH"
+            };
+
+            // Act
+            localizer.CurrentCulture = CultureInfo.InvariantCulture;
+
+            // Assert
+            localizer.CurrentCulture.Name.Should().Be("it-CH", "the language in use is the only one left to fall back to");
         }
 
         [Fact]

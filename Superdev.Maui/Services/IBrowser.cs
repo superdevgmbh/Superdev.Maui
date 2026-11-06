@@ -5,7 +5,7 @@ namespace Superdev.Maui.Services
         /// <summary>
         /// Gets the singleton instance of <see cref="IBrowser"/>.
         /// </summary>
-        public static IBrowser Current { get; } = Browser.Current;
+        public static IBrowser Current => Browser.Current;
 
         Task<bool> TryOpenAsync(string uri);
 

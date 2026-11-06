@@ -74,15 +74,21 @@ namespace Superdev.Maui.Tests.Services
 
             IKeyboardService keyboardService = new KeyboardService(logger, platformElementConfigurationMock.Object);
 
+            // Two live pages of the same type: the adjustment has to survive until the last of them resets.
+            var page1 = new object();
+            var page2 = new object();
+
             // Act
-            keyboardService.UseWindowSoftInputModeAdjust("page1", WindowSoftInputModeAdjust.Resize);
-            keyboardService.UseWindowSoftInputModeAdjust("page2", WindowSoftInputModeAdjust.Resize);
-            keyboardService.ResetWindowSoftInputModeAdjust("page1");
-            keyboardService.ResetWindowSoftInputModeAdjust("page2");
+            keyboardService.UseWindowSoftInputModeAdjust(page1, WindowSoftInputModeAdjust.Resize);
+            keyboardService.UseWindowSoftInputModeAdjust(page2, WindowSoftInputModeAdjust.Resize);
+            keyboardService.ResetWindowSoftInputModeAdjust(page1);
+            var afterFirstReset = application.On<PlatformConfigurationAndroid>().GetWindowSoftInputModeAdjust();
+            keyboardService.ResetWindowSoftInputModeAdjust(page2);
+            var afterLastReset = application.On<PlatformConfigurationAndroid>().GetWindowSoftInputModeAdjust();
 
             // Assert
-            var windowSoftInputModeAdjust = application.On<PlatformConfigurationAndroid>().GetWindowSoftInputModeAdjust();
-            windowSoftInputModeAdjust.Should().Be(WindowSoftInputModeAdjust.Pan);
+            afterFirstReset.Should().Be(WindowSoftInputModeAdjust.Resize, "the second page still needs the adjustment");
+            afterLastReset.Should().Be(WindowSoftInputModeAdjust.Pan);
         }
 
         [Fact]

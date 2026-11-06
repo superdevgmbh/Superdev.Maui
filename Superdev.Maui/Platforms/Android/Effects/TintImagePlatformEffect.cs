@@ -12,24 +12,28 @@ namespace Superdev.Maui.Platforms.Effects
 {
     public class TintImagePlatformEffect : PlatformEffect
     {
-        private const bool LoggingEnabled
-#if DEBUG
-            = false;
-#else
-            = false;
-#endif
-
         private static readonly ILogger Logger;
 
         static TintImagePlatformEffect()
         {
-            Logger = LoggingEnabled
-                ? IPlatformApplication.Current.Services.GetService<ILogger<TintImagePlatformEffect>>()
-                : new NullLogger<TintImagePlatformEffect>();
+            Logger = IPlatformApplication.Current?.Services.GetService<ILogger<TintImagePlatformEffect>>()
+                ?? NullLogger<TintImagePlatformEffect>.Instance;
         }
+
+        /// <summary>
+        /// Debug messages are written only while <see cref="TintImageEffect.LoggingEnabled"/> is on.
+        /// </summary>
+        private static bool IsDebugLogging => TintImageEffect.LoggingEnabled && Logger.IsEnabled(LogLevel.Debug);
+
+        private string? ElementName => this.Element?.AutomationId is { Length: > 0 } automationId ? automationId : this.Element?.GetType().Name;
 
         protected override void OnAttached()
         {
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("TintImageEffect attached to {Element}", this.ElementName);
+            }
+
             this.UpdateTintColor();
         }
 
@@ -58,6 +62,11 @@ namespace Superdev.Maui.Platforms.Effects
                     var newTintColor = tintColor.ToPlatform();
                     var filter = new PorterDuffColorFilter(newTintColor, PorterDuff.Mode.SrcIn);
                     imageView.SetColorFilter(filter);
+
+                    if (IsDebugLogging)
+                    {
+                        Logger.LogDebug("TintImageEffect on {Element} set the tint to {TintColor}", this.ElementName, tintColor);
+                    }
                 }
                 else
                 {
@@ -66,13 +75,16 @@ namespace Superdev.Maui.Platforms.Effects
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "UpdateTintColor failed with exception");
+                Logger.LogError(ex, "TintImageEffect on {Element} failed to update the tint", this.ElementName);
             }
         }
 
         protected override void OnDetached()
         {
-            Logger.LogDebug("TintImageEffect.OnDetached");
+            if (IsDebugLogging)
+            {
+                Logger.LogDebug("TintImageEffect detached from {Element}", this.ElementName);
+            }
         }
     }
 }

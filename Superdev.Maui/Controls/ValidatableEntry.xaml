@@ -45,6 +45,15 @@
             VerticalOptions="Start"
             HorizontalTextAlignment="Start" />
 
+        <!-- Pending: an asynchronous rule is in flight -->
+        <ActivityIndicator
+            HeightRequest="16"
+            IsRunning="{Binding IsPending, Source={x:Reference Control}, Mode=OneWay}"
+            IsVisible="{Binding IsPending, Source={x:Reference Control}, Mode=OneWay}"
+            WidthRequest="16"
+            HorizontalOptions="End"
+            VerticalOptions="Center" />
+
         <!-- Trailing Icon -->
         <Grid
             HeightRequest="24"

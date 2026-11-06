@@ -13,8 +13,6 @@
 #endif
 
 #if ANDROID
-        void OnStart(Android.App.Activity activity);
-
         void OnResume();
 #endif
 

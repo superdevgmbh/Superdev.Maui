@@ -80,9 +80,11 @@ namespace Superdev.Maui.Extensions
         /// <returns>An inverted color.</returns>
         public static Color Invert(this Color color, float? alpha)
         {
-            var r = 255f - 255f * color.Red;
-            var g = 255f - 255f * color.Green;
-            var b = 255f - 255f * color.Blue;
+            // The Color(float, float, float, float) constructor takes 0..1 channels and clamps,
+            // so the inversion has to happen on that scale rather than on 0..255.
+            var r = 1f - color.Red;
+            var g = 1f - color.Green;
+            var b = 1f - color.Blue;
             var a = alpha ?? color.Alpha;
 
             return new Color(r, g, b, a);
@@ -112,7 +114,8 @@ namespace Superdev.Maui.Extensions
             // Source: https://en.wikipedia.org/wiki/Luma_(video)
             var y = 0.2126 * color.Red + 0.7152 * color.Green + 0.0722 * color.Blue;
 
-            return y < 128
+            // Red/Green/Blue are 0..1, so the luma threshold is 0.5 rather than 128.
+            return y < 0.5
                 ? StatusBarStyle.Dark
                 : StatusBarStyle.Light;
         }

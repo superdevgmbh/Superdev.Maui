@@ -1,6 +1,9 @@
+using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
+using Superdev.Maui.Platforms.Controls;
 using Superdev.Maui.Utils;
 
 namespace Superdev.Maui.Platforms.Handlers
@@ -9,7 +12,15 @@ namespace Superdev.Maui.Platforms.Handlers
 
     public class PickerHandler : Microsoft.Maui.Handlers.PickerHandler
     {
+        /// <summary>
+        /// MAUI commits the selected row to the virtual view in a private method when its own done button is
+        /// tapped. This handler replaces that button, so it calls the method by name; the lookup is cached.
+        /// </summary>
+        private static readonly Lazy<MethodInfo?> OnDoneMethod = new Lazy<MethodInfo?>(
+            () => ReflectionHelper.GetMethodInfo(typeof(Microsoft.Maui.Handlers.PickerHandler), "OnDone"));
+
         private MauiDoneAccessoryView? inputAccessoryView;
+        private InputViewHeightKeeper? inputViewHeightKeeper;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.PickerHandler.Mapper)
         {
@@ -37,38 +48,36 @@ namespace Superdev.Maui.Platforms.Handlers
             this.inputAccessoryView = new MauiDoneAccessoryView();
             this.inputAccessoryView.SetDoneButtonAction(this.OnDoneClicked);
             mauiPicker.InputAccessoryView = this.inputAccessoryView;
+            this.inputViewHeightKeeper = new InputViewHeightKeeper(mauiPicker);
 
             return mauiPicker;
         }
 
-        protected override void ConnectHandler(MauiPicker platformView)
-        {
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-            base.ConnectHandler(platformView);
-            // ThemeHelper.Current.ThemeChanged += this.OnThemeChanged;
-        }
-
-        // TODO: React on theme change to update tint color of InputAccessoryView
-        // private void OnThemeChanged(object? sender, AppTheme e)
-        // {
-        // }
-
+        // TODO: Update the tint color of the input accessory view when the theme changes.
         protected override void DisconnectHandler(MauiPicker platformView)
         {
             platformView.InputAccessoryView = null;
             this.inputAccessoryView?.Dispose();
             this.inputAccessoryView = null;
-
-            // ThemeHelper.Current.ThemeChanged -= this.OnThemeChanged;
+            this.inputViewHeightKeeper?.Dispose();
+            this.inputViewHeightKeeper = null;
 
             base.DisconnectHandler(platformView);
         }
 
         private void OnDoneClicked()
         {
-            ReflectionHelper.RunMethod(this, "OnDone");
+            var onDone = OnDoneMethod.Value;
+            if (onDone != null)
+            {
+                onDone.Invoke(this, null);
+                return;
+            }
+
+            // A MAUI version without the method: the selection is not committed here, but the picker still closes.
+            IPlatformApplication.Current?.Services.GetService<ILogger<PickerHandler>>()?.LogWarning(
+                "Microsoft.Maui.Handlers.PickerHandler.OnDone was not found; the selected item may not be committed");
+            this.PlatformView?.ResignFirstResponder();
         }
 
         private static void MapDoneButtonText(PickerHandler pickerHandler, Picker picker)

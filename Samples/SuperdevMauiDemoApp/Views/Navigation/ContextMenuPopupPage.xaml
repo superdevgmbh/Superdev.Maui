@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<s:PopupPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.ContextMenuPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels.Navigation"
+    x:DataType="vm:ContextMenuPopupViewModel"
+    BackgroundColor="#80000000"
+    CloseWhenBackgroundIsClicked="True">
+
+    <s:PopupPage.Animation>
+        <s:MoveAnimation
+            DurationIn="150"
+            DurationOut="150"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            PositionIn="Bottom"
+            PositionOut="Bottom" />
+    </s:PopupPage.Animation>
+
+    <VerticalStackLayout
+        Padding="{DynamicResource Theme.Padding.Medium}"
+        BackgroundColor="{DynamicResource Theme.Page.BackgroundColor}"
+        Spacing="{DynamicResource Theme.Spacing.Medium}"
+        VerticalOptions="End">
+        <VerticalStackLayout
+            BindableLayout.ItemsSource="{Binding MenuItems}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Button
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ContextMenuPopupViewModel}}, Path=SelectCommand}"
+                        CommandParameter="{Binding .}"
+                        Text="{Binding .}" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+        <Label
+            FontSize="11"
+            Text="Replacing the root page while this popup is open has to drain the popup first." />
+        <Button
+            Command="{Binding ResetRootCommand}"
+            Text="Replace the root page from inside this popup" />
+    </VerticalStackLayout>
+</s:PopupPage>

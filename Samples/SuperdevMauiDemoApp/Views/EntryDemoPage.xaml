@@ -8,12 +8,6 @@
     x:DataType="vm:EntryDemoViewModel"
     Title="EntryDemoPage">
 
-    <ContentPage.Behaviors>
-        <s:EventToCommandBehavior
-            Command="{Binding AppearingCommand}"
-            EventName="Appearing" />
-    </ContentPage.Behaviors>
-
     <ScrollView>
         <Grid>
             <StackLayout

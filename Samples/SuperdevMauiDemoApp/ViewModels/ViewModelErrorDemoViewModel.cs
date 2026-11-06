@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 
 namespace SuperdevMauiDemoApp.ViewModels
@@ -14,19 +14,10 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
-
-            _ = this.InitializeAsync();
         }
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()

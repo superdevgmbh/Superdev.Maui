@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TodoApp.Views.AppStartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:TodoApp.ViewModels"
+    Title="TodoApp"
+    x:DataType="vm:AppStartViewModel">
+
+    <Grid>
+        <s:PageActivityIndicator
+            IsBusy="{Binding IsBusy}"
+            Text="Starting TodoApp..." />
+    </Grid>
+</ContentPage>

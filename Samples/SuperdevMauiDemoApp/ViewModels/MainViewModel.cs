@@ -19,7 +19,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly INavigationService navigationService;
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
-        private readonly IValidationService validationService;
+        private readonly IValidationDemoService validationDemoService;
         private readonly ILocalizer localizer;
         private readonly IActivityIndicatorService activityIndicatorService;
         private readonly IThemeHelper themeHelper;
@@ -33,6 +33,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private ICommand? normalPressCommand;
         private DateTime? birthdate;
         private IAsyncRelayCommand? navigateToPageCommand;
+        private IAsyncRelayCommand? validatePersonCommand;
         private LanguageViewModel? language;
         private IAsyncRelayCommand? switchThemesCommand;
         private AppTheme appTheme;
@@ -44,7 +45,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             INavigationService navigationService,
             IViewModelErrorHandler viewModelErrorHandler,
             IDialogService dialogService,
-            IValidationService validationService,
+            IValidationDemoService validationDemoService,
             ILocalizer localizer,
             IActivityIndicatorService activityIndicatorService,
             IThemeHelper themeHelper)
@@ -53,26 +54,17 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.navigationService = navigationService;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
-            this.validationService = validationService;
+            this.validationDemoService = validationDemoService;
             this.localizer = localizer;
             this.activityIndicatorService = activityIndicatorService;
             this.themeHelper = themeHelper;
 
             this.EnableBusyRefCount = false;
-
-            _ = this.InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         public LanguageViewModel[] Languages
@@ -272,19 +264,27 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             var viewModelValidation = new ViewModelValidation();
 
-            viewModelValidation.AddValidationFor(nameof(this.UserName))
-                .When(() => string.IsNullOrWhiteSpace(this.UserName))
-                .Show(() => $"Username must not be empty");
-
-            viewModelValidation.AddValidationFor(nameof(this.Birthdate))
-                .When(() => this.Birthdate == null)
-                .Show(() => $"Birthdate must be set");
-
-            viewModelValidation.AddDelegateValidation(nameof(this.UserName))
-                .Validate(async () => (await this.validationService.ValidatePersonAsync(this.CreatePerson())).Errors,
-                    TimeSpan.FromMilliseconds(1000));
+            viewModelValidation.Property(() => this.UserName).NotEmpty();
+            viewModelValidation.Property(() => this.Birthdate).NotNull();
 
             return viewModelValidation;
+        }
+
+        /// <summary>
+        /// Validate, then let the service judge the person — its property → messages map lands on the fields.
+        /// </summary>
+        public IAsyncRelayCommand ValidatePersonCommand
+        {
+            get => this.validatePersonCommand ??= new AsyncRelayCommand(this.ValidatePersonAsync);
+        }
+
+        private async Task ValidatePersonAsync()
+        {
+            await this.Validation.ValidateAsync(ct =>
+            {
+                var personDto = this.CreatePerson();
+                return this.validationDemoService.ValidatePersonAsync(personDto, ct);
+            });
         }
 
         private PersonDto CreatePerson()
