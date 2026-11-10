@@ -47,18 +47,18 @@ namespace Superdev.Maui.Tests.Utils
         }
 
         [Fact]
-        public async Task ShouldRunOnce_WithoutReturnValue()
+        public void ShouldRunOnce_WithoutReturnValue()
         {
             // Arrange
             var counter = 0;
-            var parallelTasks = 64;
+            var parallelThreads = 64;
             var syncHelper = new SyncHelper();
-            using var ready = new CountdownEvent(parallelTasks);
+            using var ready = new CountdownEvent(parallelThreads);
             using var start = new ManualResetEventSlim(false);
 
-            // Act
-            var tasks = Enumerable.Range(1, parallelTasks)
-                .Select(id => Task.Run(() =>
+            // Act - dedicated threads, so 64 blocked callers do not starve the thread pool of other tests.
+            var threads = Enumerable.Range(1, parallelThreads)
+                .Select(id => new Thread(() =>
                 {
                     ready.Signal();
                     start.Wait();
@@ -71,47 +71,50 @@ namespace Superdev.Maui.Tests.Utils
                     });
                 }))
                 .ToList();
+            threads.ForEach(t => t.Start());
             ready.Wait();
             start.Set();
-            await Task.WhenAll(tasks);
+            threads.ForEach(t => t.Join());
 
             // Assert
             counter.Should().Be(1);
         }
 
         [Fact]
-        public async Task ShouldRunOnce_WithReturnValue()
+        public void ShouldRunOnce_WithReturnValue()
         {
             // Arrange
             var counter = 0;
-            var parallelTasks = 64;
+            var parallelThreads = 64;
             var syncHelper = new SyncHelper();
-            using var ready = new CountdownEvent(parallelTasks);
+            var results = new int[parallelThreads];
+            using var ready = new CountdownEvent(parallelThreads);
             using var start = new ManualResetEventSlim(false);
 
-            // Act
-            var tasks = Enumerable.Range(1, parallelTasks)
-                .Select(id => Task.Run(() =>
+            // Act - dedicated threads, so 64 blocked callers do not starve the thread pool of other tests.
+            var threads = Enumerable.Range(0, parallelThreads)
+                .Select(index => new Thread(() =>
                 {
                     ready.Signal();
                     start.Wait();
 
-                    return syncHelper.RunOnce(() =>
+                    results[index] = syncHelper.RunOnce(() =>
                     {
                         Thread.Sleep(100);
                         var value = Interlocked.Increment(ref counter);
-                        this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={value}");
+                        this.testOutputHelper.WriteLine($"Run #{index + 1}: \t\tcounter={value}");
                         return value;
                     });
                 }))
                 .ToList();
+            threads.ForEach(t => t.Start());
             ready.Wait();
             start.Set();
-            var results = await Task.WhenAll(tasks);
+            threads.ForEach(t => t.Join());
 
             // Assert
             counter.Should().Be(1);
-            results.Should().HaveCount(parallelTasks);
+            results.Should().HaveCount(parallelThreads);
             results.Should().AllSatisfy(i => i.Should().Be(1));
         }
 
@@ -146,28 +149,20 @@ namespace Superdev.Maui.Tests.Utils
         {
             // Arrange
             var counter = 0;
-            var parallelTasks = 64;
+            var calls = 64;
             var syncHelper = new SyncHelper();
-            var start = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            var ready = 0;
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            // Act
-            var tasks = Enumerable.Range(1, parallelTasks)
-                .Select(id => Task.Run(async () =>
+            // Act - every call is made while the first execution still waits for the release.
+            var tasks = Enumerable.Range(1, calls)
+                .Select(id => syncHelper.RunOnceAsync(async () =>
                 {
-                    Interlocked.Increment(ref ready);
-                    await start.Task;
-
-                    await syncHelper.RunOnceAsync(async () =>
-                    {
-                        await Task.Delay(100);
-                        var value = Interlocked.Increment(ref counter);
-                        this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={value}");
-                    });
+                    await release.Task;
+                    var value = Interlocked.Increment(ref counter);
+                    this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={value}");
                 }))
                 .ToList();
-            SpinWait.SpinUntil(() => Volatile.Read(ref ready) == parallelTasks, TimeSpan.FromSeconds(5)).Should().BeTrue();
-            start.SetResult();
+            release.SetResult();
             await Task.WhenAll(tasks);
 
             // Assert
@@ -179,34 +174,26 @@ namespace Superdev.Maui.Tests.Utils
         {
             // Arrange
             var counter = 0;
-            var parallelTasks = 64;
+            var calls = 64;
             var syncHelper = new SyncHelper();
-            var start = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            var ready = 0;
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            // Act
-            var tasks = Enumerable.Range(1, parallelTasks)
-                .Select(id => Task.Run(async () =>
+            // Act - every call is made while the first execution still waits for the release.
+            var tasks = Enumerable.Range(1, calls)
+                .Select(id => syncHelper.RunOnceAsync(async () =>
                 {
-                    Interlocked.Increment(ref ready);
-                    await start.Task;
-
-                    return await syncHelper.RunOnceAsync(async () =>
-                    {
-                        await Task.Delay(100);
-                        var value = Interlocked.Increment(ref counter);
-                        this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={value}");
-                        return value;
-                    });
+                    await release.Task;
+                    var value = Interlocked.Increment(ref counter);
+                    this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={value}");
+                    return value;
                 }))
                 .ToList();
-            SpinWait.SpinUntil(() => Volatile.Read(ref ready) == parallelTasks, TimeSpan.FromSeconds(5)).Should().BeTrue();
-            start.SetResult();
+            release.SetResult();
             var results = await Task.WhenAll(tasks);
 
             // Assert
             counter.Should().Be(1);
-            results.Should().HaveCount(parallelTasks);
+            results.Should().HaveCount(calls);
             results.Should().AllSatisfy(i => i.Should().Be(1));
         }
 
