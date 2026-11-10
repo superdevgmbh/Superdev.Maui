@@ -173,6 +173,14 @@ namespace Superdev.Maui.Platforms.Services
             this.nativeView?.Dispose();
             this.nativeView = null;
 
+            // Dismiss before disposing: a disposed dialog which is still showing stays on the screen as an
+            // invisible, full-screen window which swallows all touch input, and HideLoadingPage can no longer
+            // reach it once the reference is gone.
+            if (this.dialog is { IsShowing: true })
+            {
+                this.dialog.Dismiss();
+            }
+
             this.dialog?.Dispose();
             this.dialog = null;
         }

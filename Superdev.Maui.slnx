@@ -10,6 +10,11 @@
       <Platform Solution="*|Simulator" Project="Simulator" />
       <Deploy />
     </Project>
+    <Project Path="Samples/TodoApp/TodoApp.csproj">
+      <Platform Solution="*|Device" Project="Device" />
+      <Platform Solution="*|Simulator" Project="Simulator" />
+      <Deploy />
+    </Project>
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />

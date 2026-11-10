@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TodoApp.Views.Todos.TodoDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:TodoApp.ViewModels.Todos"
+    Title="{Binding Title}"
+    x:DataType="vm:TodoDetailViewModel">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.Large}"
+                Spacing="{DynamicResource Theme.Spacing.Large}">
+
+                <s:CustomEntry
+                    Placeholder="What needs to be done?"
+                    Text="{Binding TodoTitle}" />
+
+                <s:CustomEditor
+                    AutoSize="TextChanges"
+                    HeightRequest="120"
+                    Placeholder="Notes (optional)"
+                    Text="{Binding Notes}" />
+
+                <HorizontalStackLayout Spacing="{DynamicResource Theme.Spacing.Medium}">
+                    <CheckBox IsChecked="{Binding IsCompleted}" />
+                    <Label
+                        Text="Completed"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Label
+                    FontSize="Small"
+                    Text="{Binding CreatedDate, StringFormat='Created on {0:g}'}"
+                    TextColor="{DynamicResource Theme.Color.TextColorBright}" />
+
+                <Button
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding CanSave}"
+                    Text="Save" />
+
+                <Button
+                    Command="{Binding DeleteCommand}"
+                    Style="{StaticResource ButtonSecondaryStyle}"
+                    Text="Delete" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <s:PageActivityIndicator IsBusy="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

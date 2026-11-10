@@ -4,12 +4,11 @@ namespace Superdev.Maui.Controls
 {
     public static class DebugHelper
     {
-        public static bool ShowLayoutBounds =
-#if DEBUG
-            false;
-#else
-            false;
-#endif
+        /// <summary>
+        /// Paints the parts of the validatable controls in distinct colours to show their layout bounds.
+        /// Only debug builds of the library honour it, and only for controls created after it is set.
+        /// </summary>
+        public static bool ShowLayoutBounds;
 
         [Conditional("DEBUG")]
         internal static void DebugLayoutBounds(this ValidatableEntry validatableEntry)

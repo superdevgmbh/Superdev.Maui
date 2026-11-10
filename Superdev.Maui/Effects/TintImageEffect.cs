@@ -4,6 +4,12 @@ namespace Superdev.Maui.Effects
 {
     public class TintImageEffect : RoutingEffect
     {
+        /// <summary>
+        /// Logs, at debug level, what the platform effects do with the tint: attaching, detaching and every colour
+        /// they set. Off by default; switch it on while developing. Failures are logged either way.
+        /// </summary>
+        public static bool LoggingEnabled;
+
         public static readonly BindableProperty TintColorProperty =
             BindableProperty.CreateAttached(
                 "TintColor",

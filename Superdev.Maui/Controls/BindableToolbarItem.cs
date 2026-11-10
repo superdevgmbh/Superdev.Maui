@@ -23,11 +23,8 @@ namespace Superdev.Maui.Controls
 
             if (this.bindingContextChanged)
             {
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await Task.Delay(1); // Not good
-                    OnIsVisibleChanged(this, null, this.IsVisible);
-                });
+                // Queued rather than run inline, so the parent page and the IsVisible binding are in place first.
+                this.Dispatcher.Dispatch(() => OnIsVisibleChanged(this, null, this.IsVisible));
             }
         }
 

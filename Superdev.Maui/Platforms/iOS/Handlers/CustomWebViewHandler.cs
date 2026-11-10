@@ -38,21 +38,11 @@ namespace Superdev.Maui.Platforms.Handlers
             }
         }
 
-        protected override void ConnectHandler(WKWebView platformView)
-        {
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
-            base.ConnectHandler(platformView);
-        }
-
         protected override void DisconnectHandler(WKWebView platformView)
         {
-            if (this.VirtualView is CustomWebView customWebView)
-            {
-                customWebView.Dispose();
-            }
-
+            // The virtual view is deliberately not disposed here. Disconnecting a handler does not end
+            // the life of the control it was connected to, and disposing it detaches the command
+            // forwarding permanently, so a control which is reconnected later stops raising its commands.
             base.DisconnectHandler(platformView);
         }
     }

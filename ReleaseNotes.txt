@@ -1,0 +1,22 @@
+2.0
+- Reworked navigation service with parameter passing, navigation guards, lifecycle callbacks and popups.
+- New validation API for view models, with sync and async rules, server-side errors and localizable messages.
+- New XAML validation support for input controls.
+- Fixes for several input controls.
+
+1.2
+- Support for .NET 10 and nullable reference types.
+- New UrlBuilder and QueryBuilder helpers.
+- New ItemTappedBehavior for CollectionView.
+- New CompositeResxTranslationProvider, configurable through SuperdevMauiOptions.
+- Configurable LoggingHandler (media types, filtered and suppressed headers).
+
+1.1
+- Migration to .NET MAUI 9.
+- New HyperlinkButton control and IBrowser service.
+- Style overrides through "_Override" style keys.
+- Done button for Entry and Editor on iOS.
+- Fixes for NullableDatePicker, NullableTimePicker and CustomPicker on iOS.
+
+1.0
+- Initial release.

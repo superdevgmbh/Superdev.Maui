@@ -6,7 +6,6 @@ using Superdev.Maui.Services;
 
 #if ANDROID
 using Android.OS;
-using Locale = Java.Util.Locale;
 using Superdev.Maui.Platforms.Extensions;
 #endif
 
@@ -122,58 +121,49 @@ namespace Superdev.Maui.Localization
 
         private CultureInfo ResolveSupportedCulture(CultureInfo? cultureInfo)
         {
-            if (cultureInfo != null)
+            // The platform reports no locale on the plain .NET targets, and a locale it cannot map may end up invariant.
+            var hasCulture = cultureInfo != null && !Equals(cultureInfo, CultureInfo.InvariantCulture);
+
+            if (this.SupportedLanguages is { Length: > 0 } supportedLanguages)
             {
-
-                if (this.SupportedLanguages is { Length: > 0 } supportedLanguages)
+                if (hasCulture && FindSupportedCulture(supportedLanguages, cultureInfo!) is CultureInfo supportedCulture)
                 {
-                    // Direct match
-                    var exactMatch = supportedLanguages.FirstOrDefault(c => string.Equals(c.Name, cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase));
-                    if (exactMatch != null)
-                    {
-                        return exactMatch;
-                    }
-
-                    // Match by parent/base culture ("fr-CH" → "fr")
-                    if (cultureInfo.Parent is CultureInfo parent && !Equals(parent, CultureInfo.InvariantCulture))
-                    {
-                        var parentMatch = supportedLanguages.FirstOrDefault(c => c.Name.Equals(parent.Name, StringComparison.InvariantCultureIgnoreCase));
-                        if (parentMatch != null)
-                        {
-                            return parentMatch;
-                        }
-                    }
-
-                    // Match by ISO-2 language ("fr-FR" → "fr")
-                    var twoLetterMatch =
-                        supportedLanguages.FirstOrDefault(c => string.Equals(c.TwoLetterISOLanguageName, cultureInfo.TwoLetterISOLanguageName, StringComparison.InvariantCultureIgnoreCase));
-                    if (twoLetterMatch != null)
-                    {
-                        return twoLetterMatch;
-                    }
-
-                    // Fallback to default language
-                    if (this.DefaultLanguage is CultureInfo defaultLanguage)
-                    {
-                        return defaultLanguage;
-                    }
-
-                    // Fallback to first supported language
-                    return supportedLanguages.First();
+                    return supportedCulture;
                 }
 
-                if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
+                return this.DefaultLanguage ?? supportedLanguages[0];
+            }
+
+            if (hasCulture)
+            {
+                return cultureInfo!;
+            }
+
+            // Without supported languages there is no language to fall back to but the one .NET shows the UI in.
+            return this.DefaultLanguage ?? CultureInfo.CurrentUICulture;
+        }
+
+        private static CultureInfo? FindSupportedCulture(CultureInfo[] supportedLanguages, CultureInfo cultureInfo)
+        {
+            // Direct match
+            var exactMatch = supportedLanguages.FirstOrDefault(c => string.Equals(c.Name, cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase));
+            if (exactMatch != null)
+            {
+                return exactMatch;
+            }
+
+            // Match by parent/base culture ("fr-CH" → "fr")
+            if (cultureInfo.Parent is CultureInfo parent && !Equals(parent, CultureInfo.InvariantCulture))
+            {
+                var parentMatch = supportedLanguages.FirstOrDefault(c => c.Name.Equals(parent.Name, StringComparison.InvariantCultureIgnoreCase));
+                if (parentMatch != null)
                 {
-                    return cultureInfo;
+                    return parentMatch;
                 }
             }
 
-            if (this.DefaultLanguage is CultureInfo defaultLang)
-            {
-                return defaultLang;
-            }
-
-            throw new InvalidOperationException($"Unable to resolve culture. Please specify {nameof(this.SupportedLanguages)} and/or a {nameof(this.DefaultLanguage)}.");
+            // Match by ISO-2 language ("fr-FR" → "fr")
+            return supportedLanguages.FirstOrDefault(c => string.Equals(c.TwoLetterISOLanguageName, cultureInfo.TwoLetterISOLanguageName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public CultureInfo CurrentCulture
@@ -249,17 +239,7 @@ namespace Superdev.Maui.Localization
         public virtual string? GetPlatformLocale()
         {
 #if ANDROID
-            Locale? locale;
-
-            if (Build.VERSION.SdkInt < BuildVersionCodes.N)
-            {
-                locale = Locale.Default;
-            }
-            else
-            {
-                locale = LocaleList.Default.ToEnumerable().FirstOrDefault();
-            }
-
+            var locale = LocaleList.Default.ToEnumerable().FirstOrDefault();
             var language = locale?.ToString();
             return language;
 

@@ -1,6 +1,7 @@
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
+using Superdev.Maui.Platforms.Controls;
 using UIKit;
 
 namespace Superdev.Maui.Platforms.Handlers
@@ -10,6 +11,7 @@ namespace Superdev.Maui.Platforms.Handlers
     public class TimePickerHandler : Microsoft.Maui.Handlers.TimePickerHandler
     {
         protected MauiDoneAccessoryView? inputAccessoryView;
+        private InputViewHeightKeeper? inputViewHeightKeeper;
 
         public new static readonly PM Mapper = new PM(Microsoft.Maui.Handlers.TimePickerHandler.Mapper)
         {
@@ -37,6 +39,7 @@ namespace Superdev.Maui.Platforms.Handlers
             this.inputAccessoryView = new MauiDoneAccessoryView();
             this.inputAccessoryView.SetDoneButtonAction(this.HandleDoneButton);
             mauiTimePicker.InputAccessoryView = this.inputAccessoryView;
+            this.inputViewHeightKeeper = new InputViewHeightKeeper(mauiTimePicker);
 
             return mauiTimePicker;
         }
@@ -55,6 +58,8 @@ namespace Superdev.Maui.Platforms.Handlers
             platformView.InputAccessoryView = null;
             this.inputAccessoryView?.Dispose();
             this.inputAccessoryView = null;
+            this.inputViewHeightKeeper?.Dispose();
+            this.inputViewHeightKeeper = null;
 
             base.DisconnectHandler(platformView);
         }

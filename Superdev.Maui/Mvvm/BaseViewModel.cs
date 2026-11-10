@@ -1,13 +1,15 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Utils;
 using Superdev.Maui.Validation;
 
 namespace Superdev.Maui.Mvvm
 {
-    public abstract class BaseViewModel : BindableBase
+    public abstract class BaseViewModel : BindableBase, IInitialize
     {
         private readonly RefCountBool busyRefCount = new RefCountBool();
 
@@ -16,14 +18,33 @@ namespace Superdev.Maui.Mvvm
         private string? icon;
         private bool isRefreshing;
         private ViewModelError viewModelError = ViewModelError.None;
-        private ViewModelValidation validation = new ViewModelValidation();
+        private ViewModelValidation? validation;
         private bool isInitialized;
         private bool enableBusyRefCount;
         private bool isBusy;
+        private Command? refreshCommand;
+        private bool isRefreshRunning;
 
         protected BaseViewModel()
         {
-            this.SetupValidationInternal();
+        }
+
+        Task IInitialize.InitializeAsync()
+        {
+            return this.InitializeAsync();
+        }
+
+        /// <summary>
+        /// Initializes this viewmodel. The navigation service calls this method once per page instance,
+        /// before the page becomes visible. <see cref="IsInitialized"/> is set as soon as it completed.
+        /// </summary>
+        /// <remarks>
+        /// This method is awaited before the navigation transition starts. Keep it fast and either move
+        /// longer operations to <see cref="INavigatedTo"/> or start them here without awaiting them.
+        /// </remarks>
+        protected virtual Task InitializeAsync()
+        {
+            return Task.CompletedTask;
         }
 
         public virtual string? Title
@@ -54,15 +75,17 @@ namespace Superdev.Maui.Mvvm
             get => this.isInitialized;
             set
             {
+                // The guard runs before anything is written: setting the field first and throwing afterwards
+                // left the view model uninitialized with no change notification for the busy state.
+                if (value == false && this.isInitialized)
+                {
+                    throw new InvalidOperationException($"{nameof(this.IsInitialized)} must not be set to false.");
+                }
+
                 var isBusyBefore = this.IsBusy;
 
                 if (this.SetProperty(ref this.isInitialized, value))
                 {
-                    if (value == false)
-                    {
-                        throw new InvalidOperationException($"{nameof(this.IsInitialized)} must not be set to false.");
-                    }
-
                     var isBusyAfter = this.IsBusy;
                     if (isBusyBefore != isBusyAfter)
                     {
@@ -128,16 +151,40 @@ namespace Superdev.Maui.Mvvm
         {
         }
 
-        public ICommand RefreshCommand => new Command(this.Refresh);
+        /// <summary>
+        /// Runs <see cref="OnRefreshing" />. The command is cached, so that bindings and
+        /// <see cref="Command.CanExecute" /> subscribers observe one instance, and it cannot be
+        /// re-entered while a refresh is running.
+        /// </summary>
+        public ICommand RefreshCommand
+        {
+            get => this.refreshCommand ??= new Command(this.Refresh, () => !this.isRefreshRunning);
+        }
 
         private async void Refresh()
         {
+            if (this.isRefreshRunning)
+            {
+                return;
+            }
+
+            this.isRefreshRunning = true;
+            this.refreshCommand?.ChangeCanExecute();
+
             try
             {
                 await this.OnRefreshing();
             }
+            catch (Exception ex)
+            {
+                // A command has no caller which could observe this exception, so without this catch it
+                // would surface as an unhandled exception on the UI thread and terminate the application.
+                this.OnRefreshFailed(ex);
+            }
             finally
             {
+                this.isRefreshRunning = false;
+                this.refreshCommand?.ChangeCanExecute();
                 this.IsRefreshing = false;
             }
         }
@@ -145,6 +192,15 @@ namespace Superdev.Maui.Mvvm
         protected virtual Task OnRefreshing()
         {
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Called when <see cref="OnRefreshing" /> threw. The base implementation traces the exception.
+        /// Override in order to report it, e.g. through <see cref="ViewModelError" />.
+        /// </summary>
+        protected virtual void OnRefreshFailed(Exception exception)
+        {
+            Trace.WriteLine($"{this.GetType().Name}.OnRefreshing failed with exception: {exception}");
         }
 
         public bool IsRefreshing
@@ -172,24 +228,31 @@ namespace Superdev.Maui.Mvvm
 
         public bool IsContentReady => this.IsInitialized && this.IsNotBusy && this.ViewModelError == ViewModelError.None;
 
+        /// <summary>
+        /// Gets the validation of this view model. It is created from <see cref="SetupValidation"/> on first
+        /// access, which is after the constructor of the derived class ran, so that an override can use
+        /// constructor-injected dependencies.
+        /// </summary>
         public ViewModelValidation Validation
         {
-            get => this.validation /*?? throw new InvalidOperationException($"Override {nameof(this.SetupValidation)} before accessing {nameof(this.Validation)}")*/;
-            private set => this.SetProperty(ref this.validation, value);
-        }
-
-        private void SetupValidationInternal()
-        {
-            var viewModelValidation = this.SetupValidation();
-            if (viewModelValidation != null)
+            get
             {
-                this.Validation = viewModelValidation;
-                this.Validation.TrySetContext(this);
+                var current = this.validation;
+                if (current != null)
+                {
+                    return current;
+                }
+
+                var created = this.SetupValidation() ?? new ViewModelValidation();
+
+                // Two threads racing here both created one; the first one wins for both.
+                return Interlocked.CompareExchange(ref this.validation, created, null) ?? created;
             }
         }
 
         /// <summary>
         /// Overriding <see cref="SetupValidation"/> activates user input validation for this view model.
+        /// It is called once, on the first access to <see cref="Validation"/>.
         /// </summary>
         protected virtual ViewModelValidation? SetupValidation()
         {
@@ -199,7 +262,11 @@ namespace Superdev.Maui.Mvvm
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
-            this.Validation?.HandlePropertyChange(args.PropertyName);
+
+            // Only a validation which already exists is asked: creating it here would call SetupValidation
+            // from within the constructor of the derived class, where the dependencies it needs are not assigned yet.
+            // The task does not fault: a throwing rule is reported through ViewModelValidation.OnValidationFailed.
+            _ = this.validation?.HandlePropertyChangeAsync(args.PropertyName);
         }
 
         protected virtual bool SetProperty(RefCountBool refCountBool, bool value, [CallerMemberName] string? propertyName = null)

@@ -73,7 +73,16 @@ namespace Superdev.Maui.Controls
             {
                 Debug.WriteLine($"OnScrollToPropertyChanged: scrollToPosition={scrollToPosition}");
 
-                itemsView.ScrollTo(item, group, scrollToPosition, animated);
+                try
+                {
+                    itemsView.ScrollTo(item, group, scrollToPosition, animated);
+                }
+                catch (Exception ex)
+                {
+                    // This callback is async void, so an exception which escapes it terminates the application.
+                    // A scroll the platform refuses - e.g. to an item it has not realized yet - is not worth that.
+                    ScrollToLogger.LogScrollToFailed(typeof(CollectionViewExtensions), itemsView, ex);
+                }
 
                 await Task.Delay(ScrollToMinimumLockDuration);
             }

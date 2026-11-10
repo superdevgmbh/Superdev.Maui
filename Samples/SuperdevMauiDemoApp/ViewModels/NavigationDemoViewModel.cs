@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Navigation;
@@ -13,6 +13,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         private readonly IDialogService dialogService;
 
         private IAsyncRelayCommand? navigateToPageCommand;
+        private IAsyncRelayCommand? navigateToUriCommand;
         private IAsyncRelayCommand? popCommand;
         private IAsyncRelayCommand? popToRootCommand;
         private IAsyncRelayCommand? navigateToPageModalCommand;
@@ -30,19 +31,10 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.navigationService = navigationService;
             this.viewModelErrorHandler = viewModelErrorHandler;
             this.dialogService = dialogService;
-
-            _ = this.InitializeAsync();
         }
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()
@@ -64,6 +56,27 @@ namespace SuperdevMauiDemoApp.ViewModels
         public IAsyncRelayCommand NavigateToPageCommand
         {
             get => this.navigateToPageCommand ??= new AsyncRelayCommand<string>(this.NavigateToPageAsync!);
+        }
+
+        /// <summary>
+        /// Navigates by URI, for targets which compose a page tree rather than being pushed onto the stack.
+        /// </summary>
+        public IAsyncRelayCommand NavigateToUriCommand
+        {
+            get => this.navigateToUriCommand ??= new AsyncRelayCommand<string>(this.NavigateToUriAsync!);
+        }
+
+        private async Task NavigateToUriAsync(string uri)
+        {
+            try
+            {
+                await this.navigationService.NavigateAsync(uri);
+            }
+            catch (Exception ex)
+            {
+                var viewModelError = this.viewModelErrorHandler.FromException(ex);
+                await this.dialogService.DisplayAlertAsync(viewModelError, "OK", "Cancel");
+            }
         }
 
         private async Task NavigateToPageAsync(string pageName)

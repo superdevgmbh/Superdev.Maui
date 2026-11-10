@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 
 namespace Superdev.Maui.Extensions
 {
@@ -33,8 +34,16 @@ namespace Superdev.Maui.Extensions
                 var result = JsonSerializer.Deserialize<T>(stringValue, options);
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
+                // A value which was not stored as JSON, e.g. written by the platform preferences API or by an
+                // older version of the app: a string is handed out as it is, anything else falls back to the default.
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)stringValue;
+                }
+
+                Trace.WriteLine($"Preferences: The value of key \"{key}\" could not be deserialized to {typeof(T).Name}: {ex.Message}");
                 return defaultValue;
             }
         }

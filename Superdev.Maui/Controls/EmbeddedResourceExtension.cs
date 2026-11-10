@@ -63,16 +63,16 @@ namespace Superdev.Maui.Controls
             {
                 if (name.EndsWith(resourceName, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var stream = Assembly.GetManifestResourceStream(name)!;
-
                     if (targetType == typeof(Stream))
                     {
-                        return stream;
+                        return Assembly.GetManifestResourceStream(name)!;
                     }
 
                     if (targetType == typeof(ImageSource))
                     {
-                        return ImageSource.FromStream(() => stream);
+                        // The image source may invoke the factory more than once, e.g. when it reloads,
+                        // so every invocation opens a fresh stream rather than sharing an exhausted one.
+                        return ImageSource.FromStream(() => Assembly.GetManifestResourceStream(name)!);
                     }
                 }
             }

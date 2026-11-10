@@ -32,11 +32,11 @@ namespace SuperdevMauiDemoApp.ViewModels
 
         protected override ViewModelValidation SetupValidation()
         {
-            var viewModelValidation = new ViewModelValidation();
+            // No validate button on this page: fields validate as they change.
+            var viewModelValidation = new ViewModelValidation { Mode = ValidationMode.OnChange };
 
-            viewModelValidation.AddValidationFor(nameof(this.Birthdate))
-                .When(() => this.Birthdate == null)
-                .Show(() => "Birthdate must be set");
+            viewModelValidation.Property(() => this.Birthdate).NotNull();
+            viewModelValidation.Property(() => this.PatentStartDate).InTheFuture();
 
             return viewModelValidation;
         }
@@ -92,10 +92,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             get => this.birthdate;
             set
             {
-                if (this.SetProperty(ref this.birthdate, value))
-                {
-                    _ = this.Validation.IsValidAsync();
-                }
+                this.SetProperty(ref this.birthdate, value);
             }
         }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="TodoApp.Views.Todos.TodoItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:TodoApp.ViewModels.Todos"
+    x:DataType="vm:TodoItemViewModel">
+
+    <Grid
+        Padding="{DynamicResource Theme.Padding.Small}"
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="{DynamicResource Theme.Spacing.Small}">
+
+        <CheckBox
+            Grid.Column="0"
+            IsChecked="{Binding IsCompleted}"
+            VerticalOptions="Center" />
+
+        <VerticalStackLayout
+            Grid.Column="1"
+            VerticalOptions="Center">
+            <Label
+                Text="{Binding Title}"
+                LineBreakMode="TailTruncation" />
+            <Label
+                FontSize="Small"
+                IsVisible="{Binding HasNotes}"
+                Text="{Binding Notes}"
+                TextColor="{DynamicResource Theme.Color.TextColorBright}"
+                LineBreakMode="TailTruncation" />
+
+            <VerticalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenCommand}" />
+            </VerticalStackLayout.GestureRecognizers>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

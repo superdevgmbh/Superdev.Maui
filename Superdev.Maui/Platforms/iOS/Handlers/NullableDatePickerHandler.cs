@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Foundation;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
@@ -18,6 +19,7 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(NullableDatePicker.NullableDate)] = MapNullableDate,
             [nameof(NullableDatePicker.Placeholder)] = MapPlaceholder,
             [nameof(NullableDatePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(NullableDatePicker.HorizontalTextAlignment)] = MapHorizontalTextAlignment,
             [nameof(DialogExtensions.NeutralButtonText)] = MapNeutralButtonText
         };
 
@@ -92,9 +94,6 @@ namespace Superdev.Maui.Platforms.Handlers
 
         protected override void ConnectHandler(MauiDatePicker platformView)
         {
-#if !NET9_0_OR_GREATER
-            this.VirtualView.AddCleanUpEvent();
-#endif
             base.ConnectHandler(platformView);
 
             // HACK:
@@ -106,6 +105,11 @@ namespace Superdev.Maui.Platforms.Handlers
                 await Task.Delay(10);
                 UpdateDate(this.PlatformView, this.VirtualView);
             });
+        }
+
+        private static void MapHorizontalTextAlignment(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
+        {
+            nullableDatePickerHandler.PlatformView.TextAlignment = nullableDatePicker.HorizontalTextAlignment.ToPlatformHorizontal();
         }
 
         private static void MapPlaceholder(NullableDatePickerHandler nullableDatePickerHandler, NullableDatePicker nullableDatePicker)
@@ -164,7 +168,7 @@ namespace Superdev.Maui.Platforms.Handlers
             }
             finally
             {
-                this.isClearing = true;
+                this.isClearing = false;
             }
         }
 
@@ -226,7 +230,10 @@ namespace Superdev.Maui.Platforms.Handlers
                 }
                 catch (Exception ex)
                 {
-                    mauiDatePicker.Text = ex.Message;
+                    // The placeholder shows instead of a value the format cannot write.
+                    IPlatformApplication.Current?.Services.GetService<ILogger<NullableDatePickerHandler>>()?
+                        .LogError(ex, "Failed to format {Date} with format '{Format}'", dateTime, format);
+                    mauiDatePicker.Text = string.Empty;
                 }
             }
             else

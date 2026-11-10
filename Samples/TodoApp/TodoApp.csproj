@@ -1,0 +1,111 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TodoApp</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <MauiVersion>10.0.110</MauiVersion>
+    <SingleProject>true</SingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>TodoApp</ApplicationTitle>
+
+    <!-- App Identifier -->
+    <ApplicationId>ch.superdev.todoapp</ApplicationId>
+
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU;Simulator;Device</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- App Icon (Android crops adaptive icons to a circle or squircle, so the logo is scaled down there) -->
+    <MauiIcon
+      Include="Resources\AppIcon\appicon.svg"
+      ForegroundFile="..\..\logo.png"
+      Condition="$(TargetFramework.Contains('-android'))"
+      ForegroundScale="0.65"
+      Color="#FFFFFF" />
+    <MauiIcon
+      Include="Resources\AppIcon\appicon.svg"
+      ForegroundFile="..\..\logo.png"
+      Condition="$(TargetFramework.Contains('-ios'))"
+      Color="#FFFFFF" />
+
+    <!-- Splash Screen -->
+    <MauiSplashScreen
+      Include="..\..\logo.png"
+      BaseSize="128,128"
+      Color="#FFFFFF" />
+
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\*" />
+
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
+
+    <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Android build properties -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion> <!-- android:minSdkVersion -->
+    <TargetPlatformVersion>36</TargetPlatformVersion> <!-- android:targetSdkVersion -->
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Debug'">
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <!-- iOS build properties -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion> <!-- MinimumOSVersion -->
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Platform)' == 'Simulator'">
+    <RuntimeIdentifier>iossimulator-arm64</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Platform)' == 'Device'">
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Debug'">
+    <MtouchDebug>true</MtouchDebug>
+    <CreatePackage>false</CreatePackage>
+    <ProvisioningType>automatic</ProvisioningType>
+    <CodesignProvision />
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
+    <MtouchDebug>false</MtouchDebug>
+    <CreatePackage>true</CreatePackage>
+    <ArchiveOnBuild>true</ArchiveOnBuild>
+    <MtouchLink>SdkOnly</MtouchLink>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Superdev.Maui\Superdev.Maui.csproj" />
+  </ItemGroup>
+
+</Project>

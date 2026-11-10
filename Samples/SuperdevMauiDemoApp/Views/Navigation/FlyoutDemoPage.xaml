@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.FlyoutDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels.Navigation"
+    x:DataType="vm:FlyoutDemoViewModel"
+    FlyoutLayoutBehavior="Popover">
+
+    <FlyoutPage.Flyout>
+        <ContentPage Title="Menu">
+            <ScrollView>
+                <VerticalStackLayout
+                    Padding="{DynamicResource Theme.Padding.Medium}"
+                    Spacing="{DynamicResource Theme.Spacing.Medium}">
+                    <Label FontAttributes="Bold" Text="Menu" />
+                    <Label
+                        FontSize="12"
+                        Text="Each entry replaces the detail page through a relative navigation URI." />
+                    <Button
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="NavigationPage/FlyoutHomePage"
+                        Text="Home" />
+                    <Button
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="NavigationPage/FlyoutDetailPage"
+                        Text="Detail" />
+                    <Button
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="NavigationPage/FlyoutDetailPage/FlyoutHomePage"
+                        Text="Detail with a page pushed on top" />
+                    <Button
+                        Command="{Binding LeaveCommand}"
+                        Text="Back to the demo app" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+</FlyoutPage>

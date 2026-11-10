@@ -126,6 +126,20 @@
                                 IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
                                 NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
                                 Placeholder="NullableTimePicker" />
+
+                            <Label
+                                Style="{StaticResource DemoLabelStyle}"
+                                Text="NullableTimePicker with HorizontalTextAlignment=Center and End" />
+                            <s:NullableTimePicker
+                                HorizontalTextAlignment="Center"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="Centered" />
+                            <s:NullableTimePicker
+                                HorizontalTextAlignment="End"
+                                IsEnabled="{Binding IsReadonly, Converter={StaticResource BoolInverter}}"
+                                NullableTime="{Binding PatentEndTime, Mode=TwoWay}"
+                                Placeholder="End-aligned" />
                         </VerticalStackLayout>
                         <s:FooterDivider />
                     </VerticalStackLayout>

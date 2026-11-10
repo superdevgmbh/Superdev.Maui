@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+
 namespace Superdev.Maui.Effects
 {
     public class LongPressEffect : RoutingEffect
@@ -35,6 +36,25 @@ namespace Superdev.Maui.Effects
         public static void SetCommandParameter(BindableObject view, object value)
         {
             view.SetValue(CommandParameterProperty, value);
+        }
+
+        /// <summary>
+        /// Executes <see cref="CommandProperty" /> with <see cref="CommandParameterProperty" />.
+        /// Called by the platform effects when the user long-pressed the element.
+        /// </summary>
+        internal static void RaiseLongPress(BindableObject? bindable)
+        {
+            if (bindable?.GetValue(CommandProperty) is not ICommand command)
+            {
+                return;
+            }
+
+            var commandParameter = bindable.GetValue(CommandParameterProperty);
+
+            if (command.CanExecute(commandParameter))
+            {
+                command.Execute(commandParameter);
+            }
         }
     }
 }

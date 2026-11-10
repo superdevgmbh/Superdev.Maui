@@ -96,7 +96,7 @@ namespace Superdev.Maui.Extensions
                 return type.Name;
             }
 
-            return $"{type.Name.Substring(0, type.Name.IndexOf('`'))}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedName()))}>";
+            return $"{GetNameWithoutArity(type)}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedName()))}>";
         }
 
         [return: NotNullIfNotNull(nameof(type))]
@@ -113,7 +113,14 @@ namespace Superdev.Maui.Extensions
                 return type.ToString();
             }
 
-            return $"{type.Namespace}.{type.Name.Substring(0, type.Name.IndexOf('`'))}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedFullname()))}>";
+            return $"{type.Namespace}.{GetNameWithoutArity(type)}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(t => t.GetFormattedFullname()))}>";
+        }
+
+        private static string GetNameWithoutArity(Type type)
+        {
+            // A type nested inside a generic type is generic itself, but its own name carries no arity suffix.
+            var arityIndex = type.Name.IndexOf('`');
+            return arityIndex < 0 ? type.Name : type.Name[..arityIndex];
         }
 
         /// <summary>

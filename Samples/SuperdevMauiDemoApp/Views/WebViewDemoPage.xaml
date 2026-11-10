@@ -8,8 +8,26 @@
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
     x:DataType="vm:WebViewDemoViewModel"
     Title="WebViewDemoPage">
-    <Grid>
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Grid
+            Grid.Row="0"
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                Style="{DynamicResource EntryLabelStyle}"
+                Text="AllowMixedContent (Android)" />
+            <Switch
+                Grid.Column="1"
+                IsToggled="{Binding AllowMixedContent}" />
+        </Grid>
         <s:CustomWebView
+            Grid.Row="1"
+            AllowMixedContent="{Binding AllowMixedContent}"
+            HeightRequest="80"
+            Source="{Binding MixedContentSource}" />
+        <s:CustomWebView
+            Grid.Row="2"
             Headers="{Binding Headers}"
             NavigatedCommand="{Binding NavigatedCommand}"
             NavigatingCommand="{Binding NavigatingCommand}"

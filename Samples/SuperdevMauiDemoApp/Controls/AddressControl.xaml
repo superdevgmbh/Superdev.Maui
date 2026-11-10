@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
     xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels"
+    x:DataType="vm:AddressFormViewModel"
     x:Name="Control">
 
     <StackLayout>
@@ -24,11 +25,11 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
+                        s:Validation.PropertyName="Street"
                         Keyboard="Text"
                         MaxLength="200"
                         Placeholder="{s:Translate UserAddressStreetLabelText}"
-                        Text="{Binding Street, Mode=TwoWay}"
-                        ValidationErrors="{Binding Validation.Errors[Street]}">
+                        Text="{Binding Street, Mode=TwoWay}">
                         <s:ValidatableEntry.Behaviors>
                             <s:InputViewCompletedBehavior TargetElement="{x:Reference PostalCodeLEntry}" />
                         </s:ValidatableEntry.Behaviors>
@@ -38,36 +39,29 @@
                         x:Name="PostalCodeLEntry"
                         Grid.Row="1"
                         Grid.Column="0"
+                        s:Validation.PropertyName="PostalCode"
                         Keyboard="Numeric"
                         MaxLength="4"
                         Placeholder="{s:Translate UserAddressPostalCodeLabelText}"
-                        Text="{Binding PostalCode, Mode=TwoWay}"
-                        ValidationErrors="{Binding Validation.Errors[PostalCode]}">
-                        <s:ValidatableEntry.Behaviors>
-                            <s:EventToCommandBehavior
-                                Command="{Binding PostalCodeUnfocusedCommand}"
-                                EventName="Unfocused" />
-                        </s:ValidatableEntry.Behaviors>
-                    </s:ValidatableEntry>
+                        Text="{Binding PostalCode, Mode=TwoWay}" />
 
                     <s:ValidatableEntry
                         Grid.Row="1"
                         Grid.Column="1"
+                        s:Validation.PropertyName="Place"
                         Keyboard="Text"
                         MaxLength="200"
                         Placeholder="{s:Translate UserAddressPlaceLabelText}"
-                        Text="{Binding Place, Mode=TwoWay}"
-                        ValidationErrors="{Binding Validation.Errors[Place]}" />
+                        Text="{Binding Place, Mode=TwoWay}" />
 
                     <s:ValidatablePicker
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        DisplayMemberPath="Name"
+                        s:Validation.PropertyName="Country"
                         ItemsSource="{Binding Countries}"
                         Placeholder="{s:Translate UserAddressCountryLabelText}"
-                        SelectedItem="{Binding Country, Mode=TwoWay}"
-                        ValidationErrors="{Binding Validation.Errors[Country]}" />
+                        SelectedItem="{Binding Country, Mode=TwoWay}" />
 
                 </Grid>
                 <s:FooterDivider />

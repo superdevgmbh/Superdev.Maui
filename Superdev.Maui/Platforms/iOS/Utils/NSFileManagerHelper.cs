@@ -8,6 +8,10 @@ namespace Superdev.Maui.Platforms.iOS.Utils
     /// </summary>
     public static class NSFileManagerHelper
     {
+        /// <summary>
+        /// Excludes the app's Documents, Library/Caches and Library/Preferences folders from iTunes and iCloud backups
+        /// by setting their skip-backup attribute.
+        /// </summary>
         public static void DisableBackup()
         {
             NSFileManager.SetSkipBackupAttribute(DocumentsFolder, skipBackup: true);

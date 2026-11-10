@@ -1,6 +1,8 @@
 using System.Globalization;
 using Android.App;
+using Android.Views;
 using Android.Content;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Platform;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
@@ -18,7 +20,8 @@ namespace Superdev.Maui.Platforms.Handlers
             [nameof(TimePicker.Time)] = MapTime,
             [nameof(NullableTimePicker.NullableTime)] = MapNullableTime,
             [nameof(NullableTimePicker.Placeholder)] = MapPlaceholder,
-            [nameof(NullableTimePicker.PlaceholderColor)] = MapPlaceholderColor
+            [nameof(NullableTimePicker.PlaceholderColor)] = MapPlaceholderColor,
+            [nameof(NullableTimePicker.HorizontalTextAlignment)] = MapHorizontalTextAlignment
         };
 
         private const int NeutralButtonId = (int)DialogButtonType.Neutral;
@@ -42,6 +45,16 @@ namespace Superdev.Maui.Platforms.Handlers
             this.UpdateNeutralButton(this.PlatformView, this.VirtualView, dialog);
 
             return dialog;
+        }
+
+        private static void MapHorizontalTextAlignment(NullableTimePickerHandler timePickerHandler, NullableTimePicker nullableTimePicker)
+        {
+            var platformView = timePickerHandler.PlatformView;
+            var verticalGravity = platformView.Gravity & GravityFlags.VerticalGravityMask;
+            platformView.Gravity = nullableTimePicker.HorizontalTextAlignment.ToHorizontalGravityFlags() | verticalGravity;
+
+            // The time picker's text view comes with TextAlignment=TextStart, which overrides the horizontal gravity.
+            platformView.TextAlignment = global::Android.Views.TextAlignment.Gravity;
         }
 
         private static void MapPlaceholder(NullableTimePickerHandler datePickerHandler, NullableTimePicker nullableTimePicker)
@@ -116,7 +129,10 @@ namespace Superdev.Maui.Platforms.Handlers
             }
             catch (Exception ex)
             {
-                mauiTimePicker.Text = ex.Message;
+                // The placeholder shows instead of a value the format cannot write.
+                IPlatformApplication.Current?.Services.GetService<ILogger<NullableTimePickerHandler>>()?
+                    .LogError(ex, "Failed to format {Time} with format '{Format}'", nullableTimePicker.NullableTime, nullableTimePicker.Format);
+                mauiTimePicker.Text = string.Empty;
             }
         }
 

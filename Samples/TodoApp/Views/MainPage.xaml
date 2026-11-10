@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TodoApp.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:todos="clr-namespace:TodoApp.Views.Todos"
+    xmlns:vm="clr-namespace:TodoApp.ViewModels"
+    Title="{Binding Title}"
+    x:DataType="vm:MainViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="TodoItemTemplate">
+                <todos:TodoItemTemplate />
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding ShowAboutCommand}"
+            Text="About" />
+        <ToolbarItem
+            Command="{Binding AddTodoCommand}"
+            IconImageSource="ic_add"
+            Text="Add" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="{DynamicResource Theme.Padding.Medium}">
+                <VerticalStackLayout
+                    BindableLayout.ItemTemplate="{StaticResource TodoItemTemplate}"
+                    BindableLayout.ItemsSource="{Binding TodoItems}" />
+
+                <Label
+                    Margin="{DynamicResource Theme.Padding.Large}"
+                    IsVisible="{Binding HasNoTodoItems}"
+                    Text="There is nothing to do yet. Tap + to add your first todo."
+                    HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <s:PageActivityIndicator IsBusy="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

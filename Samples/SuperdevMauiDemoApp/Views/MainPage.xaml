@@ -89,6 +89,15 @@
                             <s:CustomButton
                                 Grid.Column="0"
                                 Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="InputValidationDemoPage"
+                                Text="Input Validation" />
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="{DynamicResource Theme.Spacing.Medium}">
+                            <s:CustomButton
+                                Grid.Column="0"
+                                Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="LabelDemoPage"
                                 Text="Label" />
                             <s:CustomButton
@@ -152,6 +161,11 @@
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="BindableItemsSourceDemoPage"
                                 Text="Bindable&#10;ItemsSource" />
+                            <s:CustomButton
+                                Grid.Column="1"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="ScrollViewDemoPage"
+                                Text="ScrollView" />
                         </Grid>
 
                         <Label
@@ -363,6 +377,17 @@
                         <Label
                             Style="{StaticResource DemoLabelStyle}"
                             Text="Demo: ValidationErrorBox" />
+                        <s:ValidatableEntry
+                            s:Validation.PropertyName="UserName"
+                            Placeholder="User name (required)"
+                            Text="{Binding UserName, Mode=TwoWay}" />
+                        <s:ValidatableDatePicker
+                            s:Validation.PropertyName="Birthdate"
+                            Date="{Binding Birthdate, Mode=TwoWay}"
+                            Placeholder="Birthdate (required)" />
+                        <s:CustomButton
+                            Command="{Binding ValidatePersonCommand}"
+                            Text="ValidatePersonCommand" />
                         <s:ValidationErrorBox Validation="{Binding Validation}" />
 
                         <Label
@@ -423,6 +448,27 @@
                                     Command="{Binding NormalPressCommand}"
                                     CommandParameter="{Binding Text, Source={x:Reference LongPressLabel}}" />
                             </Grid.GestureRecognizers>
+                        </Grid>
+
+                        <Label
+                            Style="{StaticResource DemoLabelStyle}"
+                            Text="Demo SafeAreaPadding (iOS)" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label
+                                Grid.Column="0"
+                                Style="{DynamicResource EntryLabelStyle}"
+                                Text="EnableSafeAreaPadding" />
+                            <Switch
+                                x:Name="SafeAreaPaddingSwitch"
+                                Grid.Column="1" />
+                        </Grid>
+                        <Grid
+                            s:SafeAreaPadding.EnableSafeAreaPadding="{Binding IsToggled, Source={x:Reference SafeAreaPaddingSwitch}}"
+                            BackgroundColor="LightGray">
+                            <Label
+                                BackgroundColor="LightBlue"
+                                LineBreakMode="WordWrap"
+                                Text="While the switch is on, the grey frame around this text is the device's safe area insets, updated on rotation." />
                         </Grid>
 
                     </VerticalStackLayout>

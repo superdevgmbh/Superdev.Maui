@@ -1,6 +1,6 @@
-﻿namespace SuperdevMauiDemoApp.Views.ItemTemplates
+namespace SuperdevMauiDemoApp.Views.ItemTemplates
 {
-    public partial class CountryItemTemplate : ViewCell
+    public partial class CountryItemTemplate : ContentView
     {
         public CountryItemTemplate()
         {

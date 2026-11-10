@@ -26,21 +26,12 @@
 
         private void OnBindingContextChanged(object? sender, EventArgs e)
         {
-            base.OnBindingContextChanged();
-
-            if (sender is not BindableObject bindableObject)
+            if (sender is BindableObject bindableObject)
             {
-                return;
+                // The behavior follows the binding context of its element, including back to null: a recycled
+                // cell clears its context and gets a new one later, so the behavior has to stay attached.
+                this.BindingContext = bindableObject.BindingContext;
             }
-
-            // Assumption: In case the BindingContext is set to null,
-            //             we detach the object from the behavior.
-            if (bindableObject.BindingContext == null)
-            {
-                this.OnDetachingFrom(bindableObject);
-            }
-
-            this.BindingContext = bindableObject.BindingContext;
         }
     }
 }

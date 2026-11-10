@@ -177,7 +177,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty ErrorProperty = BindableProperty.Create(
             nameof(Error),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#B00020"),
             propertyChanged: OnErrorPropertyChanged);
 
@@ -198,7 +198,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty ErrorBackgroundProperty = BindableProperty.Create(
             nameof(ErrorBackground),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#FFCCD5"));
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty PrimaryProperty = BindableProperty.Create(
             nameof(Primary),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#6200EE"),
             propertyChanged: OnPrimaryPropertyChanged);
 
@@ -256,7 +256,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
             nameof(TextColor),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             MaterialColors.Gray800,
             propertyChanged: OnTextColorProperty);
 
@@ -277,7 +277,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty TextColorBrightProperty = BindableProperty.Create(
             nameof(TextColorBright),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             MaterialColors.Gray500,
             propertyChanged: OnTextColorBrightProperty);
 
@@ -299,7 +299,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(Secondary),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 default(Color),
                 propertyChanged: OnSecondaryPropertyChanged);
 
@@ -311,7 +311,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty OnPrimaryProperty = BindableProperty.Create(
             nameof(OnPrimary),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#FFFFFF"),
             propertyChanged: OnOnPrimaryPropertyChanged);
 
@@ -332,7 +332,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty OnSecondaryProperty = BindableProperty.Create(
             nameof(OnSecondary),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#FFFFFF"),
             propertyChanged: OnOnSecondaryPropertyChanged);
 
@@ -359,7 +359,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty OnTertiaryProperty = BindableProperty.Create(
             nameof(OnTertiary),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#FFFFFF"),
             propertyChanged: OnOnTertiaryPropertyChanged);
 
@@ -377,7 +377,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty PrimaryVariantProperty = BindableProperty.Create(
             nameof(PrimaryVariant),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#6200EE"),
             propertyChanged: OnPrimaryVariantPropertyChanged);
 
@@ -399,7 +399,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(PrimaryDisabled),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 MaterialColors.Gray500,
                 propertyChanged: OnPrimaryDisabledPropertyChanged);
 
@@ -437,7 +437,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty SecondaryVariantProperty = BindableProperty.Create(
             nameof(SecondaryVariant),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#0400BA"),
             propertyChanged: OnSecondaryVariantPropertyChanged);
 
@@ -458,7 +458,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty SecondaryDisabledProperty = BindableProperty.Create(
             nameof(SecondaryDisabled),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             MaterialColors.Gray500,
             propertyChanged: OnSecondaryDisabledProperty);
 
@@ -477,7 +477,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(Tertiary),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 MaterialColors.White,
                 propertyChanged: OnTertiaryPropertyChanged);
 
@@ -495,7 +495,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty TertiaryVariantProperty = BindableProperty.Create(
             nameof(TertiaryVariant),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             Color.FromArgb("#0400BA"),
             propertyChanged: OnTertiaryVariantPropertyChanged);
 
@@ -516,7 +516,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty TertiaryDisabledProperty = BindableProperty.Create(
             nameof(TertiaryDisabled),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             MaterialColors.Gray500);
 
         public Color TertiaryDisabled
@@ -536,7 +536,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty PageBackgroundColorProperty = BindableProperty.Create(
             nameof(PageBackgroundColor),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             MaterialColors.Gray100,
             propertyChanged: OnPageBackgroundColorPropertyChanged);
 
@@ -553,7 +553,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(CardViewDividerColor),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 GetDefaultCardViewDividerColor());
 
         private static Color GetDefaultCardViewDividerColor()
@@ -578,7 +578,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(CardViewHeaderTextColor),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 GetDefaultCardViewHeaderTextColor());
 
         private static Color GetDefaultCardViewHeaderTextColor()
@@ -596,7 +596,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(CardViewFooterTextColor),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 GetDefaultCardViewFooterTextColor());
 
         private static Color GetDefaultCardViewFooterTextColor()
@@ -614,7 +614,7 @@ namespace Superdev.Maui.Resources.Styles
             BindableProperty.Create(
                 nameof(CardViewHeaderBackgroundColor),
                 typeof(Color),
-                typeof(Color),
+                typeof(ColorConfiguration),
                 GetDefaultCardViewHeaderBackgroundColor());
 
         private static Color GetDefaultCardViewHeaderBackgroundColor()
@@ -642,7 +642,7 @@ namespace Superdev.Maui.Resources.Styles
         public static readonly BindableProperty CardViewBackgroundColorProperty = BindableProperty.Create(
             nameof(CardViewBackgroundColor),
             typeof(Color),
-            typeof(Color),
+            typeof(ColorConfiguration),
             GetDefaultCardViewBackgroundColor());
 
         private static Color GetDefaultCardViewBackgroundColor()

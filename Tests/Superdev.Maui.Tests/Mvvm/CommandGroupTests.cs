@@ -1,18 +1,13 @@
 using CommunityToolkit.Mvvm.Input;
 using Superdev.Maui.Mvvm;
 using Superdev.Maui.Services;
-using Xunit.Abstractions;
 
 namespace Superdev.Maui.Tests.Mvvm
 {
     public class CommandGroupTests
     {
-        private readonly ITestOutputHelper testOutputHelper;
-
-        public CommandGroupTests(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
-        }
+        private const int NumberOfCommands = 1000;
+        private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(10);
 
         [Fact]
         public void ShouldReturnIsAnyRunningFalse()
@@ -41,11 +36,7 @@ namespace Superdev.Maui.Tests.Mvvm
                 }
             };
 
-            IAsyncRelayCommand command = commandGroup.Create<AsyncRelayCommand>(() =>
-            {
-                // Simulate a long running task here
-                return Task.Delay(1000);
-            });
+            IAsyncRelayCommand command = commandGroup.Create<AsyncRelayCommand>(async () => await Task.Yield());
 
             // Act
             await command.ExecuteAsync(null);
@@ -55,174 +46,183 @@ namespace Superdev.Maui.Tests.Mvvm
         }
 
         [Fact]
+        public void ShouldForwardCanExecuteChanged_OfAWrappedCommand()
+        {
+            // Arrange
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
+            var canExecute = false;
+            var innerCommand = new Microsoft.Maui.Controls.Command(() => { }, () => canExecute);
+            var wrapper = commandGroup.CreateCommand(innerCommand);
+            var canExecuteChangedRaised = 0;
+            wrapper.CanExecuteChanged += (_, _) => canExecuteChangedRaised++;
+
+            // Act
+            canExecute = true;
+            innerCommand.ChangeCanExecute();
+
+            // Assert
+            canExecuteChangedRaised.Should().Be(1, "a bound button re-queries the wrapper when the wrapped command changes");
+            wrapper.CanExecute(null).Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShouldThrowSynchronously_WhenASynchronousCommandThrows()
+        {
+            // Arrange
+            var commandGroup = new CommandGroup(null, new StaticMainThread());
+            var command = commandGroup.CreateCommand(() => throw new InvalidOperationException("boom"));
+
+            // Act
+            Action act = () => command.Execute(null);
+
+            // Assert - the same as a plain Command: the caller of Execute sees the exception.
+            act.Should().Throw<InvalidOperationException>().WithMessage("boom");
+            commandGroup.IsAnyRunning.Should().BeFalse();
+        }
+
+        [Fact]
         public async Task ShouldCreateCommand_WithoutParameter()
         {
             // Arrange
-            const int numberOfParallelCalls = 1000;
             var commandGroup = new CommandGroup(null, new StaticMainThread());
-            var counter = 0;
-
-            Task task(int id)
-            {
-                return Task.Run(async () =>
-                {
-                    // Simulate a long running task here
-                    await Task.Delay(200);
-
-                    // Access a shared resource, variable counter
-                    Interlocked.Increment(ref counter);
-                    this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={counter}");
-                });
-            }
-
-            var commands = Enumerable.Range(1, numberOfParallelCalls)
-                .Select(id => commandGroup.CreateCommand(() => task(id).Wait()))
+            var execution = new GatedExecution();
+            var commands = Enumerable.Range(1, NumberOfCommands)
+                .Select(_ => commandGroup.CreateCommand(execution.Run))
                 .ToArray();
 
             // Act
-            var tasks = commands
-                .Select(c => Task.Run(() => c.Execute(c)))
-                .ToArray();
-            await Task.WhenAll(tasks);
+            var first = Task.Run(() => commands[0].Execute(null));
+            await execution.WaitUntilStartedAsync();
+            await Task.WhenAll(commands.Skip(1).Select(c => Task.Run(() => c.Execute(null)))).WaitAsync(Timeout);
+            execution.Release();
+            await first.WaitAsync(Timeout);
 
             // Assert
-            commands.Length.Should().Be(numberOfParallelCalls);
-            tasks.Length.Should().Be(numberOfParallelCalls);
-            counter.Should().Be(1);
+            execution.Count.Should().Be(1, "every command issued while the first one runs is skipped");
+            commandGroup.IsAnyRunning.Should().BeFalse();
         }
 
         [Fact]
         public async Task ShouldCreateCommand_WithoutParameter_WithCanExecute()
         {
             // Arrange
-            const int numberOfParallelCalls = 1000;
             var commandGroup = new CommandGroup(null, new StaticMainThread());
-            var counter = 0;
-
-            Task task(int id)
-            {
-                return Task.Run(async () =>
-                {
-                    // Simulate a long-running task here
-                    await Task.Delay(200);
-
-                    // Access a shared resource, variable counter
-                    Interlocked.Increment(ref counter);
-                    this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={counter}");
-                });
-            }
-
-            var commands = Enumerable.Range(1, numberOfParallelCalls)
-                .Select(id => commandGroup.CreateCommand(() => task(id).Wait(), () => id % 2 == 0))
+            var execution = new GatedExecution();
+            var commands = Enumerable.Range(1, NumberOfCommands)
+                .Select(id => commandGroup.CreateCommand(execution.Run, () => id % 2 == 0))
                 .ToArray();
 
             // Act
-            var tasks = commands
-                .Select(c => Task.Run(() =>
+            var first = Task.Run(() => commands[1].Execute(null));
+            await execution.WaitUntilStartedAsync();
+            var canExecutes = await Task.WhenAll(commands.Select(c => Task.Run(() =>
                 {
                     var canExecute = c.CanExecute(null);
                     if (canExecute)
                     {
                         c.Execute(null);
                     }
+
                     return canExecute;
-                }))
-                .ToArray();
-            var canExecutes = await Task.WhenAll(tasks);
+                })))
+                .WaitAsync(Timeout);
+            execution.Release();
+            await first.WaitAsync(Timeout);
 
             // Assert
-            commands.Length.Should().Be(numberOfParallelCalls);
-            tasks.Length.Should().Be(numberOfParallelCalls);
-            canExecutes.Length.Should().Be(numberOfParallelCalls);
-            counter.Should().Be(1);
-
-            canExecutes.Count(ce => ce == true).Should().Be(canExecutes.Length / 2);
-            canExecutes.Count(ce => ce == false).Should().Be(canExecutes.Length / 2);
+            execution.Count.Should().Be(1, "every command issued while the first one runs is skipped");
+            canExecutes.Count(ce => ce).Should().Be(NumberOfCommands / 2);
+            canExecutes.Count(ce => !ce).Should().Be(NumberOfCommands / 2);
         }
 
         [Fact]
         public async Task ShouldCreateAsyncRelayCommand_WithoutParameter()
         {
             // Arrange
-            const int numberOfParallelCalls = 1000;
             var commandGroup = new CommandGroup(null, new StaticMainThread());
-            var counter = 0;
-
-            Task task(int id)
-            {
-                return Task.Run(async () =>
-                {
-                    // Simulate a long running task here
-                    await Task.Delay(200);
-
-                    // Access a shared resource, variable counter
-                    Interlocked.Increment(ref counter);
-                    this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={counter}");
-                    return counter;
-                });
-            }
-
-            var commands = Enumerable.Range(1, numberOfParallelCalls)
-                .Select(i => commandGroup.Create<AsyncRelayCommand>(() => task(i)))
+            var execution = new GatedExecution();
+            var commands = Enumerable.Range(1, NumberOfCommands)
+                .Select(_ => commandGroup.Create<AsyncRelayCommand>(() => execution.RunAsync()))
                 .ToArray();
 
             // Act
-            var tasks = commands
-                .Select(command => command.ExecuteAsync(null))
-                .ToArray();
-            await Task.WhenAll(tasks);
+            var first = commands[0].ExecuteAsync(null);
+            await execution.WaitUntilStartedAsync();
+            await Task.WhenAll(commands.Skip(1).Select(c => c.ExecuteAsync(null))).WaitAsync(Timeout);
+            execution.Release();
+            await first.WaitAsync(Timeout);
 
             // Assert
-            commands.Length.Should().Be(numberOfParallelCalls);
-            tasks.Length.Should().Be(numberOfParallelCalls);
-            counter.Should().Be(1);
+            execution.Count.Should().Be(1, "every command issued while the first one runs is skipped");
+            commandGroup.IsAnyRunning.Should().BeFalse();
         }
 
         [Fact]
         public async Task ShouldCreateAsyncRelayCommand_WithParameter_WithCanExecute()
         {
             // Arrange
-            const int numberOfParallelCalls = 1000;
             var commandGroup = new CommandGroup(null, new StaticMainThread());
-            var counter = 0;
-
-            Task task(int id)
-            {
-                return Task.Run(async () =>
-                {
-                    // Simulate a long running task here
-                    await Task.Delay(1000);
-
-                    // Access a shared resource, variable counter
-                    Interlocked.Increment(ref counter);
-                    this.testOutputHelper.WriteLine($"Run #{id}: \t\tcounter={counter}");
-                    return counter;
-                });
-            }
-
-            var commands = Enumerable.Range(1, numberOfParallelCalls)
-                .Select(id => (Id: id, Command: commandGroup.Create<AsyncRelayCommand<int>, int>(task, i => i % 2 == 0)))
+            var execution = new GatedExecution();
+            var commands = Enumerable.Range(1, NumberOfCommands)
+                .Select(id => (Id: id, Command: commandGroup.Create<AsyncRelayCommand<int>, int>(_ => execution.RunAsync(), i => i % 2 == 0)))
                 .ToArray();
 
-            // Act
-            var tasks = commands
-                .Select(c =>
-                {
-                    var canExecute = c.Command.CanExecute(c.Id);
-                    var executionTask = canExecute ? c.Command.ExecuteAsync(c.Id) : Task.CompletedTask;
-                    return (CanExecute: canExecute, ExecutionTask: executionTask);
-                })
-                .ToArray();
-            await Task.WhenAll(tasks.Select(t => t.ExecutionTask));
+            // Act - an AsyncRelayCommand cannot execute while it runs itself, so every command is asked before the first starts.
+            var canExecutes = commands.Select(c => c.Command.CanExecute(c.Id)).ToArray();
+            var first = commands[1].Command.ExecuteAsync(commands[1].Id);
+            await execution.WaitUntilStartedAsync();
+            var others = commands
+                .Where((_, i) => i != 1 && canExecutes[i])
+                .Select(c => c.Command.ExecuteAsync(c.Id));
+            await Task.WhenAll(others).WaitAsync(Timeout);
+            execution.Release();
+            await first.WaitAsync(Timeout);
 
             // Assert
-            commands.Length.Should().Be(numberOfParallelCalls);
-            tasks.Length.Should().Be(numberOfParallelCalls);
-            counter.Should().Be(1);
+            execution.Count.Should().Be(1, "every command issued while the first one runs is skipped");
+            canExecutes.Count(ce => ce).Should().Be(NumberOfCommands / 2);
+            canExecutes.Count(ce => !ce).Should().Be(NumberOfCommands / 2);
+        }
 
-            var canExecutes = tasks.Select(t => t.CanExecute).ToArray();
-            canExecutes.Count(ce => ce == true).Should().Be(canExecutes.Length / 2);
-            canExecutes.Count(ce => ce == false).Should().Be(canExecutes.Length / 2);
+        /// <summary>
+        /// Work which counts its runs and holds the first one until <see cref="Release"/>, so the test decides
+        /// when it ends instead of relying on how long a delay takes.
+        /// </summary>
+        private sealed class GatedExecution
+        {
+            private readonly TaskCompletionSource started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            private readonly TaskCompletionSource gate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            private int count;
+
+            public int Count => Volatile.Read(ref this.count);
+
+            public void Run()
+            {
+                this.Start();
+                this.gate.Task.Wait(Timeout);
+            }
+
+            public async Task RunAsync()
+            {
+                this.Start();
+                await this.gate.Task.WaitAsync(Timeout);
+            }
+
+            public Task WaitUntilStartedAsync()
+            {
+                return this.started.Task.WaitAsync(Timeout);
+            }
+
+            public void Release()
+            {
+                this.gate.TrySetResult();
+            }
+
+            private void Start()
+            {
+                Interlocked.Increment(ref this.count);
+                this.started.TrySetResult();
+            }
         }
     }
 }

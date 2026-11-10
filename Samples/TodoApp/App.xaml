@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="TodoApp.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:styles="clr-namespace:Superdev.Maui.Resources.Styles;assembly=Superdev.Maui">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:SuperdevMauiStyles />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--
+                The color configuration is the single place where this app defines its colors. All styles
+                of Superdev.Maui are derived from it, which is why the pages hardly contain any color.
+            -->
+            <s:ColorConfiguration
+                x:Key="ColorConfigurationLight"
+                Error="#FF1744"
+                OnPrimary="#FFFFFF"
+                PageBackgroundColor="#FFFFFF"
+                Primary="#5714AF"
+                Secondary="#17C2BC" />
+
+            <s:Theme
+                x:Key="TodoApp.Theme.Light"
+                ColorConfiguration="{StaticResource ColorConfigurationLight}" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

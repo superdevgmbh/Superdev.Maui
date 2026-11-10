@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,28 +8,27 @@ namespace Superdev.Maui.Extensions
     public static class StringExtensions
     {
         private const string HttpPrefix = "http://";
+        private static readonly TimeSpan LikeMatchTimeout = TimeSpan.FromSeconds(1);
 
         public static readonly char[] TrimNewLineChars = "\r\n".ToCharArray();
         public static readonly char[] TrimChars = "\r\n ".ToCharArray();
 
         /// <summary>
-        ///     To the unique identifier.
+        /// Determines whether <paramref name="source"/> matches the SQL LIKE pattern <paramref name="toFind"/>:
+        /// <c>%</c> matches any sequence of characters, <c>_</c> matches exactly one character,
+        /// and every other character matches itself. The comparison is case-sensitive.
         /// </summary>
-        /// <returns>Guid.</returns>
-        ////public static Guid ToGuid(this string src)
-        ////{
-        ////    byte[] stringbytes = Encoding.UTF8.GetBytes(src);
-        ////    byte[] hashedBytes = new System.Security.Cryptography.SHA1Managed().ComputeHash(stringbytes);
-        ////    Array.Resize(ref hashedBytes, 16);
-        ////    return new Guid(hashedBytes);
-        ////}
+        /// <param name="source">The string to match.</param>
+        /// <param name="toFind">The LIKE pattern.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="toFind"/> is null.</exception>
+        /// <exception cref="RegexMatchTimeoutException">The match takes longer than one second.</exception>
         public static bool Like(this string? source, string toFind)
         {
             ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(toFind);
 
-            return new Regex(@"\A" + new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\")
-                    .Replace(toFind, ch => @"\" + ch).Replace('_', '.').Replace("%", ".*") + @"\z", RegexOptions.Singleline)
-                .IsMatch(source);
+            var pattern = $@"\A{Regex.Escape(toFind).Replace("_", ".").Replace("%", ".*")}\z";
+            return Regex.IsMatch(source, pattern, RegexOptions.Singleline | RegexOptions.CultureInvariant, LikeMatchTimeout);
         }
 
         /// <summary>Returns a value indicating whether a specified substring <paramref name="value"/> occurs within the source string <paramref name="source"/>.</summary>
@@ -75,18 +75,14 @@ namespace Superdev.Maui.Extensions
         }
 
         /// <summary>
-        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="source"/>
+        /// Determines whether any of the given <paramref name="values"/> is a prefix of <paramref name="source"/>,
+        /// compared ordinally like <see cref="ContainsAny(string?, IEnumerable{string})"/>.
         /// </summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="values">The prefixes to look for.</param>
         public static bool StartsWithAny(this string? source, IEnumerable<string> values)
         {
-            ArgumentNullException.ThrowIfNull(values);
-
-            if (source == null)
-            {
-                return false;
-            }
-
-            return values.Any(source.StartsWith);
+            return source.StartsWithAny(values, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -105,18 +101,34 @@ namespace Superdev.Maui.Extensions
         }
 
         /// <summary>
-        /// Converts the first character of <paramref name="source"/> to upper case.
+        /// Converts the first character of <paramref name="source"/> to upper case, using the casing rules of the
+        /// invariant culture, so the result does not depend on the device's language.
         /// </summary>
+        /// <param name="source">The source string.</param>
         [return: NotNullIfNotNull(nameof(source))]
         public static string? ToUpperFirst(this string? source)
         {
+            return source.ToUpperFirst(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts the first character of <paramref name="source"/> to upper case, using the casing rules of
+        /// <paramref name="culture"/>. Use it for text in a known language, such as a culture's native name.
+        /// </summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="culture">The culture whose casing rules apply.</param>
+        [return: NotNullIfNotNull(nameof(source))]
+        public static string? ToUpperFirst(this string? source, CultureInfo culture)
+        {
+            ArgumentNullException.ThrowIfNull(culture);
+
             if (string.IsNullOrEmpty(source))
             {
                 return source;
             }
 
             var a = source.ToCharArray();
-            a[0] = char.ToUpper(a[0]);
+            a[0] = char.ToUpper(a[0], culture);
             return new string(a);
         }
 

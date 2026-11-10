@@ -22,20 +22,20 @@ namespace Superdev.Maui.Extensions
         {
             if (timeSpan.TotalMilliseconds >= 100)
             {
-                return $"{timeSpan.TotalSeconds:F1}{UnitSeconds}";
+                return string.Create(CultureInfo.InvariantCulture, $"{timeSpan.TotalSeconds:F1}{UnitSeconds}");
             }
 
             if (timeSpan.TotalMilliseconds >= 10)
             {
-                return $"{timeSpan.TotalSeconds:F2}{UnitSeconds}";
+                return string.Create(CultureInfo.InvariantCulture, $"{timeSpan.TotalSeconds:F2}{UnitSeconds}");
             }
 
             if (timeSpan.TotalMilliseconds >= 1)
             {
-                return $"{timeSpan.TotalSeconds:F3}{UnitSeconds}";
+                return string.Create(CultureInfo.InvariantCulture, $"{timeSpan.TotalSeconds:F3}{UnitSeconds}");
             }
 
-            return $"{timeSpan.TotalSeconds:F1}{UnitSeconds}";
+            return string.Create(CultureInfo.InvariantCulture, $"{timeSpan.TotalSeconds:F1}{UnitSeconds}");
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Superdev.Maui.Extensions
                 timeSpan != TimeSpan.MinValue &&
                 timeSpan != TimeSpan.MaxValue)
             {
-                if (TimeSpanFormats.Contains(format) || format.Contains("\\:"))
+                if (IsTimeSpanFormat(format))
                 {
                     formattedTime = timeSpan.ToString(format, cultureInfo);
                 }
@@ -212,6 +212,20 @@ namespace Superdev.Maui.Extensions
             }
 
             return formattedTime;
+        }
+
+        /// <summary>
+        /// A custom TimeSpan format escapes its separators ("hh\\:mm", "hh\\-mm") and knows neither the 24-hour
+        /// specifier nor AM/PM, which only exist in DateTime formats ("HH:mm", "h:mm tt").
+        /// </summary>
+        private static bool IsTimeSpanFormat(string format)
+        {
+            if (TimeSpanFormats.Contains(format))
+            {
+                return true;
+            }
+
+            return format.Contains('\\') && !format.Contains('H') && !format.Contains('t');
         }
     }
 }

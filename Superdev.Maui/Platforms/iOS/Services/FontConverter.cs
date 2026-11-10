@@ -1,11 +1,15 @@
-using System.Diagnostics;
 using Foundation;
-using Microsoft.Extensions.Logging;
 using Superdev.Maui.Services;
 using UIKit;
 
 namespace Superdev.Maui.Platforms.Services
 {
+    /// <summary>
+    /// Leaves font sizes unscaled, like the Android converter: MAUI already applies the iOS text size (Dynamic Type)
+    /// to every control whose <c>FontAutoScalingEnabled</c> is on, which is the default, so scaling the theme's sizes
+    /// here as well would apply it twice. <see cref="IFontConverter.FontScalingChanged"/> is still raised when the
+    /// user changes the text size.
+    /// </summary>
     public class FontConverter : FontConverterBase, IDisposable
     {
         private static readonly Lazy<IFontConverter> Implementation = new Lazy<IFontConverter>(CreateInstance, LazyThreadSafetyMode.PublicationOnly);
@@ -17,30 +21,23 @@ namespace Superdev.Maui.Platforms.Services
             return new FontConverter();
         }
 
-        private readonly ILogger logger;
-        private static readonly NSString UiContentSizeCategoryDidChangeNotificationKey = (NSString)"UIContentSizeCategoryDidChangeNotification";
+        private NSObject? contentSizeCategoryObserver;
 
-        private FontConverter() : base()
+        private FontConverter()
         {
-            this.logger = IPlatformApplication.Current!.Services.GetRequiredService<ILogger<FontConverter>>();
-            NSNotificationCenter.DefaultCenter.AddObserver(UiContentSizeCategoryDidChangeNotificationKey, (n) =>
-            {
-                this.RaiseFontScalingChangedEvent();
-            });
-        }
-
-        public override double GetScaledFontSize(double fontSize)
-        {
-            var scaledFontSize = UIFontMetrics.DefaultMetrics.GetScaledValue((nfloat)fontSize);
-#if DEBUG
-            this.logger.LogDebug($"GetScaledFontSize: {fontSize} -> {scaledFontSize} (scale factor: {(scaledFontSize / fontSize):F2}x)");
-#endif
-            return scaledFontSize;
+            this.contentSizeCategoryObserver = NSNotificationCenter.DefaultCenter.AddObserver(
+                UIApplication.ContentSizeCategoryChangedNotification,
+                _ => this.RaiseFontScalingChangedEvent());
         }
 
         public override void Dispose()
         {
-            NSNotificationCenter.DefaultCenter.RemoveObserver(UiContentSizeCategoryDidChangeNotificationKey);
+            if (this.contentSizeCategoryObserver != null)
+            {
+                NSNotificationCenter.DefaultCenter.RemoveObserver(this.contentSizeCategoryObserver);
+                this.contentSizeCategoryObserver = null;
+            }
+
             base.Dispose();
         }
     }

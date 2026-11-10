@@ -61,18 +61,26 @@ namespace Superdev.Maui.Mvvm
         {
             ArgumentNullException.ThrowIfNull(command);
 
-            return this.CreateCommand<object>(
+            var wrapper = this.CreateCommand<object>(
                 _ => command.Execute(null),
                 _ => command.CanExecute(null));
+
+            // The wrapped command decides whether it can execute, so its notification has to reach the
+            // bindings of the wrapper; otherwise a bound button stays enabled or disabled.
+            command.CanExecuteChanged += (_, _) => wrapper.ChangeCanExecute();
+            return wrapper;
         }
 
         public Command<TParameter?> CreateCommand<TParameter>(ICommand command)
         {
             ArgumentNullException.ThrowIfNull(command);
 
-            return this.CreateCommand<TParameter>(
+            var wrapper = this.CreateCommand<TParameter>(
                 p => command.Execute(p),
                 p => command.CanExecute(p));
+
+            command.CanExecuteChanged += (_, _) => wrapper.ChangeCanExecute();
+            return wrapper;
         }
 
         public Command CreateCommand(Action execute)
@@ -264,6 +272,13 @@ namespace Superdev.Maui.Mvvm
 
         private void SafeFireAndForget(Task task)
         {
+            if (task.IsFaulted)
+            {
+                // The work already failed synchronously, e.g. a synchronous execute delegate threw: the exception
+                // surfaces to the caller of Execute, exactly as it does with a plain Command.
+                ExceptionDispatchInfo.Capture(task.Exception!.InnerException ?? task.Exception).Throw();
+            }
+
             task.ContinueWith(
                 t =>
                 {

@@ -1,4 +1,4 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Microsoft.Extensions.Logging;
 using Superdev.Maui.Mvvm;
 
@@ -13,6 +13,8 @@ namespace SuperdevMauiDemoApp.ViewModels
         private IDictionary<string, string> headers = new Dictionary<string, string>();
         private Command<WebNavigatingEventArgs>? navigatingCommand;
         private Command<WebNavigatedEventArgs>? navigatedCommand;
+        private bool allowMixedContent;
+        private HtmlWebViewSource? mixedContentSource;
 
         public WebViewDemoViewModel(
             ILogger<WebViewDemoViewModel> logger,
@@ -20,20 +22,11 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             this.logger = logger;
             this.viewModelErrorHandler = viewModelErrorHandler;
-
-            _ = this.InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()
@@ -45,6 +38,7 @@ namespace SuperdevMauiDemoApp.ViewModels
             {
                 this.Headers = new Dictionary<string, string> { { "Accept-Language", "fr" } };
                 this.Url = "https://www.google.com";
+                this.MixedContentSource = CreateMixedContentSource();
             }
             catch (Exception ex)
             {
@@ -65,6 +59,47 @@ namespace SuperdevMauiDemoApp.ViewModels
         {
             get => this.headers;
             set => this.SetProperty(ref this.headers, value);
+        }
+
+        public bool AllowMixedContent
+        {
+            get => this.allowMixedContent;
+            set
+            {
+                if (this.SetProperty(ref this.allowMixedContent, value))
+                {
+                    // Reloads the page, so that its image request runs under the new setting.
+                    this.MixedContentSource = CreateMixedContentSource();
+                }
+            }
+        }
+
+        public HtmlWebViewSource? MixedContentSource
+        {
+            get => this.mixedContentSource;
+            private set => this.SetProperty(ref this.mixedContentSource, value);
+        }
+
+        /// <summary>
+        /// A page with an https address which loads an image over http. Android blocks the image as mixed content
+        /// unless <see cref="AllowMixedContent" /> is on; iOS loads it either way, since it has no such setting.
+        /// </summary>
+        private static HtmlWebViewSource CreateMixedContentSource()
+        {
+            return new HtmlWebViewSource
+            {
+                BaseUrl = "https://www.google.com/",
+                Html = """
+                    <html>
+                    <body style="font-family: sans-serif">
+                    <p id="result">http image: loading</p>
+                    <img src="http://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="display: none"
+                         onload="document.getElementById('result').textContent = 'http image: loaded'"
+                         onerror="document.getElementById('result').textContent = 'http image: not loaded'">
+                    </body>
+                    </html>
+                    """
+            };
         }
 
         public ICommand NavigatingCommand

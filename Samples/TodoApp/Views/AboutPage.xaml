@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TodoApp.Views.AboutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:TodoApp.ViewModels"
+    Title="{Binding Title}"
+    x:DataType="vm:AboutViewModel">
+
+    <VerticalStackLayout
+        Padding="{DynamicResource Theme.Padding.Large}"
+        Spacing="{DynamicResource Theme.Spacing.Medium}">
+        <Label Text="This sample app shows how a small .NET MAUI app is built with Superdev.Maui." />
+        <Label Text="{Binding PackageName, StringFormat='Package name: {0}'}" />
+        <Label Text="{Binding AppVersion, StringFormat='App version: {0}'}" />
+        <Label Text="{Binding DeviceModel, StringFormat='Device model: {0}'}" />
+
+        <!--
+            Both buttons switch to the other tab through INavigationService, which is how a flow ends up
+            on a tab the user did not tap: the first selects it, the second selects it and pushes a page
+            onto its navigation stack.
+        -->
+        <Button
+            Margin="0,16,0,0"
+            Command="{Binding ShowTodosCommand}"
+            Text="Show todos" />
+        <Button
+            Command="{Binding OpenNewestTodoCommand}"
+            Text="Open the newest todo" />
+    </VerticalStackLayout>
+</ContentPage>

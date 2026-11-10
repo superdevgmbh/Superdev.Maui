@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage
+    x:Class="TodoApp.Views.TabbedMainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    xmlns:views="clr-namespace:TodoApp.Views"
+    Title="TodoApp"
+    android:TabbedPage.ToolbarPlacement="Bottom">
+
+    <!--
+        The tabs are declared statically in XAML. Each of them is wrapped in a navigation page, so that
+        every tab has its own navigation stack. INavigationService.SelectTabAsync selects a tab by the
+        navigation name of the page it hosts.
+
+        The navigation pages are CustomNavigationPage, not NavigationPage: it routes the Android hardware
+        back button through the navigation service, so that a guarded page - the todo detail page with
+        unsaved changes - is asked before it is popped. A plain NavigationPage pops without asking.
+    -->
+    <s:CustomNavigationPage
+        x:Name="TodosTab"
+        Title="Todos"
+        IconImageSource="ic_todo">
+        <x:Arguments>
+            <views:MainPage />
+        </x:Arguments>
+    </s:CustomNavigationPage>
+
+    <s:CustomNavigationPage
+        x:Name="AboutTab"
+        Title="About"
+        IconImageSource="ic_about">
+        <x:Arguments>
+            <views:AboutPage />
+        </x:Arguments>
+    </s:CustomNavigationPage>
+
+</TabbedPage>

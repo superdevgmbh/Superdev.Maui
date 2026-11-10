@@ -10,6 +10,9 @@ namespace Superdev.Maui.Platforms.Handlers.MauiFix
     /// </summary>
     /// <remarks>
     /// Original source: https://github.com/dotnet/maui/issues/14257#issuecomment-1646408225
+    /// The issue was closed in August 2026 without a linked fix, so no MAUI release is known to contain one.
+    /// Keep this handler until a release does and the library's minimum MAUI version has reached it.
+    /// It relies on the tag MAUI gives its internal content container.
     /// </remarks>
     public class ScrollViewFixHandler : ScrollViewHandler
     {

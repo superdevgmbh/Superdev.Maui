@@ -28,7 +28,6 @@
                 MaxLines="3"
                 Placeholder="Placeholder of ValidatableEditor (inside user control)"
                 Text="{Binding Notes, Mode=TwoWay}"
-                ValidationErrors="{Binding Errors[Notes]}"
                 HorizontalOptions="FillAndExpand" />
             <Label
                 Grid.Row="1"

@@ -3,5 +3,12 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <!--
+      An event which is declared but never raised is a public API that cannot work. The theme-changed
+      event shipped in exactly that state, so this category is promoted to an error to keep it out.
+      Grow this list as other warning categories are brought to zero.
+    -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS0067</WarningsAsErrors>
   </PropertyGroup>
 </Project>

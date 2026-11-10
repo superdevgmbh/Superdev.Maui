@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.ScrollViewDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:s="http://schemas.superdev.ch/dotnet/2021/maui"
+    Title="ScrollViewDemoPage">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*">
+        <Grid
+            Grid.Row="0"
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            ColumnDefinitions="*,Auto"
+            RowDefinitions="Auto,Auto"
+            RowSpacing="{DynamicResource Theme.Spacing.Small}">
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{DynamicResource EntryLabelStyle}"
+                Text="IsScrollEnabled" />
+            <Switch
+                x:Name="ScrollSwitch"
+                Grid.Row="0"
+                Grid.Column="1"
+                IsToggled="True" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{DynamicResource EntryLabelStyle}"
+                Text="IsBounceEnabled" />
+            <Switch
+                x:Name="BounceSwitch"
+                Grid.Row="1"
+                Grid.Column="1"
+                IsToggled="True" />
+        </Grid>
+
+        <Label
+            Grid.Row="1"
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Style="{StaticResource DemoLabelStyle}"
+            Text="Horizontal CustomScrollView" />
+        <s:CustomScrollView
+            Grid.Row="2"
+            IsBounceEnabled="{Binding IsToggled, Source={x:Reference BounceSwitch}}"
+            IsScrollEnabled="{Binding IsToggled, Source={x:Reference ScrollSwitch}}"
+            Orientation="Horizontal">
+            <HorizontalStackLayout>
+                <Label
+                    BackgroundColor="LightGreen"
+                    Text="Label Green &gt;&gt;&gt;"
+                    WidthRequest="333" />
+                <Label
+                    BackgroundColor="LightCoral"
+                    Text="&lt;&lt;&lt; Label Red &gt;&gt;&gt;"
+                    WidthRequest="333" />
+                <Label
+                    BackgroundColor="LightBlue"
+                    Text="&lt;&lt;&lt; Label Blue"
+                    WidthRequest="333" />
+            </HorizontalStackLayout>
+        </s:CustomScrollView>
+
+        <s:CustomScrollView
+            Grid.Row="3"
+            IsBounceEnabled="{Binding IsToggled, Source={x:Reference BounceSwitch}}"
+            IsScrollEnabled="{Binding IsToggled, Source={x:Reference ScrollSwitch}}">
+            <VerticalStackLayout
+                Padding="{DynamicResource Theme.Padding.Medium}"
+                Spacing="{DynamicResource Theme.Spacing.Medium}">
+                <Label
+                    Style="{StaticResource DemoLabelStyle}"
+                    Text="Vertical CustomScrollView" />
+                <Label Text="Drag the content past its top or bottom edge: it stretches on Android and bounces on iOS while IsBounceEnabled is on, and stops at the edge while it is off. While IsScrollEnabled is off, neither scroll view moves." />
+                <BoxView
+                    BackgroundColor="LightGreen"
+                    HeightRequest="160" />
+                <BoxView
+                    BackgroundColor="LightCoral"
+                    HeightRequest="160" />
+                <BoxView
+                    BackgroundColor="LightBlue"
+                    HeightRequest="160" />
+                <BoxView
+                    BackgroundColor="LightGreen"
+                    HeightRequest="160" />
+                <BoxView
+                    BackgroundColor="LightCoral"
+                    HeightRequest="160" />
+                <BoxView
+                    BackgroundColor="LightBlue"
+                    HeightRequest="160" />
+            </VerticalStackLayout>
+        </s:CustomScrollView>
+    </Grid>
+</ContentPage>

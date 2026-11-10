@@ -8,11 +8,13 @@ namespace Superdev.Maui.Mvvm
     public class ViewModelErrorRegistry : IViewModelErrorRegistry, IViewModelErrorHandler
     {
         private readonly ResettableLazy<ILogger<IViewModelErrorHandler>> lazyLogger;
-        private ILogger<IViewModelErrorHandler> logger => this.lazyLogger.Value;
+        private ILogger<IViewModelErrorHandler> Logger => this.lazyLogger.Value;
 
+        private readonly object syncRoot = new object();
         private readonly Dictionary<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)> viewModelErrorFactories = new Dictionary<Func<Exception, bool>, (int, Func<ViewModelError>)>();
 
-        private Func<Exception, ViewModelError> defaultViewModelErrorFactory = ex => new ViewModelError(null, ex.Message, $"{ex}");
+        // The error is shown to the user, so it carries the message and the exception type only; the full exception goes to the log.
+        private Func<Exception, ViewModelError> defaultViewModelErrorFactory = ex => new ViewModelError(null, ex.Message, ex.GetType().GetFormattedName());
 
         private static readonly Lazy<ViewModelErrorRegistry> Implementation = new Lazy<ViewModelErrorRegistry>(
             () => new ViewModelErrorRegistry(),
@@ -59,16 +61,31 @@ namespace Superdev.Maui.Mvvm
         /// <inheritdoc />
         public void RegisterException(Func<Exception, bool> exceptionFilter, Func<ViewModelError> viewModelErrorFactory, int priority)
         {
-            this.viewModelErrorFactories.Remove(exceptionFilter);
-            this.viewModelErrorFactories.Add(exceptionFilter, (priority, viewModelErrorFactory));
+            ArgumentNullException.ThrowIfNull(exceptionFilter);
+            ArgumentNullException.ThrowIfNull(viewModelErrorFactory);
+
+            lock (this.syncRoot)
+            {
+                this.viewModelErrorFactories.Remove(exceptionFilter);
+                this.viewModelErrorFactories.Add(exceptionFilter, (priority, viewModelErrorFactory));
+            }
         }
 
         /// <inheritdoc />
         public ViewModelError FromException(Exception exception)
         {
+            ArgumentNullException.ThrowIfNull(exception);
+
             var innerExceptionsWithDepth = exception.GetInnerExceptionsWithDepth().ToArray();
 
-            var matches = this.viewModelErrorFactories
+            KeyValuePair<Func<Exception, bool>, (int Priority, Func<ViewModelError> ViewModelErrorFactory)>[] factories;
+            lock (this.syncRoot)
+            {
+                // A snapshot: a registration from another thread must not break the enumeration.
+                factories = this.viewModelErrorFactories.ToArray();
+            }
+
+            var matches = factories
                 .Select(factory =>
                 {
                     var matchedExceptions = innerExceptionsWithDepth
@@ -93,7 +110,7 @@ namespace Superdev.Maui.Mvvm
                     .ThenBy(x => x.MatchCount)
                     .ToArray();
 
-                this.logger.LogDebug(
+                this.Logger.LogDebug(
                     $"FromException found {matches.Count} " +
                     $"{(matches.Count == 1 ? "viewModelErrorFactory" : "viewModelErrorFactories")} " +
                     $"for exception of type {exception.GetType().GetFormattedName()}" +
@@ -106,6 +123,8 @@ namespace Superdev.Maui.Mvvm
 
             if (this.defaultViewModelErrorFactory is Func<Exception, ViewModelError> defaultFactory)
             {
+                // The default error shows the message only, so the stack trace is kept here.
+                this.Logger.LogWarning(exception, "No ViewModelError factory is registered for {ExceptionType}; the default factory is used", exception.GetType().GetFormattedName());
                 return defaultFactory(exception);
             }
 

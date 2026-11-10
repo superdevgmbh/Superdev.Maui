@@ -1,5 +1,8 @@
 ﻿namespace Superdev.Maui.Controls
 {
+    /// <summary>
+    /// A <see cref="ScrollView"/> whose scrolling, bouncing and scroll bars can be switched off.
+    /// </summary>
     public class CustomScrollView : ScrollView
     {
         public static readonly BindableProperty IsScrollEnabledProperty =
@@ -7,10 +10,11 @@
                 nameof(IsScrollEnabled),
                 typeof(bool),
                 typeof(CustomScrollView),
-                false);
+                true);
 
         /// <summary>
-        /// Enables or disables the scrollability via input gestures of this ScrollView.
+        /// Enables or disables scrolling by touch, in either orientation. Scrolling from code still works.
+        /// Default: <c>true</c>.
         /// </summary>
         public bool IsScrollEnabled
         {
@@ -26,7 +30,8 @@
                 false);
 
         /// <summary>
-        /// Enables or disables the bouncing effect.
+        /// Enables or disables the bounce at the content's edges on iOS and the overscroll effect on Android.
+        /// Default: <c>false</c>, unlike the platforms' own scroll views.
         /// </summary>
         public bool IsBounceEnabled
         {

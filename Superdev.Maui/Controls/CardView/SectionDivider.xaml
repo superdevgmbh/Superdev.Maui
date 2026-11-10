@@ -16,7 +16,7 @@
     </ContentView.Padding>
     <ContentView.Content>
         <BoxView
-            BackgroundColor="{DynamicResource CardViewDividerColor}"
+            BackgroundColor="{DynamicResource CardViewStyle.DividerColor}"
             HorizontalOptions="FillAndExpand">
             <BoxView.HeightRequest>
                 <OnPlatform x:TypeArguments="x:Double">

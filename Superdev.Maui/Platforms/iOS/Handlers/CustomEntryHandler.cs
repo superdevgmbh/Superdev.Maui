@@ -27,29 +27,26 @@ namespace Superdev.Maui.Platforms.Handlers
 
         private static void MapTextContentType(CustomEntryHandler handler, CustomEntry customEntry)
         {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            var (textContentType, keyboardType, autocapitalizationType, autocorrectionType) = MapTextContentType(customEntry.TextContentType);
+
+            if (textContentType != null)
             {
-                var (textContentType, keyboardType, autocapitalizationType, autocorrectionType) = MapTextContentType(customEntry.TextContentType);
+                handler.PlatformView.TextContentType = textContentType;
+            }
 
-                if (textContentType != null)
-                {
-                    handler.PlatformView.TextContentType = textContentType;
-                }
+            if (keyboardType != null)
+            {
+                handler.PlatformView.KeyboardType = keyboardType.Value;
+            }
 
-                if (keyboardType != null)
-                {
-                    handler.PlatformView.KeyboardType = keyboardType.Value;
-                }
+            if (autocapitalizationType != null)
+            {
+                handler.PlatformView.AutocapitalizationType = autocapitalizationType.Value;
+            }
 
-                if (autocapitalizationType != null)
-                {
-                    handler.PlatformView.AutocapitalizationType = autocapitalizationType.Value;
-                }
-
-                if (autocorrectionType != null)
-                {
-                    handler.PlatformView.AutocorrectionType = autocorrectionType.Value;
-                }
+            if (autocorrectionType != null)
+            {
+                handler.PlatformView.AutocorrectionType = autocorrectionType.Value;
             }
         }
 

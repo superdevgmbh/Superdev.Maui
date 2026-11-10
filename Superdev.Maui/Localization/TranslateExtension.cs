@@ -135,9 +135,20 @@ namespace Superdev.Maui.Localization
             return null;
         }
 
-        public event EventHandler<LanguageChangingEventArgs>? LanguageChanging;
+        // A null localizer never changes language, so these events are deliberately never raised.
+        // They are declared with explicit accessors, so that "event is never used" stays a real signal
+        // for events which were meant to be raised and are not.
+        public event EventHandler<LanguageChangingEventArgs>? LanguageChanging
+        {
+            add { }
+            remove { }
+        }
 
-        public event EventHandler<LanguageChangedEventArgs>? LanguageChanged;
+        public event EventHandler<LanguageChangedEventArgs>? LanguageChanged
+        {
+            add { }
+            remove { }
+        }
 
         public void Reset()
         {

@@ -8,8 +8,12 @@ namespace SuperdevMauiDemoApp
 {
     public partial class App : Application
     {
-        public App()
+        private readonly INavigationService navigationService;
+
+        public App(INavigationService navigationService)
         {
+            this.navigationService = navigationService;
+
             EmbeddedResourceExtension.Init(typeof(App).Assembly);
             this.InitializeComponent();
 
@@ -27,8 +31,9 @@ namespace SuperdevMauiDemoApp
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            var mainPage = IPageResolver.Current.ResolvePage("MainPage");
-            return new Window(new NavigationPage(mainPage));
+            // The navigation service creates the page tree, so that the pages and their view models
+            // get their service scope and their lifecycle callbacks just like any navigated page.
+            return this.navigationService.CreateWindow("/NavigationPage/MainPage");
         }
 
         protected override void OnStart()

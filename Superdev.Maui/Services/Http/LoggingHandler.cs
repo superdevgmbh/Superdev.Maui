@@ -13,6 +13,10 @@ namespace Superdev.Maui.Services.Http
         private readonly ILogger logger;
         private readonly LoggingHandlerOptions options;
 
+        /// <summary>
+        /// Global kill switch for this handler. Body logging is configured per instance through
+        /// <see cref="LoggingHandlerOptions.LogContent" />.
+        /// </summary>
         public static bool Enabled = Debugger.IsAttached;
 
         public LoggingHandler(ILogger<LoggingHandler> logger, HttpMessageHandler innerHandler)
@@ -29,27 +33,36 @@ namespace Superdev.Maui.Services.Http
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug(await this.FormatHttpRequestLogMessageAsync(request));
+            // Nothing below is free: the header formatting alone allocates per request, so it must not
+            // run when the log level would discard the result anyway.
+            if (!Enabled || !this.logger.IsEnabled(LogLevel.Debug))
+            {
+                return await base.SendAsync(request, cancellationToken);
+            }
+
+            this.logger.LogDebug("{HttpRequest}", await this.FormatHttpRequestLogMessageAsync(request, cancellationToken));
 
             var stopwatch = Stopwatch.StartNew();
 
             var response = await base.SendAsync(request, cancellationToken);
 
-            this.logger.LogDebug(await this.FormatHttpResponseLogMessageAsync(response, stopwatch.Elapsed));
+            this.logger.LogDebug(
+                "{HttpResponse}", await this.FormatHttpResponseLogMessageAsync(response, stopwatch.Elapsed, cancellationToken));
             return response;
         }
 
-        private async Task<string> FormatHttpRequestLogMessageAsync(HttpRequestMessage httpRequestMessage)
+        private async Task<string> FormatHttpRequestLogMessageAsync(
+            HttpRequestMessage httpRequestMessage, CancellationToken cancellationToken)
         {
             var headers = this.FormatHeaders(httpRequestMessage.Headers, httpRequestMessage.Content?.Headers);
 
             var requestMessage =
-                $"{httpRequestMessage.Method} {httpRequestMessage.RequestUri}{Environment.NewLine}" +
+                $"{httpRequestMessage.Method} {this.FormatRequestUri(httpRequestMessage.RequestUri)}{Environment.NewLine}" +
                 $"> Request Headers:{Environment.NewLine}{headers}";
 
-            if (Enabled)
+            if (this.options.LogContent)
             {
-                var content = await this.FormatContentAsync(httpRequestMessage.Content);
+                var content = await this.FormatContentAsync(httpRequestMessage.Content, cancellationToken);
                 requestMessage += Environment.NewLine +
                                   $"> Request Content: {content}";
             }
@@ -57,14 +70,35 @@ namespace Superdev.Maui.Services.Http
             return requestMessage;
         }
 
-        private async Task<string> FormatHttpResponseLogMessageAsync(HttpResponseMessage httpResponseMessage, TimeSpan stopwatchElapsed)
+        /// <summary>
+        /// Formats a request URI for the log. The query string is redacted unless
+        /// <see cref="LoggingHandlerOptions.LogQueryString" /> is set, because API keys and signed-URL
+        /// tokens are carried there.
+        /// </summary>
+        private string FormatRequestUri(Uri? requestUri)
         {
-            if (Enabled && httpResponseMessage.Content is HttpContent httpContent)
+            if (requestUri == null)
             {
-                // LoadIntoBufferAsync is used to load the content into a memory stream.
-                // This is usually done automatically. However, if we want to log the content
-                // and the content headers, we have to call this method manually.
-                await httpContent.LoadIntoBufferAsync();
+                return "<RequestUri?>";
+            }
+
+            if (this.options.LogQueryString || !requestUri.IsAbsoluteUri || string.IsNullOrEmpty(requestUri.Query))
+            {
+                return requestUri.ToString();
+            }
+
+            return $"{requestUri.GetLeftPart(UriPartial.Path)}?{{redacted}}";
+        }
+
+        private async Task<string> FormatHttpResponseLogMessageAsync(
+            HttpResponseMessage httpResponseMessage, TimeSpan stopwatchElapsed, CancellationToken cancellationToken)
+        {
+            if (httpResponseMessage.Content is HttpContent httpContent && this.ShouldLogContent(httpContent))
+            {
+                // LoadIntoBufferAsync loads the content into a memory stream, which is what makes it
+                // readable twice. The media type is checked first, so that a large download or an
+                // open-ended stream is not buffered only to be logged as a placeholder.
+                await httpContent.LoadIntoBufferAsync(cancellationToken);
             }
 
             var httpStatusCode = httpResponseMessage.StatusCode;
@@ -81,7 +115,7 @@ namespace Superdev.Maui.Services.Http
             else
             {
                 httpMethod = httpRequestMessage.Method.ToString();
-                requestUri = httpRequestMessage.RequestUri?.ToString() ?? "<RequestUri?>";
+                requestUri = this.FormatRequestUri(httpRequestMessage.RequestUri);
             }
 
             var responseMessage =
@@ -90,9 +124,9 @@ namespace Superdev.Maui.Services.Http
                 $"> Duration: {stopwatchElapsed.TotalSeconds:F3}{Environment.NewLine}" +
                 $"> Response Headers:{Environment.NewLine}{headers}";
 
-            if (Enabled)
+            if (this.options.LogContent)
             {
-                var content = await this.FormatContentAsync(httpResponseMessage.Content);
+                var content = await this.FormatContentAsync(httpResponseMessage.Content, cancellationToken);
                 responseMessage += Environment.NewLine +
                                    $"> Response Content: {content}";
             }
@@ -100,7 +134,7 @@ namespace Superdev.Maui.Services.Http
             return responseMessage;
         }
 
-        private async Task<string> FormatContentAsync(HttpContent? httpContent)
+        private async Task<string> FormatContentAsync(HttpContent? httpContent, CancellationToken cancellationToken)
         {
             string formattedContent;
 
@@ -108,20 +142,32 @@ namespace Superdev.Maui.Services.Http
             {
                 formattedContent = "null";
             }
+            else if (this.ShouldLogContent(httpContent))
+            {
+                formattedContent = await httpContent.ReadAsStringAsync(cancellationToken);
+
+                if (this.options.MaxContentLength >= 0 && formattedContent.Length > this.options.MaxContentLength)
+                {
+                    formattedContent =
+                        $"{formattedContent[..this.options.MaxContentLength]}… ({formattedContent.Length} characters, truncated)";
+                }
+            }
             else
             {
-                var mediaType = httpContent.Headers.ContentType?.MediaType;
-                if (this.IsContentLoggingEnabled(mediaType))
-                {
-                    formattedContent = await httpContent.ReadAsStringAsync();
-                }
-                else
-                {
-                    formattedContent = $"{{{httpContent.GetType().Name}, {ByteFormatter.GetNamedSize(httpContent.Headers.ContentLength ?? 0L)}}}";
-                }
+                formattedContent = $"{{{httpContent.GetType().Name}, {ByteFormatter.GetNamedSize(httpContent.Headers.ContentLength ?? 0L)}}}";
             }
 
             return formattedContent;
+        }
+
+        /// <summary>
+        /// Determines whether the body of <paramref name="httpContent" /> is logged inline.
+        /// </summary>
+        private bool ShouldLogContent(HttpContent? httpContent)
+        {
+            return this.options.LogContent &&
+                   httpContent?.Headers != null &&
+                   this.IsContentLoggingEnabled(httpContent.Headers.ContentType?.MediaType);
         }
 
         /// <summary>

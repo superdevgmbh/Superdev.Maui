@@ -3,13 +3,14 @@ using System.Windows.Input;
 using Superdev.Maui.Controls;
 using Superdev.Maui.Extensions;
 using Superdev.Maui.Mvvm;
+using Superdev.Maui.Navigation;
 using Superdev.Maui.Services;
 using SuperdevMauiDemoApp.Model;
 using SuperdevMauiDemoApp.Services;
 
 namespace SuperdevMauiDemoApp.ViewModels
 {
-    public class CollectionViewDemoViewModel : BaseViewModel
+    public class CollectionViewDemoViewModel : BaseViewModel, INavigatedTo
     {
         private readonly IViewModelErrorHandler viewModelErrorHandler;
         private readonly IDialogService dialogService;
@@ -28,8 +29,18 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.countryService = countryService;
 
             this.countries = new ObservableCollection<CountryViewModel>();
+        }
 
-            _ = this.LoadData();
+        /// <summary>
+        /// Loads the countries once the page is shown. A collection view drops a scroll request which arrives
+        /// before its handler exists, so the initial scroll has to wait for the page as well.
+        /// </summary>
+        public async Task NavigatedToAsync(NavigationDirection navigationDirection)
+        {
+            if (navigationDirection == NavigationDirection.Forward)
+            {
+                await this.LoadData();
+            }
         }
 
         private async Task LoadData()
@@ -46,13 +57,13 @@ namespace SuperdevMauiDemoApp.ViewModels
                     .Prepend(defaultCountryViewModel)
                     .ToObservableCollection();
 
-                await Task.Delay(200); // Wait until binding from Countries to CollectionView has finished
+                // Not animated: an animated scroll binds every row on its way to the target.
                 this.ScrollToCountry = null;
                 this.ScrollToCountry = new ScrollToItem
                 {
                     Item = this.Countries.SingleOrDefault(c => c.Id == 50),
                     Position = Microsoft.Maui.Controls.ScrollToPosition.Center,
-                    Animated = true
+                    Animated = false
                 };
             }
             catch (Exception ex)

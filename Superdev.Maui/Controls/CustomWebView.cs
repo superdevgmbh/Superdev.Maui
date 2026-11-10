@@ -69,6 +69,28 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(HeadersProperty, value);
         }
         
+        /// <summary>
+        /// Allows a page loaded over HTTPS to load resources over HTTP. Off by default, which is the
+        /// platform default as well.
+        /// </summary>
+        /// <remarks>
+        /// Turning this on lets an attacker on the network replace scripts and styles inside an otherwise
+        /// secure page, so it is worth doing only for a known host which cannot yet serve everything over
+        /// HTTPS. This has no effect on iOS, where the web view offers no equivalent setting.
+        /// </remarks>
+        public static readonly BindableProperty AllowMixedContentProperty = BindableProperty.Create(
+            nameof(AllowMixedContent),
+            typeof(bool),
+            typeof(CustomWebView),
+            false);
+
+        /// <inheritdoc cref="AllowMixedContentProperty" />
+        public bool AllowMixedContent
+        {
+            get => (bool)this.GetValue(AllowMixedContentProperty);
+            set => this.SetValue(AllowMixedContentProperty, value);
+        }
+
         public static readonly BindableProperty NavigatingCommandProperty = BindableProperty.Create(
             nameof(NavigatingCommand),
             typeof(ICommand),
@@ -91,6 +113,15 @@ namespace Superdev.Maui.Controls
             set => this.SetValue(NavigatedCommandProperty, value);
         }
 
+        /// <summary>
+        /// Detaches the forwarding of <see cref="WebView.Navigating" /> and <see cref="WebView.Navigated" />
+        /// to <see cref="NavigatingCommand" /> and <see cref="NavigatedCommand" />.
+        /// </summary>
+        /// <remarks>
+        /// The subscriptions are to this instance's own events, so they keep nothing else alive and
+        /// disposing is not required. Once disposed, the commands are no longer raised and the control
+        /// cannot be reused.
+        /// </remarks>
         public void Dispose()
         {
             this.Navigating -= this.OnNavigating;

@@ -9,7 +9,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         public LanguageViewModel(CultureInfo cultureInfo)
         {
             this.Dto = cultureInfo;
-            this.NativeName = cultureInfo.NativeName.ToUpperFirst();
+            this.NativeName = cultureInfo.NativeName.ToUpperFirst(cultureInfo);
             this.DisplayName = cultureInfo.DisplayName.ToUpperFirst();
         }
 

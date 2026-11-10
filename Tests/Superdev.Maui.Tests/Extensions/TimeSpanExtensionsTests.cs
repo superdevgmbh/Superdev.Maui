@@ -109,6 +109,10 @@ namespace Superdev.Maui.Tests.Extensions
 
                 // Custom separator format
                 this.Add(TimeSpan.FromHours(2) + TimeSpan.FromMinutes(5), "hh\\-mm", "02-05");
+                this.Add(TimeSpan.FromHours(13) + TimeSpan.FromMinutes(45), "hh\\-mm", "13-45");
+
+                // Escaped separator in a DateTime format (24-hour specifier)
+                this.Add(TimeSpan.FromHours(13) + TimeSpan.FromMinutes(45), "HH\\:mm", "13:45");
 
                 // Multi-day TimeSpan
                 this.Add(TimeSpan.FromDays(1) + TimeSpan.FromHours(2) + TimeSpan.FromMinutes(30), "g", "1:2:30:00");

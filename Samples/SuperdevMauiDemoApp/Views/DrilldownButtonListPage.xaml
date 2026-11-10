@@ -46,12 +46,12 @@
                                         Command="{Binding DisplayAlertCommand}"
                                         ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsEnabled="True"
-                                        Title="DrilldownButtonCell (Enabled)" />
+                                        Title="DrilldownButtonItemTemplate (Enabled)" />
                                     <s:DrilldownButtonView
                                         Command="{Binding DisplayAlertCommand}"
                                         ImageSource="{s:ImageResource chevron_right_grey_192x192}"
                                         IsEnabled="False"
-                                        Title="DrilldownButtonCell (Disabled)" />
+                                        Title="DrilldownButtonItemTemplate (Disabled)" />
                                     <s:DrilldownButtonView
                                         Command="{Binding RefreshCommand}"
                                         IsBusy="{Binding IsRefreshing, Mode=OneWay}"

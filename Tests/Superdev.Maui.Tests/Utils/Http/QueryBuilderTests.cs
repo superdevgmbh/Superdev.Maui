@@ -103,5 +103,45 @@ namespace Superdev.Maui.Tests.Utils.Http
             // Assert
             queryString.Should().Be("?key1=value1&key1=&key1=value3&key2=");
         }
+
+        [Fact]
+        public void Equals_SameInstance_ReturnsTrue()
+        {
+            // Arrange
+            var queryBuilder = new QueryBuilder { { "id", "1" } };
+
+            // Act
+            var equals = queryBuilder.Equals(queryBuilder);
+
+            // Assert
+            equals.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Equals_EmptyBuilderAndNull_ReturnsFalse()
+        {
+            // Arrange
+            var queryBuilder = new QueryBuilder();
+
+            // Act
+            var equals = queryBuilder.Equals(null);
+
+            // Assert
+            equals.Should().BeFalse();
+        }
+
+        [Fact]
+        public void GetHashCode_AfterAdd_StaysTheSame()
+        {
+            // Arrange
+            var queryBuilder = new QueryBuilder();
+            var hashCode = queryBuilder.GetHashCode();
+
+            // Act
+            queryBuilder.Add("id", "1");
+
+            // Assert
+            queryBuilder.GetHashCode().Should().Be(hashCode, "a builder kept in a hash set must stay findable");
+        }
     }
 }

@@ -66,6 +66,65 @@ namespace Superdev.Maui.Tests.Utils.Http
             url.Should().Be("https://localhost/test?startDate=2026-01-02T23%3A58%3A59.0000010Z");
         }
 
+        [Theory]
+        [InlineData("de-DE")]
+        [InlineData("fr-CH")]
+        public void AddQuery_ObjectValues_FormatsWithTheInvariantCulture(string cultureName)
+        {
+            // Arrange - a server reads the query string, so the device locale must not leak into it.
+            using var cultureScope = new CultureScope(cultureName);
+            var urlBuilder = new UrlBuilder("https://localhost/test");
+
+            // Act
+            var url = urlBuilder
+                .AddQuery("decimal", 1.5m)
+                .AddQuery("double", 2.5d)
+                .AddQuery("float", 3.5f)
+                .AddQuery("int", -4)
+                .AddQuery("long", 5_000_000_000L)
+                .AddQuery("bool", true)
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test?decimal=1.5&double=2.5&float=3.5&int=-4&long=5000000000&bool=True");
+        }
+
+        [Fact]
+        public void AddQuery_NullableDateTime_AppendsUtcRoundTripValue()
+        {
+            // Arrange
+            using var cultureScope = new CultureScope("de-DE");
+            DateTime? startDate = new DateTime(2026, 1, 2, 23, 58, 59, DateTimeKind.Utc).AddTicks(10);
+            DateTime? endDate = null;
+            var urlBuilder = new UrlBuilder("https://localhost/test");
+
+            // Act
+            var url = urlBuilder
+                .AddQuery("startDate", startDate)
+                .AddQuery("endDate", endDate)
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test?startDate=2026-01-02T23%3A58%3A59.0000010Z");
+        }
+
+        [Fact]
+        public void AddQuery_BoxedDateTime_AppendsUtcRoundTripValue()
+        {
+            // Arrange
+            using var cultureScope = new CultureScope("de-DE");
+            object startDate = new DateTime(2026, 1, 2, 23, 58, 59, DateTimeKind.Utc);
+            var urlBuilder = new UrlBuilder("https://localhost/test");
+
+            // Act
+            var url = urlBuilder
+                .AddQuery("startDate", startDate)
+                .ToString();
+
+            // Assert
+            url.Should().Be("https://localhost/test?startDate=2026-01-02T23%3A58%3A59.0000000Z");
+        }
+
         [Fact]
         public void Url_AfterAddingPathAndQuery_ReturnsUpdatedUri()
         {

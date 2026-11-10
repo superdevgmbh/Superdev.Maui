@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperdevMauiDemoApp.Views.Navigation.LifecycleDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SuperdevMauiDemoApp.ViewModels.Navigation"
+    x:DataType="vm:LifecycleDemoViewModel"
+    Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout
+            Grid.Row="0"
+            Padding="{DynamicResource Theme.Padding.Medium}"
+            Spacing="{DynamicResource Theme.Spacing.Medium}">
+            <Label Text="Push a child page and navigate back to see the callbacks of this page. Send the app to the background to see the application lifecycle callbacks." />
+            <Button Command="{Binding PushChildCommand}" Text="Push child page" />
+            <Button Command="{Binding ClearLogCommand}" Text="Clear log" />
+        </VerticalStackLayout>
+
+        <CollectionView
+            Grid.Row="1"
+            Margin="{DynamicResource Theme.Padding.Medium}"
+            ItemsSource="{Binding Log}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Label FontSize="12" Text="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

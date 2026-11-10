@@ -42,6 +42,31 @@ namespace Superdev.Maui.Tests.Mvvm
         }
 
         [Fact]
+        public void ShouldCreateFromException_DefaultFactoryDoesNotExposeTheStackTrace()
+        {
+            // Arrange
+            IViewModelErrorHandler viewModelErrorHandler = this.autoMocker.CreateInstance<ViewModelErrorRegistry>(enablePrivate: true);
+            Exception exception;
+
+            try
+            {
+                throw new InvalidOperationException("Something failed");
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Act
+            var viewModelError = viewModelErrorHandler.FromException(exception);
+
+            // Assert - the error is user-facing; the stack trace belongs into the log.
+            viewModelError.Title.Should().Be("Something failed");
+            viewModelError.Text.Should().Be("InvalidOperationException");
+            viewModelError.Text.Should().NotContain(exception.StackTrace!);
+        }
+
+        [Fact]
         public void ShouldCreateFromException_ReturnsDefault_IfNoMatch()
         {
             // Arrange

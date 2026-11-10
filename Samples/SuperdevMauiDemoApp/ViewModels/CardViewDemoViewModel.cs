@@ -16,20 +16,11 @@ namespace SuperdevMauiDemoApp.ViewModels
             this.viewModelErrorHandler = viewModelErrorHandler;
 
             this.PeriodicTask = new PeriodicTaskViewModel();
-
-            _ = this.InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        protected override Task InitializeAsync()
         {
-            try
-            {
-                await this.LoadData();
-            }
-            finally
-            {
-                this.IsInitialized = true;
-            }
+            return this.LoadData();
         }
 
         private async Task LoadData()
@@ -51,5 +42,7 @@ namespace SuperdevMauiDemoApp.ViewModels
         }
 
         public PeriodicTaskViewModel PeriodicTask { get; private set; }
+
+        public AddressFormViewModel Address { get; } = new AddressFormViewModel();
     }
 }

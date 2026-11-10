@@ -40,7 +40,91 @@ namespace Superdev.Maui.Tests.Utils
             Action action = () => ReflectionHelper.GetFieldValue<string>(obj, "NonExistentField");
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<ArgumentException>()
+                .WithParameterName("fieldName")
+                .WithMessage("Couldn't find field NonExistentField in type *MyClass*");
+        }
+
+        [Fact]
+        public void ShouldGetPropertyValue_PropertyDoesNotExist()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: null);
+
+            // Act
+            Action action = () => ReflectionHelper.GetPropertyValue<int>(obj, "NonExistentProperty");
+
+            // Assert
+            action.Should().Throw<ArgumentException>()
+                .WithParameterName("propertyName")
+                .WithMessage("Couldn't find property NonExistentProperty in type *MyClass*");
+        }
+
+        [Fact]
+        public void ShouldRunMethod_WithNullParameter_UsingParameterTypes()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: null);
+
+            // Act
+            var result = ReflectionHelper.RunMethod<string>(obj, "Describe", [typeof(string)], [null]);
+
+            // Assert
+            result.Should().Be("<null>");
+        }
+
+        [Fact]
+        public void ShouldRunMethod_WithNullParameter_WithoutParameterTypes()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: null);
+
+            // Act
+            // An explicitly typed array: a collection expression would bind to the parameter-types overload.
+            Action action = () => ReflectionHelper.RunMethod(obj, "Describe", new object?[] { null });
+
+            // Assert - the type of a null argument cannot be derived, which used to surface as a null reference.
+            action.Should().Throw<ArgumentException>().WithParameterName("parameters");
+        }
+
+        [Fact]
+        public void ShouldRunMethod_MethodDoesNotExist()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: null);
+
+            // Act
+            Action action = () => ReflectionHelper.RunMethod(obj, "NonExistentMethod");
+
+            // Assert
+            action.Should().Throw<MissingMethodException>();
+        }
+
+        [Fact]
+        public void ShouldGetMethodDelegate_WithoutParameters()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: null);
+
+            // Act
+            var increment = ReflectionHelper.GetMethodDelegate<Action>(obj, "Increment");
+            increment();
+
+            // Assert
+            obj.Counter.Should().Be(1);
+        }
+
+        [Fact]
+        public void ShouldGetMethodDelegate_WithParameters()
+        {
+            // Arrange
+            var obj = new MyClass(internalDateTime: null, internalString: null);
+
+            // Act
+            var addNumbers = ReflectionHelper.GetMethodDelegate<Func<int, int, int>>(obj, "AddNumbers");
+
+            // Assert
+            addNumbers(2, 3).Should().Be(5);
         }
 
         [Fact]
@@ -128,6 +212,11 @@ namespace Superdev.Maui.Tests.Utils
             internal int AddNumbers(int a, int b)
             {
                 return a + b;
+            }
+
+            internal string Describe(string? value)
+            {
+                return value ?? "<null>";
             }
 
             public int Counter { get; set; }

@@ -24,6 +24,9 @@
   <data name="CountdownLabelText" xml:space="preserve">
     <value>Countdown</value>
   </data>
+  <data name="LoadDataButtonText" xml:space="preserve">
+    <value>Daten laden</value>
+  </data>
   <data name="LoadingText" xml:space="preserve">
     <value>Lädt...</value>
   </data>

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace Superdev.Maui.Utils
 {
@@ -28,11 +28,17 @@ namespace Superdev.Maui.Utils
         ///     <see cref="TaskCreationOptions" /> used to create the task for executing the
         ///     <see cref="Action" />.
         /// </param>
-        /// <returns>A <see cref="Task" /></returns>
+        /// <returns>
+        ///     A <see cref="Task" /> which completes when the periodic task stopped, i.e. when it ran out of iterations
+        ///     or duration, or when <paramref name="cancelToken" /> was cancelled.
+        /// </returns>
         /// <remarks>
         ///     Exceptions that occur in the <paramref name="action" /> need to be handled in the action itself. These exceptions
-        ///     will not be
-        ///     bubbled up to the periodic task.
+        ///     will not be bubbled up to the periodic task.
+        ///     <para>
+        ///     Cancelling <paramref name="cancelToken" /> ends the periodic task and completes the returned task normally;
+        ///     it does not fault it.
+        ///     </para>
         /// </remarks>
         public static Task Start(
             Action action,
@@ -41,106 +47,98 @@ namespace Superdev.Maui.Utils
             int duration = Timeout.Infinite,
             int maxIterations = -1,
             bool synchronous = false,
-            CancellationToken cancelToken = new CancellationToken(),
+            CancellationToken cancelToken = default,
             TaskCreationOptions periodicTaskCreationOptions = TaskCreationOptions.None)
         {
-            var stopWatch = new Stopwatch();
-            Action wrapperAction = () =>
+            ArgumentNullException.ThrowIfNull(action);
+
+            void WrapperAction()
             {
-                CheckIfCancelled(cancelToken);
+                cancelToken.ThrowIfCancellationRequested();
                 action();
-            };
+            }
 
-            Action mainAction = () =>
-            {
-                MainPeriodicTaskAction(intervalInMilliseconds, delayInMilliseconds, duration, maxIterations, cancelToken, stopWatch, synchronous, wrapperAction, periodicTaskCreationOptions);
-            };
-
-            return Task.Factory.StartNew(mainAction, cancelToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+            // The loop is returned as a task rather than started as a fire-and-forget void method, so that
+            // a caller can await it and a cancellation cannot escape as an unhandled exception.
+            return Task.Run(
+                () => MainPeriodicTaskActionAsync(
+                    intervalInMilliseconds,
+                    delayInMilliseconds,
+                    duration,
+                    maxIterations,
+                    cancelToken,
+                    synchronous,
+                    WrapperAction,
+                    periodicTaskCreationOptions),
+                CancellationToken.None);
         }
 
         /// <summary>
-        ///     Mains the periodic task action.
+        ///     Runs the periodic loop until it runs out of iterations or duration, or until it is cancelled.
         /// </summary>
-        /// <param name="intervalInMilliseconds">The interval in milliseconds.</param>
-        /// <param name="delayInMilliseconds">The delay in milliseconds.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="maxIterations">The max iterations.</param>
-        /// <param name="cancelToken">The cancel token.</param>
-        /// <param name="stopWatch">The stop watch.</param>
-        /// <param name="synchronous">
-        ///     if set to <c>true</c> executes each period in a blocking fashion and each periodic execution of the task
-        ///     is included in the total duration of the Task.
-        /// </param>
-        /// <param name="wrapperAction">The wrapper action.</param>
-        /// <param name="periodicTaskCreationOptions">
-        ///     <see cref="TaskCreationOptions" /> used to create a sub task for executing
-        ///     the <see cref="Action" />.
-        /// </param>
-        private static async void MainPeriodicTaskAction(
+        private static async Task MainPeriodicTaskActionAsync(
             int intervalInMilliseconds,
             int delayInMilliseconds,
             int duration,
             int maxIterations,
             CancellationToken cancelToken,
-            Stopwatch stopWatch,
             bool synchronous,
             Action wrapperAction,
             TaskCreationOptions periodicTaskCreationOptions)
         {
-            var subTaskCreationOptions = TaskCreationOptions.AttachedToParent | periodicTaskCreationOptions;
+            var stopWatch = new Stopwatch();
 
-            if (CheckIfCancelled(cancelToken))
+            try
             {
-                return;
-            }
-
-            if (delayInMilliseconds > 0)
-            {
-                await Task.Delay(delayInMilliseconds, cancelToken);
-            }
-
-            if (maxIterations == 0)
-            {
-                return;
-            }
-
-            var iteration = 0;
-
-            ////////////////////////////////////////////////////////////////////////////
-            // using a ManualResetEventSlim as it is more efficient in small intervals.
-            // In the case where longer intervals are used, it will automatically use
-            // a standard WaitHandle....
-            // see http://msdn.microsoft.com/en-us/library/vstudio/5hbefs30(v=vs.100).aspx
-            using (var periodResetEvent = new ManualResetEventSlim(false))
-            {
-                ////////////////////////////////////////////////////////////
-                // Main periodic logic. Basically loop through this block
-                // executing the action
-                while (true)
+                if (cancelToken.IsCancellationRequested)
                 {
-                    if (CheckIfCancelled(cancelToken))
-                    {
-                        break;
-                    }
+                    return;
+                }
 
-                    var subTask = Task.Factory.StartNew(wrapperAction, cancelToken, subTaskCreationOptions, TaskScheduler.Current);
+                if (delayInMilliseconds > 0)
+                {
+                    await Task.Delay(delayInMilliseconds, cancelToken).ConfigureAwait(false);
+                }
+
+                if (maxIterations == 0)
+                {
+                    return;
+                }
+
+                var iteration = 0;
+
+                while (!cancelToken.IsCancellationRequested)
+                {
+                    var subTask = Task.Factory.StartNew(
+                        wrapperAction, cancelToken, periodicTaskCreationOptions, TaskScheduler.Default);
 
                     if (synchronous)
                     {
                         stopWatch.Start();
                         try
                         {
-                            subTask.Wait(cancelToken);
+                            await subTask.ConfigureAwait(false);
                         }
                         catch
                         {
-                            /* do not let an errant subtask to kill the periodic task...*/
+                            // Do not let an errant iteration kill the periodic task.
                         }
+
                         stopWatch.Stop();
                     }
+                    else
+                    {
+                        // The iteration runs on its own, so its failure is observed here rather than
+                        // surfacing later as an unobserved task exception.
+                        _ = subTask.ContinueWith(
+                            static t => _ = t.Exception,
+                            CancellationToken.None,
+                            TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                            TaskScheduler.Default);
+                    }
 
-                    // use the same Timeout setting as the System.Threading.Timer, infinite timeout will execute only one iteration.
+                    // Use the same Timeout setting as the System.Threading.Timer: an infinite timeout
+                    // executes only one iteration.
                     if (intervalInMilliseconds == Timeout.Infinite)
                     {
                         break;
@@ -153,25 +151,9 @@ namespace Superdev.Maui.Utils
                         break;
                     }
 
-                    try
-                    {
-                        stopWatch.Start();
-                        periodResetEvent.Wait(intervalInMilliseconds, cancelToken);
-                        stopWatch.Stop();
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        break;
-                    }
-                    finally
-                    {
-                        periodResetEvent.Reset();
-                    }
-
-                    if (CheckIfCancelled(cancelToken))
-                    {
-                        break;
-                    }
+                    stopWatch.Start();
+                    await Task.Delay(intervalInMilliseconds, cancelToken).ConfigureAwait(false);
+                    stopWatch.Stop();
 
                     if (duration > 0 && stopWatch.ElapsedMilliseconds >= duration)
                     {
@@ -179,14 +161,10 @@ namespace Superdev.Maui.Utils
                     }
                 }
             }
-        }
-
-        /// <summary>
-        ///     Checks if canceled.
-        /// </summary>
-        private static bool CheckIfCancelled(CancellationToken cancellationToken)
-        {
-            return cancellationToken.IsCancellationRequested;
+            catch (OperationCanceledException)
+            {
+                // Cancellation ends the periodic task; it is an expected outcome rather than a failure.
+            }
         }
     }
 }

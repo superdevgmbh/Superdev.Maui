@@ -12,7 +12,7 @@
 
     <ContentPage.Resources>
         <DataTemplate x:Key="CountryItemTemplate">
-            <templates:CountryCollectionItemTemplate />
+            <templates:CountryItemTemplate />
         </DataTemplate>
     </ContentPage.Resources>
 
